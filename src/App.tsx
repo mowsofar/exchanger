@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ConfigProvider } from 'antd';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ROUTES } from './constants/routes';
+import { MainLayout } from './components/MainLayout';
+import { theme } from './constants/theme';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => {
+    return (
+        <ConfigProvider theme={theme}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={ROUTES.root} element={<MainLayout />}>
+                        <Route index element="" />
+                        <Route path={ROUTES.currency} element="" />
+                        <Route path={ROUTES.currencyCode} element="" />
+                        <Route path="*" element="" />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </ConfigProvider>
+    );
+};
 
 export default App;
