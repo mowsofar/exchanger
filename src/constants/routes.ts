@@ -3,4 +3,7 @@ export const ROUTES = {
     paymentSystems: '/payment_systems',
     currency: '/currency',
     currencyCode: '/currecy_code',
+    courses: '/courses',
+    applications: '/applications'
+
 };
