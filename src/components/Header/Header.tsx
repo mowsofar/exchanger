@@ -1,4 +1,4 @@
-import { IconCoinOutline, IconProfileCircleFill } from '@salutejs/plasma-icons';
+import { IconProfileCircleFill } from '@salutejs/plasma-icons';
 import styled from 'styled-components';
 
 const StyledRoot = styled.div`

@@ -1,4 +1,4 @@
-import { StyledLayout, StyledLeftColumn, StyledRightColumn, StyledTwoColumnsRoot } from './styles';
+import { StyledLayout, StyledLeftColumn, StyledRightColumn, StyledTwoColumnsRoot } from './AppLayout.styled';
 import { MenuList } from '../MenuList/MenuList';
 import { Header } from '../Header/Header';
 import { Outlet } from 'react-router-dom';

@@ -3,12 +3,14 @@ import { Search } from '../Search';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { blackPrimary } from '@salutejs/plasma-tokens';
+import React from 'react';
 
 const StyledRoot = styled.div`
     display: flex;
     flex-direction: column;
     padding: 21px 16px;
     width: 314px;
+    gap: 10px;
 `;
 
 const StyledHeader = styled.div`
@@ -25,7 +27,7 @@ const StyledTitle = styled.div`
 `;
 
 const StyledSearch = styled(Search)`
-    margin: 20px 0 19px;
+    margin-top: 10px;
 `;
 
 const ScrollList = styled.div`
@@ -64,7 +66,7 @@ const StyledMenuItem = styled(NavLink)`
 `;
 
 const menuItems = [
-    { key: ROUTES.root, name: 'Платёжные системы' },
+    { key: ROUTES.paymentSystems, name: 'Платёжные системы' },
     { key: ROUTES.currency, name: 'Валюты' },
     { key: ROUTES.currencyCode, name: 'Коды валют' },
     { key: ROUTES.courses, name: 'Курсы из источников' },
@@ -72,14 +74,28 @@ const menuItems = [
 ];
 
 export const MenuList: React.FC = () => {
+    const [searchValue, setSearchValue] = React.useState('');
+
+    const menu = React.useMemo(() => {
+        if (searchValue) {
+            return menuItems.filter((item) => item.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()));
+        }
+
+        return menuItems;
+    }, [searchValue]);
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    };
+
     return (
         <StyledRoot>
             <StyledHeader>
                 <StyledTitle>Меню</StyledTitle>
             </StyledHeader>
-            <StyledSearch />
+            <StyledSearch placeholder="Поиск" onChange={onChange} />
             <StyledMenu>
-                {menuItems.map((item) => (
+                {menu.map((item) => (
                     <StyledMenuItem to={item.key}>{item.name}</StyledMenuItem>
                 ))}
             </StyledMenu>

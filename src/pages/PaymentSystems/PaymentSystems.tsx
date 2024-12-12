@@ -1,26 +1,7 @@
+import { getPaymentSystems } from '../../api/handlers';
 import { PaymentSystem } from '../../api/types/paymentSystems';
-import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableHeader, TableRow } from '../Table/Table';
-import styled from 'styled-components';
-
-const StyledTableRow = styled(TableRow)`
-    grid-template-columns: 200px 1fr;
-    padding: 0 16px;
-
-    cursor: pointer;
-`;
-
-const StyledTableHeader = styled(TableHeader)`
-    grid-template-columns: 200px 1fr;
-    padding: 0 16px;
-    padding-right: 23px;
-`;
-
-const Title = styled.div`
-    font-size: 23px;
-    font-weight: 600;
-    margin: 20px 20px;
-    font-family: 'SB Sans Text', sans-serif;
-`;
+import { StyledTableCellName, StyledTableHeaderCell, TableBody } from '../../components/Table/Table';
+import { StyledTableHeader, StyledTableRow, TableWrapper, Title } from './PaymentSystems.styled';
 
 const paymentSystemsResponse: PaymentSystem[] = [
     {
@@ -95,23 +76,28 @@ const paymentSystemsResponse: PaymentSystem[] = [
 ];
 
 export const PaymentSystems: React.FC = () => {
+    const paymentSystems = getPaymentSystems();
+    console.log(paymentSystems);
+
     return (
         <>
-            <Title>Список платежных систем</Title>
-            <StyledTableHeader>
-                <StyledTableHeaderCell></StyledTableHeaderCell>
-                <StyledTableHeaderCell>Название</StyledTableHeaderCell>
-            </StyledTableHeader>
-            <TableBody>
-                {paymentSystemsResponse.map((item) => {
-                    return (
-                        <StyledTableRow key={item.id}>
-                            <StyledTableCellName>{item.image}</StyledTableCellName>
-                            <StyledTableCellName>{item.paymentName}</StyledTableCellName>
-                        </StyledTableRow>
-                    );
-                })}
-            </TableBody>
+            <Title>Список платёжных систем</Title>
+            <TableWrapper>
+                <StyledTableHeader>
+                    <StyledTableHeaderCell></StyledTableHeaderCell>
+                    <StyledTableHeaderCell>Название</StyledTableHeaderCell>
+                </StyledTableHeader>
+                <TableBody>
+                    {paymentSystemsResponse.map((item) => {
+                        return (
+                            <StyledTableRow key={item.id}>
+                                <StyledTableCellName>{item.image}</StyledTableCellName>
+                                <StyledTableCellName>{item.paymentName}</StyledTableCellName>
+                            </StyledTableRow>
+                        );
+                    })}
+                </TableBody>
+            </TableWrapper>
         </>
     );
 };

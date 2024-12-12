@@ -97,13 +97,10 @@ interface TableBodyProps {
 }
 
 export const TableBodyBase = styled(ScrollList)`
-    width: 100%;
-    height: 100%;
-    background: #ececeb;
-
     &::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 7px;
+        background-color: ${surfaceSolid03};
     }
 
     &::-webkit-scrollbar-thumb {
@@ -124,8 +121,6 @@ export const TableLoader = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
     background: rgba(255, 255, 255, 0.3);
 `;
 
@@ -191,4 +186,9 @@ export const StyledTableCellActions = styled(StyledTableCellName)`
     display: flex;
     justify-content: center;
     align-items: center;
+`;
+
+export const TableWrapper = styled.div`
+    border: 1px solid ${surfaceSolid03};
+    width: fit-content;
 `;
