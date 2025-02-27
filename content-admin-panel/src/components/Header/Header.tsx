@@ -1,6 +1,7 @@
-import { IconProfileCircleFill } from '@salutejs/plasma-icons';
+import { IconMessageQuestionOutline, IconProfileCircleFill } from '@salutejs/plasma-icons';
 import { surfaceSolid03 } from '@salutejs/plasma-tokens';
 import styled from 'styled-components';
+import { Button } from '../Button/Button.styled';
 
 const StyledRoot = styled.div`
     height: 84px;
@@ -21,13 +22,29 @@ const Logo = styled.div`
     text-transform: lowercase;
 `;
 
+const StyledRightHeaderButtons = styled.div`
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+    height: 45px;
+    width: 50px !important;
+`;
+
 export const Header: React.FC = () => {
     return (
         <StyledRoot>
             <Logo>
                 <div style={{ fontWeight: '600' }}>Exchanger</div>
             </Logo>
-            <IconProfileCircleFill size="m" />
+            <StyledRightHeaderButtons>
+                <StyledButton view="secondary">
+                    <IconMessageQuestionOutline />
+                </StyledButton>
+                <IconProfileCircleFill size="m" />
+            </StyledRightHeaderButtons>
         </StyledRoot>
     );
 };

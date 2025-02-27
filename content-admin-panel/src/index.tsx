@@ -5,7 +5,7 @@ import App from './App';
 import { createGlobalStyle } from 'styled-components';
 import { web } from '@salutejs/plasma-tokens-web/typo';
 import { light } from '@salutejs/plasma-tokens-web/themes';
-import { PopupBaseProvider } from '@salutejs/plasma-web';
+import { NotificationsProvider, PopupBaseProvider } from '@salutejs/plasma-web';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -25,7 +25,9 @@ root.render(
     <React.StrictMode>
         <GlobalStyle />
         <PopupBaseProvider>
-            <App />
+            <NotificationsProvider>
+                <App />
+            </NotificationsProvider>
         </PopupBaseProvider>
     </React.StrictMode>,
 );

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nanostores/react": "^0.8.4",
     "@salutejs/plasma-icons": "^1.209.0",
     "@salutejs/plasma-tokens": "^1.105.0",
     "@salutejs/plasma-ui": "^1.296.0",

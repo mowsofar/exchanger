@@ -1,4 +1,4 @@
-import { surfaceSolid03 } from '@salutejs/plasma-tokens';
+import { surfaceSolid03, whitePrimary } from '@salutejs/plasma-tokens';
 import styled from 'styled-components';
 
 export const StyledLayout = styled.div`
@@ -6,6 +6,7 @@ export const StyledLayout = styled.div`
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: ${whitePrimary};
 `;
 
 export const StyledTwoColumnsRoot = styled.div`
@@ -19,7 +20,7 @@ export const StyledTwoColumnsRoot = styled.div`
 
 export const StyledLeftColumn = styled.div`
     max-width: 314px;
-    border-right: 1px solid ${surfaceSolid03};
+    border-right: 2px solid ${surfaceSolid03};
     display: flex;
 `;
 
@@ -30,4 +31,5 @@ export const StyledRightColumn = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 1400px;
+    background-color: ${whitePrimary};
 `;

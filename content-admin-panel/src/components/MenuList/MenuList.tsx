@@ -2,15 +2,23 @@ import styled from 'styled-components';
 import { Search } from '../Search';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { blackPrimary } from '@salutejs/plasma-tokens';
+import { blackPrimary, headline4, tertiary } from '@salutejs/plasma-tokens';
 import React from 'react';
+import { IconChevronLeft, IconChevronRight } from '@salutejs/plasma-icons';
+import { $isRolledUpPartnerListStore } from '../../stores/menu.store';
+import { useStore } from '@nanostores/react';
 
-const StyledRoot = styled.div`
+interface StyledRootProps {
+    isRolledUp?: boolean;
+}
+
+const StyledRoot = styled.div<StyledRootProps>`
     display: flex;
     flex-direction: column;
     padding: 21px 16px;
     width: 314px;
     gap: 10px;
+    width: ${({ isRolledUp }) => `${isRolledUp ? 16 : 314}px`};
 `;
 
 const StyledHeader = styled.div`
@@ -20,8 +28,7 @@ const StyledHeader = styled.div`
 `;
 
 const StyledTitle = styled.div`
-    font-size: 15px;
-    text-transform: uppercase;
+    font-size: ${headline4};
     margin-left: 16px;
     font-weight: 600;
 `;
@@ -37,6 +44,14 @@ const ScrollList = styled.div`
 const StyledMenu = styled(ScrollList)`
     overflow-x: hidden;
     margin: 0 -16px;
+`;
+
+export const StyledIconChevronLeft = styled(IconChevronLeft)`
+    cursor: pointer;
+`;
+
+const StyledIconChevronRight = styled(IconChevronRight)`
+    cursor: pointer;
 `;
 
 const StyledMenuItem = styled(NavLink)`
@@ -66,15 +81,18 @@ const StyledMenuItem = styled(NavLink)`
 `;
 
 const menuItems = [
+    { key: ROUTES.currencyCode, name: 'Коды валют' },
     { key: ROUTES.paymentSystems, name: 'Платёжные системы' },
     { key: ROUTES.currency, name: 'Валюты' },
-    { key: ROUTES.currencyCode, name: 'Коды валют' },
-    { key: ROUTES.courses, name: 'Курсы из источников' },
-    { key: ROUTES.applications, name: 'Заявки' },
+    { key: ROUTES.payouts, name: 'Заявки' },
+    { key: ROUTES.exchangeDirections, name: 'Направления обмена' },
+    { key: ROUTES.additionalFields, name: 'Дополнительные поля валют' },
 ];
 
 export const MenuList: React.FC = () => {
     const [searchValue, setSearchValue] = React.useState('');
+
+    const isRolledUp = useStore($isRolledUpPartnerListStore);
 
     const menu = React.useMemo(() => {
         if (searchValue) {
@@ -88,10 +106,21 @@ export const MenuList: React.FC = () => {
         setSearchValue(e.target.value);
     };
 
+    if (isRolledUp) {
+        return (
+            <StyledRoot isRolledUp>
+                <StyledHeader onClick={() => $isRolledUpPartnerListStore.set(false)}>
+                    <StyledIconChevronRight size="xs" color={tertiary} />
+                </StyledHeader>
+            </StyledRoot>
+        );
+    }
+
     return (
         <StyledRoot>
-            <StyledHeader>
+            <StyledHeader onClick={() => $isRolledUpPartnerListStore.set(true)}>
                 <StyledTitle>Меню</StyledTitle>
+                <StyledIconChevronLeft size="xs" color={tertiary} />
             </StyledHeader>
             <StyledSearch placeholder="Поиск" onChange={onChange} />
             <StyledMenu>

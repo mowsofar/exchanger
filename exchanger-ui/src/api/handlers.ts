@@ -1,15 +1,7 @@
-import { ROUTES } from "../constants/routes";
-import { LoginData } from "./types/common";
+import { Course, Currency } from "./types/common";
+import { ExchangeDirectionResponseDto, GetCourseResponseDto } from "./types/currency";
 
-function handleResponse(response: Response) {
-    if (response.status === 403) {
-        window.location.replace(ROUTES.login);
-    }
-
-    if (response.status === 200 && window.location.pathname === ROUTES.login) {
-        window.location.replace(ROUTES.paymentSystems);
-    }
-    
+function handleResponse(response: Response) {    
     return response.text().then((text) => {
         const data = text && JSON.parse(text);
 
@@ -32,28 +24,31 @@ function requestToApi(
         method: options?.method,
         headers: {
             ...options?.headers,
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXNoYW1pQHZrLmNvbSIsImlhdCI6MTc0MDkxODcxMywiZXhwIjoxNzQxMDA1MTEzfQ.9iUNkWJ_eNGSubMvtvU2PyilouzL6mq1CwM7T7E3-K8`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
     };
 
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`);
-
-    return fetch(`http://85.192.29.138:8080/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export function getLoginData(email: string, password: string, twoFactorCode: string
-): Promise<LoginData> {
-    return requestToApi('api/v1/auth/authenticate', { method: 'POST'}, { email, password, twoFactorCode });
+export function getLeftColumnCurrencies(): Promise<Currency[]> {
+    return requestToApi('api/currencies/from', { method: 'GET'});
 }
 
-export function getPaymentSystems(
-): Promise<unknown> {
-    return requestToApi('rest/payments', { method: 'GET'});
+export function getRightColumnCurrencies(currencyId: number): Promise<Currency[]> {
+    return requestToApi(`api/currencies/from/${currencyId}`, { method: 'GET'});
 }
 
-export function getCurrencies(
-): Promise<unknown> {
-    return requestToApi('rest/currency/getAll', { method: 'GET'});
+export function getExchangeDirections(sourceId: number, targetId: number): Promise<ExchangeDirectionResponseDto> {
+    return requestToApi(`api/exchange-directions/${sourceId}/${targetId}`, { method: 'GET'});
+}
+
+export function getExchangeDirectionsCourse(sourceId: number, targetId: number): Promise<Course> {
+    return requestToApi(`api/exchange-directions/course/${sourceId}/${targetId}`, { method: 'GET'});
+}
+
+export function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, course: number, email: string, referralCode?: string): Promise<unknown> {
+    return requestToApi(`api/payouts`, { method: 'POST'}, { srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, course, email, referralCode});
 }

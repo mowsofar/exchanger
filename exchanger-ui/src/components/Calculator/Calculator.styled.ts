@@ -14,12 +14,19 @@ export const StyledCard = styled.div`
     background-color: var(--backgroundPrimary);
     height: 80px;
     border-radius: 20px;
-    padding: 10px 20px;
+    padding: 10px 20px 15px 20px;
 `;
 
 export const StyledCardName = styled.div`
     font-weight: 600;
     color: white;
+    color: var(--accent);
+`;
+
+export const InputContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    column-gap: 20px;
 `;
 
 export const StyledInput = styled.input`
@@ -27,8 +34,8 @@ export const StyledInput = styled.input`
     border: none;
     border-radius: inherit;
     color: white;
-    font-size: 2.8rem;
-    font-weight: 450;
+    font-size: 2.5rem;
+    font-weight: 500;
 
     &:hover, &:active, &:focus {
         outline: none;
@@ -36,6 +43,11 @@ export const StyledInput = styled.input`
         border: none;
         border-radius: inherit;
         color: white
+    }
+
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; 
     }
 `;
 
@@ -56,4 +68,10 @@ export const SwapButton = styled.div`
     &:hover {
         background-color: var(--lightAccent);
     }
+`;
+
+export const StyledError = styled.div`
+    color: white;
+    font-weight: 600;
+    text-align: center;
 `;

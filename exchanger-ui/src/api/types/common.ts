@@ -1,5 +1,38 @@
-export interface LoginData {
-    access_token: string;
-    refresh_token: string;
-    role: string;
-}
+export interface AdditionalFields {
+    id: number;
+    fieldName: string;
+    keyId: string;
+    status: string;
+};
+
+export interface Currency {
+    id: number;
+    paymentSystem: {
+        id:	number;
+        name: string;
+        imagePath: string;
+    }
+    currencyCode: {
+        id: number;
+        code: string;
+        symbol: string;
+    }
+    status: string;
+    technicalName: string;
+    xmlCode: string;
+    decimalPlaces: number;
+    filterType: string;
+    received: number;
+    sent: number;
+    accountName: string;
+    accountComment: string;
+    additionalFieldsList: AdditionalFields[];
+    updatedAt: string;
+};
+
+export type CurrentCyrrencyType = 'target' | 'source' | '';
+
+export interface Course {
+    course: number;
+    isReversed: boolean;
+};

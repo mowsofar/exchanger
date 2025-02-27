@@ -4,6 +4,9 @@ import { ROUTES } from './constants/routes';
 
 import { createGlobalStyle } from 'styled-components';
 import { MainPage } from './pages/MainPage/MainPage';
+import { AppLayout } from './components/AppLayout/AppLayout';
+import { UserDetailsPage } from './pages/UserDetailsPage/UserDetailsPage';
+import { ModalsProvider } from '@salutejs/plasma-web';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -20,9 +23,14 @@ const App: React.FC = () => {
         <>
             <GlobalStyles />
             <BrowserRouter>
-                <Routes>
-                    <Route path={ROUTES.root} element={<MainPage />} />
-                </Routes>
+                <ModalsProvider>
+                    <Routes>
+                        <Route path={ROUTES.root} element={<AppLayout />}>
+                            <Route path={ROUTES.root} element={<MainPage />} />
+                            <Route path={ROUTES.userDetails} element={<UserDetailsPage />} />
+                        </Route>
+                    </Routes>
+                </ModalsProvider>
             </BrowserRouter>
         </>
     );

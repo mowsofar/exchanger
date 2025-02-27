@@ -1,1 +1,0 @@
-export { AddCurrencyModal } from './AddCurrencyModal';

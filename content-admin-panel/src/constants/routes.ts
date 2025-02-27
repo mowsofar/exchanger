@@ -3,8 +3,10 @@ export const ROUTES = {
     login: '/login',
     paymentSystems: '/payment_systems',
     currency: '/currency',
+    currencyGenerals: (id: number | undefined) => `/currency/generals/${id || ':id'}`,
     currencyCode: '/currecy_code',
-    courses: '/courses',
-    applications: '/applications'
-
+    exchangeDirections: '/exchange_directions',
+    payouts: '/payouts',
+    payout: (id: number | undefined) => `/payout/${id || ':id'}`,
+    additionalFields: '/additionalFields',
 };

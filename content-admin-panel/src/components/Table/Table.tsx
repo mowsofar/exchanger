@@ -1,16 +1,17 @@
 import React, { ReactNode } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, CSSProperties } from 'styled-components';
 
 import { Button, Spinner } from '@salutejs/plasma-ui';
 import {
-    blackPrimary,
     blackSecondary,
-    caption,
-    paragraph1,
     primary,
     secondary,
     surfaceSolid03,
+    surfaceLiquid03,
     tertiary,
+    whitePrimary,
+    surfaceLiquid01,
+    surfaceLiquid02,
 } from '@salutejs/plasma-tokens';
 import { ScrollList } from '../ScrollList';
 
@@ -20,6 +21,8 @@ export const Table = styled.div`
 
 export const TableHeader = styled.div`
     display: grid;
+    background: ${whitePrimary};
+    border-bottom: 0.3px solid ${surfaceLiquid03};
 `;
 
 interface TableRowProps {
@@ -28,10 +31,10 @@ interface TableRowProps {
 
 export const TableRow = styled.div<TableRowProps>`
     display: grid;
-    background-color: ${surfaceSolid03};
+    border-bottom: 0.1px solid ${surfaceLiquid03};
 
     &:hover {
-        background: ${surfaceSolid03};
+        background-color: ${surfaceSolid03};
     }
 `;
 
@@ -40,14 +43,13 @@ interface TableHeaderCellProps {
 }
 
 export const TableHeaderCell = styled.div<TableHeaderCellProps>`
-    height: 40px;
-    line-height: 18px;
+    height: 50px;
+    line-height: 20px;
     padding: 11px;
     align-items: center;
     display: flex;
-    font-size: 12px;
+    align-self: center;
     box-sizing: border-box;
-    color: rgba(8, 8, 8, 0.3);
 
     ${({ textAlign }) =>
         textAlign &&
@@ -61,14 +63,17 @@ interface TableCellProps {
 }
 
 export const TableCell = styled.div<TableCellProps>`
-    height: 50px;
-    font-size: ${paragraph1};
+    height: 75px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
     padding: 13px;
     box-sizing: border-box;
     overflow: hidden;
     white-space: nowrap;
     color: ${tertiary};
     text-overflow: ellipsis;
+
     ${({ selected }) => (selected ? `background: #ececeb;` : '')}
 `;
 
@@ -113,8 +118,10 @@ export const TableBodyBase = styled(ScrollList)`
 const TableBodyWrapper = styled.div`
     position: relative;
     overflow: hidden;
+    overflow-y: scroll;
     flex-grow: 1;
     grid-area: tbody;
+    background-color: ${surfaceLiquid02};
 `;
 
 export const TableLoader = styled.div`
@@ -141,10 +148,10 @@ export const TableBody: React.FC<TableBodyProps> = ({ children, isLoading, class
 };
 
 export const StyledTableHeaderCell = styled(TableHeaderCell)`
-    font-size: ${caption};
-    text-transform: uppercase;
+    font-size: 13px;
     color: ${blackSecondary};
     font-weight: 600;
+    text-transform: uppercase;
 `;
 
 interface StyledTableCellNameProps {
@@ -152,9 +159,16 @@ interface StyledTableCellNameProps {
     isTertiary?: boolean;
     withoutOverflow?: boolean;
     textAlign?: 'center' | 'end';
+    color?: CSSProperties['color'];
 }
 
 export const StyledTableCellName = styled(TableCellName)<StyledTableCellNameProps>`
+    ${({ color }) =>
+        color &&
+        css`
+            color: ${color};
+        `}
+
     ${({ isSecondary }) =>
         isSecondary &&
         css`
@@ -192,8 +206,11 @@ export const StyledTableCellActions = styled(StyledTableCellName)`
 `;
 
 export const TableWrapper = styled.div`
-    border: 1px solid ${surfaceSolid03};
-    width: fit-content;
+    border: 2px solid ${surfaceLiquid02};
     border-radius: 12px;
     overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    height: 600px;
 `;

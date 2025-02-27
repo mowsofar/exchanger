@@ -1,1 +1,0 @@
-export { PaymentSystems } from './PaymentSystems';
