@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
-import { $exchangeDirectionsList } from '../../stores/exchangeDirections.store';
 import { AdditionalField } from '../../api/types/common';
 import { $currencyList } from '../../stores/currency.store';
 
@@ -15,7 +14,7 @@ interface EditAdditionalFieldModalProps {
 }
 
 const StyledModal = styled(Modal)`
-    width: 600px;
+    width: 500px;
 `;
 
 const Content = styled.div`

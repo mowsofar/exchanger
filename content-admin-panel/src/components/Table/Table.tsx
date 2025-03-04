@@ -10,8 +10,8 @@ import {
     surfaceLiquid03,
     tertiary,
     whitePrimary,
-    surfaceLiquid01,
-    surfaceLiquid02,
+    blackPrimary,
+    surfaceSolid02,
 } from '@salutejs/plasma-tokens';
 import { ScrollList } from '../ScrollList';
 
@@ -21,8 +21,7 @@ export const Table = styled.div`
 
 export const TableHeader = styled.div`
     display: grid;
-    background: ${whitePrimary};
-    border-bottom: 0.3px solid ${surfaceLiquid03};
+    background: ${surfaceLiquid03};
 `;
 
 interface TableRowProps {
@@ -31,10 +30,10 @@ interface TableRowProps {
 
 export const TableRow = styled.div<TableRowProps>`
     display: grid;
-    border-bottom: 0.1px solid ${surfaceLiquid03};
+    border-bottom: 1px solid ${surfaceSolid03};
 
     &:hover {
-        background-color: ${surfaceSolid03};
+        background-color: ${surfaceSolid02};
     }
 `;
 
@@ -106,6 +105,7 @@ export const TableBodyBase = styled(ScrollList)`
     &::-webkit-scrollbar {
         -webkit-appearance: none;
         width: 7px;
+        height: 7px;
         background-color: ${surfaceSolid03};
     }
 
@@ -121,7 +121,7 @@ const TableBodyWrapper = styled.div`
     overflow-y: scroll;
     flex-grow: 1;
     grid-area: tbody;
-    background-color: ${surfaceLiquid02};
+    background-color: ${whitePrimary};
 `;
 
 export const TableLoader = styled.div`
@@ -149,8 +149,8 @@ export const TableBody: React.FC<TableBodyProps> = ({ children, isLoading, class
 
 export const StyledTableHeaderCell = styled(TableHeaderCell)`
     font-size: 13px;
-    color: ${blackSecondary};
-    font-weight: 600;
+    color: ${blackPrimary};
+    font-weight: 700;
     text-transform: uppercase;
 `;
 
@@ -206,7 +206,7 @@ export const StyledTableCellActions = styled(StyledTableCellName)`
 `;
 
 export const TableWrapper = styled.div`
-    border: 2px solid ${surfaceLiquid02};
+    border: 2px solid ${surfaceLiquid03};
     border-radius: 12px;
     overflow: hidden;
     width: 100%;

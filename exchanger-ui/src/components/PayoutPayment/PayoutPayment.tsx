@@ -1,91 +1,79 @@
 import React from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
+    Row,
+    StyledAmount,
     StyledButton,
+    StyledButtonBack,
     StyledContent,
+    StyledDescription,
     StyledHeader,
     StyledLayout,
-    StyledTextField,
-    StyledUserForm,
-    TwoBlocks,
+    StyledText,
 } from './PayoutPayment.styled';
 import { useStore } from '@nanostores/react';
-import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
+import { $amountFrom, $sourceCurrency } from '../../stores/currencies.store';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
+import { IconChevronLeft } from '@salutejs/plasma-icons';
+import { $payout } from '../../stores/payout.store';
+import { setPayoutStatus } from '../../api/handlers';
 
-interface PayoutPaymentProps {
-    createPayout: (
-        sourceCurrencyId: number,
-        targetCurrencyId: number,
-        amountFrom: number,
-        amountTo: number,
-        requisites: string,
-        course: number,
-        email: string,
-        referralCode?: string,
-    ) => void;
-}
-
-export const PayoutPayment: React.FC<PayoutPaymentProps> = ({ createPayout }) => {
-    const sourceCurrency = useStore($sourceCurrency);
-    const targetCurrency = useStore($targetCurrency);
-    const course = useStore($course);
-
+export const PayoutPayment: React.FC = () => {
     const amountFrom = useStore($amountFrom);
-    const amountTo = useStore($amountTo);
+    const sourceCurrency = useStore($sourceCurrency);
+    const payout = useStore($payout);
 
-    const [requisites, setRequisites] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [referralCode, setReferralCode] = React.useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = () => {
-        if (sourceCurrency?.id && targetCurrency?.id && course) {
-            createPayout(
-                sourceCurrency?.id,
-                targetCurrency?.id,
-                amountFrom,
-                amountTo,
-                requisites,
-                course.course,
-                email,
-                referralCode,
-            );
+    const handleBack = () => {
+        navigate(ROUTES.userDetails);
+    };
+
+    const handleForward = () => {
+        navigate(ROUTES.payoutStatus);
+
+        if (payout?.id) {
+            setPayoutStatus(payout.id);
         }
     };
 
     return (
         <StyledLayout>
             <StyledContent>
-                <Breadcrumbs
-                    path={[
-                        { number: 1, name: 'Ввод реквизитов', isActive: true },
-                        { number: 2, name: 'Оплата заявки', isActive: false },
-                        { number: 3, name: 'Завершение', isActive: false },
-                    ]}
-                />
-                <TwoBlocks>
-                    <StyledUserForm>
-                        <StyledHeader>Отправитель</StyledHeader>
-                        <StyledTextField placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <StyledTextField
-                            placeholder="Промокод"
-                            value={referralCode}
-                            onChange={(e) => setReferralCode(e.target.value)}
-                        />
-                    </StyledUserForm>
+                <Row>
+                    <StyledButtonBack view="clear" onClick={handleBack}>
+                        <IconChevronLeft size="s" color="white" />
+                    </StyledButtonBack>
 
-                    <StyledUserForm>
-                        <StyledHeader>Получатель</StyledHeader>
-                        <StyledTextField
-                            placeholder="Реквизиты"
-                            value={requisites}
-                            onChange={(e) => setRequisites(e.target.value)}
-                        />
-                    </StyledUserForm>
-                </TwoBlocks>
+                    <Breadcrumbs
+                        path={[
+                            { number: 1, name: 'Ввод реквизитов', isActive: false },
+                            { number: 2, name: 'Оплата заявки', isActive: true },
+                            { number: 3, name: 'Завершение', isActive: false },
+                        ]}
+                    />
+                </Row>
 
-                <StyledButton disabled={!requisites || !email} onClick={handleSubmit}>
-                    Начать транкзацию
-                </StyledButton>
+                <StyledText>Заявка №{payout?.id} успешно создана!</StyledText>
+
+                <StyledHeader>Оплатите заявку</StyledHeader>
+
+                <StyledAmount>
+                    <div>Сумма</div>
+                    <div>
+                        {amountFrom.toLocaleString().replace(/,/g, ' ')} {sourceCurrency?.currencyCode.code || ''}
+                    </div>
+                </StyledAmount>
+
+                <StyledDescription>
+                    Время на оплату заявки до 10 минут. Мы не принимаем платежи от юридических лиц. Заявки оплаченные от
+                    юр. лиц не будут исполнены. Переводы со счета сим карт и других платежных систем так же не будут
+                    засчитаны в пользу оплаты. Средства поступят в течение 24 часов. Статус заявки можете отследить
+                    через личный кабинет. По всем вопросам обращайтесь в техническую поддержку.
+                </StyledDescription>
+
+                <StyledButton onClick={handleForward}>Я оплатил</StyledButton>
             </StyledContent>
         </StyledLayout>
     );

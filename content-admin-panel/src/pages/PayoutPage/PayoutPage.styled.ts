@@ -1,13 +1,14 @@
-import { Badge, Select, TextField } from "@salutejs/plasma-web";
+import { Badge, Select } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button.styled";
-import { blackTertiary } from "@salutejs/plasma-tokens";
+import { accent, blackTertiary } from "@salutejs/plasma-tokens";
 
 export const StyledRoot = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 25px;
+    row-gap: 35px;
     padding: 30px;
+    margin-top: 50px;
     height: 100vh;
 `;
 
@@ -19,17 +20,9 @@ export const StyledSelect = styled(Select)`
     }
 `;
 
-export const StyledTextField = styled(TextField)`
-    width: 350px;
-
-    & label {
-        font-weight: 550 !important;
-    }
-`;
-
 export const StyledSaveButton = styled(Button)`
-    width: 160px !important;
     height: 40px;
+    padding: 20px 40px;
 `;
 
 export const StyledLine = styled.div`
@@ -49,18 +42,44 @@ export const StyledLine = styled.div`
 
 export const StyledTwoBlocks = styled.div`
     display: flex;
-    column-gap: 60px;
+    column-gap: 70px;
+`;
+
+export const StyledButtons = styled.div`
+    display: flex;
+    column-gap: 30px;
 `;
 
 export const StyledBlock = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 15px;
 `;
 
 export const StyledBadge = styled(Badge)`
-    border-radius: 18px;
+    border-radius: 16px;
     height: 35px;
     padding: 10px 20px;
     font-weight: 600;
+`;
+
+export const Icon = styled.img`
+    width: 30px;
+`;
+
+export const Row = styled.div`
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+
+    & div {
+        font-weight: 500;
+    }
+`;
+
+export const Course = styled.div`
+    color: ${accent};
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: underline;
 `;

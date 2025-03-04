@@ -12,7 +12,7 @@ interface AddAdditionalFieldModalProps {
 }
 
 const StyledModal = styled(Modal)`
-    width: 600px;
+    width: 500px;
 `;
 
 const Content = styled.div`
@@ -83,7 +83,13 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     size="l"
                 />
 
-                <Button text="Добавить" stretch onClick={handleSubmit} onKeyDown={handleSubmit} />
+                <Button
+                    text="Добавить"
+                    stretch
+                    onClick={handleSubmit}
+                    onKeyDown={handleSubmit}
+                    disabled={!fieldName || !currencyId}
+                />
             </Content>
         </StyledModal>
     );

@@ -109,8 +109,8 @@ export interface Payout {
 
 export interface ExchangeDirection {
         id: number;
-        sourceCurrencyId: number;
-        targetCurrencyId: number;
+        sourceCurrency: Currency;
+        targetCurrency: Currency;
         commission:	number;
         status:	StatusType
         technicalName: string;

@@ -70,7 +70,7 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
     const currencyOptions = currencyList.map((item) => {
         return {
             value: String(item.id),
-            label: item.paymentSystem.name,
+            label: `${item.paymentSystem.name} ${item.currencyCode.code}`,
         };
     });
 

@@ -6,83 +6,100 @@ import {
     StyledLine,
     StyledRoot,
     StyledSaveButton,
-    StyledSelect,
-    StyledTextField,
+    Icon,
     StyledTwoBlocks,
+    Row,
+    Course,
+    StyledButtons,
 } from './PayoutPage.styled';
 import { ROUTES } from '../../constants/routes';
 import { Breadcrumbs } from '../../components/Breadcrumbs/BreadCrumbs';
 import { useNavigate } from 'react-router-dom';
-import { Payout } from '../../api/types/common';
-import { getPayoutData } from '../../utils/getPayoutData';
-
-const payout: Payout = {
-    id: 11232,
-    srcCurrency: 1,
-    targetCurrency: 1,
-    amountFrom: 100000,
-    amountTo: 0.18262626,
-    requisites: 'ddd',
-    course: 3,
-    status: 'COMPLETED',
-    createdAt: '2025-02-18T22:52:02.534623',
-    updatedAt: 'updated',
-    ipAddress: '51.158.253.154',
-    email: 'email@mail.ru',
-    user: {
-        firstname: 'Zarema',
-        lastname: 'Avamileva',
-        email: 'zaremavamileva@gmail.com',
-        balance: 1202020,
-    },
-    attachments: [
-        {
-            id: 1,
-            fileUrl: 'sss',
-            fileName: 'file',
-            contentType: 'sss',
-            uploadedAt: 'sssss',
-        },
-    ],
-};
+import { getPayoutControls, getPayoutData } from '../../utils/getPayoutData';
+import { useStore } from '@nanostores/react';
+import { $selectedPayout } from '../../stores/payout.store';
+import { usePayoutPage } from './PayoutPage.hooks';
+import { InfoBlock } from '../../components/InfoBlock/InfoBlock';
+import { $currencyList } from '../../stores/currency.store';
 
 export const PayoutPage: React.FC = () => {
-    const navigate = useNavigate();
+    const { editPayoutStatus } = usePayoutPage();
+
+    const payout = useStore($selectedPayout);
+    const currencies = useStore($currencyList);
+
+    const sourceCurrency = currencies.find((currency) => currency.id === payout?.srcCurrency);
+    const targetCurrency = currencies.find((currency) => currency.id === payout?.targetCurrency);
+
+    const courseTitle = `Курс: 1 ${sourceCurrency?.currencyCode.code} = ${payout?.course} ${targetCurrency?.currencyCode.code}`;
+
+    const controls = getPayoutControls(payout?.status);
 
     return (
         <StyledRoot>
-            <Breadcrumbs
-                path={[
-                    { name: 'Список заявок', route: ROUTES.payouts },
-                    { name: `Заявка №${payout.id}`, route: ROUTES.payout(payout?.id) },
-                ]}
-            />
-            <Headline3>Информация о заявке</Headline3>
-            <StyledBadge size="l" text={getPayoutData(payout.status).label} view={getPayoutData(payout.status).view} />
+            <Headline3>Информация о заявке №{payout?.id}</Headline3>
+            {payout?.status && (
+                <StyledBadge
+                    size="l"
+                    text={getPayoutData(payout?.status).label}
+                    view={getPayoutData(payout?.status).view}
+                />
+            )}
+
+            <Course>{courseTitle}</Course>
 
             <StyledTwoBlocks>
                 <StyledBlock>
                     <Headline4>О клиенте</Headline4>
-                    <StyledTextField label="Имя" value={payout.user.firstname} readOnly />
-                    <StyledTextField label="Фамилия" value={payout.user.lastname} readOnly />
-                    <StyledTextField label="E-mail" value={payout.user.email} readOnly />
-                    <StyledTextField label="IP" value={payout.ipAddress} readOnly />
+                    <InfoBlock label="Имя" value={payout?.user.firstname} />
+                    <InfoBlock label="Фамилия" value={payout?.user.lastname} />
+                    <InfoBlock label="E-mail" value={payout?.email} />
+                    <InfoBlock label="IP" value={payout?.ipAddress} />
                 </StyledBlock>
 
                 <StyledLine />
 
                 <StyledBlock>
                     <Headline4>Детали</Headline4>
-                    <StyledTextField label="Отдаёт клиент" value={payout.amountFrom} readOnly />
-                    <StyledTextField label="Валюта" value="Наличные RUB" readOnly />
-                    <StyledTextField label="Переводит сервис" value={payout.amountTo} readOnly />
-                    <StyledTextField label="Валюта" value="Bitcoin BTC" readOnly />
+                    <InfoBlock label="Отдаёт клиент" value={payout?.amountFrom} />
+                    <InfoBlock
+                        label="Валюта"
+                        value={
+                            <Row>
+                                <Icon src={sourceCurrency?.paymentSystem.imagePath} />
+                                <div>{sourceCurrency?.currencyCode.code}</div>
+                            </Row>
+                        }
+                    />
+                    <InfoBlock label="Переводит сервис" value={payout?.amountTo} />
+                    <InfoBlock
+                        label="Валюта"
+                        value={
+                            <Row>
+                                <Icon src={targetCurrency?.paymentSystem.imagePath} />
+                                <div>{targetCurrency?.currencyCode.code}</div>
+                            </Row>
+                        }
+                    />
                 </StyledBlock>
             </StyledTwoBlocks>
 
-            <StyledBlock>
-                <StyledSaveButton view="dark" size="s" text="Сохранить" />
-            </StyledBlock>
+            <StyledButtons>
+                {controls.map((control) => {
+                    return (
+                        <StyledSaveButton
+                            size="m"
+                            view={control.view || 'accent'}
+                            text={control.label}
+                            onClick={() => {
+                                if (payout?.id) {
+                                    editPayoutStatus(payout?.id, control.value);
+                                }
+                            }}
+                        />
+                    );
+                })}
+            </StyledButtons>
         </StyledRoot>
     );
 };

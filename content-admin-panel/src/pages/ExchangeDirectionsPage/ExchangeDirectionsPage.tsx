@@ -1,7 +1,14 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledRoot, StyledTableHeader, StyledTableRow } from './ExchangeDirectionsPage.styled';
-import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
+import {
+    CurrenciesExchangeDirection,
+    Currency,
+    Icon,
+    StyledRoot,
+    StyledTableHeader,
+    StyledTableRow,
+} from './ExchangeDirectionsPage.styled';
+import { IconArrowRight, IconChevronRight, IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
 import { Button } from '../../components/Button/Button.styled';
 import { useStore } from '@nanostores/react';
@@ -40,10 +47,28 @@ export const ExchangeDirectionsPage: React.FC = () => {
                         return (
                             <StyledTableRow key={item.id}>
                                 <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                    {item.technicalName}
+                                    <CurrenciesExchangeDirection>
+                                        <Currency>
+                                            <Icon src={item.sourceCurrency.paymentSystem.imagePath} />{' '}
+                                            {item.sourceCurrency.paymentSystem.name}{' '}
+                                            {item.sourceCurrency.currencyCode.code}
+                                        </Currency>
+                                        <IconChevronRight size="xs" color={accent} />
+                                        <Currency>
+                                            <Icon src={item.targetCurrency.paymentSystem.imagePath} />{' '}
+                                            {item.targetCurrency.paymentSystem.name}{' '}
+                                            {item.targetCurrency.currencyCode.code}
+                                        </Currency>
+                                    </CurrenciesExchangeDirection>
                                 </StyledTableCellName>
-                                <StyledTableCellName>{item.minSourceAmount}</StyledTableCellName>
-                                <StyledTableCellName>{item.maxSourceAmount}</StyledTableCellName>
+                                <StyledTableCellName>
+                                    {item.minSourceAmount.toLocaleString().replace(/,/g, ' ')}{' '}
+                                    {item.sourceCurrency.currencyCode.code}
+                                </StyledTableCellName>
+                                <StyledTableCellName>
+                                    {item.maxSourceAmount.toLocaleString().replace(/,/g, ' ')}{' '}
+                                    {item.sourceCurrency.currencyCode.code}
+                                </StyledTableCellName>
                                 <StyledTableCellName>
                                     <Button view="clear">
                                         <IconEdit />

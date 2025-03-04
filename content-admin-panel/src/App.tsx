@@ -13,9 +13,11 @@ import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
 import { PayoutPage } from './pages/PayoutPage/PayoutPage';
 import { ExchangeDirectionsPage } from './pages/ExchangeDirectionsPage/ExchangeDirectionsPage';
 import { AdditionalFieldsPage } from './pages/AdditionalFieldsPage/AdditionalFieldsPage';
+import { $selectedPayout } from './stores/payout.store';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
+    const selectedPayout = useStore($selectedPayout);
 
     return (
         <BrowserRouter>
@@ -25,7 +27,7 @@ const App: React.FC = () => {
                     <Route path={ROUTES.currencyCode} element={<CurrencyCodePage />} />
                     <Route path={ROUTES.currency} element={<CurrenciesPage />} />
                     <Route path={ROUTES.payouts} element={<PayoutsPage />} />
-                    <Route path={ROUTES.payout(1)} element={<PayoutPage />} />
+                    <Route path={ROUTES.payout(selectedPayout?.id)} element={<PayoutPage />} />
                     <Route path={ROUTES.currencyGenerals(selectedCurrency?.id)} element={<CurrenciesGeneralsPage />} />
                     <Route path={ROUTES.exchangeDirections} element={<ExchangeDirectionsPage />} />
                     <Route path={ROUTES.additionalFields} element={<AdditionalFieldsPage />} />

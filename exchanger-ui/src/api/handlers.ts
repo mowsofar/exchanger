@@ -1,5 +1,4 @@
-import { Course, Currency } from "./types/common";
-import { ExchangeDirectionResponseDto, GetCourseResponseDto } from "./types/currency";
+import { Course, Currency, ExchangeDirection, Payout } from "./types/common";
 
 function handleResponse(response: Response) {    
     return response.text().then((text) => {
@@ -24,7 +23,7 @@ function requestToApi(
         method: options?.method,
         headers: {
             ...options?.headers,
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXNoYW1pQHZrLmNvbSIsImlhdCI6MTc0MDkxODcxMywiZXhwIjoxNzQxMDA1MTEzfQ.9iUNkWJ_eNGSubMvtvU2PyilouzL6mq1CwM7T7E3-K8`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXNoYW1pQHZrLmNvbSIsImlhdCI6MTc0MTA5MTc2MCwiZXhwIjoxNzQxMTc4MTYwfQ._93qDvrp-VpEqDm6mOYAh7c4Pi1lU8GmDKs6atYJuGc`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
@@ -41,7 +40,7 @@ export function getRightColumnCurrencies(currencyId: number): Promise<Currency[]
     return requestToApi(`api/currencies/from/${currencyId}`, { method: 'GET'});
 }
 
-export function getExchangeDirections(sourceId: number, targetId: number): Promise<ExchangeDirectionResponseDto> {
+export function getExchangeDirections(sourceId: number, targetId: number): Promise<ExchangeDirection> {
     return requestToApi(`api/exchange-directions/${sourceId}/${targetId}`, { method: 'GET'});
 }
 
@@ -49,6 +48,15 @@ export function getExchangeDirectionsCourse(sourceId: number, targetId: number):
     return requestToApi(`api/exchange-directions/course/${sourceId}/${targetId}`, { method: 'GET'});
 }
 
-export function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, course: number, email: string, referralCode?: string): Promise<unknown> {
-    return requestToApi(`api/payouts`, { method: 'POST'}, { srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, course, email, referralCode});
+export function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, course: number, email: string, referralCode: string | null): Promise<Payout> {
+    return requestToApi('api/payouts', { method: 'POST'}, { srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, course, email, referralCode});
+}
+
+export function getPayout(id: number): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}`, { method: 'GET'});
+}
+
+export function setPayoutStatus(id: number
+): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_OPERATOR_PROCESSING' });
 }

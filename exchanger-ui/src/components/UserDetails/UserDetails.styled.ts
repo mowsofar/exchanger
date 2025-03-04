@@ -1,6 +1,8 @@
 import { TextField } from '@salutejs/plasma-web';
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
+import { Button as PlasmaButton} from '@salutejs/plasma-web';
+import { critical } from '@salutejs/plasma-tokens';
 
 export const StyledLayout = styled.div`
     height: 40rem;
@@ -42,19 +44,22 @@ export const StyledTextField = styled(TextField)`
     width: 330px;
     font-family: Onest !important;
     font-weight: 600;
+    border-radius: 8px;
 
-    & > div {
+    & > div:first-child {
         height: 60px !important;
         background: var(--backgroundTertiary) !important;
-        border-radius: 8px;
+    }
+
+    & > div:last-child {
+        color: var(--accent);
     }
 
     > div {
         box-shadow: none !important;
     }
 
-    & input,
-    div > div > div {
+    & input {
         color: white !important;
         font-weight: 600;
     }
@@ -62,4 +67,14 @@ export const StyledTextField = styled(TextField)`
 
 export const StyledButton = styled(Button)`
     margin-top: auto;
+`;
+
+export const Row = styled.div`
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+`;
+
+export const StyledButtonBack = styled(PlasmaButton)`
+    padding: 0;
 `;

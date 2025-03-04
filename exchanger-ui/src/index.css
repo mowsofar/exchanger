@@ -1,4 +1,5 @@
 body {
+    background-color: var(--backgroundPrimary);
     margin: 0;
     font-family:
         Onest,

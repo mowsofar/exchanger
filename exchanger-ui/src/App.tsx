@@ -7,6 +7,8 @@ import { MainPage } from './pages/MainPage/MainPage';
 import { AppLayout } from './components/AppLayout/AppLayout';
 import { UserDetailsPage } from './pages/UserDetailsPage/UserDetailsPage';
 import { ModalsProvider } from '@salutejs/plasma-web';
+import { PaymentPage } from './pages/PaymentPage/PaymentPage';
+import { PayoutStatusPage } from './pages/PayoutStatusPage/PayoutStatusPage';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -28,6 +30,8 @@ const App: React.FC = () => {
                         <Route path={ROUTES.root} element={<AppLayout />}>
                             <Route path={ROUTES.root} element={<MainPage />} />
                             <Route path={ROUTES.userDetails} element={<UserDetailsPage />} />
+                            <Route path={ROUTES.payment} element={<PaymentPage />} />
+                            <Route path={ROUTES.payoutStatus} element={<PayoutStatusPage />} />
                         </Route>
                     </Routes>
                 </ModalsProvider>

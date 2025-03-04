@@ -12,12 +12,23 @@ import { $exchangeError } from '../../stores/currencies.store';
 interface ExchangeModalProps {
     getExchangeCourse: (sourceId: number, targetId: number) => void;
     setSourceCurrency: (sourceCurrency: Currency) => void;
+    setTargetCurrency: (targetCurrency: Currency) => void;
+    handleChangeCurrencies: (sourceCurrency: Currency, targetCurrency: Currency) => void;
+    error: string;
+    setError: (error: string) => void;
 }
 
-export const ExchangeModal: React.FC<ExchangeModalProps> = ({ getExchangeCourse, setSourceCurrency }) => {
+export const ExchangeModal: React.FC<ExchangeModalProps> = ({
+    getExchangeCourse,
+    setSourceCurrency,
+    setTargetCurrency,
+    handleChangeCurrencies,
+    error,
+    setError,
+}) => {
     const [isCurrenciesModalOpen, setCurrencyModalOpen] = React.useState(false);
 
-    const error = useStore($exchangeError);
+    const exchangeError = useStore($exchangeError);
 
     const navigate = useNavigate();
 
@@ -32,8 +43,11 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({ getExchangeCourse,
             <Calculator
                 handleClickSourceCurrency={() => setCurrencyModalOpen(true)}
                 handleClickTargetCurrency={() => setCurrencyModalOpen(true)}
+                handleChangeCurrencies={handleChangeCurrencies}
+                error={error}
+                setError={setError}
             />
-            <StyledButton onClick={handleClickButton} disabled={Boolean(error)}>
+            <StyledButton onClick={handleClickButton} disabled={Boolean(exchangeError)}>
                 Перейти к вводу реквизитов
             </StyledButton>
 
@@ -41,6 +55,7 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({ getExchangeCourse,
                 opened={isCurrenciesModalOpen}
                 onClose={() => setCurrencyModalOpen(false)}
                 setSourceCurrency={setSourceCurrency}
+                setTargetCurrency={setTargetCurrency}
             />
         </StyledModal>
     );

@@ -14,9 +14,15 @@ interface ExchangeModalProps {
     opened: boolean;
     onClose: () => void;
     setSourceCurrency: (sourceCurrency: Currency) => void;
+    setTargetCurrency: (targetCurrency: Currency) => void;
 }
 
-export const CurrenciesModal: React.FC<ExchangeModalProps> = ({ opened, onClose, setSourceCurrency }) => {
+export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
+    opened,
+    onClose,
+    setSourceCurrency,
+    setTargetCurrency,
+}) => {
     const sourceCurrenciesList = useStore($sourceCurrencies);
     const targetCurrenciesList = useStore($targetCurrencies);
     const currencyType = useStore($currencyType);
@@ -31,6 +37,7 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({ opened, onClose,
         }
 
         if (currencyType === 'target') {
+            setTargetCurrency(currency);
             $targetCurrency.set(currency);
         }
         onClose();

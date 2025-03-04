@@ -1,7 +1,9 @@
 import React from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
+    Row,
     StyledButton,
+    StyledButtonBack,
     StyledContent,
     StyledHeader,
     StyledLayout,
@@ -11,6 +13,10 @@ import {
 } from './UserDetails.styled';
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
+import { IconChevronLeft } from '@salutejs/plasma-icons';
+import { $email, $referralCode, $requisites } from '../../stores/payout.store';
 
 interface UserDetailsProps {
     createPayout: (
@@ -21,7 +27,7 @@ interface UserDetailsProps {
         requisites: string,
         course: number,
         email: string,
-        referralCode?: string,
+        referralCode: string | null,
     ) => void;
 }
 
@@ -33,13 +39,21 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
 
+    const navigate = useNavigate();
+
     const [requisites, setRequisites] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [referralCode, setReferralCode] = React.useState('');
 
-    const handleSubmit = () => {
+    const [emailError, setEmailError] = React.useState('');
+
+    const handleSubmit = async () => {
+        $requisites.set(requisites);
+        $email.set(email);
+        $referralCode.set(referralCode);
+
         if (sourceCurrency?.id && targetCurrency?.id && course) {
-            createPayout(
+            await createPayout(
                 sourceCurrency?.id,
                 targetCurrency?.id,
                 amountFrom,
@@ -47,27 +61,58 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                 requisites,
                 course.course,
                 email,
-                referralCode,
+                referralCode ? referralCode : null,
             );
+
+            navigate(ROUTES.payment);
         }
+    };
+
+    const isValidEmail = (email: string) => {
+        return /\S+@\S+\.\S+/.test(email);
+    };
+
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+        if (e.target.value && !isValidEmail(e.target.value)) {
+            setEmailError('Невверный формат электронной почты');
+        } else {
+            setEmailError('');
+        }
+    };
+
+    const handleBack = () => {
+        navigate(ROUTES.root);
     };
 
     return (
         <StyledLayout>
             <StyledContent>
-                <Breadcrumbs
-                    path={[
-                        { number: 1, name: 'Ввод реквизитов', isActive: true },
-                        { number: 2, name: 'Оплата заявки', isActive: false },
-                        { number: 3, name: 'Завершение', isActive: false },
-                    ]}
-                />
+                <Row>
+                    <StyledButtonBack view="clear" onClick={handleBack}>
+                        <IconChevronLeft size="s" color="white" />
+                    </StyledButtonBack>
+
+                    <Breadcrumbs
+                        path={[
+                            { number: 1, name: 'Ввод реквизитов', isActive: true },
+                            { number: 2, name: 'Оплата заявки', isActive: false },
+                            { number: 3, name: 'Завершение', isActive: false },
+                        ]}
+                    />
+                </Row>
                 <TwoBlocks>
                     <StyledUserForm>
                         <StyledHeader>Отправитель</StyledHeader>
-                        <StyledTextField placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         <StyledTextField
-                            placeholder="Промокод"
+                            placeholder="Email"
+                            type="email"
+                            value={email}
+                            onChange={handleEmailChange}
+                            helperText={emailError}
+                        />
+                        <StyledTextField
+                            placeholder="Промокод (необязательно)"
                             value={referralCode}
                             onChange={(e) => setReferralCode(e.target.value)}
                         />
@@ -83,7 +128,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     </StyledUserForm>
                 </TwoBlocks>
 
-                <StyledButton disabled={!requisites || !email} onClick={handleSubmit}>
+                <StyledButton disabled={!requisites || !email || Boolean(emailError)} onClick={handleSubmit}>
                     Начать транкзацию
                 </StyledButton>
             </StyledContent>

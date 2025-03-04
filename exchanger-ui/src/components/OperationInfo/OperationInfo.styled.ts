@@ -27,7 +27,7 @@ export const StyledCard = styled.div`
     font-family: Onest;
     font-size: 1.2rem;
     background-color: #393939;
-    border-radius: 16px;
+    border-radius: 18px;
 `;
 
 export const StyledCourse = styled(StyledCard)`

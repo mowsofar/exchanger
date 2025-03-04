@@ -21,19 +21,29 @@ import {
     $targetCurrency,
 } from '../../stores/currencies.store';
 import React from 'react';
+import { Currency } from '../../api/types/common';
 
 interface Props {
     handleClickSourceCurrency: () => void;
     handleClickTargetCurrency: () => void;
+    handleChangeCurrencies: (sourceCurrency: Currency, targetCurrency: Currency) => void;
+    error: string;
+    setError: (error: string) => void;
 }
 
-export const Calculator: React.FC<Props> = ({ handleClickSourceCurrency, handleClickTargetCurrency }) => {
+export const Calculator: React.FC<Props> = ({
+    handleClickSourceCurrency,
+    handleClickTargetCurrency,
+    handleChangeCurrencies,
+    error,
+    setError,
+}) => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
     const amountFrom = useStore($amountFrom);
     const course = useStore($course);
     const exchangeDirection = useStore($exchangeDirections);
-    const error = useStore($exchangeError);
+    const exchangeError = useStore($exchangeError);
 
     if (course?.course) {
         if (course.isReversed) {
@@ -57,6 +67,7 @@ export const Calculator: React.FC<Props> = ({ handleClickSourceCurrency, handleC
 
     const handleChangeSourceAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
         $amountFrom.set(Number(e.target.value));
+        setError('');
 
         if (course) {
             $amountTo.set(Number(e.target.value) / course.course);
@@ -77,15 +88,23 @@ export const Calculator: React.FC<Props> = ({ handleClickSourceCurrency, handleC
     };
 
     const handleChangeTargetAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setError('');
         $amountTo.set(Number(e.target.value));
+
         if (course) {
             $amountFrom.set(Number(e.target.value) * course.course);
         }
     };
 
+    const onChangeCurrencies = () => {
+        if (sourceCurrency && targetCurrency) {
+            handleChangeCurrencies(sourceCurrency, targetCurrency);
+        }
+    };
+
     return (
         <StyledRoot>
-            <SwapButton>
+            <SwapButton onClick={() => onChangeCurrencies()}>
                 <IconSwapVert />
             </SwapButton>
             <StyledCard>
@@ -108,6 +127,7 @@ export const Calculator: React.FC<Props> = ({ handleClickSourceCurrency, handleC
                 </InputContainer>
             </StyledCard>
 
+            {exchangeError && <StyledError>{exchangeError}</StyledError>}
             {error && <StyledError>{error}</StyledError>}
         </StyledRoot>
     );

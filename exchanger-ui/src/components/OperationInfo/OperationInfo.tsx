@@ -10,11 +10,15 @@ import {
 } from './OperationInfo.styled';
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
+import { $email, $requisites } from '../../stores/payout.store';
 
 export const OperationInfo: React.FC = () => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
     const course = useStore($course);
+
+    const email = useStore($email);
+    const requisites = useStore($requisites);
 
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
@@ -52,6 +56,20 @@ export const OperationInfo: React.FC = () => {
                 <div>Курс:</div>
                 <div>{courseTitle}</div>
             </StyledCourse>
+
+            {email && (
+                <StyledCourse>
+                    <div>E-mail:</div>
+                    <div>{email}</div>
+                </StyledCourse>
+            )}
+
+            {requisites && (
+                <StyledCourse>
+                    <div>Реквизиты:</div>
+                    <div>{requisites}</div>
+                </StyledCourse>
+            )}
         </StyledRoot>
     );
 };

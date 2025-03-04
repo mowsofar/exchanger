@@ -1,8 +1,13 @@
 import styled from 'styled-components';
-import { TableHeader, TableRow } from '../../components/Table/Table';
+import { TableHeader, TableRow, TableWrapper } from '../../components/Table/Table';
 import { Badge } from '@salutejs/plasma-web';
 import { success } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
+
+export const TwoColumns = styled.div`
+    display: flex;
+    column-gap: 50px;
+`;
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -12,15 +17,19 @@ export const StyledRoot = styled.div`
     height: 100vh;
 `;
 
+export const StyledTableWrapper = styled(TableWrapper)`
+    width: 400px;
+`;
+
 export const StyledTableRow = styled(TableRow)`
-    grid-template-columns: 150px 1fr 250px 250px 250px;
+    grid-template-columns: 350px;
     padding: 0 16px;
     cursor: pointer;
-    height: 80px;
+    height: 250px;
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
-    grid-template-columns: 150px 1fr 250px 250px 250px;
+    grid-template-columns: 350px;
     padding: 0 16px;
     padding-right: 23px;
 `;

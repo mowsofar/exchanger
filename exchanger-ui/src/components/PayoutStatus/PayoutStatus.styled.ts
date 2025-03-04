@@ -21,42 +21,29 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 600;
-    color: var(--accent);
+    color: white;
+    text-align: center;
+
+    & span {
+        color: var(--accent);
+    }
 `;
 
-export const StyledText = styled.div`
-    color: white;
-    font-size: 1.5rem;
-    font-weight: 600;
+export const StyledIconStatus = styled.img`
+    align-self: center;
+    margin-top: 70px;
+    width: 150px;
+`;
+
+export const StyledSpinner = styled.div`
+    margin-top: 70px;
+    align-self: center;
 `;
 
 export const StyledButton = styled(Button)`
     margin-top: auto;
-`;
-
-export const StyledDescription = styled.div`
-    color: var(--backgroundTertiary);
-    font-size: 1rem;
-`;
-
-export const StyledAmount = styled.div`
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-
-    & div:first-child {
-        color: var(--backgroundTertiary);
-        font-weight: 600;
-        font-size: 1.2rem;
-    }
-
-    & div:last-child {
-        color: white;
-        font-size: 2rem;
-        font-weight: 600;
-    }
 `;
 
 export const Row = styled.div`

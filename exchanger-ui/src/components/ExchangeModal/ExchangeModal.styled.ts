@@ -9,7 +9,7 @@ export const StyledModal = styled.div`
     flex-direction: column;
     row-gap: 20px;
     border-radius: 40px;
-    padding: 30px 20px;
+    padding: 40px 20px;
 `;
 
 export const StyledHeader = styled.div`

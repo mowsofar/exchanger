@@ -1,5 +1,5 @@
 import { ROUTES } from "../constants/routes";
-import { AdditionalField, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem } from "./types/common";
+import { AdditionalField, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus } from "./types/common";
 
 function handleResponse(response: Response) {
     if (response.status === 403) {
@@ -154,4 +154,19 @@ export function editAdditionalField(id: number, fieldName: string, keyId: number
 export function deleteAdditionalField(id: number
 ): Promise<unknown> {
     return requestToApi(`api/additional-fields/${id}`, { method: 'DELETE' });
+}
+
+export function getPayouts(
+): Promise<Payout[]> {
+    return requestToApi('api/payouts', { method: 'GET' });
+}
+
+export function getPayout(id: number
+): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}`, { method: 'GET' });
+}
+
+export function setPayoutStatus(id: number, status: PayoutStatus
+): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status });
 }

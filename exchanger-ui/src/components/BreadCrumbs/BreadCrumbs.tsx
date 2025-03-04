@@ -28,7 +28,7 @@ const StyledNumber = styled.div`
 
 const StyledList = styled.div`
     display: flex;
-    column-gap: 90px;
+    column-gap: 60px;
     align-items: center;
 `;
 
