@@ -65,7 +65,7 @@ export const TableCell = styled.div<TableCellProps>`
     height: 75px;
     display: flex;
     align-items: center;
-    font-size: 17px;
+    font-size: 18px;
     padding: 13px;
     box-sizing: border-box;
     overflow: hidden;
@@ -148,7 +148,7 @@ export const TableBody: React.FC<TableBodyProps> = ({ children, isLoading, class
 };
 
 export const StyledTableHeaderCell = styled(TableHeaderCell)`
-    font-size: 13px;
+    font-size: 14px;
     color: ${blackPrimary};
     font-weight: 700;
     text-transform: uppercase;
@@ -212,5 +212,7 @@ export const TableWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-flow: column;
-    height: 600px;
+    height: 100%;
+    padding-bottom: 20px;
+    flex-grow: 1;
 `;

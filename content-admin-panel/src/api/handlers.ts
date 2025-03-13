@@ -38,8 +38,6 @@ function requestToApi(
         body: JSON.stringify(body),
     };
 
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`);
-
     return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
 }
 
@@ -86,8 +84,6 @@ function uploadImage(
         body: formData,
     };
 
-    console.log(`Bearer ${localStorage.getItem('accessToken')}`);
-
     return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
 }
 
@@ -126,6 +122,11 @@ export function editCurrency(id: number, body: any
     return requestToApi(`api/currencies/${id}`, { method: 'PATCH' }, body);
 }
 
+export function deleteCurrency(id: number
+): Promise<unknown> {
+    return requestToApi(`api/currencies/${id}`, { method: 'DELETE' });
+}
+
 export function getExchangeDirections(
 ): Promise<ExchangeDirection[]> {
     return requestToApi('api/exchange-directions', { method: 'GET' });
@@ -136,19 +137,29 @@ export function createExchangeDirection(sourceCurrencyId: number, targetCurrency
     return requestToApi('api/exchange-directions', { method: 'POST' }, { sourceCurrencyId, targetCurrencyId, profitPercent, minSourceAmount, maxSourceAmount, reserves });
 }
 
+export function editExchangeDirection(id: number, body: any
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/${id}`, { method: 'PATCH' }, body);
+}
+
+export function deleteExchangeDirection(id: number
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/${id}`, { method: 'DELETE' });
+}
+
 export function getAdditionalFields(
 ): Promise<AdditionalField[]> {
     return requestToApi('api/additional-fields', { method: 'GET' });
 }
 
-export function createAdditionalField(fieldName: string, keyId: number, status: string
+export function createAdditionalField(fieldName: string, keyId: number, status: string, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, keyId, status });
+    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, keyId, status, currencyIds });
 }
 
-export function editAdditionalField(id: number, fieldName: string, keyId: number, status: string
+export function editAdditionalField(id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, keyId, status });
+    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, keyId, status, currencyIds });
 }
 
 export function deleteAdditionalField(id: number
@@ -161,6 +172,11 @@ export function getPayouts(
     return requestToApi('api/payouts', { method: 'GET' });
 }
 
+export function getPayoutsByFilter(status: string
+): Promise<Payout[]> {
+    return requestToApi(`api/payouts/filter?status=${status}`, { method: 'GET' });
+}
+
 export function getPayout(id: number
 ): Promise<Payout> {
     return requestToApi(`api/payouts/${id}`, { method: 'GET' });
@@ -169,4 +185,9 @@ export function getPayout(id: number
 export function setPayoutStatus(id: number, status: PayoutStatus
 ): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status });
+}
+
+export function updatePayoutRequisites(id: number, exchangeRequisites: string
+): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}/exchange-requisites`, { method: 'PATCH' }, { exchangeRequisites });
 }

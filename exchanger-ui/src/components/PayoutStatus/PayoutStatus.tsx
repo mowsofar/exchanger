@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     Row,
+    StyledButton,
     StyledButtonBack,
     StyledContent,
     StyledHeader,
@@ -23,7 +24,11 @@ export const PayoutStatus: React.FC = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate(ROUTES.payment);
+        navigate(ROUTES.payment(payout?.id));
+    };
+
+    const goToMainPage = () => {
+        navigate(ROUTES.root);
     };
 
     return (
@@ -51,11 +56,15 @@ export const PayoutStatus: React.FC = () => {
                     payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
                     payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
                     <StyledSpinner>
-                        <Spinner size={150} color="white" />
+                        <Spinner size="8rem" color="white" />
                     </StyledSpinner>
                 )}
 
                 {payout?.status === 'COMPLETED' && <StyledIconStatus src="/images/success.png" />}
+
+                {(payout?.status === 'COMPLETED' || payout?.status === 'CANCELLED' || payout?.status === 'ERROR') && (
+                    <StyledButton onClick={goToMainPage}>На главную</StyledButton>
+                )}
             </StyledContent>
         </StyledLayout>
     );

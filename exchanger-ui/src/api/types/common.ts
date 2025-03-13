@@ -57,7 +57,7 @@ export interface ExchangeDirection {
     currentRate: number;
 };
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'WAITING_FOR_OPERATOR_PROCESSING' |  'ERROR' | 'COMPLETED';
+export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
 
 export interface User {
     firstname: string;
@@ -76,11 +76,12 @@ export interface PayoutAttachment {
 
 export interface Payout {
         id: number;
-        srcCurrency: number;
-        targetCurrency:	number;
+        srcCurrency: Currency;
+        targetCurrency:	Currency;
         amountFrom: number;
         amountTo: number;
         requisites: string;
+        exchangeRequisites: string;
         course: number;
         status: PayoutStatus;
         createdAt: string;

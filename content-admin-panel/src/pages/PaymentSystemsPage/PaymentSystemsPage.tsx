@@ -27,67 +27,72 @@ export const PaymentSystemsPage: React.FC = () => {
     };
 
     return (
-        <StyledRoot>
-            <Headline3>Список платёжных систем</Headline3>
-            <Button
-                text="Добавить платёжную систему"
-                view="accent"
-                size="s"
-                contentLeft={<IconPlus color="white" />}
-                onClick={() => setAddPaymentSystemModalOpen((state) => !state)}
-            />
-            <TableWrapper>
-                <StyledTableHeader>
-                    <StyledTableHeaderCell />
-                    <StyledTableHeaderCell>Направление</StyledTableHeaderCell>
-                    <StyledTableHeaderCell>Курс обмена</StyledTableHeaderCell>
-                </StyledTableHeader>
-                <TableBody>
-                    {paymentSystems.map((item) => {
-                        const lastSeenText = new Date(item.updatedAt).toLocaleString();
+        <>
+            <head>
+                <title>Платёжные системы</title>
+            </head>
 
-                        return (
-                            <StyledTableRow key={item.id}>
-                                <StyledTableCellName>
-                                    <StyledImg src={item.imagePath} alt="" />
-                                </StyledTableCellName>
-                                <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                    {item.name}
-                                </StyledTableCellName>
-                                <StyledTableCellName isSecondary>{lastSeenText}</StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button view="clear" onClick={() => handleEditButtonClick(item)}>
-                                        <IconEdit />
-                                    </Button>
-                                </StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button view="clear" onClick={() => deletePaymentSystemItem(item.id)}>
-                                        <IconTrash />
-                                    </Button>
-                                </StyledTableCellName>
-                            </StyledTableRow>
-                        );
-                    })}
-                </TableBody>
-            </TableWrapper>
-
-            <AddPaymentSystemModal
-                opened={isAddPaymentSystemModalOpen}
-                createPaymentSystem={createPaymentSystemItem}
-                onClose={() => setAddPaymentSystemModalOpen(false)}
-            />
-
-            {selectedPaymentSystem && (
-                <EditPaymentSystemModal
-                    opened={isEditPaymentSystemModalOpen}
-                    paymentSystem={selectedPaymentSystem}
-                    editPaymentSystem={editPaymentSystemItem}
-                    onClose={() => {
-                        setEditPaymentSystemModalOpen(false);
-                        setSelectedPaymentSystem(null);
-                    }}
+            <StyledRoot>
+                <Headline3>Список платёжных систем</Headline3>
+                <Button
+                    text="Добавить платёжную систему"
+                    size="s"
+                    contentLeft={<IconPlus color="white" />}
+                    onClick={() => setAddPaymentSystemModalOpen((state) => !state)}
                 />
-            )}
-        </StyledRoot>
+                <TableWrapper>
+                    <StyledTableHeader>
+                        <StyledTableHeaderCell />
+                        <StyledTableHeaderCell>Название</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Дата обновления</StyledTableHeaderCell>
+                    </StyledTableHeader>
+                    <TableBody>
+                        {paymentSystems.map((item) => {
+                            const lastSeenText = new Date(item.updatedAt).toLocaleString();
+
+                            return (
+                                <StyledTableRow key={item.id}>
+                                    <StyledTableCellName>
+                                        <StyledImg src={item.imagePath} alt="" />
+                                    </StyledTableCellName>
+                                    <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                        {item.name}
+                                    </StyledTableCellName>
+                                    <StyledTableCellName isSecondary>{lastSeenText}</StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button view="clear" onClick={() => handleEditButtonClick(item)}>
+                                            <IconEdit />
+                                        </Button>
+                                    </StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button view="clear" onClick={() => deletePaymentSystemItem(item.id)}>
+                                            <IconTrash />
+                                        </Button>
+                                    </StyledTableCellName>
+                                </StyledTableRow>
+                            );
+                        })}
+                    </TableBody>
+                </TableWrapper>
+
+                <AddPaymentSystemModal
+                    opened={isAddPaymentSystemModalOpen}
+                    createPaymentSystem={createPaymentSystemItem}
+                    onClose={() => setAddPaymentSystemModalOpen(false)}
+                />
+
+                {selectedPaymentSystem && (
+                    <EditPaymentSystemModal
+                        opened={isEditPaymentSystemModalOpen}
+                        paymentSystem={selectedPaymentSystem}
+                        editPaymentSystem={editPaymentSystemItem}
+                        onClose={() => {
+                            setEditPaymentSystemModalOpen(false);
+                            setSelectedPaymentSystem(null);
+                        }}
+                    />
+                )}
+            </StyledRoot>
+        </>
     );
 };

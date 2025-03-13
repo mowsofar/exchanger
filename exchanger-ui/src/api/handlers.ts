@@ -23,7 +23,6 @@ function requestToApi(
         method: options?.method,
         headers: {
             ...options?.headers,
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXNoYW1pQHZrLmNvbSIsImlhdCI6MTc0MTA5MTc2MCwiZXhwIjoxNzQxMTc4MTYwfQ._93qDvrp-VpEqDm6mOYAh7c4Pi1lU8GmDKs6atYJuGc`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),

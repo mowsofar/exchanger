@@ -26,67 +26,72 @@ export const CurrencyCodePage: React.FC = () => {
     };
 
     return (
-        <StyledRoot>
-            <Headline3>Коды валют</Headline3>
-            <Button
-                text="Добавить код валюты"
-                view="accent"
-                size="s"
-                contentLeft={<IconPlus color="white" />}
-                onClick={() => setAddCurrencyCodeModalOpen((state) => !state)}
-            />
-            <TableWrapper>
-                <StyledTableHeader>
-                    <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
-                    <StyledTableHeaderCell>Символ</StyledTableHeaderCell>
-                </StyledTableHeader>
-                <TableBody>
-                    {currencyCodeList.map((item) => {
-                        return (
-                            <StyledTableRow key={item.id}>
-                                <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                    {item.code}
-                                </StyledTableCellName>
-                                <StyledTableCellName>{item.symbol}</StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button
-                                        view="clear"
-                                        onClick={() => {
-                                            setSelectedCurrencyCode(item);
-                                            setEditCurrencyCodeModalOpen(true);
-                                        }}
-                                    >
-                                        <IconEdit />
-                                    </Button>
-                                </StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button view="clear" onClick={() => handleDeleteCurrencyCode(item.id)}>
-                                        <IconTrash />
-                                    </Button>
-                                </StyledTableCellName>
-                            </StyledTableRow>
-                        );
-                    })}
-                </TableBody>
-            </TableWrapper>
+        <>
+            <head>
+                <title>Коды валюты</title>
+            </head>
 
-            <AddCurrencyCodeModal
-                opened={isAddCurrencyCodeModalOpen}
-                onClose={() => setAddCurrencyCodeModalOpen(false)}
-                createCurrencyCode={createCurrencyCodeItem}
-            />
-
-            {selectedCurrencyCode && (
-                <EditCurrencyCodeModal
-                    opened={isEditCurrencyCodeModalOpen}
-                    onClose={() => {
-                        setEditCurrencyCodeModalOpen(false);
-                        setSelectedCurrencyCode(undefined);
-                    }}
-                    selectedCurrencyCode={selectedCurrencyCode}
-                    editCurrencyCode={editCurrencyCodeItem}
+            <StyledRoot>
+                <Headline3>Коды валют</Headline3>
+                <Button
+                    text="Добавить код валюты"
+                    size="s"
+                    contentLeft={<IconPlus color="white" />}
+                    onClick={() => setAddCurrencyCodeModalOpen((state) => !state)}
                 />
-            )}
-        </StyledRoot>
+                <TableWrapper>
+                    <StyledTableHeader>
+                        <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Символ</StyledTableHeaderCell>
+                    </StyledTableHeader>
+                    <TableBody>
+                        {currencyCodeList.map((item) => {
+                            return (
+                                <StyledTableRow key={item.id}>
+                                    <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                        {item.code}
+                                    </StyledTableCellName>
+                                    <StyledTableCellName>{item.symbol}</StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button
+                                            view="clear"
+                                            onClick={() => {
+                                                setSelectedCurrencyCode(item);
+                                                setEditCurrencyCodeModalOpen(true);
+                                            }}
+                                        >
+                                            <IconEdit color={accent} />
+                                        </Button>
+                                    </StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button view="clear" onClick={() => handleDeleteCurrencyCode(item.id)}>
+                                            <IconTrash />
+                                        </Button>
+                                    </StyledTableCellName>
+                                </StyledTableRow>
+                            );
+                        })}
+                    </TableBody>
+                </TableWrapper>
+
+                <AddCurrencyCodeModal
+                    opened={isAddCurrencyCodeModalOpen}
+                    onClose={() => setAddCurrencyCodeModalOpen(false)}
+                    createCurrencyCode={createCurrencyCodeItem}
+                />
+
+                {selectedCurrencyCode && (
+                    <EditCurrencyCodeModal
+                        opened={isEditCurrencyCodeModalOpen}
+                        onClose={() => {
+                            setEditCurrencyCodeModalOpen(false);
+                            setSelectedCurrencyCode(undefined);
+                        }}
+                        selectedCurrencyCode={selectedCurrencyCode}
+                        editCurrencyCode={editCurrencyCodeItem}
+                    />
+                )}
+            </StyledRoot>
+        </>
     );
 };

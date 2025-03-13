@@ -44,9 +44,9 @@ export const useAdditionalFieldsPage = () => {
     );
 
     const createAdditionalFieldItem = useCallback(
-        async (fieldName: string, keyId: number, status: string) => {
+        async (fieldName: string, keyId: number, status: string, currencyIds: number[]) => {
                 try {
-                    await createAdditionalField(fieldName, keyId, status);
+                    await createAdditionalField(fieldName, keyId, status, currencyIds);
                     showNotification('Дополнительное поле успешно создано', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);
@@ -57,9 +57,9 @@ export const useAdditionalFieldsPage = () => {
     );
 
     const editAdditionalFieldItem = useCallback(
-        async (id: number, fieldName: string, keyId: number, status: string) => {
+        async (id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]) => {
                 try {
-                    await editAdditionalField(id, fieldName, keyId, status);
+                    await editAdditionalField(id, fieldName, keyId, status, currencyIds);
                     showNotification('Дополнительное поле успешно изменено', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);
@@ -72,7 +72,7 @@ export const useAdditionalFieldsPage = () => {
     const deleteAdditionalFieldItem = useCallback(
         async (id: number) => {
                 try {
-                    await deleteAdditionalField(id,);
+                    await deleteAdditionalField(id);
                     showNotification('Дополнительное поле успешно удалено', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);

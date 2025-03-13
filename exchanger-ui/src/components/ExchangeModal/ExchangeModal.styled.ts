@@ -3,22 +3,34 @@ import { Button } from "../Button/Button";
 
 export const StyledModal = styled.div`
     background-color: var(--backgroundSecondary);
-    height: 500px;
-    width: 700px;
+    height: 530px;
+    width: 750px;
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
-    border-radius: 40px;
-    padding: 40px 20px;
+    row-gap: 1.5rem;
+    border-radius: 3rem;
+    padding: 3rem 2rem;
+
+    @media (max-width: 1300px) {
+        width: 80vw;
+        font-size: 3rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
     color: white;
-    font-size: 1.8rem;
+    font-size: 1.6em;
     font-weight: 600;
     text-align: center;
+
+    @media (max-width: 1300px) {
+        width: 80vw;
+        font-size: 3rem;
+    }
 `;
 
 export const StyledButton = styled(Button)`
-    margin-top: 30px;
+    margin-top: auto;
+    height: 5rem;
+    font-size: 2rem;
 `;

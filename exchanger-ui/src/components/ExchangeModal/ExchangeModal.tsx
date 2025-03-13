@@ -7,7 +7,7 @@ import { ROUTES } from '../../constants/routes';
 import { CurrenciesModal } from '../CurrenciesModal/CurrenciesModal';
 import { Currency } from '../../api/types/common';
 import { useStore } from '@nanostores/react';
-import { $exchangeError } from '../../stores/currencies.store';
+import { $amountFrom, $amountTo, $exchangeError } from '../../stores/currencies.store';
 
 interface ExchangeModalProps {
     getExchangeCourse: (sourceId: number, targetId: number) => void;
@@ -28,6 +28,9 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
 }) => {
     const [isCurrenciesModalOpen, setCurrencyModalOpen] = React.useState(false);
 
+    const amountFrom = useStore($amountFrom);
+    const amountTo = useStore($amountTo);
+
     const exchangeError = useStore($exchangeError);
 
     const navigate = useNavigate();
@@ -47,7 +50,7 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
                 error={error}
                 setError={setError}
             />
-            <StyledButton onClick={handleClickButton} disabled={Boolean(exchangeError)}>
+            <StyledButton onClick={handleClickButton} disabled={Boolean(exchangeError) || !amountFrom || !amountTo}>
                 Перейти к вводу реквизитов
             </StyledButton>
 

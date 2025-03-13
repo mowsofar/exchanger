@@ -32,13 +32,13 @@ export const AddCurrencyCodeModal: React.FC<AddCurrencyCodeModalProps> = ({ open
             <Content>
                 <StyledTextField
                     label="Код валюты"
-                    placeholder="Введите платёжную систему"
+                    placeholder="Укажите код валюты"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                 />
                 <StyledTextField
                     label="Символ валюты"
-                    placeholder="Введите символ валюты"
+                    placeholder="Укажите символ валюты"
                     value={currencySymbol}
                     onChange={(e) => setCurrencySymbol(e.target.value)}
                 />

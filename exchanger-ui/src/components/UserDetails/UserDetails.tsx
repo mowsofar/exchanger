@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $email, $referralCode, $requisites } from '../../stores/payout.store';
+import { Payout } from '../../api/types/common';
 
 interface UserDetailsProps {
     createPayout: (
@@ -28,7 +29,7 @@ interface UserDetailsProps {
         course: number,
         email: string,
         referralCode: string | null,
-    ) => void;
+    ) => Promise<Payout>;
 }
 
 export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
@@ -53,7 +54,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         $referralCode.set(referralCode);
 
         if (sourceCurrency?.id && targetCurrency?.id && course) {
-            await createPayout(
+            const newPayout = await createPayout(
                 sourceCurrency?.id,
                 targetCurrency?.id,
                 amountFrom,
@@ -64,7 +65,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                 referralCode ? referralCode : null,
             );
 
-            navigate(ROUTES.payment);
+            navigate(ROUTES.payment(newPayout.id));
         }
     };
 
@@ -119,7 +120,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     </StyledUserForm>
 
                     <StyledUserForm>
-                        <StyledHeader>Получатель</StyledHeader>
+                        <StyledHeader>Реквизиты</StyledHeader>
                         <StyledTextField
                             placeholder="Реквизиты"
                             value={requisites}

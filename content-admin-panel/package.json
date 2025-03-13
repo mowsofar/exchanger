@@ -1,6 +1,7 @@
 {
   "name": "content-admin-panel",
   "version": "0.1.0",
+  "homepage": "https://kykyshka.com/content-admin",
   "private": true,
   "dependencies": {
     "@nanostores/react": "^0.8.4",

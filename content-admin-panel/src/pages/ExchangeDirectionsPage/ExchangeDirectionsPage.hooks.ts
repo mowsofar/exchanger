@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { createExchangeDirection, getCurrencies, getExchangeDirections } from '../../api/handlers';
+import { createExchangeDirection, deleteExchangeDirection, editExchangeDirection, getCurrencies, getExchangeDirections } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $exchangeDirectionsList } from '../../stores/exchangeDirections.store';
 import { $currencyList } from '../../stores/currency.store';
@@ -24,9 +24,36 @@ export const useExchangeDirectionsPage = () => {
                 try {
                     await createExchangeDirection(sourceCurrencyId, targetCurrencyId, profitPercent, minSourceAmount, maxSourceAmount, reserves);
                     showNotification('Направление обмена успешно создано', 'success');
+
                     setTimeout(() => getExchangeDirectionsList(), 1000);
                 } catch (error) {
                     showNotification('Не удалось создать направление обмена', 'error', error);
+                }
+            }, [getExchangeDirectionsList, showNotification]
+    );
+
+    const editExchangeDirectionItem = useCallback(
+        async (id: number, body: any) => {
+                try {
+                    await editExchangeDirection(id, body);
+                    showNotification('Направление обмена успешно отредактировано', 'success');
+
+                    setTimeout(() => getExchangeDirectionsList(), 1000);
+                } catch (error) {
+                    showNotification('Не удалось отредактировать направление обмена', 'error', error);
+                }
+            }, [getExchangeDirectionsList, showNotification]
+    );
+
+    const deleteExchangeDirectionItem = useCallback(
+        async (id: number) => {
+                try {
+                    await deleteExchangeDirection(id);
+                    showNotification('Направление обмена успешно удалено', 'success');
+
+                    setTimeout(() => getExchangeDirectionsList(), 1000);
+                } catch (error) {
+                    showNotification('Ошибка удаления направления обмена', 'error', error);
                 }
             }, [getExchangeDirectionsList, showNotification]
     );
@@ -53,6 +80,6 @@ export const useExchangeDirectionsPage = () => {
     }, [getCurrenciesList]);
 
 
-    return { createExchangeDirectionItem };
+    return { createExchangeDirectionItem, editExchangeDirectionItem, deleteExchangeDirectionItem };
 
 };

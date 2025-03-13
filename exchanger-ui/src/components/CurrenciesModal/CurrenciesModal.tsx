@@ -1,3 +1,4 @@
+import React from 'react';
 import { useStore } from '@nanostores/react';
 import { CurrenciesList, StyledCurrencyName, StyledHeader, StyledModal, StyledRow } from './CurrenciesModal.styled';
 import {
@@ -27,6 +28,8 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
     const targetCurrenciesList = useStore($targetCurrencies);
     const currencyType = useStore($currencyType);
 
+    const [inputValue, setInputValue] = React.useState('');
+
     const currenciesList =
         currencyType === 'source' ? sourceCurrenciesList : currencyType === 'target' ? targetCurrenciesList : [];
 
@@ -40,8 +43,21 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
             setTargetCurrency(currency);
             $targetCurrency.set(currency);
         }
+
         onClose();
     };
+
+    const currencies = React.useMemo(() => {
+        if (!inputValue) return currenciesList;
+
+        const newCurrencies = currenciesList.filter(
+            (item) =>
+                item.paymentSystem.name.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) ||
+                item.currencyCode.code.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()),
+        );
+
+        return newCurrencies;
+    }, [currenciesList, inputValue]);
 
     const closeModal = () => {
         $currencyType.set('');
@@ -51,9 +67,9 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
     return (
         <StyledModal opened={opened} onClose={closeModal} withBlur>
             <StyledHeader>Выберите валюту</StyledHeader>
-            <Search placeholder="Поиск" />
+            <Search placeholder="Поиск" onChange={(e) => setInputValue(e.target.value)} />
             <CurrenciesList>
-                {currenciesList.map((currency) => {
+                {currencies.map((currency) => {
                     return (
                         <StyledRow onClick={() => handleClickCurrency(currency)}>
                             <StyledCurrencyName>

@@ -17,6 +17,9 @@ export function getPayoutData(payout: PayoutStatus): { label: string, view: View
             return { label: 'Ожидает обработки', view: 'accent' };
 
         case 'ERROR':
+            return { label: 'Ошибка', view: 'negative' };
+
+        case 'CANCELLED':
             return { label: 'Отклонена', view: 'negative' };
 
         case 'COMPLETED': 
@@ -38,7 +41,7 @@ export function getPayoutControls(payout: PayoutStatus | undefined): { label: st
         case 'WAITING_FOR_CLIENT_PAYMENT': 
             return [{ label: 'Взять в работу', value: 'WAITING_FOR_OPERATOR_PROCESSING' }];
         case 'WAITING_FOR_OPERATOR_PROCESSING': 
-            return [{ label: 'Выполнить', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'ERROR', view: 'critical'}];
+            return [{ label: 'Выполнить', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'Ошибка', value: 'ERROR', view: 'critical'}];
         default:
             return [];
     }

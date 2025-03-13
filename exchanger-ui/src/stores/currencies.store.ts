@@ -15,4 +15,4 @@ export const $course = atom<Course | null>(null);
 export const $amountFrom = atom<number>(0);
 export const $amountTo = atom<number>(0);
 
-export const $exchangeError = atom('');
+export const $exchangeError = atom(false);

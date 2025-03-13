@@ -77,6 +77,10 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
     const onCloseModal = () => {
         setSelectedSourceCurrencyId(undefined);
         setSelectedTargetCurrencyId(undefined);
+        setProfitPercent(undefined);
+        setMinSourceAmount(undefined);
+        setMaxSourceAmount(undefined);
+        setReserves(undefined);
         onClose();
     };
 
@@ -100,6 +104,38 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
         }
 
         onCloseModal();
+    };
+
+    const handleChangeProfitPercent = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setProfitPercent(Number(e.target.value));
+    };
+
+    const handleChangeMinAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setMinSourceAmount(Number(e.target.value));
+    };
+
+    const handleChangeMaxAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setMaxSourceAmount(Number(e.target.value));
+    };
+
+    const handleChangeReserves = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setReserves(Number(e.target.value));
     };
 
     return (
@@ -126,35 +162,23 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
                     />
                 </TwoColumns>
 
-                <StyledTextField
-                    label="Процент прибыли"
-                    type="number"
-                    value={profitPercent}
-                    onChange={(e) => setProfitPercent(Number(e.target.value))}
-                />
+                <StyledTextField label="Процент прибыли" value={profitPercent} onChange={handleChangeProfitPercent} />
 
                 <TwoColumns>
                     <StyledTextField
                         label="Минимальная сумма обмена"
-                        type="number"
                         value={minSourceAmount}
-                        onChange={(e) => setMinSourceAmount(Number(e.target.value))}
+                        onChange={handleChangeMinAmount}
                     />
 
                     <StyledTextField
                         label="Максимальная сумма обмена"
-                        type="number"
                         value={maxSourceAmount}
-                        onChange={(e) => setMaxSourceAmount(Number(e.target.value))}
+                        onChange={handleChangeMaxAmount}
                     />
                 </TwoColumns>
 
-                <StyledTextField
-                    label="Резервы"
-                    type="number"
-                    value={reserves}
-                    onChange={(e) => setReserves(Number(e.target.value))}
-                />
+                <StyledTextField label="Резервы" value={reserves} onChange={handleChangeReserves} />
 
                 <Button
                     text="Добавить"

@@ -1,17 +1,22 @@
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import { Header } from '../Header/Header';
 
 const Layout = styled.div`
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100vh;
+    font-size: 20px;
     background-color: var(--backgroundPrimary);
 `;
 
 const StyledLayout = styled.div`
     display: flex;
     column-gap: 10vw;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     align-items: center;
     justify-content: center;
     z-index: -1;
@@ -63,6 +68,7 @@ const Shade4 = styled.img`
 export const AppLayout: React.FC = () => {
     return (
         <Layout>
+            <Header />
             <StyledLayout>
                 <Shade1 src="/images/shade1.png" alt="shade1" />
                 <Shade2 src="/images/shade2.png" alt="shade2" />

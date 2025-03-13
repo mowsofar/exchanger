@@ -14,7 +14,7 @@ import { Currency } from '../../api/types/common';
 import { accent } from '@salutejs/plasma-tokens';
 
 export const CurrenciesPage: React.FC = () => {
-    const { createCurrencyItem } = useCurrenciesPage();
+    const { createCurrencyItem, deleteCurrencyItem } = useCurrenciesPage();
     const navigate = useNavigate();
 
     const [isAddCurrencyModalOpen, setAddCurrencyModalOpen] = React.useState(false);
@@ -27,57 +27,62 @@ export const CurrenciesPage: React.FC = () => {
     };
 
     return (
-        <StyledRoot>
-            <Headline3>Список валют</Headline3>
-            <Button
-                contentLeft={<IconPlus color="white" />}
-                view="accent"
-                size="s"
-                text="Добавить валюту"
-                onClick={() => setAddCurrencyModalOpen((state) => !state)}
-            />
-            <TableWrapper>
-                <StyledTableHeader>
-                    <StyledTableHeaderCell />
-                    <StyledTableHeaderCell>Платёжная система</StyledTableHeaderCell>
-                    <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
-                    <StyledTableHeaderCell>XML-код</StyledTableHeaderCell>
-                    <StyledTableHeaderCell />
-                    <StyledTableHeaderCell />
-                </StyledTableHeader>
-                <TableBody>
-                    {currencyList.map((item) => {
-                        return (
-                            <StyledTableRow key={item.id}>
-                                <StyledTableCellName>
-                                    <StyledImg src={item.paymentSystem.imagePath} />
-                                </StyledTableCellName>
-                                <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                    {item.paymentSystem.name}
-                                </StyledTableCellName>
-                                <StyledTableCellName>{item.currencyCode.code}</StyledTableCellName>
-                                <StyledTableCellName>{item.xmlCode}</StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button view="clear" onClick={() => hanleClickEditButton(item)}>
-                                        <IconEdit />
-                                    </Button>
-                                </StyledTableCellName>
-                                <StyledTableCellName>
-                                    <Button view="clear">
-                                        <IconTrash />
-                                    </Button>
-                                </StyledTableCellName>
-                            </StyledTableRow>
-                        );
-                    })}
-                </TableBody>
-            </TableWrapper>
+        <>
+            <head>
+                <title>Валюты</title>
+            </head>
 
-            <AddCurrencyModal
-                opened={isAddCurrencyModalOpen}
-                onClose={() => setAddCurrencyModalOpen(false)}
-                createCurrency={createCurrencyItem}
-            />
-        </StyledRoot>
+            <StyledRoot>
+                <Headline3>Список валют</Headline3>
+                <Button
+                    contentLeft={<IconPlus color="white" />}
+                    size="s"
+                    text="Добавить валюту"
+                    onClick={() => setAddCurrencyModalOpen((state) => !state)}
+                />
+                <TableWrapper>
+                    <StyledTableHeader>
+                        <StyledTableHeaderCell />
+                        <StyledTableHeaderCell>Платёжная система</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>XML-код</StyledTableHeaderCell>
+                        <StyledTableHeaderCell />
+                        <StyledTableHeaderCell />
+                    </StyledTableHeader>
+                    <TableBody>
+                        {currencyList.map((item) => {
+                            return (
+                                <StyledTableRow key={item.id}>
+                                    <StyledTableCellName>
+                                        <StyledImg src={item.paymentSystem.imagePath} />
+                                    </StyledTableCellName>
+                                    <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                        {item.paymentSystem.name}
+                                    </StyledTableCellName>
+                                    <StyledTableCellName>{item.currencyCode.code}</StyledTableCellName>
+                                    <StyledTableCellName>{item.xmlCode}</StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button view="clear" onClick={() => hanleClickEditButton(item)}>
+                                            <IconEdit />
+                                        </Button>
+                                    </StyledTableCellName>
+                                    <StyledTableCellName>
+                                        <Button view="clear" onClick={() => deleteCurrencyItem(item.id)}>
+                                            <IconTrash />
+                                        </Button>
+                                    </StyledTableCellName>
+                                </StyledTableRow>
+                            );
+                        })}
+                    </TableBody>
+                </TableWrapper>
+
+                <AddCurrencyModal
+                    opened={isAddCurrencyModalOpen}
+                    onClose={() => setAddCurrencyModalOpen(false)}
+                    createCurrency={createCurrencyItem}
+                />
+            </StyledRoot>
+        </>
     );
 };

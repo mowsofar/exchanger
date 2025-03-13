@@ -10,22 +10,25 @@ import {
 } from './OperationInfo.styled';
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
-import { $email, $requisites } from '../../stores/payout.store';
+import { $payout } from '../../stores/payout.store';
 
 export const OperationInfo: React.FC = () => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
     const course = useStore($course);
 
-    const email = useStore($email);
-    const requisites = useStore($requisites);
+    const payout = useStore($payout);
 
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
 
     const courseTitle = course?.isReversed
-        ? `${course?.course} ${sourceCurrency?.currencyCode.code}  = 1 ${targetCurrency?.currencyCode.code}`
-        : `${course?.course} ${targetCurrency?.currencyCode.code} = 1 ${sourceCurrency?.currencyCode.code}`;
+        ? `${course?.course || payout?.course} ${
+              sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code
+          }  = 1 ${targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code}`
+        : `${course?.course || payout?.course} ${
+              targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code
+          } = 1 ${sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code}`;
 
     return (
         <StyledRoot>
@@ -33,22 +36,24 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{amountFrom}</Amount>
+                    <Amount>{amountFrom || payout?.amountFrom}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
-                    <Img src={sourceCurrency?.paymentSystem.imagePath} />
-                    <div>{sourceCurrency?.currencyCode.code}</div>
+                    <Img src={sourceCurrency?.paymentSystem.imagePath || payout?.srcCurrency.paymentSystem.imagePath} />
+                    <div>{sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code}</div>
                 </Currnecy>
             </StyledCard>
 
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{amountTo}</Amount>
+                    <Amount>{amountTo || payout?.amountTo}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
-                    <Img src={targetCurrency?.paymentSystem.imagePath} />
-                    <div>{targetCurrency?.currencyCode.code}</div>
+                    <Img
+                        src={targetCurrency?.paymentSystem.imagePath || payout?.targetCurrency.paymentSystem.imagePath}
+                    />
+                    <div>{targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code}</div>
                 </Currnecy>
             </StyledCard>
 
@@ -57,17 +62,17 @@ export const OperationInfo: React.FC = () => {
                 <div>{courseTitle}</div>
             </StyledCourse>
 
-            {email && (
+            {payout?.email && (
                 <StyledCourse>
                     <div>E-mail:</div>
-                    <div>{email}</div>
+                    <div>{payout.email}</div>
                 </StyledCourse>
             )}
 
-            {requisites && (
+            {payout?.requisites && (
                 <StyledCourse>
                     <div>Реквизиты:</div>
-                    <div>{requisites}</div>
+                    <div>{payout.requisites}</div>
                 </StyledCourse>
             )}
         </StyledRoot>

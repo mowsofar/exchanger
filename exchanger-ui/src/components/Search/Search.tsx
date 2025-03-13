@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { surfaceSolid01, tertiary } from '@salutejs/plasma-tokens-web';
 import { IconSearch } from '@salutejs/plasma-icons';
 import { TextField } from '@salutejs/plasma-web';
 
@@ -13,13 +12,15 @@ interface SearchProps {
 }
 
 const StyledTextField = styled(TextField)`
-    margin-top: 20px;
+    margin-top: 2rem;
     font-family: Onest !important;
+    font-size: 1.7rem;
 
     & > div {
-        height: 45px;
+        height: 4.5rem !important;
         background: #222224 !important;
-        border-radius: 8px;
+        padding: 2rem !important;
+        border-radius: 1.3rem !important;
     }
 
     > div {

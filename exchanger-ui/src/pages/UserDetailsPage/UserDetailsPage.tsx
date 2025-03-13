@@ -7,9 +7,13 @@ export const UserDetailsPage: React.FC = () => {
     const { createNewPayout } = useUserDetailsPage();
 
     return (
-        <StyledLayout>
-            <OperationInfo />
-            <UserDetails createPayout={createNewPayout} />
-        </StyledLayout>
+        <>
+            <title>Ввод реквизитов</title>
+
+            <StyledLayout>
+                <OperationInfo />
+                <UserDetails createPayout={createNewPayout} />
+            </StyledLayout>
+        </>
     );
 };

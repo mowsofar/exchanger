@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -7,6 +7,7 @@ export const StyledRoot = styled.div`
     text-align: center;
     align-items: center;
     color: white;
+    font-size: 1.9rem;
     font-weight: 600;
 `;
 
@@ -19,7 +20,7 @@ export const CountDown = styled.div`
 
 export const Seconds = styled.label`
     position: absolute;
-    left: 14px;
+    left: 12.5px;
 `;
 
 export const CountDownContainer = styled.div`

@@ -25,6 +25,7 @@ export interface AdditionalField {
     fieldName: string;
     keyId: string;
     status: AdditionalFieldStatus;
+    currencyIds: number[];
 };
 
 export interface Currency {
@@ -64,16 +65,29 @@ export const FilterTypeValues = [
     { value: 'COIN', label: 'Coin' },
 ];
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'ERROR' | 'COMPLETED';
+export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
+
+export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
+    { value: '', label: 'Все заявки' },
+    { value: 'CREATED', label: 'Созданные' },
+    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Ожидают оплаты' },
+    { value: 'PAYMENT_RECEIVED', label: 'Оплата получена' },
+    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'Ожидают обработки' },
+    { value: 'CANCELLED', label: 'Отклонённые' },
+    { value: 'ERROR', label: 'Ошибка' },
+    { value: 'COMPLETED', label: 'Завершённые' },
+];
 
 export type StatusType = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
 
 export const PayoutStatusValues = [
     { value: 'CREATED', label: 'Создана', view: 'primary' },
     { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Ожидается оплата', view: 'accent' },
+    { value: 'PAYMENT_RECEIVED', label: 'Оплата получена', view: 'accent' },
     { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'Ожидает обработки', view: 'accent' },
+    { value: 'CANCELLED', label: 'Отклонена', view: 'accent' },
     { value: 'ERROR', label: 'Ошибка', view: 'negative'},
-    { value: 'COMPLETED', label: 'Завершно', view: 'positive' }
+    { value: 'COMPLETED', label: 'Завершна', view: 'positive' }
 ];
 
 export interface UserForPayout {
@@ -92,11 +106,12 @@ export interface PayoutAttachment {
 };
 export interface Payout {
     id: number;
-    srcCurrency: number;
-    targetCurrency: number;
+    srcCurrency: Currency;
+    targetCurrency: Currency;
     amountFrom: number;
     amountTo: number;
     requisites: string;
+    exchangeRequisites: string;
     course: number;
     status: PayoutStatus;
     createdAt: string;
@@ -111,16 +126,11 @@ export interface ExchangeDirection {
         id: number;
         sourceCurrency: Currency;
         targetCurrency: Currency;
-        commission:	number;
+        profitPercent:	number;
         status:	StatusType
-        technicalName: string;
-        minTargetAmount: number;
-        maxTargetAmount: number;
         minSourceAmount: number;
         maxSourceAmount: number;
-        rounding: number;
         reserves: number;
-        requisites:	string;
         updatedAt: string;
         currentRate: number;
 };

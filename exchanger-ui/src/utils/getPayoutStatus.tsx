@@ -22,16 +22,31 @@ export function getPayoutStatus(payout: Payout | null) {
                     Заявка <span>№{payout.id}</span> ожидает оплаты
                 </div>
             );
+
+        case 'PAYMENT_RECEIVED':
+            return (
+                <div>
+                    Оплата по заявке <span>№{payout.id}</span> получена
+                </div>
+            );
         case 'WAITING_FOR_OPERATOR_PROCESSING':
             return (
                 <div>
                     Заявка <span>№{payout.id}</span> ожидает обработки
                 </div>
             );
-        case 'ERROR':
+
+        case 'CANCELLED':
             return (
                 <div>
                     Заявка <span>№{payout.id}</span> отклонена. Причина: оплата не поступила.
+                </div>
+            );
+
+        case 'ERROR':
+            return (
+                <div>
+                    Ошибка создания заявки <span>№{payout.id}</span>.
                 </div>
             );
         default:

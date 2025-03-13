@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const StyledRoot = styled.div`
-    height: 40rem;
-    width: 23rem;
+    height: 70rem;
+    width: 40rem;
     border-radius: 23px;
     background-color: var(--backgroundSecondary);
     padding: 15px;
@@ -10,10 +10,10 @@ export const StyledRoot = styled.div`
 
 export const StyledHeader = styled.div`
     color: white;
-    font-size: 1.2rem;
+    font-size: 2.2rem;
     font-weight: 700;
     text-align: center;
-    padding: 30px;
+    padding: 3rem;
     color: white;
 `;
 
@@ -25,9 +25,9 @@ export const StyledCard = styled.div`
     color: white;
     align-items: center;
     font-family: Onest;
-    font-size: 1.2rem;
+    font-size: 2rem;
     background-color: #393939;
-    border-radius: 18px;
+    border-radius: 1.6rem;
 `;
 
 export const StyledCourse = styled(StyledCard)`
@@ -37,7 +37,7 @@ export const StyledCourse = styled(StyledCard)`
     color: white;
     align-items: center;
     font-family: Onest;
-    font-size: 1rem;
+    font-size: 1.8rem;
     font-weight: 600;
     
     & div:first-child {
@@ -54,14 +54,14 @@ export const StyledAmountCard = styled.div`
 
     &:first-child {
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 1.7rem;
         max-width: 20rem;
     }
 `;
 
 export const Amount = styled.div`
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 2rem;
     color: var(--accent);
 `;
 

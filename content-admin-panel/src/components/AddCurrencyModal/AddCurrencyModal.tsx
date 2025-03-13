@@ -84,6 +84,14 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
         onCloseModal();
     };
 
+    const handleChangeDecimalPlacesValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setDecimalPlaces(Number(e.target.value));
+    };
+
     return (
         <StyledModal opened={opened} onClose={onClose}>
             <Headline3>Добавить валюту</Headline3>
@@ -108,9 +116,8 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
 
                 <StyledTextField
                     label="Знаки после запятой"
-                    type="number"
                     value={decimalPlaces}
-                    onChange={(e) => setDecimalPlaces(Number(e.target.value))}
+                    onChange={handleChangeDecimalPlacesValue}
                 />
 
                 <Select

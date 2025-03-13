@@ -14,12 +14,8 @@ const StyledRoot = styled.div`
     justify-content: space-between;
 `;
 
-const Logo = styled.div`
-    font-size: 20px;
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-    text-transform: lowercase;
+const Logo = styled.img`
+    height: 60px;
 `;
 
 const StyledRightHeaderButtons = styled.div`
@@ -36,9 +32,7 @@ const StyledButton = styled(Button)`
 export const Header: React.FC = () => {
     return (
         <StyledRoot>
-            <Logo>
-                <div style={{ fontWeight: '600' }}>Exchanger</div>
-            </Logo>
+            <Logo src="images/logo-kykyshka2.png" />
             <StyledRightHeaderButtons>
                 <StyledButton view="secondary">
                     <IconMessageQuestionOutline />

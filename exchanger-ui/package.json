@@ -1,6 +1,7 @@
 {
   "name": "exchanger-ui",
   "version": "0.1.0",
+  "homepage": "https://kykyshka.com",
   "private": true,
   "dependencies": {
     "@nanostores/react": "^0.8.4",

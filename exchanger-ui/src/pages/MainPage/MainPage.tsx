@@ -8,16 +8,21 @@ export const MainPage: React.FC = () => {
         useMainPage();
 
     return (
-        <StyledLayout>
-            <StyledDescription>Обменивайте быстро, безопасно и выгодно</StyledDescription>
-            <ExchangeModal
-                getExchangeCourse={getExchangeCourse}
-                setSourceCurrency={setSourceCurrency}
-                setTargetCurrency={setTargetCurrency}
-                handleChangeCurrencies={handleChangeCurrencies}
-                error={error}
-                setError={setError}
-            />
-        </StyledLayout>
+        <>
+            <head>
+                <title>Кукушка - надёжный обменник криптовалют</title>
+            </head>
+            <StyledLayout>
+                <StyledDescription>Обменивайте быстро, безопасно и выгодно</StyledDescription>
+                <ExchangeModal
+                    getExchangeCourse={getExchangeCourse}
+                    setSourceCurrency={setSourceCurrency}
+                    setTargetCurrency={setTargetCurrency}
+                    handleChangeCurrencies={handleChangeCurrencies}
+                    error={error}
+                    setError={setError}
+                />
+            </StyledLayout>
+        </>
     );
 };

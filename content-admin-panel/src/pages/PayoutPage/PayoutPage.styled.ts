@@ -1,4 +1,4 @@
-import { Badge, Select } from "@salutejs/plasma-web";
+import { Badge, Select, TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button.styled";
 import { accent, blackTertiary } from "@salutejs/plasma-tokens";
@@ -6,18 +6,15 @@ import { accent, blackTertiary } from "@salutejs/plasma-tokens";
 export const StyledRoot = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 35px;
+    row-gap: 30px;
     padding: 30px;
-    margin-top: 50px;
-    height: 100vh;
+    margin-top: 20px;
+    overflow-y: scroll;
 `;
 
-export const StyledSelect = styled(Select)`
-    width: 350px;
-
-    & label {
-        font-weight: 550 !important;
-    }
+export const TitleBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
 `;
 
 export const StyledSaveButton = styled(Button)`
@@ -81,5 +78,12 @@ export const Course = styled.div`
     color: ${accent};
     font-size: 18px;
     font-weight: 600;
-    text-decoration: underline;
+`;
+
+export const StyledTextField = styled(TextField)`
+    width: 320px;
+
+    & label {
+        font-weight: 550 !important;
+    }
 `;

@@ -41,7 +41,7 @@ const StyledListItem = styled.div`
 const StyledItem = styled.div<{ isActive?: boolean }>`
     color: white;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 2.1rem;
     font-family: Onest;
     display: block;
     overflow: hidden;

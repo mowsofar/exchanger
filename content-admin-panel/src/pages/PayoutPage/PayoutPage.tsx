@@ -11,95 +11,117 @@ import {
     Row,
     Course,
     StyledButtons,
+    TitleBlock,
+    StyledTextField,
 } from './PayoutPage.styled';
-import { ROUTES } from '../../constants/routes';
-import { Breadcrumbs } from '../../components/Breadcrumbs/BreadCrumbs';
-import { useNavigate } from 'react-router-dom';
 import { getPayoutControls, getPayoutData } from '../../utils/getPayoutData';
 import { useStore } from '@nanostores/react';
 import { $selectedPayout } from '../../stores/payout.store';
 import { usePayoutPage } from './PayoutPage.hooks';
 import { InfoBlock } from '../../components/InfoBlock/InfoBlock';
-import { $currencyList } from '../../stores/currency.store';
 
 export const PayoutPage: React.FC = () => {
-    const { editPayoutStatus } = usePayoutPage();
+    const { editPayoutStatus, setPayoutRequisites } = usePayoutPage();
 
     const payout = useStore($selectedPayout);
-    const currencies = useStore($currencyList);
 
-    const sourceCurrency = currencies.find((currency) => currency.id === payout?.srcCurrency);
-    const targetCurrency = currencies.find((currency) => currency.id === payout?.targetCurrency);
+    const [exchangeRequisites, setExchangeRequisites] = React.useState(payout?.exchangeRequisites || '');
 
-    const courseTitle = `Курс: 1 ${sourceCurrency?.currencyCode.code} = ${payout?.course} ${targetCurrency?.currencyCode.code}`;
+    const courseTitle = `Курс: 1 ${payout?.srcCurrency?.currencyCode.code} = ${payout?.course} ${payout?.targetCurrency?.currencyCode.code}`;
 
     const controls = getPayoutControls(payout?.status);
 
+    const handleSumbitRequisites = () => {
+        if (exchangeRequisites && payout?.id) {
+            setPayoutRequisites(payout.id, exchangeRequisites);
+        }
+    };
+
     return (
-        <StyledRoot>
-            <Headline3>Информация о заявке №{payout?.id}</Headline3>
-            {payout?.status && (
-                <StyledBadge
-                    size="l"
-                    text={getPayoutData(payout?.status).label}
-                    view={getPayoutData(payout?.status).view}
-                />
-            )}
+        <>
+            <head>
+                <title>Заявка</title>
+            </head>
 
-            <Course>{courseTitle}</Course>
-
-            <StyledTwoBlocks>
-                <StyledBlock>
-                    <Headline4>О клиенте</Headline4>
-                    <InfoBlock label="Имя" value={payout?.user.firstname} />
-                    <InfoBlock label="Фамилия" value={payout?.user.lastname} />
-                    <InfoBlock label="E-mail" value={payout?.email} />
-                    <InfoBlock label="IP" value={payout?.ipAddress} />
-                </StyledBlock>
-
-                <StyledLine />
-
-                <StyledBlock>
-                    <Headline4>Детали</Headline4>
-                    <InfoBlock label="Отдаёт клиент" value={payout?.amountFrom} />
-                    <InfoBlock
-                        label="Валюта"
-                        value={
-                            <Row>
-                                <Icon src={sourceCurrency?.paymentSystem.imagePath} />
-                                <div>{sourceCurrency?.currencyCode.code}</div>
-                            </Row>
-                        }
-                    />
-                    <InfoBlock label="Переводит сервис" value={payout?.amountTo} />
-                    <InfoBlock
-                        label="Валюта"
-                        value={
-                            <Row>
-                                <Icon src={targetCurrency?.paymentSystem.imagePath} />
-                                <div>{targetCurrency?.currencyCode.code}</div>
-                            </Row>
-                        }
-                    />
-                </StyledBlock>
-            </StyledTwoBlocks>
-
-            <StyledButtons>
-                {controls.map((control) => {
-                    return (
-                        <StyledSaveButton
-                            size="m"
-                            view={control.view || 'accent'}
-                            text={control.label}
-                            onClick={() => {
-                                if (payout?.id) {
-                                    editPayoutStatus(payout?.id, control.value);
-                                }
-                            }}
+            <StyledRoot>
+                <TitleBlock>
+                    <Headline3>Информация о заявке №{payout?.id}</Headline3>
+                    {payout?.status && (
+                        <StyledBadge
+                            size="l"
+                            text={getPayoutData(payout?.status).label}
+                            view={getPayoutData(payout?.status).view}
                         />
-                    );
-                })}
-            </StyledButtons>
-        </StyledRoot>
+                    )}
+                </TitleBlock>
+
+                <StyledButtons>
+                    {controls.map((control) => {
+                        return (
+                            <StyledSaveButton
+                                size="m"
+                                view={control.view || 'accent'}
+                                text={control.label}
+                                onClick={() => {
+                                    if (payout?.id) {
+                                        editPayoutStatus(payout?.id, control.value);
+                                    }
+                                }}
+                            />
+                        );
+                    })}
+                </StyledButtons>
+
+                <Course>{courseTitle}</Course>
+
+                <StyledTwoBlocks>
+                    <StyledBlock>
+                        <Headline4>Детали</Headline4>
+                        <InfoBlock label="Отдаёт клиент" value={payout?.amountFrom} hasCopyButton />
+                        <InfoBlock
+                            label="Валюта"
+                            value={
+                                <Row>
+                                    <Icon src={payout?.srcCurrency?.paymentSystem.imagePath} />
+                                    <div>{payout?.srcCurrency?.currencyCode.code}</div>
+                                </Row>
+                            }
+                        />
+                        <InfoBlock label="Переводит сервис" value={payout?.amountTo} hasCopyButton />
+                        <InfoBlock
+                            label="Валюта"
+                            value={
+                                <Row>
+                                    <Icon src={payout?.targetCurrency?.paymentSystem.imagePath} />
+                                    <div>{payout?.targetCurrency?.currencyCode.code}</div>
+                                </Row>
+                            }
+                        />
+                    </StyledBlock>
+
+                    <StyledLine />
+
+                    <StyledBlock>
+                        <Headline4>О клиенте</Headline4>
+                        {payout?.user?.firstname && (
+                            <InfoBlock label="Имя" value={payout?.user?.firstname} hasCopyButton />
+                        )}
+                        {payout?.user?.lastname && (
+                            <InfoBlock label="Фамилия" value={payout?.user?.lastname} hasCopyButton />
+                        )}
+                        <InfoBlock label="E-mail" value={payout?.email} hasCopyButton />
+                        <InfoBlock label="IP" value={payout?.ipAddress} hasCopyButton />
+                    </StyledBlock>
+                </StyledTwoBlocks>
+
+                <StyledTextField
+                    label="Введите реквизиты для оплаты заявки"
+                    value={exchangeRequisites}
+                    onChange={(e) => setExchangeRequisites(e.target.value)}
+                />
+
+                <StyledSaveButton onClick={handleSumbitRequisites}>Сохранить</StyledSaveButton>
+            </StyledRoot>
+        </>
     );
 };

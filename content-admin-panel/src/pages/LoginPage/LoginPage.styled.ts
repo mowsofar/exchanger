@@ -19,12 +19,17 @@ export const StyledRoot = styled.div`
 export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
+    row-gap: 15px;
     align-items: center;
     height: fit-content;
     width: 22vw;
+    min-width: 300px;
     border-radius: 30px;
     padding: 40px;
     background-color: ${whitePrimary};
+    -webkit-box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
+    -moz-box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
+    box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
 `;
 
 export const StyledDescription = styled(Footnote1)`

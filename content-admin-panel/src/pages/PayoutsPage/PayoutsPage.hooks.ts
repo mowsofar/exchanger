@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { getCurrencies, getPayouts } from '../../api/handlers';
+import { getCurrencies, getPayouts, getPayoutsByFilter } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts } from '../../stores/payout.store';
 import { $currencyList } from '../../stores/currency.store';
@@ -16,7 +16,18 @@ export const usePayoutsPage = () => {
                     showNotification('Ошибка получения списка заявок', 'error', error);
                 }
             }, [showNotification]
-    );    
+    );
+    
+    const getPayoutsByType = useCallback(
+        async (status: string) => {
+                try {
+                    const payouts = await getPayoutsByFilter(status);
+                    $payouts.set(payouts);
+                } catch (error) {
+                    showNotification('Ошибка получения списка заявок', 'error', error);
+                }
+            }, [showNotification]
+    );  
 
     const getCurrenciesList = useCallback(
         async () => {
@@ -38,6 +49,6 @@ export const usePayoutsPage = () => {
         getCurrenciesList();
     }, [getCurrenciesList]);
 
-    return {};
+    return { getPayoutsList, getPayoutsByType };
 
 };

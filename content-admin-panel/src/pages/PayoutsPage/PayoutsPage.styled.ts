@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow, TableWrapper } from '../../components/Table/Table';
-import { Badge } from '@salutejs/plasma-web';
+import { Badge, Select } from '@salutejs/plasma-web';
 import { success } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
 
 export const TwoColumns = styled.div`
+    height: 100%;
     display: flex;
     column-gap: 50px;
 `;
@@ -14,18 +15,17 @@ export const StyledRoot = styled.div`
     flex-direction: column;
     row-gap: 25px;
     padding: 30px;
-    height: 100vh;
 `;
 
 export const StyledTableWrapper = styled(TableWrapper)`
-    width: 400px;
+    width: 420px;
 `;
 
 export const StyledTableRow = styled(TableRow)`
     grid-template-columns: 350px;
     padding: 0 16px;
     cursor: pointer;
-    height: 250px;
+    height: 240px;
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
@@ -56,4 +56,14 @@ export const StyledCurrency = styled.div<{isTarget?: boolean}>`
     }
 
     ${({ isTarget }) => (isTarget ? `color: ${success};` : '')}
+`;
+
+export const StyledButtons = styled.div`
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+`;
+
+export const StyledSelect = styled(Select)`
+    width: 250px; 
 `;

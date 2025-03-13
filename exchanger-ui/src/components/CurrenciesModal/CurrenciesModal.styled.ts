@@ -4,34 +4,40 @@ import { Modal } from "@salutejs/plasma-web";
 
 export const StyledModal = styled(Modal)`
     background-color: #18181a;
-    width: 450px;
+    width: 45rem;
     display: flex;
     flex-direction: column;
-    border-radius: 40px;
-    padding-top: 20px;
-    row-gap: 40px;
+    border-radius: 4rem;
+    padding: 2rem 1rem;
+    row-gap: 4rem;
     border: 3px solid var(--accent);
+
+    & button > span > div {
+        width: 5rem;
+        height: 5rem;
+        color: white;
+    }
 `;
 
 export const StyledHeader = styled.div`
     color: white;
-    font-size: 1.6rem;
+    font-size: 2.5rem;
     font-weight: 600;
     font-family: Onest;
 `;
 
 export const StyledButton = styled(Button)`
-    margin-top: 30px;
+    margin-top: 3rem;
 `;
 
 export const CurrenciesList = styled.div`
     overflow: auto;
-    height: 18rem;
-    font-size: 1.1rem;
-    padding: 10px 10px;
-    margin-top: 20px;
+    height: 35rem;
+    font-size: 1.8rem;
+    padding: 1rem 1rem;
+    margin-top: 2rem;
     background-color: #222224;
-    border-radius: 15px;
+    border-radius: 1.8rem;
 `;
 
 export const StyledRow = styled.div`
@@ -39,9 +45,9 @@ export const StyledRow = styled.div`
     justify-content: space-between;
     cursor: pointer;
     align-items: center;
-    padding: .6rem;
+    padding: 1rem;
     color: white;
-    border-radius: 12px;
+    border-radius: 1.2rem;
     font-weight: 600;
     font-family: Onest !important;
 
@@ -52,10 +58,10 @@ export const StyledRow = styled.div`
 
 export const StyledCurrencyName = styled.div`
     display: flex;
-    column-gap: .8rem;
+    column-gap: 1.2rem;
     align-items: center;
 
     & img {
-        width: 30px;
+        width: 3rem;
     }
 `;

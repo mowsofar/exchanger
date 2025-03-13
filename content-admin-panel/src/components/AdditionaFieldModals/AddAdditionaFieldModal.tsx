@@ -3,14 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
-import { AdditionalField } from '../../api/types/common';
 import { $currencyList } from '../../stores/currency.store';
 
-interface EditAdditionalFieldModalProps {
-    additionalField: AdditionalField;
+interface AddAdditionalFieldModalProps {
     opened: boolean;
     onClose: () => void;
-    editAdditionalField: (id: number, fieldName: string, keyId: number, status: string) => void;
+    createAdditionalField: (fieldName: string, keyId: number, status: string, currencyIds: number[]) => void;
 }
 
 const StyledModal = styled(Modal)`
@@ -37,22 +35,13 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
-const AdditionalFieldStatuses = [
-    { value: 'ACTIVE', label: 'Включён' },
-    { value: 'INACTIVE', label: 'Отключён' },
-];
-
-export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> = ({
-    additionalField,
+export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = ({
     opened,
     onClose,
-    editAdditionalField,
+    createAdditionalField,
 }) => {
-    const [fieldName, setFieldName] = React.useState(additionalField.fieldName);
-    const [currencyId, setCurrencyId] = React.useState(additionalField.keyId);
-    const [additionalFieldStatus, setAdditionalFieldStatus] = React.useState<'ACTIVE' | 'INACTIVE'>(
-        additionalField.status,
-    );
+    const [fieldName, setFieldName] = React.useState('');
+    const [currencyIds, setCurrencyIds] = React.useState<number[]>();
 
     const currencies = useStore($currencyList);
 
@@ -63,16 +52,23 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
         };
     });
 
-    const handleSubmit = () => {
-        if (fieldName && currencyId) {
-            editAdditionalField(additionalField.id, fieldName, Number(currencyId), additionalFieldStatus);
-        }
+    const onCloseModal = () => {
+        setFieldName('');
+        setCurrencyIds([]);
         onClose();
+    };
+
+    const handleSubmit = () => {
+        if (fieldName && currencyIds?.length) {
+            const numericCurrencyIds = currencyIds.map((currecy) => Number(currecy));
+            createAdditionalField(fieldName, 21, 'ACTIVE', numericCurrencyIds);
+        }
+        onCloseModal();
     };
 
     return (
         <StyledModal opened={opened} onClose={onClose}>
-            <Headline3>Редактировать дополнительное поле</Headline3>
+            <Headline3>Добавить дополнительное поле</Headline3>
             <Content>
                 <StyledTextField
                     label="Название поля"
@@ -82,21 +78,20 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
 
                 <Select
                     label="Выберите валюту"
+                    multiselect
                     items={currencyOptions}
-                    value={currencyId}
-                    onChange={setCurrencyId}
+                    value={currencyIds}
+                    onChange={setCurrencyIds}
                     size="l"
                 />
 
-                <Select
-                    label="Статус"
-                    items={AdditionalFieldStatuses}
-                    value={additionalFieldStatus}
-                    onChange={setAdditionalFieldStatus}
-                    size="l"
+                <Button
+                    text="Добавить"
+                    stretch
+                    onClick={handleSubmit}
+                    onKeyDown={handleSubmit}
+                    disabled={!fieldName || !currencyIds?.length}
                 />
-
-                <Button text="Изменить" stretch onClick={handleSubmit} onKeyDown={handleSubmit} />
             </Content>
         </StyledModal>
     );

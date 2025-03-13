@@ -3,25 +3,25 @@ import { Button } from '../Button/Button';
 import { Button as PlasmaButton } from '@salutejs/plasma-web';
 
 export const StyledLayout = styled.div`
-    height: 40rem;
-    width: 50rem;
-    border-radius: 23px;
+    height: 70rem;
+    width: 90rem;
+    border-radius: 3rem;
     background-color: var(--backgroundSecondary);
-    padding: 10px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
 `;
 
 export const StyledContent = styled.div`
-    display: flex;
+   display: flex;
     flex-direction: column;
-    row-gap: 40px;
-    padding: 35px;
+    row-gap: 6rem;
+    padding: 3rem;
     flex-grow: 1;
 `;
 
 export const StyledHeader = styled.div`
-    font-size: 1.7rem;
+    font-size: 2.8rem;
     font-weight: 600;
     color: white;
     text-align: center;
@@ -33,25 +33,28 @@ export const StyledHeader = styled.div`
 
 export const StyledIconStatus = styled.img`
     align-self: center;
-    margin-top: 70px;
-    width: 150px;
+    margin-top: 8rem;
+    width: 15rem;
 `;
 
 export const StyledSpinner = styled.div`
-    margin-top: 70px;
+    margin-top: 10rem;
     align-self: center;
 `;
 
 export const StyledButton = styled(Button)`
     margin-top: auto;
+    height: 5rem;
+    font-size: 2rem;
 `;
 
 export const Row = styled.div`
     display: flex;
-    column-gap: 30px;
+    column-gap: 4rem;
     align-items: center;
 `;
 
 export const StyledButtonBack = styled(PlasmaButton)`
     padding: 0;
+    visibility: hidden;
 `;

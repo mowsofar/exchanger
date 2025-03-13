@@ -85,6 +85,14 @@ export const CurrenciesGeneralsPage: React.FC = () => {
         navigate(ROUTES.currency);
     };
 
+    const handleChangeDecimalPlacesValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isNaN(Number(e.target.value))) {
+            return;
+        }
+
+        setDecimalPlaces(Number(e.target.value));
+    };
+
     return (
         <StyledRoot>
             <Breadcrumbs
@@ -131,9 +139,8 @@ export const CurrenciesGeneralsPage: React.FC = () => {
 
             <StyledTextField
                 label="Знаки после запятой"
-                type="number"
                 value={decimalPlaces}
-                onChange={(e) => setDecimalPlaces(Number(e.target.value))}
+                onChange={handleChangeDecimalPlacesValue}
             />
 
             <StyledSelect

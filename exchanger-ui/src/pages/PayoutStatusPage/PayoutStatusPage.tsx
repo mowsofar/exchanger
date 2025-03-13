@@ -7,9 +7,14 @@ export const PayoutStatusPage: React.FC = () => {
     usePayoutStatusPage();
 
     return (
-        <StyledLayout>
-            <OperationInfo />
-            <PayoutStatus />
-        </StyledLayout>
+        <>
+            <head>
+                <title>Завершение операции</title>
+            </head>
+            <StyledLayout>
+                <OperationInfo />
+                <PayoutStatus />
+            </StyledLayout>
+        </>
     );
 };

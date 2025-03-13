@@ -4,11 +4,12 @@ import {
     StyledCard,
     StyledCardName,
     StyledError,
+    StyledIcon,
     StyledInput,
     StyledRoot,
+    StyledSelect,
     SwapButton,
 } from './Calculator.styled';
-import { Select } from '../Select/Select';
 import { useStore } from '@nanostores/react';
 import {
     $amountFrom,
@@ -41,9 +42,9 @@ export const Calculator: React.FC<Props> = ({
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
     const amountFrom = useStore($amountFrom);
+    const amountTo = useStore($amountTo);
     const course = useStore($course);
     const exchangeDirection = useStore($exchangeDirections);
-    const exchangeError = useStore($exchangeError);
 
     if (course?.course) {
         if (course.isReversed) {
@@ -52,8 +53,6 @@ export const Calculator: React.FC<Props> = ({
             $amountTo.set(amountFrom * course.course);
         }
     }
-
-    const amountTo = useStore($amountTo);
 
     const onClickSourceCurrency = () => {
         $currencyType.set('source');
@@ -79,11 +78,9 @@ export const Calculator: React.FC<Props> = ({
             (Number(e.target.value) < exchangeDirection?.minSourceAmount ||
                 Number(e.target.value) > exchangeDirection?.maxSourceAmount)
         ) {
-            $exchangeError.set(
-                `Минимальная сумма обмена - ${exchangeDirection?.minSourceAmount} ${sourceCurrency?.currencyCode.code} и максимальная - ${exchangeDirection?.maxSourceAmount} ${sourceCurrency?.currencyCode.code}`,
-            );
+            $exchangeError.set(true);
         } else {
-            $exchangeError.set('');
+            $exchangeError.set(false);
         }
     };
 
@@ -103,32 +100,42 @@ export const Calculator: React.FC<Props> = ({
     };
 
     return (
-        <StyledRoot>
-            <SwapButton onClick={() => onChangeCurrencies()}>
-                <IconSwapVert />
-            </SwapButton>
-            <StyledCard>
-                <StyledCardName>Отдаёте</StyledCardName>
-                <InputContainer>
-                    <StyledInput type="number" value={amountFrom} onChange={handleChangeSourceAmount} />
-                    <Select contentLeft={sourceCurrency?.paymentSystem.imagePath} onClick={onClickSourceCurrency}>
-                        {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
-                    </Select>
-                </InputContainer>
-            </StyledCard>
+        <>
+            <StyledRoot>
+                <SwapButton onClick={() => onChangeCurrencies()}>
+                    <StyledIcon />
+                </SwapButton>
+                <StyledCard>
+                    <StyledCardName>Отдаёте</StyledCardName>
+                    <InputContainer>
+                        <StyledInput type="number" value={amountFrom} onChange={handleChangeSourceAmount} />
+                        <StyledSelect
+                            contentLeft={sourceCurrency?.paymentSystem.imagePath}
+                            onClick={onClickSourceCurrency}
+                        >
+                            {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
+                        </StyledSelect>
+                    </InputContainer>
+                </StyledCard>
 
-            <StyledCard>
-                <StyledCardName>Получаете</StyledCardName>
-                <InputContainer>
-                    <StyledInput type="number" value={amountTo} onChange={handleChangeTargetAmount} />
-                    <Select contentLeft={targetCurrency?.paymentSystem.imagePath} onClick={onClickTargetCurrency}>
-                        {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
-                    </Select>
-                </InputContainer>
-            </StyledCard>
-
-            {exchangeError && <StyledError>{exchangeError}</StyledError>}
+                <StyledCard>
+                    <StyledCardName>Получаете</StyledCardName>
+                    <InputContainer>
+                        <StyledInput type="number" value={amountTo} onChange={handleChangeTargetAmount} />
+                        <StyledSelect
+                            contentLeft={targetCurrency?.paymentSystem.imagePath}
+                            onClick={onClickTargetCurrency}
+                        >
+                            {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
+                        </StyledSelect>
+                    </InputContainer>
+                </StyledCard>
+            </StyledRoot>
+            <StyledError>
+                Минимальная сумма обмена - {exchangeDirection?.minSourceAmount} {sourceCurrency?.currencyCode.code} и
+                максимальная - {exchangeDirection?.maxSourceAmount} {sourceCurrency?.currencyCode.code}
+            </StyledError>
             {error && <StyledError>{error}</StyledError>}
-        </StyledRoot>
+        </>
     );
 };

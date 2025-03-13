@@ -68,7 +68,7 @@ export const AddPaymentSystemModal: React.FC<AddPaymentSystemModalProps> = ({
                         setImage(e.target.files[0]);
                         setPreview(URL.createObjectURL(e.target.files[0]));
                     }}
-                    accept="image/jpg, image/png, image/jpeg, image/webp"
+                    accept="image/jpg, image/png, image/jpeg, image/webp, image/svg"
                     hidden
                 />
 

@@ -30,8 +30,8 @@ const App: React.FC = () => {
                         <Route path={ROUTES.root} element={<AppLayout />}>
                             <Route path={ROUTES.root} element={<MainPage />} />
                             <Route path={ROUTES.userDetails} element={<UserDetailsPage />} />
-                            <Route path={ROUTES.payment} element={<PaymentPage />} />
-                            <Route path={ROUTES.payoutStatus} element={<PayoutStatusPage />} />
+                            <Route path={ROUTES.payment()} element={<PaymentPage />} />
+                            <Route path={ROUTES.payoutStatus()} element={<PayoutStatusPage />} />
                         </Route>
                     </Routes>
                 </ModalsProvider>

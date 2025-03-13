@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { createCurrency, getCurrencies, getCurrencyCodes, getPaymentSystems } from '../../api/handlers';
+import { createCurrency, deleteCurrency, getCurrencies, getCurrencyCodes, getPaymentSystems } from '../../api/handlers';
 import { $currencyCodeList } from '../../stores/currencyCode.store';
 import { useNotification } from '../../hooks/useNotification';
 import { $paymentSystemsList } from '../../stores/paymentSystems.store';
@@ -56,6 +56,17 @@ export const useCurrenciesPage = () => {
             }, [getCurrenciesList, showNotification]
     );
 
+    const deleteCurrencyItem = useCallback(
+        async (currencyId: number) => {
+                try {
+                    await deleteCurrency(currencyId);
+                    showNotification('Валюта успешно удалена', 'success');
+                    setTimeout(() => getCurrenciesList(), 1000);
+                } catch (error) {
+                    showNotification('Не удалось удалить валюту', 'error', error);
+                }
+            }, [getCurrenciesList, showNotification]
+    );
 
 
     React.useEffect(() => {
@@ -68,6 +79,6 @@ export const useCurrenciesPage = () => {
     }, [getCurrencyCodeList, getPaymentSystemsList]);
 
 
-    return { createCurrencyItem };
+    return { createCurrencyItem, deleteCurrencyItem };
 
 };

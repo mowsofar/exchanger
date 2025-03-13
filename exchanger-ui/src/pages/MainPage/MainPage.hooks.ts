@@ -36,6 +36,7 @@ export const useMainPage = () => {
     }, []);
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
+        setError('');
         const targetCurrencies = await getRightColumnCurrencies(sourceCurrency.id);
             $targetCurrencies.set(targetCurrencies);
 
@@ -52,6 +53,7 @@ export const useMainPage = () => {
     }, [tagretCurrency]);
 
     const setTargetCurrency = React.useCallback(async (tagretCurrency: Currency) => {
+        setError('');
         if (sourceCurrency) {
             const exchangeDirections = await getExchangeDirections(sourceCurrency?.id, tagretCurrency?.id);
             $exchangeDirections.set(exchangeDirections);
