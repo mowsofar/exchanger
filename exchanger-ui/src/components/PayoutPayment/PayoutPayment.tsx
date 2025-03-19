@@ -29,7 +29,7 @@ export const PayoutPayment: React.FC = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate(ROUTES.userDetails);
+        navigate(ROUTES.userDetails());
     };
 
     const handleForward = () => {

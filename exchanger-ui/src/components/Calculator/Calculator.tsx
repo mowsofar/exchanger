@@ -16,7 +16,7 @@ import {
     $amountTo,
     $course,
     $currencyType,
-    $exchangeDirections,
+    $exchangeDirection,
     $exchangeError,
     $sourceCurrency,
     $targetCurrency,
@@ -44,7 +44,7 @@ export const Calculator: React.FC<Props> = ({
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
     const course = useStore($course);
-    const exchangeDirection = useStore($exchangeDirections);
+    const exchangeDirection = useStore($exchangeDirection);
 
     if (course?.course) {
         if (course.isReversed) {

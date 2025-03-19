@@ -28,7 +28,7 @@ function requestToApi(
         body: JSON.stringify(body),
     };
 
-    return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
 export function getLeftColumnCurrencies(): Promise<Currency[]> {
@@ -39,8 +39,12 @@ export function getRightColumnCurrencies(currencyId: number): Promise<Currency[]
     return requestToApi(`api/currencies/from/${currencyId}`, { method: 'GET'});
 }
 
+export function getCurrency(currencyId: number): Promise<Currency> {
+    return requestToApi(`api/currencies/${currencyId}`, { method: 'GET'});
+}
+
 export function getExchangeDirections(sourceId: number, targetId: number): Promise<ExchangeDirection> {
-    return requestToApi(`api/exchange-directions/${sourceId}/${targetId}`, { method: 'GET'});
+    return requestToApi(`api/exchange-directions/admin/${sourceId}/${targetId}`, { method: 'GET'});
 }
 
 export function getExchangeDirectionsCourse(sourceId: number, targetId: number): Promise<Course> {

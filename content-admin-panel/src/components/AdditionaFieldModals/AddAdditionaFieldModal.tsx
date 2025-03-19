@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
+import { numerize } from '../../utils/numerize';
 
 interface AddAdditionalFieldModalProps {
     opened: boolean;
     onClose: () => void;
-    createAdditionalField: (fieldName: string, keyId: number, status: string, currencyIds: number[]) => void;
+    createAdditionalField: (fieldName: string, status: string, currencyIds: number[]) => void;
 }
 
 const StyledModal = styled(Modal)`
@@ -41,7 +42,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
     createAdditionalField,
 }) => {
     const [fieldName, setFieldName] = React.useState('');
-    const [currencyIds, setCurrencyIds] = React.useState<number[]>();
+    const [currencyIds, setCurrencyIds] = React.useState<string[]>();
 
     const currencies = useStore($currencyList);
 
@@ -60,8 +61,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
 
     const handleSubmit = () => {
         if (fieldName && currencyIds?.length) {
-            const numericCurrencyIds = currencyIds.map((currecy) => Number(currecy));
-            createAdditionalField(fieldName, 21, 'ACTIVE', numericCurrencyIds);
+            createAdditionalField(fieldName, 'ACTIVE', numerize(currencyIds));
         }
         onCloseModal();
     };

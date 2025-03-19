@@ -1,6 +1,6 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledBadge, StyledRoot, StyledTableHeader, StyledTableRow } from './AdditionalFieldsPage.styled';
+import { Currencies, StyledBadge, StyledRoot, StyledTableHeader, StyledTableRow } from './AdditionalFieldsPage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
 import { Button } from '../../components/Button/Button.styled';
@@ -44,12 +44,17 @@ export const AdditionalFieldsPage: React.FC = () => {
                     </StyledTableHeader>
                     <TableBody>
                         {additionalFields.map((item) => {
+                            const currencies = item.currencies.map((currency) => currency.technicalName);
+
+                            const linkedCurrencies = currencies.join(', ');
                             return (
                                 <StyledTableRow key={item.id}>
                                     <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
                                         {item.fieldName}
                                     </StyledTableCellName>
-                                    <StyledTableCellName>{item.currencyIds}</StyledTableCellName>
+                                    <StyledTableCellName title={linkedCurrencies}>
+                                        <Currencies>{linkedCurrencies || '—'}</Currencies>
+                                    </StyledTableCellName>
                                     <StyledTableCellName>
                                         <StyledBadge
                                             size="xs"
@@ -90,7 +95,10 @@ export const AdditionalFieldsPage: React.FC = () => {
                     <EditAdditionalFieldModal
                         additionalField={selectedAdditionalField}
                         opened={isEditAdditionaFieldModalOpen}
-                        onClose={() => setEditAdditionaFieldModalOpen(false)}
+                        onClose={() => {
+                            setEditAdditionaFieldModalOpen(false);
+                            setSelectedAdditionalField(undefined);
+                        }}
                         editAdditionalField={editAdditionalFieldItem}
                     />
                 )}

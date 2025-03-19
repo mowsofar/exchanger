@@ -41,18 +41,14 @@ export type StatusType = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
 
 export interface ExchangeDirection {
     id: number;
-    sourceCurrencyId: number;
-    targetCurrencyId: number;
-    commission:	number;
+    sourceCurrency: Currency;
+    targetCurrency: Currency;
+    profitPercent: number;
     status:	StatusType
     technicalName: string;
-    minTargetAmount: number;
-    maxTargetAmount: number;
     minSourceAmount: number;
     maxSourceAmount: number;
-    rounding: number;
     reserves: number;
-    requisites:	string;
     updatedAt: string;
     currentRate: number;
 };

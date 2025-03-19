@@ -29,7 +29,7 @@ const App: React.FC = () => {
                     <Routes>
                         <Route path={ROUTES.root} element={<AppLayout />}>
                             <Route path={ROUTES.root} element={<MainPage />} />
-                            <Route path={ROUTES.userDetails} element={<UserDetailsPage />} />
+                            <Route path={ROUTES.userDetails()} element={<UserDetailsPage />} />
                             <Route path={ROUTES.payment()} element={<PaymentPage />} />
                             <Route path={ROUTES.payoutStatus()} element={<PayoutStatusPage />} />
                         </Route>

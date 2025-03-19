@@ -24,23 +24,29 @@ export const LoginPage: React.FC = () => {
     };
 
     return (
-        <StyledRoot>
-            <StyledForm>
-                <Headline3>Вход в аккаунт</Headline3>
-                <StyledTextFieldLogin
-                    label="E-mail"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-                />
-                <StyledTextFieldPassword
-                    label="Пароль"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-                />
-                <StyledTextFieldLogin
-                    label="Одноразовый otp-код"
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOtp(event.target.value)}
-                />
-                <StyledButton stretch text="Войти" onClick={onSubmit} disabled={!email || !password || !otp} />
-            </StyledForm>
-        </StyledRoot>
+        <>
+            <head>
+                <title>Вход в аккаунт</title>
+            </head>
+
+            <StyledRoot>
+                <StyledForm>
+                    <Headline3>Вход в аккаунт</Headline3>
+                    <StyledTextFieldLogin
+                        label="E-mail"
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
+                    />
+                    <StyledTextFieldPassword
+                        label="Пароль"
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
+                    />
+                    <StyledTextFieldLogin
+                        label="Одноразовый otp-код"
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOtp(event.target.value)}
+                    />
+                    <StyledButton stretch text="Войти" onClick={onSubmit} disabled={!email || !password || !otp} />
+                </StyledForm>
+            </StyledRoot>
+        </>
     );
 };

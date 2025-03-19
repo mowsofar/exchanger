@@ -1,6 +1,6 @@
 import React from 'react';
 import { getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies } from '../../api/handlers';
-import { $amountFrom, $course, $exchangeDirections, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
+import { $amountFrom, $course, $exchangeDirection, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
 import { $email, $payout, $referralCode, $requisites } from '../../stores/payout.store';
@@ -21,7 +21,7 @@ export const useMainPage = () => {
         $targetCurrency.set(targetCurrencies[0]);
 
         const exchangeDirections = await getExchangeDirections(sourceCurrencies[0].id, targetCurrencies[0].id);
-        $exchangeDirections.set(exchangeDirections);
+        $exchangeDirection.set(exchangeDirections);
         $amountFrom.set(exchangeDirections.minSourceAmount);
 
         const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrencies[0].id, targetCurrencies[0].id);
@@ -45,7 +45,7 @@ export const useMainPage = () => {
             }
 
             const exchangeDirections = await getExchangeDirections(sourceCurrency.id, targetCurrencies[0]?.id);
-            $exchangeDirections.set(exchangeDirections);
+            $exchangeDirection.set(exchangeDirections);
                 
             const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, targetCurrencies[0]?.id);
             $course.set(exchangeDirectionsCourse);
@@ -56,7 +56,7 @@ export const useMainPage = () => {
         setError('');
         if (sourceCurrency) {
             const exchangeDirections = await getExchangeDirections(sourceCurrency?.id, tagretCurrency?.id);
-            $exchangeDirections.set(exchangeDirections);
+            $exchangeDirection.set(exchangeDirections);
 
             const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, tagretCurrency?.id);
             $course.set(exchangeDirectionsCourse);
@@ -70,7 +70,7 @@ export const useMainPage = () => {
             const exchangeDirections = await getExchangeDirections(tagretCurrency?.id, sourceCurrency?.id);
             $sourceCurrency.set(tagretCurrency);
             $targetCurrency.set(sourceCurrency);
-            $exchangeDirections.set(exchangeDirections);
+            $exchangeDirection.set(exchangeDirections);
 
             const exchangeDirectionsCourse = await getExchangeDirectionsCourse(tagretCurrency.id, sourceCurrency?.id);
             $course.set(exchangeDirectionsCourse);

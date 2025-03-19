@@ -25,7 +25,10 @@ export interface AdditionalField {
     fieldName: string;
     keyId: string;
     status: AdditionalFieldStatus;
-    currencyIds: number[];
+    currencies: {
+        id: number;
+        technicalName: string;
+    }[];
 };
 
 export interface Currency {

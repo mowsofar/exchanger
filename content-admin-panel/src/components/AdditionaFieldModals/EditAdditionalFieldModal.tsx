@@ -5,6 +5,7 @@ import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { AdditionalField } from '../../api/types/common';
 import { $currencyList } from '../../stores/currency.store';
+import { numerize } from '../../utils/numerize';
 
 interface EditAdditionalFieldModalProps {
     additionalField: AdditionalField;
@@ -48,8 +49,10 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
     onClose,
     editAdditionalField,
 }) => {
+    const currencyIdsInitial = additionalField.currencies.map((currency) => String(currency.id));
+
     const [fieldName, setFieldName] = React.useState(additionalField.fieldName);
-    const [currencyIds, setCurrencyIds] = React.useState(additionalField.currencyIds);
+    const [currencyIds, setCurrencyIds] = React.useState(currencyIdsInitial);
     const [additionalFieldStatus, setAdditionalFieldStatus] = React.useState<'ACTIVE' | 'INACTIVE'>(
         additionalField.status,
     );
@@ -65,8 +68,9 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
 
     const handleSubmit = () => {
         if (fieldName && currencyIds) {
-            editAdditionalField(additionalField.id, fieldName, 1, additionalFieldStatus, currencyIds);
+            editAdditionalField(additionalField.id, fieldName, 1, additionalFieldStatus, numerize(currencyIds));
         }
+
         onClose();
     };
 

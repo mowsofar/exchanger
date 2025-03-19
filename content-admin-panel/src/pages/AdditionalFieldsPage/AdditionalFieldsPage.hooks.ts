@@ -44,9 +44,9 @@ export const useAdditionalFieldsPage = () => {
     );
 
     const createAdditionalFieldItem = useCallback(
-        async (fieldName: string, keyId: number, status: string, currencyIds: number[]) => {
+        async (fieldName: string, status: string, currencyIds: number[]) => {
                 try {
-                    await createAdditionalField(fieldName, keyId, status, currencyIds);
+                    await createAdditionalField(fieldName, status, currencyIds);
                     showNotification('Дополнительное поле успешно создано', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);

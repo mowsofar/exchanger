@@ -38,7 +38,7 @@ function requestToApi(
         body: JSON.stringify(body),
     };
 
-    return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
 export function getLoginData(email: string, password: string, twoFactorCode: string
@@ -84,7 +84,7 @@ function uploadImage(
         body: formData,
     };
 
-    return fetch(`http://212.193.31.222:7677/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
 export function createPaymentSystem(name: string, file: FormData
@@ -152,9 +152,9 @@ export function getAdditionalFields(
     return requestToApi('api/additional-fields', { method: 'GET' });
 }
 
-export function createAdditionalField(fieldName: string, keyId: number, status: string, currencyIds: number[]
+export function createAdditionalField(fieldName: string, status: string, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, keyId, status, currencyIds });
+    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, status, currencyIds });
 }
 
 export function editAdditionalField(id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]
