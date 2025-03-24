@@ -12,29 +12,28 @@ interface BreadcrumbsProps {
     className?: string;
 }
 
-const StyledRoot = styled.div``;
-
 const StyledNumber = styled.div`
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 3rem;
     background-color: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: Onest;
     font-weight: 700;
+    font-size: 1.8rem;
 `;
 
 const StyledList = styled.div`
     display: flex;
-    column-gap: 60px;
+    column-gap: 6rem;
     align-items: center;
 `;
 
 const StyledListItem = styled.div`
     display: flex;
-    column-gap: 10px;
+    column-gap: 1.5rem;
     align-items: center;
 `;
 
@@ -63,7 +62,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className, path }) => 
     }
 
     return (
-        <StyledRoot className={className}>
+        <div className={className}>
             <StyledList>
                 {filteredPath.map((item, i) => (
                     <StyledListItem key={i}>
@@ -74,6 +73,6 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className, path }) => 
                     </StyledListItem>
                 ))}
             </StyledList>
-        </StyledRoot>
+        </div>
     );
 };

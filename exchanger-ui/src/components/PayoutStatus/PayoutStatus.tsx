@@ -32,6 +32,18 @@ export const PayoutStatus: React.FC = () => {
         navigate(ROUTES.root);
     };
 
+    React.useEffect(() => {
+        const handlePopState = () => {
+            navigate(ROUTES.root);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [navigate]);
+
     return (
         <StyledLayout>
             <StyledContent>

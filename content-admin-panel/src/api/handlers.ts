@@ -1,5 +1,5 @@
 import { ROUTES } from "../constants/routes";
-import { AdditionalField, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus } from "./types/common";
+import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus } from "./types/common";
 
 function handleResponse(response: Response) {
     if (response.status === 403) {
@@ -148,18 +148,18 @@ export function deleteExchangeDirection(id: number
 }
 
 export function getAdditionalFields(
-): Promise<AdditionalField[]> {
+): Promise<AdditionalFields> {
     return requestToApi('api/additional-fields', { method: 'GET' });
 }
 
-export function createAdditionalField(fieldName: string, status: string, currencyIds: number[]
+export function createAdditionalField(fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, status, currencyIds });
+    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, status, direction, currencyIds });
 }
 
-export function editAdditionalField(id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]
+export function editAdditionalField(id: number, fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, keyId, status, currencyIds });
+    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, status, direction, currencyIds });
 }
 
 export function deleteAdditionalField(id: number

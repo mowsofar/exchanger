@@ -1,4 +1,4 @@
-import { Course, Currency, ExchangeDirection, Payout, User } from "./types/common";
+import { Course, Currency, ExchangeDirection, Payout, PayoutStatus, User } from "./types/common";
 
 function handleResponse(response: Response) {    
     return response.text().then((text) => {
@@ -31,7 +31,6 @@ function requestToApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-
 function requestToAccountApi(
     endpoint: string,
 ) {
@@ -45,6 +44,24 @@ function requestToAccountApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
+function requestWithCookie(
+    endpoint: string,
+    options: Partial<RequestInit>,
+    body?: unknown,
+) {
+    const requestOptions: RequestInit = {
+        ...options,
+        method: options?.method,
+        headers: {
+            ...options?.headers,
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(body),
+    };
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+}
+
 export function authenticate(email: string, password: string): Promise<{ access_token: string }> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password });
 }
@@ -55,6 +72,10 @@ export function register(firstname: string, lastname: string, email: string, pas
 
 export function getAccount(): Promise<User> {
     return requestToAccountApi('api/user/getaccount');
+}
+
+export function getFilteredPayouts(status: PayoutStatus): Promise<Payout[]> {
+    return requestToAccountApi(`api/user/payouts?status=${status}`);
 }
 
 export function getPayouts(): Promise<Payout[]> {
@@ -81,8 +102,8 @@ export function getExchangeDirectionsCourse(sourceId: number, targetId: number):
     return requestToApi(`api/exchange-directions/course/${sourceId}/${targetId}`, { method: 'GET' });
 }
 
-export function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, course: number, email: string, referralCode: string | null): Promise<Payout> {
-    return requestToApi('api/payouts', { method: 'POST' }, { srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, course, email, referralCode });
+export function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string, referralCode: string | null): Promise<Payout> {
+    return requestToApi('api/payouts', { method: 'POST' }, { srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email, referralCode });
 }
 
 export function getPayout(id: number): Promise<Payout> {

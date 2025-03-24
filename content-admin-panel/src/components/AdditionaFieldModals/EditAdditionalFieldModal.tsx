@@ -3,15 +3,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
-import { AdditionalField } from '../../api/types/common';
+import { AdditionalFieldDirection, AdditionalFieldDirections } from '../../api/types/common';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
 
 interface EditAdditionalFieldModalProps {
-    additionalField: AdditionalField;
+    additionalField: AdditionalFieldDirection;
     opened: boolean;
     onClose: () => void;
-    editAdditionalField: (id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]) => void;
+    editAdditionalField: (
+        id: number,
+        fieldName: string,
+        status: string,
+        direction: AdditionalFieldDirections,
+        currencyIds: number[],
+    ) => void;
 }
 
 const StyledModal = styled(Modal)`
@@ -43,6 +49,11 @@ const AdditionalFieldStatuses = [
     { value: 'INACTIVE', label: 'Отключён' },
 ];
 
+const AdditionalFieldTypes = [
+    { value: 'SOURCE', label: 'Для отправителя' },
+    { value: 'TARGET', label: 'Для получателя' },
+];
+
 export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> = ({
     additionalField,
     opened,
@@ -56,6 +67,9 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
     const [additionalFieldStatus, setAdditionalFieldStatus] = React.useState<'ACTIVE' | 'INACTIVE'>(
         additionalField.status,
     );
+    const [additionalFieldType, setAdditionalFieldType] = React.useState<'TARGET' | 'SOURCE'>(
+        additionalField.direction,
+    );
 
     const currencies = useStore($currencyList);
 
@@ -68,7 +82,13 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
 
     const handleSubmit = () => {
         if (fieldName && currencyIds) {
-            editAdditionalField(additionalField.id, fieldName, 1, additionalFieldStatus, numerize(currencyIds));
+            editAdditionalField(
+                additionalField.id,
+                fieldName,
+                additionalFieldStatus,
+                additionalFieldType,
+                numerize(currencyIds),
+            );
         }
 
         onClose();
@@ -90,6 +110,14 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
                     items={currencyOptions}
                     value={currencyIds}
                     onChange={setCurrencyIds}
+                    size="l"
+                />
+
+                <Select
+                    label="Тип поля"
+                    items={AdditionalFieldTypes}
+                    value={additionalFieldType}
+                    onChange={setAdditionalFieldType}
                     size="l"
                 />
 

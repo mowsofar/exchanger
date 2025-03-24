@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { $user } from '../../stores/user.store';
 
 const Card = styled.div`
-    width: 35rem;
+    width: 30rem;
     font-size: 1.7rem;
     padding: 3rem;
     background-color: var(--backgroundSecondary);
     border-radius: 2.5rem;
-    color: white;
+    color: var(--backgroundTertiary);
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
@@ -19,6 +19,11 @@ const CardItem = styled.div`
     justify-content: space-between;
 `;
 
+const UserData = styled.div`
+    color: white;
+    font-weight: 600;
+`;
+
 export const ProfileCard = () => {
     const user = useStore($user);
 
@@ -26,17 +31,17 @@ export const ProfileCard = () => {
         <Card>
             <CardItem>
                 <div>Имя:</div>
-                <div>{user?.firstname}</div>
+                <UserData>{user?.firstname}</UserData>
             </CardItem>
 
             <CardItem>
                 <div>Фамилия:</div>
-                <div>{user?.lastname}</div>
+                <UserData>{user?.lastname}</UserData>
             </CardItem>
 
             <CardItem>
                 <div>E-mail:</div>
-                <div>{user?.email}</div>
+                <UserData>{user?.email}</UserData>
             </CardItem>
         </Card>
     );

@@ -22,6 +22,8 @@ import { IconChevronLeft, IconCopyFill } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
 import { setPayoutStatus } from '../../api/handlers';
 import { Spinner } from '@salutejs/plasma-web';
+import { formatNumber } from '../../utils/formatNumber';
+import { getPayoutStatus } from '../../utils/getPayoutStatus';
 
 export const PayoutPayment: React.FC = () => {
     const payout = useStore($payout);
@@ -40,6 +42,18 @@ export const PayoutPayment: React.FC = () => {
         }
     };
 
+    React.useEffect(() => {
+        const handlePopState = () => {
+            navigate(ROUTES.root);
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [navigate]);
+
     return (
         <StyledLayout>
             <StyledContent>
@@ -57,7 +71,7 @@ export const PayoutPayment: React.FC = () => {
                     />
                 </Row>
 
-                <StyledText>Заявка №{payout?.id} успешно создана!</StyledText>
+                <StyledText>{getPayoutStatus(payout)}</StyledText>
 
                 <StyledHeader>Оплатите заявку</StyledHeader>
 
@@ -66,7 +80,7 @@ export const PayoutPayment: React.FC = () => {
 
                     {payout?.exchangeRequisites ? (
                         <Badge>
-                            <div>{payout?.exchangeRequisites}</div>
+                            <div>{payout?.exchangeRequisites.replace(/.{4}\B/g, '$& ')}</div>
                             <ButtonCopy
                                 view="clear"
                                 onClick={() => {
@@ -89,7 +103,7 @@ export const PayoutPayment: React.FC = () => {
                 <StyledAmount>
                     <div>Сумма</div>
                     <div>
-                        {payout?.amountFrom} {payout?.srcCurrency.currencyCode.code || ''}
+                        {formatNumber(payout?.amountFrom)} {payout?.srcCurrency.currencyCode.code || ''}
                     </div>
                 </StyledAmount>
 

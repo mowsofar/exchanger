@@ -38,6 +38,16 @@ export const CurrenciesList = styled.div`
     margin-top: 2rem;
     background-color: #222224;
     border-radius: 1.8rem;
+
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: .5rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background-color: var(--backgroundTertiary);
+    }
 `;
 
 export const StyledRow = styled.div`

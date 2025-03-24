@@ -16,7 +16,7 @@ export const StyledContent = styled.div`
    display: flex;
     flex-direction: column;
     row-gap: 6rem;
-    padding: 3rem;
+    padding: 2rem;
     flex-grow: 1;
 `;
 
@@ -61,11 +61,10 @@ export const StyledButtonBack = styled(PlasmaButton)`
 
 export const StyledDescription = styled.div`
     font-size: 1.8rem;
-    align-self: center;
+    font-weight: 600;
     color: white;
-    opacity: 0.8;
-    padding: 2rem;
-    border-radius: 3rem;
+    opacity: 0.6;
+    padding: 3rem;
+    margin-top: auto;
     text-align: center;
-    border: .2rem solid var(--backgroundTertiary);
 `;

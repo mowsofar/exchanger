@@ -1,7 +1,8 @@
+export type AdditionalFieldDirection = 'SOURCE' | 'TARGET';
 export interface AdditionalFields {
     id: number;
     fieldName: string;
-    keyId: string;
+    direction: AdditionalFieldDirection;
     status: string;
 };
 
@@ -85,7 +86,17 @@ export interface Payout {
         ipAddress: string;
         email: string;
         user: User;
-        attachments	: PayoutAttachment[];
+        attachments: PayoutAttachment[];
+        sourceAdditionalFields: {
+            fieldId: number;
+            fieldName: string;
+            userValue: string;
+        }[];
+        targetAdditionalFields: {
+            fieldId: number;
+            fieldName: string;
+            userValue: string;
+        }[];
 }
 
 export interface User {
@@ -93,7 +104,7 @@ export interface User {
     firstname: string;
     lastname: string;
     email: string;
-    refferalCode: string;
+    referralCode: string;
     balance: number;
     payouts: Payout[];
 }

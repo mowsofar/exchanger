@@ -15,7 +15,6 @@ import {
     StyledTextFieldPassword,
 } from './RegistrationPopup.styled';
 import { $isLoginModalOpen, $isRegistrationModalOpen } from '../../stores/user.store';
-import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 
 interface RegistrationPopupProps {
@@ -31,8 +30,6 @@ export const RegistrationPopup: React.FC<RegistrationPopupProps> = ({ opened, on
     const [passwordConfirm, setPasswordConfirm] = React.useState('');
     const [error, setError] = React.useState('');
     const [isChecked, setIsChecked] = React.useState(true);
-
-    const navigate = useNavigate();
 
     const handleClose = () => {
         setEmail('');

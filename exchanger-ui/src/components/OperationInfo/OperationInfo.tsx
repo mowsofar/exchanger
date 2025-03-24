@@ -11,6 +11,7 @@ import {
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
 import { $payout } from '../../stores/payout.store';
+import { formatNumber } from '../../utils/formatNumber';
 
 export const OperationInfo: React.FC = () => {
     const sourceCurrency = useStore($sourceCurrency);
@@ -23,10 +24,10 @@ export const OperationInfo: React.FC = () => {
     const amountTo = useStore($amountTo);
 
     const courseTitle = course?.isReversed
-        ? `${payout?.course || course?.course} ${
+        ? `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
               payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code
           }  = 1 ${payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code}`
-        : `${payout?.course || course?.course} ${
+        : `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
               payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code
           } = 1 ${payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code}`;
 
@@ -36,7 +37,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{payout?.amountFrom || amountFrom}</Amount>
+                    <Amount>{formatNumber(payout?.amountFrom) || formatNumber(amountFrom)}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img src={payout?.srcCurrency.paymentSystem.imagePath || sourceCurrency?.paymentSystem.imagePath} />
@@ -47,7 +48,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{payout?.amountTo || amountTo}</Amount>
+                    <Amount>{formatNumber(payout?.amountTo) || formatNumber(amountTo)}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img
@@ -72,9 +73,23 @@ export const OperationInfo: React.FC = () => {
             {payout?.requisites && (
                 <StyledCourse>
                     <div>Реквизиты:</div>
-                    <div>{payout.requisites}</div>
+                    <div>{payout.requisites.replace(/.{4}\B/g, '$& ')}</div>
                 </StyledCourse>
             )}
+
+            {payout?.sourceAdditionalFields.map((field) => (
+                <StyledCourse>
+                    <div>{field.fieldName}:</div>
+                    <div>{field.userValue}</div>
+                </StyledCourse>
+            ))}
+
+            {payout?.targetAdditionalFields.map((field) => (
+                <StyledCourse>
+                    <div>{field.fieldName}:</div>
+                    <div>{field.userValue}</div>
+                </StyledCourse>
+            ))}
         </StyledRoot>
     );
 };

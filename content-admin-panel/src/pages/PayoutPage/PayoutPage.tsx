@@ -111,6 +111,14 @@ export const PayoutPage: React.FC = () => {
                         )}
                         <InfoBlock label="E-mail" value={payout?.email} hasCopyButton />
                         <InfoBlock label="IP" value={payout?.ipAddress} hasCopyButton />
+
+                        {payout?.sourceAdditionalFields.map((field) => (
+                            <InfoBlock label={field?.fieldName} value={field?.userValue} hasCopyButton />
+                        ))}
+
+                        {payout?.targetAdditionalFields.map((field) => (
+                            <InfoBlock label={field?.fieldName} value={field?.userValue} hasCopyButton />
+                        ))}
                     </StyledBlock>
                 </StyledTwoBlocks>
 

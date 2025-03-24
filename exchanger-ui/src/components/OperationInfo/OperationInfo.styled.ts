@@ -6,6 +6,17 @@ export const StyledRoot = styled.div`
     border-radius: 23px;
     background-color: var(--backgroundSecondary);
     padding: 15px;
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: .5rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background-color: var(--backgroundTertiary);
+    }
 `;
 
 export const StyledHeader = styled.div`
@@ -13,32 +24,33 @@ export const StyledHeader = styled.div`
     font-size: 2.2rem;
     font-weight: 700;
     text-align: center;
-    padding: 3rem;
+    padding: 2rem;
     color: white;
 `;
 
 export const StyledCard = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 1.5rem;
     margin-bottom: 10px;
     color: white;
     align-items: center;
     font-family: Onest;
     font-size: 2rem;
     background-color: #393939;
-    border-radius: 1.6rem;
+    border-radius: 1.7rem;
 `;
 
 export const StyledCourse = styled(StyledCard)`
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 2rem;
     color: white;
     align-items: center;
     font-family: Onest;
-    font-size: 1.8rem;
+    font-size: 1.7rem;
     font-weight: 600;
+    column-gap: 1.2rem;
     
     & div:first-child {
         color: var(--accent);
@@ -49,7 +61,7 @@ export const StyledCourse = styled(StyledCard)`
 export const StyledAmountCard = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
+    row-gap: 1rem;
     word-break: break-all;
 
     &:first-child {
@@ -61,17 +73,17 @@ export const StyledAmountCard = styled.div`
 
 export const Amount = styled.div`
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: var(--accent);
 `;
 
 export const Currnecy = styled.div`
     display: flex;
-    column-gap: 10px;
+    column-gap: 1rem;
     align-items: center;
     font-weight: 600;
 `;
 
 export const Img = styled.img`
-    height: 30px;
+    height: 2.8rem;
 `;

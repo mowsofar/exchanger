@@ -1,4 +1,4 @@
-import { Badge, Select, TextField } from "@salutejs/plasma-web";
+import { Badge, TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button.styled";
 import { accent, blackTertiary } from "@salutejs/plasma-tokens";

@@ -7,7 +7,13 @@ import { ROUTES } from '../../constants/routes';
 import { CurrenciesModal } from '../CurrenciesModal/CurrenciesModal';
 import { Currency } from '../../api/types/common';
 import { useStore } from '@nanostores/react';
-import { $amountFrom, $amountTo, $exchangeError, $sourceCurrency } from '../../stores/currencies.store';
+import {
+    $amountFrom,
+    $amountTo,
+    $exchangeError,
+    $sourceCurrency,
+    $targetCurrency,
+} from '../../stores/currencies.store';
 
 interface ExchangeModalProps {
     getExchangeCourse: (sourceId: number, targetId: number) => void;
@@ -33,11 +39,12 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
 
     const exchangeError = useStore($exchangeError);
     const sourceCurrency = useStore($sourceCurrency);
+    const targetCurrency = useStore($targetCurrency);
 
     const navigate = useNavigate();
 
     const handleClickButton = () => {
-        navigate(ROUTES.userDetails(sourceCurrency?.id));
+        navigate(ROUTES.userDetails(sourceCurrency?.id, targetCurrency?.id));
     };
 
     return (

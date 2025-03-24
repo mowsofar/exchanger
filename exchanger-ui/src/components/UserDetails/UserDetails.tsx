@@ -1,9 +1,12 @@
 import React from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
+    ButtonBlock,
     Row,
+    Rules,
     StyledButton,
     StyledButtonBack,
+    StyledCheckbox,
     StyledContent,
     StyledHeader,
     StyledLayout,
@@ -26,15 +29,22 @@ interface UserDetailsProps {
         amountFrom: number,
         amountTo: number,
         requisites: string,
+        sourceFields: { fieldId: number; userValue: string }[],
+        targetFields: { fieldId: number; userValue: string }[],
         course: number,
         email: string,
         referralCode: string | null,
     ) => Promise<Payout>;
 }
 
+interface FormData {
+    [key: string]: string;
+}
+
 export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
+
     const course = useStore($course);
 
     const amountFrom = useStore($amountFrom);
@@ -42,11 +52,31 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
 
     const navigate = useNavigate();
 
+    const sourceAdditionalFields = sourceCurrency?.additionalFieldsList.filter((item) => item.direction === 'SOURCE');
+    const targetAdditionalFields = targetCurrency?.additionalFieldsList.filter((item) => item.direction === 'TARGET');
+
+    const sourceFieldsInitial = sourceAdditionalFields?.reduce<FormData>((acc, field) => {
+        acc[field.id] = '';
+        return acc;
+    }, {});
+
+    const targetFieldsInitial = targetAdditionalFields?.reduce<FormData>((acc, field) => {
+        acc[field.id] = '';
+        return acc;
+    }, {});
+
     const [requisites, setRequisites] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [referralCode, setReferralCode] = React.useState('');
+    const [isChecked, setIsChecked] = React.useState(false);
 
     const [emailError, setEmailError] = React.useState('');
+    const [sourceFormData, setSourceFormData] = React.useState<FormData>(sourceFieldsInitial || {});
+    const [targetFormData, setTargetFormData] = React.useState<FormData>(targetFieldsInitial || {});
+
+    const transformFormData = (data: FormData) => {
+        return Object.keys(data).map((key) => ({ fieldId: Number(key), userValue: data[key] }));
+    };
 
     const handleSubmit = async () => {
         $requisites.set(requisites);
@@ -60,6 +90,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                 amountFrom,
                 amountTo,
                 requisites,
+                transformFormData(sourceFormData),
+                transformFormData(targetFormData),
                 course.course,
                 email,
                 referralCode ? referralCode : null,
@@ -76,7 +108,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
         if (e.target.value && !isValidEmail(e.target.value)) {
-            setEmailError('Невверный формат электронной почты');
+            setEmailError('Неверный формат электронной почты');
         } else {
             setEmailError('');
         }
@@ -84,6 +116,16 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
 
     const handleBack = () => {
         navigate(ROUTES.root);
+    };
+
+    const handleChangeSourceFields = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setSourceFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleChangeTargetFields = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setTargetFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     return (
@@ -117,6 +159,15 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                             value={referralCode}
                             onChange={(e) => setReferralCode(e.target.value)}
                         />
+
+                        {sourceAdditionalFields?.map((field) => (
+                            <StyledTextField
+                                placeholder={field.fieldName}
+                                value={sourceFormData[field.id]}
+                                name={String(field.id)}
+                                onChange={handleChangeSourceFields}
+                            />
+                        ))}
                     </StyledUserForm>
 
                     <StyledUserForm>
@@ -126,12 +177,42 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                             value={requisites}
                             onChange={(e) => setRequisites(e.target.value)}
                         />
+
+                        {targetAdditionalFields?.map((field) => (
+                            <StyledTextField
+                                placeholder={field.fieldName}
+                                value={targetFormData[field.id]}
+                                name={String(field.id)}
+                                onChange={handleChangeTargetFields}
+                            />
+                        ))}
                     </StyledUserForm>
                 </TwoBlocks>
 
-                <StyledButton disabled={!requisites || !email || Boolean(emailError)} onClick={handleSubmit}>
-                    Начать транкзацию
-                </StyledButton>
+                <ButtonBlock>
+                    <StyledCheckbox
+                        label={
+                            <>
+                                Соглашаюсь с{' '}
+                                <Rules to={ROUTES.amlKyc} target="_blank">
+                                    политикой AML
+                                </Rules>{' '}
+                                и{' '}
+                                <Rules to={ROUTES.rules} target="_blank">
+                                    правилами обмена
+                                </Rules>
+                            </>
+                        }
+                        checked={isChecked}
+                        onClick={() => setIsChecked(!isChecked)}
+                    />
+                    <StyledButton
+                        disabled={!requisites || !email || Boolean(emailError) || !isChecked}
+                        onClick={handleSubmit}
+                    >
+                        Начать транкзацию
+                    </StyledButton>
+                </ButtonBlock>
             </StyledContent>
         </StyledLayout>
     );

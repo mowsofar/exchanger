@@ -1,5 +1,5 @@
 import React from 'react';
-import { authenticate, getAccount, getPayouts } from '../../api/handlers';
+import { authenticate } from '../../api/handlers';
 import {
     ButtonBlock,
     Content,
@@ -43,7 +43,6 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
             navigate(ROUTES.profile);
         } catch (error) {
             setError(true);
-            console.log(error);
         }
     };
 

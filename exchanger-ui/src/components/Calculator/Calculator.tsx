@@ -1,5 +1,5 @@
-import { IconSwapVert } from '@salutejs/plasma-icons';
 import {
+    ExchangeInfo,
     InputContainer,
     StyledCard,
     StyledCardName,
@@ -23,6 +23,7 @@ import {
 } from '../../stores/currencies.store';
 import React from 'react';
 import { Currency } from '../../api/types/common';
+import { formatNumber } from '../../utils/formatNumber';
 
 interface Props {
     handleClickSourceCurrency: () => void;
@@ -131,10 +132,14 @@ export const Calculator: React.FC<Props> = ({
                     </InputContainer>
                 </StyledCard>
             </StyledRoot>
-            <StyledError>
-                Минимальная сумма обмена - {exchangeDirection?.minSourceAmount} {sourceCurrency?.currencyCode.code} и
-                максимальная - {exchangeDirection?.maxSourceAmount} {sourceCurrency?.currencyCode.code}
-            </StyledError>
+            <ExchangeInfo>
+                <div>
+                    Мин: {formatNumber(exchangeDirection?.minSourceAmount)} {sourceCurrency?.currencyCode.code}
+                </div>
+                <div>
+                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount)} {sourceCurrency?.currencyCode.code}
+                </div>
+            </ExchangeInfo>
             {error && <StyledError>{error}</StyledError>}
         </>
     );

@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
-import { getCurrencies, getPayout, getPayouts, setPayoutStatus, updatePayoutRequisites } from '../../api/handlers';
+import { getPayout, getPayouts, setPayoutStatus, updatePayoutRequisites } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts, $selectedPayout } from '../../stores/payout.store';
 import { useStore } from '@nanostores/react';
-import { $currencyList } from '../../stores/currency.store';
 import { PayoutStatus } from '../../api/types/common';
 
 export const usePayoutPage = () => {

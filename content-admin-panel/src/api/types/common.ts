@@ -20,15 +20,28 @@ export interface PaymentSystem {
 
 type AdditionalFieldStatus = 'ACTIVE' | 'INACTIVE';
 
-export interface AdditionalField {
+export type AdditionalFieldDirections = 'TARGET' | 'SOURCE';
+
+export interface AdditionalFieldDirection {
     id: number;
+    direction: AdditionalFieldDirections;
     fieldName: string;
-    keyId: string;
     status: AdditionalFieldStatus;
     currencies: {
         id: number;
         technicalName: string;
     }[];
+};
+
+export interface AdditionalFields {
+    source: AdditionalFieldDirection[];
+    target: AdditionalFieldDirection[];
+};
+
+export interface PayoutAdditionalField {
+    fieldId: number,
+    fieldName: string,
+    userValue: string,
 };
 
 export interface Currency {
@@ -52,7 +65,7 @@ export interface Currency {
     sent: number;
     accountName: string;
     accountComment: string;
-    additionalFieldsList: AdditionalField[];
+    additionalFieldsList: AdditionalFields;
     updatedAt: string;
 };
 
@@ -107,6 +120,7 @@ export interface PayoutAttachment {
     contentType: string;
     uploadedAt: string;
 };
+
 export interface Payout {
     id: number;
     srcCurrency: Currency;
@@ -123,6 +137,8 @@ export interface Payout {
     email: string;
     user: UserForPayout;
     attachments: PayoutAttachment[];
+    sourceAdditionalFields: PayoutAdditionalField[],
+    targetAdditionalFields: PayoutAdditionalField[],
 };
 
 export interface ExchangeDirection {

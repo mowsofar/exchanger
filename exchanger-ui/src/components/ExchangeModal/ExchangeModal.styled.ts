@@ -19,7 +19,7 @@ export const StyledModal = styled.div`
 
 export const StyledHeader = styled.div`
     color: white;
-    font-size: 1.6em;
+    font-size: 3em;
     font-weight: 600;
     text-align: center;
 

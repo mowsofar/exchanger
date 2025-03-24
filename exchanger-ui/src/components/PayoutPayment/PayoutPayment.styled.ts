@@ -16,7 +16,7 @@ export const StyledContent = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 4rem;
-    padding: 3rem;
+    padding: 2rem;
     flex-grow: 1;
 `;
 

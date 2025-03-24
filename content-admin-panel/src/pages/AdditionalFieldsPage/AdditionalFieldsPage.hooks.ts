@@ -3,6 +3,7 @@ import { createAdditionalField, deleteAdditionalField, editAdditionalField, getA
 import { useNotification } from '../../hooks/useNotification';
 import { $additionalFields, $currencyList } from '../../stores/currency.store';
 import { $exchangeDirectionsList } from '../../stores/exchangeDirections.store';
+import { AdditionalFieldDirections } from '../../api/types/common';
 
 export const useAdditionalFieldsPage = () => {
     const showNotification = useNotification();
@@ -44,9 +45,9 @@ export const useAdditionalFieldsPage = () => {
     );
 
     const createAdditionalFieldItem = useCallback(
-        async (fieldName: string, status: string, currencyIds: number[]) => {
+        async (fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]) => {
                 try {
-                    await createAdditionalField(fieldName, status, currencyIds);
+                    await createAdditionalField(fieldName, status, direction, currencyIds);
                     showNotification('Дополнительное поле успешно создано', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);
@@ -57,9 +58,9 @@ export const useAdditionalFieldsPage = () => {
     );
 
     const editAdditionalFieldItem = useCallback(
-        async (id: number, fieldName: string, keyId: number, status: string, currencyIds: number[]) => {
+        async (id: number, fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]) => {
                 try {
-                    await editAdditionalField(id, fieldName, keyId, status, currencyIds);
+                    await editAdditionalField(id, fieldName, status, direction, currencyIds);
                     showNotification('Дополнительное поле успешно изменено', 'success');
 
                     setTimeout(() => getAdditionalFieldsList(), 1000);

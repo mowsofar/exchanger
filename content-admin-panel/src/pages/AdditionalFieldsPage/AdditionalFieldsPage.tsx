@@ -9,7 +9,7 @@ import { accent } from '@salutejs/plasma-tokens';
 import { useAdditionalFieldsPage } from './AdditionalFieldsPage.hooks';
 import { $additionalFields } from '../../stores/currency.store';
 import { AddAdditionalFieldModal } from '../../components/AdditionaFieldModals/AddAdditionaFieldModal';
-import { AdditionalField } from '../../api/types/common';
+import { AdditionalFieldDirection } from '../../api/types/common';
 import { EditAdditionalFieldModal } from '../../components/AdditionaFieldModals/EditAdditionalFieldModal';
 
 export const AdditionalFieldsPage: React.FC = () => {
@@ -17,10 +17,11 @@ export const AdditionalFieldsPage: React.FC = () => {
 
     const [isAddAdditionaFieldModalOpen, setAddAdditionaFieldModalOpen] = React.useState(false);
     const [isEditAdditionaFieldModalOpen, setEditAdditionaFieldModalOpen] = React.useState(false);
-    const [selectedAdditionalField, setSelectedAdditionalField] = React.useState<AdditionalField>();
+    const [selectedAdditionalField, setSelectedAdditionalField] = React.useState<AdditionalFieldDirection>();
 
     const additionalFields = useStore($additionalFields);
 
+    const additionalFieldsList = additionalFields.source.concat(additionalFields.target);
     return (
         <>
             <head>
@@ -39,12 +40,13 @@ export const AdditionalFieldsPage: React.FC = () => {
                     <StyledTableHeader>
                         <StyledTableHeaderCell>Название поля</StyledTableHeaderCell>
                         <StyledTableHeaderCell>Валюта</StyledTableHeaderCell>
+                        <StyledTableHeaderCell>Тип</StyledTableHeaderCell>
                         <StyledTableHeaderCell>Статус</StyledTableHeaderCell>
                         <StyledTableHeaderCell />
                     </StyledTableHeader>
                     <TableBody>
-                        {additionalFields.map((item) => {
-                            const currencies = item.currencies.map((currency) => currency.technicalName);
+                        {additionalFieldsList.map((item) => {
+                            const currencies = item?.currencies.map((currency) => currency.technicalName);
 
                             const linkedCurrencies = currencies.join(', ');
                             return (
@@ -52,9 +54,15 @@ export const AdditionalFieldsPage: React.FC = () => {
                                     <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
                                         {item.fieldName}
                                     </StyledTableCellName>
+
                                     <StyledTableCellName title={linkedCurrencies}>
                                         <Currencies>{linkedCurrencies || '—'}</Currencies>
                                     </StyledTableCellName>
+
+                                    <StyledTableCellName>
+                                        <div>{item.direction === 'TARGET' ? 'Для получателя' : 'Для отправителя'}</div>
+                                    </StyledTableCellName>
+
                                     <StyledTableCellName>
                                         <StyledBadge
                                             size="xs"
@@ -63,6 +71,7 @@ export const AdditionalFieldsPage: React.FC = () => {
                                             {item.status === 'ACTIVE' ? 'Включён' : 'Отключён'}
                                         </StyledBadge>
                                     </StyledTableCellName>
+
                                     <StyledTableCellName>
                                         <Button
                                             view="clear"
@@ -74,6 +83,7 @@ export const AdditionalFieldsPage: React.FC = () => {
                                             <IconEdit />
                                         </Button>
                                     </StyledTableCellName>
+
                                     <StyledTableCellName>
                                         <Button view="clear" onClick={() => deleteAdditionalFieldItem(item.id)}>
                                             <IconTrash />

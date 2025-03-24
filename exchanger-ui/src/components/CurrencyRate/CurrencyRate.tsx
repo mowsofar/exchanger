@@ -2,6 +2,7 @@ import React from 'react';
 import { useStore } from '@nanostores/react';
 import { $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
 import { Circle, CountDown, CountDownContainer, Seconds, StyledRoot, Svg } from './CurrencyRate.styled';
+import { formatNumber } from '../../utils/formatNumber';
 
 interface CurrencyRateProps {
     onComplete: (sourceId: number, targetId: number) => void;
@@ -20,8 +21,8 @@ export const CurrencyRate: React.FC<CurrencyRateProps> = ({ onComplete }) => {
     const targetCurrencyCode = useStore($targetCurrency)?.currencyCode.code;
 
     const courseTitle = course?.isReversed
-        ? `Курс: ${course?.course} ${sourceCurrencyCode} = 1 ${targetCurrencyCode}`
-        : `Курс: ${course?.course} ${targetCurrencyCode} = 1 ${sourceCurrencyCode}`;
+        ? `Курс: ${formatNumber(course?.course)} ${sourceCurrencyCode} = 1 ${targetCurrencyCode}`
+        : `Курс: ${formatNumber(course?.course)} ${targetCurrencyCode} = 1 ${sourceCurrencyCode}`;
 
     React.useEffect(() => {
         const interval = setInterval(() => {

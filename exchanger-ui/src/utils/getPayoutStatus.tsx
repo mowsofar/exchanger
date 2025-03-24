@@ -1,4 +1,4 @@
-import { Payout } from '../api/types/common';
+import { Payout, PayoutStatus } from '../api/types/common';
 
 export function getPayoutStatus(payout: Payout | null) {
     if (!payout) return 'Заявка не найдена';
@@ -7,7 +7,7 @@ export function getPayoutStatus(payout: Payout | null) {
         case 'CREATED':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> создана
+                    Заявка <span>№{payout.id}</span> успешно создана!
                 </div>
             );
         case 'COMPLETED':
@@ -55,7 +55,7 @@ export function getPayoutStatus(payout: Payout | null) {
 }
 
 export function getPayoutStatusDescription(payout: Payout | null) {
-    if (!payout) return 'Заявка не найдена';
+    if (!payout) return '';
 
     switch (payout.status) {
         case 'COMPLETED':
@@ -91,5 +91,33 @@ export function getPayoutStatusDescription(payout: Payout | null) {
             );
         default:
             return '';
+    }
+}
+
+export function getPayoutData(payout: PayoutStatus): { label: string; color: string } {
+    switch (payout) {
+        case 'CREATED': {
+            return { label: 'Создана', color: '#18181a' };
+        }
+        case 'WAITING_FOR_CLIENT_PAYMENT':
+            return { label: 'Ожидается оплата', color: '#18181a' };
+
+        case 'PAYMENT_RECEIVED':
+            return { label: 'Оплата получена', color: '#18181a' };
+
+        case 'WAITING_FOR_OPERATOR_PROCESSING':
+            return { label: 'Ожидает обработки', color: '#18181a' };
+
+        case 'ERROR':
+            return { label: 'Ошибка', color: '#a4232f' };
+
+        case 'CANCELLED':
+            return { label: 'Отклонена', color: '#a4232f' };
+
+        case 'COMPLETED':
+            return { label: 'Завершна', color: '#458c34' };
+
+        default:
+            return { label: '', color: '#18181a' };
     }
 }

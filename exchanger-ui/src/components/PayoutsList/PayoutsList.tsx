@@ -1,15 +1,15 @@
 import { useStore } from '@nanostores/react';
 import styled from 'styled-components';
-import { $user } from '../../stores/user.store';
-import { getPayoutStatus } from '../../utils/getPayoutStatus';
-import { IconArrowRight } from '@salutejs/plasma-icons';
+import { $userPayouts } from '../../stores/user.store';
+import { getPayoutData } from '../../utils/getPayoutStatus';
+import { IconChevronRight } from '@salutejs/plasma-icons';
 import { Button } from '@salutejs/plasma-web';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
+import { formatNumber } from '../../utils/formatNumber';
 
 const Payouts = styled.div`
     width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -20,7 +20,6 @@ const Payouts = styled.div`
 const Root = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 2rem 3rem;
     width: 100%;
     background-color: var(--backgroundSecondary);
     border-radius: 2.5rem;
@@ -28,37 +27,68 @@ const Root = styled.div`
     align-items: center;
 `;
 
-const Card = styled.div`
+const Columns = styled.div`
     display: flex;
-    flex-direction: column;
-    row-gap: 2rem;
+    width: 100%;
+    column-gap: 4rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
 `;
 
-const Status = styled.div`
+const Column = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+`;
+
+const Status = styled.div<{ color: React.CSSProperties['background'] }>`
+    background-color: ${({ color }) => (color ? color : '#27c49a')};
+    padding: 0.5rem 1.5rem;
+    border-radius: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 600;
+    width: fit-content;
 `;
 
 const PayoutDate = styled.div`
     opacity: 0.3;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+`;
+
+const PayoutId = styled.div`
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+`;
+
+const PayoutDescription = styled.div`
+    color: white;
+    font-weight: 600;
+    opacity: 0.8;
+    font-size: 1.7rem;
+    text-align: center;
 `;
 
 const Direction = styled.div`
     display: flex;
-    column-gap: 5px;
+    column-gap: 0.8rem;
+    font-size: 1.7rem;
     align-items: center;
     font-weight: 600;
     flex-wrap: wrap;
 `;
 
 const Icon = styled.img`
-    width: 20px;
+    width: 3rem;
 `;
 
 const StyledButton = styled(Button)`
     font-family: Onest;
-    color: white;
+    color: var(--backgroundTertiary);
     font-weight: 600;
+    font-size: 1.7rem;
 `;
 
 const Plug = styled.div`
@@ -67,47 +97,58 @@ const Plug = styled.div`
     font-size: 2.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
     font-weight: 600;
+    justify-content: center;
     color: var(--backgroundTertiary);
 `;
 
 export const PayoutsList = () => {
-    const user = useStore($user);
+    const payouts = useStore($userPayouts);
     const navigate = useNavigate();
 
-    if (user?.payouts?.length === 0) {
-        return <Plug>У вас пока нет активных заявок</Plug>;
+    if (payouts.length === 0) {
+        return <Plug>Нет активных заявок</Plug>;
     }
 
     return (
         <Payouts>
-            {user?.payouts.map((payout) => {
+            {payouts.map((payout) => {
                 const createdAt = new Date(payout.createdAt).toLocaleString();
 
                 return (
                     <Root>
-                        <Card>
-                            <PayoutDate>
-                                Заявка №{payout.id} от {createdAt}
-                            </PayoutDate>
-                            <Status>{getPayoutStatus(payout)}</Status>
+                        <Columns>
+                            <Column>
+                                <PayoutId>№{payout.id}</PayoutId>
+                                <Status color={getPayoutData(payout.status).color}>
+                                    {getPayoutData(payout.status).label}
+                                </Status>
+                                <PayoutDate>{createdAt}</PayoutDate>
+                            </Column>
 
-                            <Direction>
-                                <Icon src={payout.srcCurrency?.paymentSystem.imagePath} />
-                                <div>{payout.amountFrom}</div>
-                                <div>{payout.srcCurrency?.currencyCode.code}</div>
+                            <Column>
+                                <Direction>
+                                    <Icon src={payout.srcCurrency?.paymentSystem.imagePath} />
+                                    <div>{formatNumber(payout.amountFrom)}</div>
+                                    <div>{payout.srcCurrency?.currencyCode.code}</div>
 
-                                <IconArrowRight color="white" />
+                                    <IconChevronRight color="white" size="m" />
 
-                                <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
-                                <div>{payout.amountTo}</div>
-                                <div>{payout.targetCurrency?.currencyCode.code}</div>
-                            </Direction>
-                        </Card>
-                        <StyledButton view="clear" onClick={() => navigate(ROUTES.payoutStatus(payout.id))}>
-                            Подробнее
-                        </StyledButton>
+                                    <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
+                                    <div>{formatNumber(payout.amountTo)}</div>
+                                    <div>{payout.targetCurrency?.currencyCode.code}</div>
+                                </Direction>
+                            </Column>
+
+                            <Column>
+                                <PayoutDescription>{payout.email}</PayoutDescription>
+                                <PayoutDescription>{payout.requisites?.replace(/.{4}\B/g, '$& ')}</PayoutDescription>
+                            </Column>
+
+                            <StyledButton view="clear" onClick={() => navigate(ROUTES.payoutStatus(payout.id))}>
+                                Подробнее
+                            </StyledButton>
+                        </Columns>
                     </Root>
                 );
             })}

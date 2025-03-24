@@ -85,8 +85,20 @@ export const SwapButton = styled.div`
 export const StyledError = styled.div`
     color: white;
     font-weight: 600;
-    font-size: 1.9rem;
+    font-size: 1.6rem;
     text-align: center;
+`;
+
+export const ExchangeInfo = styled.div`
+    color: white;
+    font-weight: 600;
+    font-size: 1.6rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--backgroundPrimary);
+    padding: .7rem 1rem;
+    border-radius: 1rem;
 `;
 
 export const StyledIcon = styled(IconSwapVert)`

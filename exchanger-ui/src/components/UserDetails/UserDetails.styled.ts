@@ -1,10 +1,11 @@
-import { TextField } from '@salutejs/plasma-web';
+import { Checkbox, TextField } from '@salutejs/plasma-web';
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
 import { Button as PlasmaButton} from '@salutejs/plasma-web';
+import { Link } from 'react-router-dom';
 
 export const StyledLayout = styled.div`
-    height: 70rem;
+    min-height: 70rem;
     width: 90rem;
     border-radius: 3rem;
     background-color: var(--backgroundSecondary);
@@ -17,14 +18,14 @@ export const StyledContent = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 7rem;
-    padding: 3rem;
+    padding: 2rem;
     flex-grow: 1;
 `;
 
 export const StyledUserForm= styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 3rem;
+    row-gap: 1.7rem;
 `;
 
 export const StyledHeader = styled.div`
@@ -43,11 +44,11 @@ export const StyledTextField = styled(TextField)`
     width: 35rem;
     font-family: Onest !important;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.8rem;
 
     & > div:first-child {
         padding: 1.8rem;
-        height: 7rem !important;
+        height: 6.5rem !important;
         border-radius: 1.5rem;
         background: var(--backgroundTertiary) !important;
     }
@@ -67,8 +68,14 @@ export const StyledTextField = styled(TextField)`
     }
 `;
 
-export const StyledButton = styled(Button)`
+export const ButtonBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 3rem;
     margin-top: auto;
+`;
+
+export const StyledButton = styled(Button)`
     height: 5rem;
     font-size: 2rem;
 `;
@@ -81,4 +88,26 @@ export const Row = styled.div`
 
 export const StyledButtonBack = styled(PlasmaButton)`
     padding: 0;
+`;
+
+export const StyledCheckbox = styled(Checkbox)`
+    font-family: Onest;
+    display: flex;
+    font-size: 1.6rem;
+    align-items: center !important;
+    color: white;
+
+    & label > div:first-child {
+        background-color: var(--accent) !important;
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+
+    & svg > path {
+        fill: black !important;
+    }
+`;
+
+export const Rules = styled(Link)`
+    color: var(--accent);
 `;

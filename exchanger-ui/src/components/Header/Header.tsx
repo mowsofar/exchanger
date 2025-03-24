@@ -32,7 +32,8 @@ const Logo = styled.img`
 
 const StyledButton = styled(Button)<{ isActive: boolean }>`
     height: 4rem;
-    width: 10rem;
+    width: fit-content;
+    padding: 0rem 1.5rem;
     font-size: 1.9rem;
     margin-right: 5rem;
     z-index: 100;
@@ -138,7 +139,7 @@ export const Header = () => {
 
                 {user ? (
                     <StyledButton isActive={isMenuOpen} onClick={() => navigate(ROUTES.profile)}>
-                        Кабинет
+                        Личный кабинет
                     </StyledButton>
                 ) : (
                     <StyledButton

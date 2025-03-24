@@ -5,11 +5,17 @@ import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
+import { AdditionalFieldDirections } from '../../api/types/common';
 
 interface AddAdditionalFieldModalProps {
     opened: boolean;
     onClose: () => void;
-    createAdditionalField: (fieldName: string, status: string, currencyIds: number[]) => void;
+    createAdditionalField: (
+        fieldName: string,
+        status: string,
+        direction: AdditionalFieldDirections,
+        currencyIds: number[],
+    ) => void;
 }
 
 const StyledModal = styled(Modal)`
@@ -36,6 +42,11 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
+const AdditionalFieldTypes = [
+    { value: 'SOURCE', label: 'Для отправителя' },
+    { value: 'TARGET', label: 'Для получателя' },
+];
+
 export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = ({
     opened,
     onClose,
@@ -43,6 +54,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
 }) => {
     const [fieldName, setFieldName] = React.useState('');
     const [currencyIds, setCurrencyIds] = React.useState<string[]>();
+    const [additionalFieldType, setAdditionalFieldType] = React.useState();
 
     const currencies = useStore($currencyList);
 
@@ -56,13 +68,15 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
     const onCloseModal = () => {
         setFieldName('');
         setCurrencyIds([]);
+        setAdditionalFieldType(undefined);
         onClose();
     };
 
     const handleSubmit = () => {
-        if (fieldName && currencyIds?.length) {
-            createAdditionalField(fieldName, 'ACTIVE', numerize(currencyIds));
+        if (fieldName && currencyIds?.length && additionalFieldType) {
+            createAdditionalField(fieldName, 'ACTIVE', additionalFieldType, numerize(currencyIds));
         }
+
         onCloseModal();
     };
 
@@ -85,12 +99,20 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     size="l"
                 />
 
+                <Select
+                    label="Тип поля"
+                    items={AdditionalFieldTypes}
+                    value={additionalFieldType}
+                    onChange={setAdditionalFieldType}
+                    size="l"
+                />
+
                 <Button
                     text="Добавить"
                     stretch
                     onClick={handleSubmit}
                     onKeyDown={handleSubmit}
-                    disabled={!fieldName || !currencyIds?.length}
+                    disabled={!fieldName || !currencyIds?.length || !additionalFieldType}
                 />
             </Content>
         </StyledModal>
