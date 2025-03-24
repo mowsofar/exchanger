@@ -11,7 +11,7 @@ const StyledButton = styled(Button)`
     display: inline-block;
     position: relative;
     font-size: 1rem;
-    width: 20rem;
+    width: 24rem;
     height: 45px;
     background-color: var(--backgroundSecondary);
     border: 2px solid var(--accent);

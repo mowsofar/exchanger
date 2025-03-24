@@ -9,6 +9,9 @@ import { UserDetailsPage } from './pages/UserDetailsPage/UserDetailsPage';
 import { ModalsProvider } from '@salutejs/plasma-web';
 import { PaymentPage } from './pages/PaymentPage/PaymentPage';
 import { PayoutStatusPage } from './pages/PayoutStatusPage/PayoutStatusPage';
+import { RulesPage } from './pages/RulesPage/RulesPage';
+import { FaqPage } from './pages/FaqPage/FaqPage';
+import { AmlKycPage } from './pages/AmlKycPage/AmlKycPage';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -32,6 +35,9 @@ const App: React.FC = () => {
                             <Route path={ROUTES.userDetails()} element={<UserDetailsPage />} />
                             <Route path={ROUTES.payment()} element={<PaymentPage />} />
                             <Route path={ROUTES.payoutStatus()} element={<PayoutStatusPage />} />
+                            <Route path={ROUTES.rules} element={<RulesPage />} />
+                            <Route path={ROUTES.faq} element={<FaqPage />} />
+                            <Route path={ROUTES.amlKyc} element={<AmlKycPage />} />
                         </Route>
                     </Routes>
                 </ModalsProvider>
