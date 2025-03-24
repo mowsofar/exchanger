@@ -6,13 +6,17 @@ import {
     Credentials,
     Description,
     Error,
+    Rules,
     StyledButton,
+    StyledCheckbox,
     StyledHeader,
     StyledModal,
     StyledTextField,
     StyledTextFieldPassword,
 } from './RegistrationPopup.styled';
 import { $isLoginModalOpen, $isRegistrationModalOpen } from '../../stores/user.store';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
 
 interface RegistrationPopupProps {
     opened: boolean;
@@ -26,6 +30,9 @@ export const RegistrationPopup: React.FC<RegistrationPopupProps> = ({ opened, on
     const [password, setPassword] = React.useState('');
     const [passwordConfirm, setPasswordConfirm] = React.useState('');
     const [error, setError] = React.useState('');
+    const [isChecked, setIsChecked] = React.useState(true);
+
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setEmail('');
@@ -33,7 +40,7 @@ export const RegistrationPopup: React.FC<RegistrationPopupProps> = ({ opened, on
         setLastName('');
         setPassword('');
         setError('');
-        console.log('ss');
+        setIsChecked(true);
 
         onClose();
     };
@@ -83,8 +90,22 @@ export const RegistrationPopup: React.FC<RegistrationPopupProps> = ({ opened, on
                     />
                     {error && <Error>{error}</Error>}
                 </Credentials>
+                <StyledCheckbox
+                    label={
+                        <>
+                            Соглашаюсь с{' '}
+                            <Rules to={ROUTES.rules} target="_blank">
+                                правилами сервиса
+                            </Rules>
+                        </>
+                    }
+                    checked={isChecked}
+                    onClick={() => setIsChecked(!isChecked)}
+                />
                 <ButtonBlock>
-                    <StyledButton onClick={handleSubmit}>Зарегистрироваться</StyledButton>
+                    <StyledButton onClick={handleSubmit} disabled={!isChecked}>
+                        Зарегистрироваться
+                    </StyledButton>
                     <Description onClick={onClickRegisterButton}>Уже есть аккаунт</Description>
                 </ButtonBlock>
             </Content>

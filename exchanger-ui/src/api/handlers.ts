@@ -1,4 +1,4 @@
-import { Course, Currency, ExchangeDirection, Payout } from "./types/common";
+import { Course, Currency, ExchangeDirection, Payout, User } from "./types/common";
 
 function handleResponse(response: Response) {    
     return response.text().then((text) => {
@@ -31,12 +31,34 @@ function requestToApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export function authenticate(email: string, password: string): Promise<{ accessToken: string }> {
+
+function requestToAccountApi(
+    endpoint: string,
+) {
+    const requestOptions: RequestInit = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+}
+
+export function authenticate(email: string, password: string): Promise<{ access_token: string }> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password });
 }
 
 export function register(firstname: string, lastname: string, email: string, password: string): Promise<unknown> {
     return requestToApi('api/v1/auth/register', { method: 'POST' }, { firstname, lastname, email, password });
+}
+
+export function getAccount(): Promise<User> {
+    return requestToAccountApi('api/user/getaccount');
+}
+
+export function getPayouts(): Promise<Payout[]> {
+    return requestToAccountApi('api/user/payouts');
 }
 
 export function getLeftColumnCurrencies(): Promise<Currency[]> {

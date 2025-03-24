@@ -12,6 +12,7 @@ import { PayoutStatusPage } from './pages/PayoutStatusPage/PayoutStatusPage';
 import { RulesPage } from './pages/RulesPage/RulesPage';
 import { FaqPage } from './pages/FaqPage/FaqPage';
 import { AmlKycPage } from './pages/AmlKycPage/AmlKycPage';
+import { UserAccountPage } from './pages/UserAccountPage/userAccountPage';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -38,6 +39,7 @@ const App: React.FC = () => {
                             <Route path={ROUTES.rules} element={<RulesPage />} />
                             <Route path={ROUTES.faq} element={<FaqPage />} />
                             <Route path={ROUTES.amlKyc} element={<AmlKycPage />} />
+                            <Route path={ROUTES.profile} element={<UserAccountPage />} />
                         </Route>
                     </Routes>
                 </ModalsProvider>

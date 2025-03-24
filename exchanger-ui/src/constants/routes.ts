@@ -6,4 +6,5 @@ export const ROUTES = {
     rules: '/rules',
     faq: '/faq',
     amlKyc: '/aml-kyc',
+    profile: '/profile',
 };

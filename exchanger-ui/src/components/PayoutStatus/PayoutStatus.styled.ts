@@ -33,7 +33,7 @@ export const StyledHeader = styled.div`
 
 export const StyledIconStatus = styled.img`
     align-self: center;
-    margin-top: 8rem;
+    margin-top: 3rem;
     width: 15rem;
 `;
 
@@ -57,4 +57,15 @@ export const Row = styled.div`
 export const StyledButtonBack = styled(PlasmaButton)`
     padding: 0;
     visibility: hidden;
+`;
+
+export const StyledDescription = styled.div`
+    font-size: 1.8rem;
+    align-self: center;
+    color: white;
+    opacity: 0.8;
+    padding: 2rem;
+    border-radius: 3rem;
+    text-align: center;
+    border: .2rem solid var(--backgroundTertiary);
 `;

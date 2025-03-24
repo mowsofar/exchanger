@@ -23,12 +23,12 @@ export const OperationInfo: React.FC = () => {
     const amountTo = useStore($amountTo);
 
     const courseTitle = course?.isReversed
-        ? `${course?.course || payout?.course} ${
-              sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code
-          }  = 1 ${targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code}`
-        : `${course?.course || payout?.course} ${
-              targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code
-          } = 1 ${sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code}`;
+        ? `${payout?.course || course?.course} ${
+              payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code
+          }  = 1 ${payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code}`
+        : `${payout?.course || course?.course} ${
+              payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code
+          } = 1 ${payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code}`;
 
     return (
         <StyledRoot>
@@ -36,24 +36,24 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{amountFrom || payout?.amountFrom}</Amount>
+                    <Amount>{payout?.amountFrom || amountFrom}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
-                    <Img src={sourceCurrency?.paymentSystem.imagePath || payout?.srcCurrency.paymentSystem.imagePath} />
-                    <div>{sourceCurrency?.currencyCode.code || payout?.srcCurrency.currencyCode.code}</div>
+                    <Img src={payout?.srcCurrency.paymentSystem.imagePath || sourceCurrency?.paymentSystem.imagePath} />
+                    <div>{payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code}</div>
                 </Currnecy>
             </StyledCard>
 
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{amountTo || payout?.amountTo}</Amount>
+                    <Amount>{payout?.amountTo || amountTo}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img
-                        src={targetCurrency?.paymentSystem.imagePath || payout?.targetCurrency.paymentSystem.imagePath}
+                        src={payout?.targetCurrency.paymentSystem.imagePath || targetCurrency?.paymentSystem.imagePath}
                     />
-                    <div>{targetCurrency?.currencyCode.code || payout?.targetCurrency.currencyCode.code}</div>
+                    <div>{payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code}</div>
                 </Currnecy>
             </StyledCard>
 

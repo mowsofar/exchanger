@@ -12,6 +12,7 @@ export const useMainPage = () => {
     const [error, setError] = React.useState('');
 
     const getCurrencies = React.useCallback(async () => {
+        $payout.set(null);
         const sourceCurrencies = await getLeftColumnCurrencies();
         $sourceCurrencies.set(sourceCurrencies);
         $sourceCurrency.set(sourceCurrencies[0]);
@@ -80,7 +81,9 @@ export const useMainPage = () => {
         }
     }, []);
 
-    React.useEffect(() => {getCurrencies()}, [getCurrencies]);
+    React.useEffect(() => {
+        getCurrencies()
+    }, [getCurrencies]);
 
     React.useEffect(() => {
         return () => {

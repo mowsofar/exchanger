@@ -5,6 +5,7 @@ import {
     StyledButton,
     StyledButtonBack,
     StyledContent,
+    StyledDescription,
     StyledHeader,
     StyledIconStatus,
     StyledLayout,
@@ -16,7 +17,7 @@ import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
 
-import { getPayoutStatus } from '../../utils/getPayoutStatus';
+import { getPayoutStatus, getPayoutStatusDescription } from '../../utils/getPayoutStatus';
 import { Spinner } from '@salutejs/plasma-web';
 
 export const PayoutStatus: React.FC = () => {
@@ -50,7 +51,9 @@ export const PayoutStatus: React.FC = () => {
 
                 <StyledHeader>{getPayoutStatus(payout)}</StyledHeader>
 
-                {payout?.status === 'ERROR' && <StyledIconStatus src="/images/error.png" />}
+                {(payout?.status === 'CANCELLED' || payout?.status === 'ERROR') && (
+                    <StyledIconStatus src="/images/error.png" />
+                )}
 
                 {(payout?.status === 'CREATED' ||
                     payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
@@ -61,6 +64,10 @@ export const PayoutStatus: React.FC = () => {
                 )}
 
                 {payout?.status === 'COMPLETED' && <StyledIconStatus src="/images/success.png" />}
+
+                {getPayoutStatusDescription(payout) && (
+                    <StyledDescription>{getPayoutStatusDescription(payout)}</StyledDescription>
+                )}
 
                 {(payout?.status === 'COMPLETED' || payout?.status === 'CANCELLED' || payout?.status === 'ERROR') && (
                     <StyledButton onClick={goToMainPage}>На главную</StyledButton>

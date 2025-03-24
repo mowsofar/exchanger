@@ -1,7 +1,8 @@
-import { Modal, TextField } from "@salutejs/plasma-web";
+import { Checkbox, Modal, TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { TextFieldPassword } from "../TextFieldPassword/TextFieldPassword";
 import { Button } from "../Button/Button";
+import { Link } from "react-router-dom";
 
 export const StyledModal = styled(Modal)`
     background-color: #18181a;
@@ -17,7 +18,7 @@ export const StyledModal = styled(Modal)`
         color: white;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 576px) {
         width: 100%;
         margin: 2rem;
     }
@@ -121,4 +122,26 @@ export const Description = styled.div`
     color: white;
     font-weight: 600;
     cursor: pointer;
+`;
+
+export const StyledCheckbox = styled(Checkbox)`
+    font-family: Onest;
+    display: flex;
+    font-size: 1.6rem;
+    align-items: center !important;
+    color: white;
+
+    & label > div:first-child {
+        background-color: var(--accent) !important;
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+
+    & svg > path {
+        fill: black !important;
+    }
+`;
+
+export const Rules = styled(Link)`
+    color: var(--accent);
 `;

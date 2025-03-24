@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Button } from '../Button/Button';
 import { LoginPopup } from '../LoginPopup/LoginPopup';
 import React from 'react';
-import { $isLoginModalOpen, $isRegistrationModalOpen } from '../../stores/user.store';
+import { $isLoginModalOpen, $isRegistrationModalOpen, $user } from '../../stores/user.store';
 import { useStore } from '@nanostores/react';
 import { RegistrationPopup } from '../RegistrationPopup/RegistrationPopup';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
 
     @media (max-width: 820px) {
         display: block;
-        position: fixed;
+        position: absolute;
         z-index: 100;
         right: 2rem;
         bottom: 2rem;
@@ -114,6 +114,7 @@ export const Header = () => {
 
     const isLoginModalOpen = useStore($isLoginModalOpen);
     const isRegistrationModalOpen = useStore($isRegistrationModalOpen);
+    const user = useStore($user);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -134,9 +135,22 @@ export const Header = () => {
                         AML/KYC
                     </MenuItem>
                 </Menu>
-                <StyledButton onClick={() => $isLoginModalOpen.set(true)} isActive={isMenuOpen}>
-                    Войти
-                </StyledButton>
+
+                {user ? (
+                    <StyledButton isActive={isMenuOpen} onClick={() => navigate(ROUTES.profile)}>
+                        Кабинет
+                    </StyledButton>
+                ) : (
+                    <StyledButton
+                        onClick={() => {
+                            $isLoginModalOpen.set(true);
+                            setMenuOpen(false);
+                        }}
+                        isActive={isMenuOpen}
+                    >
+                        Войти
+                    </StyledButton>
+                )}
 
                 <HidingButton view="clear" onClick={() => setMenuOpen(!isMenuOpen)}>
                     <IconMenu color="#26c499" size="m" />

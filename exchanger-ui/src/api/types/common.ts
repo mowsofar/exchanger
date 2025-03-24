@@ -87,3 +87,13 @@ export interface Payout {
         user: User;
         attachments	: PayoutAttachment[];
 }
+
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    refferalCode: string;
+    balance: number;
+    payouts: Payout[];
+}

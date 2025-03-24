@@ -1,5 +1,5 @@
 import React from 'react';
-import { authenticate } from '../../api/handlers';
+import { authenticate, getAccount, getPayouts } from '../../api/handlers';
 import {
     ButtonBlock,
     Content,
@@ -13,6 +13,8 @@ import {
     StyledTextFieldPassword,
 } from './LoginPopup.styled';
 import { $isLoginModalOpen, $isRegistrationModalOpen } from '../../stores/user.store';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
 
 interface LoginPopupProps {
     opened: boolean;
@@ -24,6 +26,8 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
     const [password, setPassword] = React.useState('');
     const [error, setError] = React.useState(false);
 
+    const navigate = useNavigate();
+
     const handleClose = () => {
         setLogin('');
         setPassword('');
@@ -33,11 +37,13 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
 
     const handleSubmit = async () => {
         try {
-            const { accessToken } = await authenticate(login, password);
-            localStorage.setItem('accessToken', accessToken);
+            const { access_token } = await authenticate(login, password);
+            localStorage.setItem('accessToken', access_token);
             $isLoginModalOpen.set(false);
+            navigate(ROUTES.profile);
         } catch (error) {
             setError(true);
+            console.log(error);
         }
     };
 
