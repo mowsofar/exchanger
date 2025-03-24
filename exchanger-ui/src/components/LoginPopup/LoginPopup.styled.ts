@@ -16,6 +16,11 @@ export const StyledModal = styled(Modal)`
         height: 5rem;
         color: white;
     }
+
+    @media (max-width: 576px) {
+        width: 100%;
+        margin: 2rem;
+    }
 `;
 
 export const Content = styled.div`
