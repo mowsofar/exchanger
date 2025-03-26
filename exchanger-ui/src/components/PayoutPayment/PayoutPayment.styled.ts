@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
-import { Button as PlasmaButton } from '@salutejs/plasma-web';
+import { Button as PlasmaButton, Upload } from '@salutejs/plasma-web';
 
 export const StyledLayout = styled.div`
-    height: 70rem;
+    min-height: 70rem;
     width: 90rem;
-    border-radius: 3rem;
+    border-radius: 2.8rem;
     background-color: var(--backgroundSecondary);
     padding: 2rem;
     display: flex;
@@ -15,20 +15,20 @@ export const StyledLayout = styled.div`
 export const StyledContent = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 4rem;
+    row-gap: 2.5rem;
     padding: 2rem;
     flex-grow: 1;
 `;
 
 export const StyledHeader = styled.div`
-    font-size: 2.6rem;
+    font-size: 2.5rem;
     font-weight: 600;
     color: var(--accent);
 `;
 
 export const StyledText = styled.div`
     color: white;
-    font-size: 2.6rem;
+    font-size: 2.3rem;
     font-weight: 600;
 `;
 
@@ -40,7 +40,7 @@ export const StyledButton = styled(Button)`
 
 export const StyledDescription = styled.div`
     color: var(--backgroundTertiary);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 `;
 
 export const StyledAmount = styled.div`
@@ -56,7 +56,7 @@ export const StyledAmount = styled.div`
 
     & div:last-child {
         color: white;
-        font-size: 3rem;
+        font-size: 2.7rem;
         font-weight: 600;
     }
 `;
@@ -102,4 +102,41 @@ export const ButtonCopy = styled(PlasmaButton)`
 
 export const StyledSpinner = styled.div`
     width: 3rem;
+`;
+
+export const UploadBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+
+    & div:nth-child(1) {
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: white;
+    }
+`;
+
+export const UploadRow = styled.div`
+    display: flex;
+    column-gap: 1rem;
+    align-items: center;
+`;
+
+export const Preview = styled.div`
+    font-size: 1.6rem;
+    max-width: 40rem;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
+export const StyledUpload = styled(Upload)`
+    width: 40rem;
+
+    & button {
+        font-family: Onest !important;
+        color: white !important;
+        background-color: var(--backgroundTertiary) !important;
+        font-size: 1.8rem !important;
+    }
 `;

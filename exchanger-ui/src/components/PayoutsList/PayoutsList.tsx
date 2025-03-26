@@ -122,7 +122,7 @@ export const PayoutsList = () => {
     return (
         <Payouts>
             {payouts.map((payout) => {
-                const createdAt = new Date(payout.createdAt).toLocaleString();
+                const createdAt = new Date(payout.createdAt + 'Z').toLocaleString();
 
                 return (
                     <Root>

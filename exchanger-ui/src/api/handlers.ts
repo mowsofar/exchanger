@@ -85,6 +85,22 @@ export async function createPayout(srcCurrencyId: number, targetCurrencyId: numb
     }
   }
 
+  function uploadFile(
+    endpoint: string,
+    formData: FormData,
+    options?: Partial<RequestInit>,
+) {
+    const requestOptions: RequestInit = {
+        method: options?.method,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+        body: formData,
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+}
+
 export function authenticate(email: string, password: string): Promise<{ access_token: string, refresh_token: string }> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password });
 }
@@ -136,4 +152,9 @@ export function getPayout(id: number): Promise<Payout> {
 export function setPayoutStatus(id: number
 ): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_OPERATOR_PROCESSING' });
+}
+
+export function uploadPayoutAttachment(id: number, file: FormData
+): Promise<Payout> {
+    return uploadFile(`api/payouts/${id}/attachments`, file, { method: 'POST' });
 }

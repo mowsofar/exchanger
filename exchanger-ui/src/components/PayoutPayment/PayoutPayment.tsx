@@ -3,6 +3,7 @@ import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     Badge,
     ButtonCopy,
+    Preview,
     Requisites,
     Row,
     StyledAmount,
@@ -14,19 +15,25 @@ import {
     StyledLayout,
     StyledSpinner,
     StyledText,
+    StyledUpload,
+    UploadBlock,
+    UploadRow,
 } from './PayoutPayment.styled';
 import { useStore } from '@nanostores/react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { IconChevronLeft, IconCopyFill } from '@salutejs/plasma-icons';
+import { IconChevronLeft, IconClip, IconCopyFill } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
-import { setPayoutStatus } from '../../api/handlers';
+import { setPayoutStatus, uploadPayoutAttachment } from '../../api/handlers';
 import { Spinner } from '@salutejs/plasma-web';
 import { formatNumber } from '../../utils/formatNumber';
 import { getPayoutStatus } from '../../utils/getPayoutStatus';
 
 export const PayoutPayment: React.FC = () => {
     const payout = useStore($payout);
+
+    const [preview, setPreview] = React.useState('');
+    const [error, setError] = React.useState('');
 
     const navigate = useNavigate();
 
@@ -39,6 +46,21 @@ export const PayoutPayment: React.FC = () => {
 
         if (payout?.id && payout.status !== 'COMPLETED' && payout?.status !== 'ERROR') {
             setPayoutStatus(payout.id);
+        }
+    };
+
+    const handleUploadFile = async (file: File) => {
+        try {
+            setError('');
+            const formData = new FormData();
+            formData.append('files', file);
+            setPreview(file.name);
+
+            if (payout?.id) {
+                await uploadPayoutAttachment(payout?.id, formData);
+            }
+        } catch (error) {
+            setError('Ошибка загрузки файла');
         }
     };
 
@@ -106,6 +128,23 @@ export const PayoutPayment: React.FC = () => {
                         {formatNumber(payout?.amountFrom)} {payout?.srcCurrency.currencyCode.code || ''}
                     </div>
                 </StyledAmount>
+
+                <UploadBlock>
+                    <div>Загрузите чек об оплате в формате pdf:</div>
+                    <UploadRow>
+                        <StyledUpload content="Выберите pdf-файл" accept=".pdf" onChange={handleUploadFile} />
+                        {error ? (
+                            <Preview style={{ color: 'red' }}>{error}</Preview>
+                        ) : (
+                            (preview || payout?.attachments?.[0]?.fileName) && (
+                                <UploadRow>
+                                    <IconClip size="m" color="white" />
+                                    <Preview>{preview || payout?.attachments?.[0]?.fileName}</Preview>
+                                </UploadRow>
+                            )
+                        )}
+                    </UploadRow>
+                </UploadBlock>
 
                 <StyledDescription>
                     Время на оплату заявки до 10 минут. Мы не принимаем платежи от юридических лиц. Заявки оплаченные от
