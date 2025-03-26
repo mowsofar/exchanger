@@ -21,6 +21,7 @@ import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $email, $referralCode, $requisites } from '../../stores/payout.store';
 import { Payout } from '../../api/types/common';
+import { formatToSubmit } from '../../utils/formatNumber';
 
 interface UserDetailsProps {
     createPayout: (
@@ -87,9 +88,9 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
             const newPayout = await createPayout(
                 sourceCurrency?.id,
                 targetCurrency?.id,
-                amountFrom,
-                amountTo,
-                requisites,
+                formatToSubmit(amountFrom),
+                formatToSubmit(amountTo),
+                requisites.replace(/\s+/g, ''),
                 transformFormData(sourceFormData),
                 transformFormData(targetFormData),
                 course.course,
@@ -126,6 +127,13 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const handleChangeTargetFields = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setTargetFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleChangeRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        setRequisites(value);
     };
 
     return (
@@ -172,11 +180,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
 
                     <StyledUserForm>
                         <StyledHeader>Реквизиты</StyledHeader>
-                        <StyledTextField
-                            placeholder="Реквизиты"
-                            value={requisites}
-                            onChange={(e) => setRequisites(e.target.value)}
-                        />
+                        <StyledTextField placeholder="Реквизиты" value={requisites} onChange={handleChangeRequisites} />
 
                         {targetAdditionalFields?.map((field) => (
                             <StyledTextField

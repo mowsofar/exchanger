@@ -23,7 +23,7 @@ import {
 } from '../../stores/currencies.store';
 import React from 'react';
 import { Currency } from '../../api/types/common';
-import { formatNumber } from '../../utils/formatNumber';
+import { formatCalculatorInput, formatNumber, formatToSubmit } from '../../utils/formatNumber';
 
 interface Props {
     handleClickSourceCurrency: () => void;
@@ -42,18 +42,11 @@ export const Calculator: React.FC<Props> = ({
 }) => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
-    const amountFrom = useStore($amountFrom);
-    const amountTo = useStore($amountTo);
     const course = useStore($course);
-    const exchangeDirection = useStore($exchangeDirection);
+    const amountFrom = formatCalculatorInput(useStore($amountFrom));
+    const amountTo = formatCalculatorInput(useStore($amountTo));
 
-    if (course?.course) {
-        if (course.isReversed) {
-            $amountTo.set(amountFrom / course.course);
-        } else {
-            $amountTo.set(amountFrom * course.course);
-        }
-    }
+    const exchangeDirection = useStore($exchangeDirection);
 
     const onClickSourceCurrency = () => {
         $currencyType.set('source');
@@ -66,18 +59,24 @@ export const Calculator: React.FC<Props> = ({
     };
 
     const handleChangeSourceAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        $amountFrom.set(Number(e.target.value));
         setError('');
+        let inputValue = e.target.value;
+
+        $amountFrom.set(formatCalculatorInput(inputValue));
 
         if (course) {
-            $amountTo.set(Number(e.target.value) / course.course);
+            if (course.isReversed) {
+                $amountTo.set(formatCalculatorInput(formatToSubmit(inputValue) / course.course));
+            } else {
+                $amountTo.set(formatCalculatorInput(formatToSubmit(inputValue) * course.course));
+            }
         }
 
         if (
             exchangeDirection?.minSourceAmount &&
             exchangeDirection?.maxSourceAmount &&
-            (Number(e.target.value) < exchangeDirection?.minSourceAmount ||
-                Number(e.target.value) > exchangeDirection?.maxSourceAmount)
+            (formatToSubmit(inputValue) < exchangeDirection?.minSourceAmount ||
+                formatToSubmit(inputValue) > exchangeDirection?.maxSourceAmount)
         ) {
             $exchangeError.set(true);
         } else {
@@ -87,10 +86,30 @@ export const Calculator: React.FC<Props> = ({
 
     const handleChangeTargetAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError('');
-        $amountTo.set(Number(e.target.value));
+        let inputValue = e.target.value;
+
+        $amountTo.set(formatCalculatorInput(inputValue));
+
+        let sourceAmount = 0;
 
         if (course) {
-            $amountFrom.set(Number(e.target.value) * course.course);
+            if (course.isReversed) {
+                $amountFrom.set(formatCalculatorInput(formatToSubmit(inputValue) * course.course));
+                sourceAmount = formatToSubmit(inputValue) * course.course;
+            } else {
+                $amountFrom.set(formatCalculatorInput(formatToSubmit(inputValue) / course.course));
+                sourceAmount = formatToSubmit(inputValue) / course.course;
+            }
+        }
+
+        if (
+            exchangeDirection?.minSourceAmount &&
+            exchangeDirection?.maxSourceAmount &&
+            (sourceAmount < exchangeDirection?.minSourceAmount || sourceAmount > exchangeDirection?.maxSourceAmount)
+        ) {
+            $exchangeError.set(true);
+        } else {
+            $exchangeError.set(false);
         }
     };
 
@@ -109,7 +128,7 @@ export const Calculator: React.FC<Props> = ({
                 <StyledCard>
                     <StyledCardName>Отдаёте</StyledCardName>
                     <InputContainer>
-                        <StyledInput type="number" value={amountFrom} onChange={handleChangeSourceAmount} />
+                        <StyledInput value={amountFrom} onChange={handleChangeSourceAmount} />
                         <StyledSelect
                             contentLeft={sourceCurrency?.paymentSystem.imagePath}
                             onClick={onClickSourceCurrency}
@@ -122,7 +141,7 @@ export const Calculator: React.FC<Props> = ({
                 <StyledCard>
                     <StyledCardName>Получаете</StyledCardName>
                     <InputContainer>
-                        <StyledInput type="number" value={amountTo} onChange={handleChangeTargetAmount} />
+                        <StyledInput value={amountTo} onChange={handleChangeTargetAmount} />
                         <StyledSelect
                             contentLeft={targetCurrency?.paymentSystem.imagePath}
                             onClick={onClickTargetCurrency}

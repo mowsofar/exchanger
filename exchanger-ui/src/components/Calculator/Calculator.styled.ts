@@ -47,7 +47,7 @@ export const StyledInput = styled.input`
     color: white;
     font-size: 3.6rem;
     font-weight: 500;
-    width: 80%;
+    width: 60%;
 
     &:hover, &:active, &:focus {
         outline: none;

@@ -7,6 +7,7 @@ import { Button } from '@salutejs/plasma-web';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { formatNumber } from '../../utils/formatNumber';
+import { Payout } from '../../api/types/common';
 
 const Payouts = styled.div`
     width: 100%;
@@ -110,6 +111,14 @@ export const PayoutsList = () => {
         return <Plug>Нет активных заявок</Plug>;
     }
 
+    const handleClickMoreInfo = (payout: Payout) => {
+        if (payout.status === 'CREATED') {
+            navigate(ROUTES.payment(payout.id));
+        } else {
+            navigate(ROUTES.payoutStatus(payout.id));
+        }
+    };
+
     return (
         <Payouts>
             {payouts.map((payout) => {
@@ -145,7 +154,7 @@ export const PayoutsList = () => {
                                 <PayoutDescription>{payout.requisites?.replace(/.{4}\B/g, '$& ')}</PayoutDescription>
                             </Column>
 
-                            <StyledButton view="clear" onClick={() => navigate(ROUTES.payoutStatus(payout.id))}>
+                            <StyledButton view="clear" onClick={() => handleClickMoreInfo(payout)}>
                                 Подробнее
                             </StyledButton>
                         </Columns>

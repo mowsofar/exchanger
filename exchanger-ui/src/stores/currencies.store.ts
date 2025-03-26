@@ -12,7 +12,7 @@ export const $currencyType = atom<CurrentCyrrencyType>('');
 export const $exchangeDirection = atom<ExchangeDirection | null>(null);
 export const $course = atom<Course | null>(null);
 
-export const $amountFrom = atom<number>(0);
-export const $amountTo = atom<number>(0);
+export const $amountFrom = atom<string>('');
+export const $amountTo = atom<string>('');
 
 export const $exchangeError = atom(false);

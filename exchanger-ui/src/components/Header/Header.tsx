@@ -137,7 +137,7 @@ export const Header = () => {
                     </MenuItem>
                 </Menu>
 
-                {user ? (
+                {localStorage.getItem('accessToken') ? (
                     <StyledButton isActive={isMenuOpen} onClick={() => navigate(ROUTES.profile)}>
                         Личный кабинет
                     </StyledButton>

@@ -84,6 +84,20 @@ export const RegistrationPopup: React.FC<RegistrationPopupProps> = ({ opened, on
                         placeholder="Повторите пароль"
                         value={passwordConfirm}
                         onChange={(e) => setPasswordConfirm(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (
+                                e.key === 'Enter' &&
+                                isChecked &&
+                                email &&
+                                name &&
+                                lastName &&
+                                password &&
+                                passwordConfirm
+                            ) {
+                                e.preventDefault();
+                                handleSubmit();
+                            }
+                        }}
                     />
                     {error && <Error>{error}</Error>}
                 </Credentials>

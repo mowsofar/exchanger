@@ -1,5 +1,5 @@
 import React from 'react';
-import { authenticate } from '../../api/handlers';
+import { authenticate, refreshToken } from '../../api/handlers';
 import {
     ButtonBlock,
     Content,
@@ -37,8 +37,9 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
 
     const handleSubmit = async () => {
         try {
-            const { access_token } = await authenticate(login, password);
+            const { access_token, refresh_token } = await authenticate(login, password);
             localStorage.setItem('accessToken', access_token);
+            localStorage.setItem('refreshToken', refresh_token);
             $isLoginModalOpen.set(false);
             navigate(ROUTES.profile);
         } catch (error) {
@@ -62,6 +63,12 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
                         placeholder="Пароль"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleSubmit();
+                            }
+                        }}
                     />
                     {error && <Error>Не найдено активной учетной записи с указанными данными</Error>}
                 </Credentials>

@@ -37,7 +37,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{formatNumber(payout?.amountFrom) || formatNumber(amountFrom)}</Amount>
+                    <Amount>{formatNumber(payout?.amountFrom) || amountFrom}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img src={payout?.srcCurrency.paymentSystem.imagePath || sourceCurrency?.paymentSystem.imagePath} />
@@ -48,7 +48,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{formatNumber(payout?.amountTo) || formatNumber(amountTo)}</Amount>
+                    <Amount>{formatNumber(payout?.amountTo) || amountTo}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img

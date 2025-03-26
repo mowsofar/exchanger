@@ -55,16 +55,20 @@ export const StyledTextField = styled(TextField)`
 
     & > div:last-child {
         color: var(--accent);
-        font-size: 1.8rem !important;
+        font-size: 1.5rem !important;
     }
 
     > div {
         box-shadow: none !important;
     }
 
+    > div > div > div {
+        font-size: 1.8rem !important;
+    }
+
     & input {
         color: white !important;
-        font-weight: 600;
+        font-weight: 600 !important;
     }
 `;
 
