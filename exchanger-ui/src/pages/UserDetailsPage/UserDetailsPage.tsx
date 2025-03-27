@@ -1,7 +1,7 @@
 import { OperationInfo } from '../../components/OperationInfo/OperationInfo';
 import { UserDetails } from '../../components/UserDetails/UserDetails';
 import { useUserDetailsPage } from './UserDetails.hooks';
-import { StyledLayout } from './UserDetailsPage.styled';
+import { Root, StyledLayout } from './UserDetailsPage.styled';
 
 export const UserDetailsPage: React.FC = () => {
     const { createNewPayout } = useUserDetailsPage();
@@ -10,10 +10,12 @@ export const UserDetailsPage: React.FC = () => {
         <>
             <title>Ввод реквизитов</title>
 
-            <StyledLayout>
-                <OperationInfo />
-                <UserDetails createPayout={createNewPayout} />
-            </StyledLayout>
+            <Root>
+                <StyledLayout>
+                    <OperationInfo />
+                    <UserDetails createPayout={createNewPayout} />
+                </StyledLayout>
+            </Root>
         </>
     );
 };

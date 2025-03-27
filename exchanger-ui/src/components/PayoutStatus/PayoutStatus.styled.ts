@@ -10,6 +10,11 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+
+    @media (max-width: 1000px) {
+       width: 80%;
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -52,11 +57,19 @@ export const Row = styled.div`
     display: flex;
     column-gap: 4rem;
     align-items: center;
+
+    @media (max-width: 1000px) {
+       column-gap: 0rem;
+    }
 `;
 
 export const StyledButtonBack = styled(PlasmaButton)`
     padding: 0;
     visibility: hidden;
+
+    @media (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const StyledDescription = styled.div`

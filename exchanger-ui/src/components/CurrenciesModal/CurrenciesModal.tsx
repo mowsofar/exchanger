@@ -26,12 +26,18 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
 }) => {
     const sourceCurrenciesList = useStore($sourceCurrencies);
     const targetCurrenciesList = useStore($targetCurrencies);
+
+    const sourceCurrency = useStore($sourceCurrency);
+    const targetCurrency = useStore($targetCurrency);
+
     const currencyType = useStore($currencyType);
 
     const [inputValue, setInputValue] = React.useState('');
 
     const currenciesList =
         currencyType === 'source' ? sourceCurrenciesList : currencyType === 'target' ? targetCurrenciesList : [];
+
+    const selectedCurrencyId = currencyType === 'source' ? sourceCurrency?.id : targetCurrency?.id;
 
     const handleClickCurrency = (currency: Currency) => {
         if (currencyType === 'source') {
@@ -71,7 +77,10 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
             <CurrenciesList>
                 {currencies.map((currency) => {
                     return (
-                        <StyledRow onClick={() => handleClickCurrency(currency)}>
+                        <StyledRow
+                            onClick={() => handleClickCurrency(currency)}
+                            isSelected={currency.id === selectedCurrencyId}
+                        >
                             <StyledCurrencyName>
                                 <img src={currency.paymentSystem.imagePath} alt="" />
                                 <div>{`${currency.paymentSystem.name} ${currency.currencyCode.code}`}</div>

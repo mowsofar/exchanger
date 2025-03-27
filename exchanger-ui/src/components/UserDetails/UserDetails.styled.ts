@@ -12,6 +12,14 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 1000px) {
+       width: 80%;
+    }
+
+    @media (max-width: 450px) {
+       padding: 1rem;
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -20,12 +28,20 @@ export const StyledContent = styled.div`
     row-gap: 7rem;
     padding: 2rem;
     flex-grow: 1;
+
+    @media (max-width: 450px) {
+       row-gap: 4rem;
+    }
 `;
 
 export const StyledUserForm= styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 1.7rem;
+
+    @media (max-width: 450px) {
+       row-gap: 1rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
@@ -33,11 +49,20 @@ export const StyledHeader = styled.div`
     font-weight: 600;
     color: var(--backgroundTertiary);
     text-transform: uppercase;
+
+    @media (max-width: 450px) {
+       font-size: 1.3rem;
+    }
 `;
 
 export const TwoBlocks = styled.div`
     display: flex;
     column-gap: 9rem;
+
+    @media (max-width: 1000px) {
+        flex-direction: column;
+        row-gap: 3rem;
+    }
 `;
 
 export const StyledTextField = styled(TextField)`
@@ -70,6 +95,31 @@ export const StyledTextField = styled(TextField)`
         color: white !important;
         font-weight: 600 !important;
     }
+
+    @media (max-width: 1000px) {
+        width: 30rem;
+    }
+
+    @media (max-width: 450px) {
+       width: 100%;
+
+       & > div:first-child {
+        padding: 1.8rem;
+        height: 5rem !important;
+        border-radius: 1.3rem;
+        background: var(--backgroundTertiary) !important;
+    }
+
+        > div > div > div {
+        font-size: 1.5rem !important;
+        padding-top: .2rem;
+
+    }
+
+    & > div:last-child {
+        font-size: 1.3rem !important;
+    }
+    }
 `;
 
 export const ButtonBlock = styled.div`
@@ -82,12 +132,20 @@ export const ButtonBlock = styled.div`
 export const StyledButton = styled(Button)`
     height: 5rem;
     font-size: 2rem;
+
+    @media (max-width: 450px) {
+       font-size: 1.6rem;
+    }
 `;
 
 export const Row = styled.div`
     display: flex;
     column-gap: 4rem;
     align-items: center;
+
+    @media (max-width: 1000px) {
+       column-gap: 1.8rem;
+    }
 `;
 
 export const StyledButtonBack = styled(PlasmaButton)`
@@ -109,6 +167,10 @@ export const StyledCheckbox = styled(Checkbox)`
 
     & svg > path {
         fill: black !important;
+    }
+
+    @media (max-width: 450px) {
+        font-size: 1.3rem;
     }
 `;
 

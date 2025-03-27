@@ -12,7 +12,7 @@ interface BreadcrumbsProps {
     className?: string;
 }
 
-const StyledNumber = styled.div`
+const StyledNumber = styled.div<{ isActive: boolean }>`
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 3rem;
@@ -23,12 +23,30 @@ const StyledNumber = styled.div`
     font-family: Onest;
     font-weight: 700;
     font-size: 1.8rem;
+
+    @media (max-width: 1000px) {
+        ${({ isActive }) =>
+            !isActive &&
+            css`
+                display: none;
+            `}
+    }
+
+    @media (max-width: 450px) {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.7rem;
+    }
 `;
 
 const StyledList = styled.div`
     display: flex;
     column-gap: 6rem;
     align-items: center;
+
+    @media (max-width: 1000px) {
+        column-gap: 0;
+    }
 `;
 
 const StyledListItem = styled.div`
@@ -53,6 +71,18 @@ const StyledItem = styled.div<{ isActive?: boolean }>`
         css`
             color: var(--accent);
         `}
+
+    @media (max-width: 1000px) {
+        ${({ isActive }) =>
+            !isActive &&
+            css`
+                display: none;
+            `}
+    }
+
+    @media (max-width: 450px) {
+        font-size: 1.8rem;
+    }
 `;
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className, path }) => {
@@ -66,7 +96,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className, path }) => 
             <StyledList>
                 {filteredPath.map((item, i) => (
                     <StyledListItem key={i}>
-                        <StyledNumber>{item.number}</StyledNumber>
+                        <StyledNumber isActive={item.isActive}>{item.number}</StyledNumber>
                         <StyledItem data-test-name={`Breadcrumb_${item.name}`} isActive={item.isActive}>
                             {item.name}
                         </StyledItem>

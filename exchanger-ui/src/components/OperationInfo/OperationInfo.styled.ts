@@ -17,6 +17,11 @@ export const StyledRoot = styled.div`
         border-radius: 1rem;
         background-color: var(--backgroundTertiary);
     }
+
+    @media (max-width: 1300px) {
+        width: 80%;
+        height: fit-content;
+    }
 `;
 
 export const StyledHeader = styled.div`
@@ -26,6 +31,10 @@ export const StyledHeader = styled.div`
     text-align: center;
     padding: 2rem;
     color: white;
+
+    @media (max-width: 1300px) {
+        font-size: 1.8rem;
+    }
 `;
 
 export const StyledCard = styled.div`
@@ -39,6 +48,12 @@ export const StyledCard = styled.div`
     font-size: 2rem;
     background-color: #393939;
     border-radius: 1.7rem;
+
+    @media (max-width: 1300px) {
+        font-size: 1.5rem;
+        padding: 1.3rem;
+        border-radius: 1.2rem;
+    }
 `;
 
 export const StyledCourse = styled(StyledCard)`

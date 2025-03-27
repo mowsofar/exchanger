@@ -2,13 +2,8 @@ import { Accordion, AccordionItem } from "@salutejs/plasma-web";
 import styled from "styled-components";
 
 export const Root = styled.div`
-    padding: 5rem 10rem;
-    width: 80%;
-
-    @media only screen and (max-width: 800px) {
-        width: 100%;
-        padding: 5rem 2rem;
-    }
+    width: 100%;
+    height: 100%;
 `;
 
 export const StyledAccordion = styled(Accordion)`
@@ -52,13 +47,29 @@ export const StyledLayout = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 5rem;
-    height: 100%;
-    width: 100%;
     z-index: 1;
+    padding: 5rem 20rem;
+
+    @media only screen and (max-width: 1300px) {
+        padding: 5rem 10rem;
+    }
+
+    @media only screen and (max-width: 820px) {
+        padding: 2rem;
+    }
+
+    @media only screen and (max-width: 450px) {
+        margin-top: -3rem;
+        row-gap: 4rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
     font-size: 3rem;
     font-weight: 700;
     color: var(--accent);
+
+    @media only screen and (max-width: 450px) {
+        font-size: 2.4rem;
+    }
 `;

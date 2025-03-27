@@ -214,7 +214,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         disabled={!requisites || !email || Boolean(emailError) || !isChecked}
                         onClick={handleSubmit}
                     >
-                        Начать транкзацию
+                        Начать транзакцию
                     </StyledButton>
                 </ButtonBlock>
             </StyledContent>

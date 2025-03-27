@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { $user } from '../../stores/user.store';
 
 const Card = styled.div`
-    width: 30rem;
+    min-width: 28.5rem;
     font-size: 1.7rem;
     padding: 3rem;
     background-color: var(--backgroundSecondary);
@@ -17,6 +17,7 @@ const Card = styled.div`
 const CardItem = styled.div`
     display: flex;
     justify-content: space-between;
+    column-gap: 1rem;
 `;
 
 const UserData = styled.div`

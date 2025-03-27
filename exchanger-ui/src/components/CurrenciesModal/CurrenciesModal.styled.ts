@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { Button } from "../Button/Button";
-import { Modal } from "@salutejs/plasma-web";
+import styled, { css } from 'styled-components';
+import { Button } from '../Button/Button';
+import { Modal } from '@salutejs/plasma-web';
 
 export const StyledModal = styled(Modal)`
     background-color: #18181a;
@@ -17,6 +17,15 @@ export const StyledModal = styled(Modal)`
         height: 5rem;
         color: white;
     }
+
+    @media (max-width: 1024px) {
+        width: 30rem;
+        padding: 1rem .5rem;
+    }
+
+    @media only screen and (max-width: 450px) {
+        border-radius: 3rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
@@ -24,6 +33,10 @@ export const StyledHeader = styled.div`
     font-size: 2.5rem;
     font-weight: 600;
     font-family: Onest;
+
+    @media only screen and (max-width: 450px) {
+        font-size: 2.2rem;
+    }
 `;
 
 export const StyledButton = styled(Button)`
@@ -34,23 +47,32 @@ export const CurrenciesList = styled.div`
     overflow: auto;
     height: 35rem;
     font-size: 1.8rem;
-    padding: 1rem 1rem;
+    padding: 0;
     margin-top: 2rem;
     background-color: #222224;
     border-radius: 1.8rem;
 
     ::-webkit-scrollbar {
         -webkit-appearance: none;
-        width: .5rem;
+        width: 0.5rem;
     }
 
     ::-webkit-scrollbar-thumb {
         border-radius: 1rem;
         background-color: var(--backgroundTertiary);
     }
+
+    @media (max-width: 1024px) {
+        height: 25rem;
+        font-size: 1.5rem;
+    }
+
+    @media (max-width: 450px) {
+        height: 30rem;
+    }
 `;
 
-export const StyledRow = styled.div`
+export const StyledRow = styled.div<{ isSelected: boolean }>`
     display: flex;
     justify-content: space-between;
     cursor: pointer;
@@ -60,6 +82,13 @@ export const StyledRow = styled.div`
     border-radius: 1.2rem;
     font-weight: 600;
     font-family: Onest !important;
+    padding: 1rem 1.5rem;
+
+    ${({ isSelected }) =>
+        isSelected &&
+        css`
+            background-color: var(--backgroundTertiary);
+        `};
 
     &:hover {
         background-color: var(--backgroundTertiary);

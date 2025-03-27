@@ -3,12 +3,21 @@ import styled from "styled-components";
 export const StyledRoot = styled.div`
     display: flex;
     justify-content: center;
-    column-gap: 20px;
+    column-gap: 2rem;
     text-align: center;
     align-items: center;
     color: white;
     font-size: 1.9rem;
     font-weight: 600;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.6rem;
+    }
+
+    @media only screen and (max-width: 450px) {
+       font-size: 1.4rem;
+       column-gap: 1rem;
+    }
 `;
 
 export const CountDown = styled.div`
@@ -20,7 +29,13 @@ export const CountDown = styled.div`
 
 export const Seconds = styled.label`
     position: absolute;
-    left: 12.5px;
+    left: 1.4rem;
+    font-size: 1.7rem;
+
+    @media only screen and (max-width: 450px) {
+        left: 1.5rem;
+       font-size: 1.3rem;
+    }
 `;
 
 export const CountDownContainer = styled.div`
@@ -28,8 +43,8 @@ export const CountDownContainer = styled.div`
 `;
 
 export const Svg = styled.svg`
-    width: 40px;
-    height: 40px;
+    width: 4rem;
+    height: 4rem;
     transform: scale(-1, 1);
     overflow: visible;
 `;

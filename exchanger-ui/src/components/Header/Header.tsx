@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { Button } from '../Button/Button';
 import { LoginPopup } from '../LoginPopup/LoginPopup';
 import React from 'react';
-import { $isLoginModalOpen, $isRegistrationModalOpen, $user } from '../../stores/user.store';
+import { $isLoginModalOpen, $isRegistrationModalOpen } from '../../stores/user.store';
 import { useStore } from '@nanostores/react';
 import { RegistrationPopup } from '../RegistrationPopup/RegistrationPopup';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -40,10 +40,10 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
 
     @media (max-width: 820px) {
         display: block;
-        position: absolute;
-        z-index: 100;
-        right: 2rem;
-        bottom: 2rem;
+        position: fixed;
+        z-index: 1000;
+        right: -2rem;
+        top: 20rem;
 
         ${({ isActive }) =>
             !isActive &&
@@ -53,11 +53,22 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
     }
 `;
 
+const LoginButton = styled(StyledButton)`
+    @media (max-width: 820px) {
+        right: 7rem;
+    }
+`;
+
 const Menu = styled.div<{ isActive: boolean }>`
     display: flex;
     column-gap: 5rem;
     margin-left: -15rem;
     font-size: 2rem;
+
+    @media (max-width: 1000px) {
+        column-gap: 3rem;
+        margin-left: -10rem;
+    }
 
     @media (max-width: 820px) {
         position: fixed;
@@ -115,7 +126,6 @@ export const Header = () => {
 
     const isLoginModalOpen = useStore($isLoginModalOpen);
     const isRegistrationModalOpen = useStore($isRegistrationModalOpen);
-    const user = useStore($user);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -138,11 +148,17 @@ export const Header = () => {
                 </Menu>
 
                 {localStorage.getItem('accessToken') ? (
-                    <StyledButton isActive={isMenuOpen} onClick={() => navigate(ROUTES.profile)}>
+                    <StyledButton
+                        isActive={isMenuOpen}
+                        onClick={() => {
+                            navigate(ROUTES.profile);
+                            setMenuOpen(false);
+                        }}
+                    >
                         Личный кабинет
                     </StyledButton>
                 ) : (
-                    <StyledButton
+                    <LoginButton
                         onClick={() => {
                             $isLoginModalOpen.set(true);
                             setMenuOpen(false);
@@ -150,7 +166,7 @@ export const Header = () => {
                         isActive={isMenuOpen}
                     >
                         Войти
-                    </StyledButton>
+                    </LoginButton>
                 )}
 
                 <HidingButton view="clear" onClick={() => setMenuOpen(!isMenuOpen)}>

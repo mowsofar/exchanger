@@ -13,7 +13,7 @@ export const useUserAccountPage = () => {
             const user = await getAccount();
             $user.set(user);
             $userPayouts.set(user.payouts);
-            
+
         } catch (error) {
             navigate(ROUTES.root);
         }

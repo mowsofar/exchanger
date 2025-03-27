@@ -3,6 +3,7 @@ import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     Badge,
     ButtonCopy,
+    ClipPreview,
     Preview,
     Requisites,
     Row,
@@ -137,10 +138,10 @@ export const PayoutPayment: React.FC = () => {
                             <Preview style={{ color: 'red' }}>{error}</Preview>
                         ) : (
                             (preview || payout?.attachments?.[0]?.fileName) && (
-                                <UploadRow>
-                                    <IconClip size="m" color="white" />
+                                <ClipPreview>
+                                    <IconClip size="m" color="#26c499" />
                                     <Preview>{preview || payout?.attachments?.[0]?.fileName}</Preview>
-                                </UploadRow>
+                                </ClipPreview>
                             )
                         )}
                     </UploadRow>
@@ -152,7 +153,7 @@ export const PayoutPayment: React.FC = () => {
                     засчитаны в пользу оплаты. Средства поступят в течение 24 часов.
                 </StyledDescription>
 
-                <StyledButton onClick={handleForward}>Я оплатил</StyledButton>
+                <StyledButton onClick={handleForward}>Я оплатил(-а)</StyledButton>
             </StyledContent>
         </StyledLayout>
     );

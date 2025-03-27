@@ -5,7 +5,7 @@ import { IconSwapVert } from "@salutejs/plasma-icons";
 export const StyledRoot = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 2rem;
     position: relative;
 `;
 
@@ -14,10 +14,16 @@ export const StyledCard = styled.div`
     flex-direction: column;
     row-gap: 1.4rem;
     background-color: var(--backgroundPrimary);
-    height: 80px;
-    border-radius: 20px;
+    height: 8rem;
+    border-radius: 2rem;
     padding: 1.5rem 2rem 2rem 2rem;
     overflow: hidden;
+
+    @media only screen and (max-width: 820px) {
+        row-gap: 1rem;
+        padding: 1rem;
+        justify-content: center;
+    }
 `;
 
 export const StyledCardName = styled.div`
@@ -25,12 +31,16 @@ export const StyledCardName = styled.div`
     font-size: 1.8rem;
     color: white;
     color: var(--accent);
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.4rem;
+    }
 `;
 
 export const InputContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    column-gap: 20px;
+    column-gap: 2rem;
     position: relative;
 `;
 
@@ -38,6 +48,10 @@ export const StyledSelect = styled(Select)`
     position: absolute;
     right: 1rem;
     bottom: 1.2rem;
+
+    @media only screen and (max-width: 450px) {
+        bottom: .5rem;
+    }
 `;
 
 export const StyledInput = styled.input`
@@ -48,6 +62,7 @@ export const StyledInput = styled.input`
     font-size: 3.6rem;
     font-weight: 500;
     width: 60%;
+    overflow-x: scroll;
 
     &:hover, &:active, &:focus {
         outline: none;
@@ -60,6 +75,16 @@ export const StyledInput = styled.input`
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0; 
+    }
+
+    @media only screen and (max-width: 820px) {
+       font-size: 2.8rem;
+       width: 75%;
+    }
+
+    @media only screen and (max-width: 450px) {
+       font-size: 2.5rem;
+       width: 70%;
     }
 `;
 
@@ -99,6 +124,10 @@ export const ExchangeInfo = styled.div`
     background-color: var(--backgroundPrimary);
     padding: .7rem 1rem;
     border-radius: 1rem;
+
+    @media only screen and (max-width: 450px) {
+       font-size: 1.4rem;
+    }
 `;
 
 export const StyledIcon = styled(IconSwapVert)`

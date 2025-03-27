@@ -1,7 +1,7 @@
 import { OperationInfo } from '../../components/OperationInfo/OperationInfo';
 import { PayoutPayment } from '../../components/PayoutPayment/PayoutPayment';
 import { usePaymentPage } from './PaymentPage.hooks';
-import { StyledLayout } from './PaymentPage.styled';
+import { Root, StyledLayout } from './PaymentPage.styled';
 
 export const PaymentPage: React.FC = () => {
     usePaymentPage();
@@ -12,10 +12,12 @@ export const PaymentPage: React.FC = () => {
                 <title>Оплата заявки</title>
             </head>
 
-            <StyledLayout>
-                <OperationInfo />
-                <PayoutPayment />
-            </StyledLayout>
+            <Root>
+                <StyledLayout>
+                    <OperationInfo />
+                    <PayoutPayment />
+                </StyledLayout>
+            </Root>
         </>
     );
 };

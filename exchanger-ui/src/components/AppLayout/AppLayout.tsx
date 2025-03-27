@@ -7,21 +7,25 @@ const Layout = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background-color: var(--backgroundPrimary);
+    overflow-y: scroll;
 `;
 
 const Root = styled.div`
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5rem;
 `;
 
 const StyledLayout = styled.div`
-    height: 85%;
+    height: 100%;
     width: 100%;
     z-index: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 `;
 

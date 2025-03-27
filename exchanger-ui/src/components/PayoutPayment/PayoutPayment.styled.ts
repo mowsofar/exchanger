@@ -10,6 +10,10 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 1000px) {
+       width: 80%;
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -36,6 +40,10 @@ export const StyledButton = styled(Button)`
     margin-top: auto;
     height: 5rem;
     font-size: 2rem;
+
+    @media (max-width: 450px) {
+       font-size: 1.6rem;
+    }
 `;
 
 export const StyledDescription = styled.div`
@@ -65,11 +73,19 @@ export const Row = styled.div`
     display: flex;
     column-gap: 4rem;
     align-items: center;
+
+    @media (max-width: 1000px) {
+       column-gap: 0rem;
+    }
 `;
 
 export const StyledButtonBack = styled(PlasmaButton)`
     padding: 0;
     visibility: hidden;
+
+    @media (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export const Requisites = styled.div`
@@ -105,6 +121,7 @@ export const StyledSpinner = styled.div`
 `;
 
 export const UploadBlock = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -116,27 +133,44 @@ export const UploadBlock = styled.div`
     }
 `;
 
-export const UploadRow = styled.div`
+export const ClipPreview = styled.div`
+    width: 100%;
     display: flex;
     column-gap: 1rem;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
+export const UploadRow = styled(ClipPreview)`
+    @media (max-width: 450px) {
+       flex-direction: column;
+       row-gap: 1rem;
+    }
 `;
 
 export const Preview = styled.div`
     font-size: 1.6rem;
-    max-width: 40rem;
-    color: white;
+    width: 100%;
+    color: var(--accent);
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 `;
 
 export const StyledUpload = styled(Upload)`
-    width: 40rem;
+    max-width: 40rem;
+    min-width: 20rem;
 
     & button {
         font-family: Onest !important;
         color: white !important;
         background-color: var(--backgroundTertiary) !important;
         font-size: 1.8rem !important;
+    }
+
+    @media (max-width: 450px) {
+       width: 100%;
     }
 `;

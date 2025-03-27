@@ -8,27 +8,31 @@ export const StyledLayout = styled.div`
     justify-content: center;
     z-index: 1;
 
-    @media (max-width: 1300px) {
+    @media (max-width: 1500px) {
         flex-direction: column;
+        row-gap: 5rem;
         width: 100%;
         row-gap: 5rem;
-        overflow: scroll;
     }
 `;
 
 export const StyledDescription = styled.div`
-    width: 500px;
-    font-size: 6.5rem;
+    width: 45rem;
+    font-size: 5rem;
     font-weight: 600;
     color: white;
 
-    @media only screen and (max-width: 1330px) {
-        max-width: 100%;
+    @media (max-width: 1500px) {
+        width: 100%;
         text-align: center;
     }
 
-    @media only screen and (max-width: 1024px) {
-        font-size: 28px;
-        max-width: 100%;
+    @media only screen and (max-width: 1330px) {
+        font-size: 4rem;
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 800px) {
+        font-size: 3rem;
     }
 `;

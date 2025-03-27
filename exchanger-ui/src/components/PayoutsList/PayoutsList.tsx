@@ -35,12 +35,26 @@ const Columns = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 3rem;
+
+    @media only screen and (max-width: 1300px) {
+        flex-direction: column;
+        align-items: flex-start;
+        row-gap: 2rem;
+    }
+
+    @media only screen and (max-width: 820px) {
+        padding: 1.5rem 2rem;
+    }
 `;
 
 const Column = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 1.5rem;
+
+    @media only screen and (max-width: 820px) {
+        row-gap: 1rem;
+    }
 `;
 
 const Status = styled.div<{ color: React.CSSProperties['background'] }>`
@@ -50,18 +64,30 @@ const Status = styled.div<{ color: React.CSSProperties['background'] }>`
     font-size: 1.7rem;
     font-weight: 600;
     width: fit-content;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.5rem;
+    }
 `;
 
 const PayoutDate = styled.div`
     opacity: 0.3;
     font-size: 1.6rem;
     font-weight: 600;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.3rem;
+    }
 `;
 
 const PayoutId = styled.div`
     color: white;
     font-size: 2rem;
     font-weight: 600;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.6rem;
+    }
 `;
 
 const PayoutDescription = styled.div`
@@ -70,6 +96,14 @@ const PayoutDescription = styled.div`
     opacity: 0.8;
     font-size: 1.7rem;
     text-align: center;
+
+    @media only screen and (max-width: 1300px) {
+        text-align: start;
+    }
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.3rem;
+    }
 `;
 
 const Direction = styled.div`
@@ -79,10 +113,18 @@ const Direction = styled.div`
     align-items: center;
     font-weight: 600;
     flex-wrap: wrap;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.4rem;
+    }
 `;
 
 const Icon = styled.img`
     width: 3rem;
+
+    @media only screen and (max-width: 820px) {
+        width: 2rem;
+    }
 `;
 
 const StyledButton = styled(Button)`
@@ -90,6 +132,10 @@ const StyledButton = styled(Button)`
     color: var(--backgroundTertiary);
     font-weight: 600;
     font-size: 1.7rem;
+
+    @media only screen and (max-width: 820px) {
+        font-size: 1.3rem;
+    }
 `;
 
 const Plug = styled.div`
