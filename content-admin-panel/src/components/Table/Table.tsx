@@ -62,10 +62,10 @@ interface TableCellProps {
 }
 
 export const TableCell = styled.div<TableCellProps>`
-    height: 75px;
+    height: 70px;
     display: flex;
     align-items: center;
-    font-size: 18px;
+    font-size: 17px;
     padding: 13px;
     box-sizing: border-box;
     overflow: hidden;
@@ -213,6 +213,5 @@ export const TableWrapper = styled.div`
     display: flex;
     flex-flow: column;
     height: 100%;
-    padding-bottom: 20px;
     flex-grow: 1;
 `;

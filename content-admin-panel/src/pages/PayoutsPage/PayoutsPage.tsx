@@ -6,8 +6,8 @@ import { usePayoutsPage } from './PayoutsPage.hooks';
 import {
     StyledButton,
     StyledButtons,
+    StyledHeader,
     StyledRoot,
-    StyledSelect,
     StyledTableHeader,
     StyledTableRow,
     StyledTableWrapper,
@@ -15,15 +15,19 @@ import {
 } from './PayoutsPage.styled';
 import { Payout, PayoutSelectStatusValues } from '../../api/types/common';
 import { useStore } from '@nanostores/react';
-import { $payouts, $selectedPayout } from '../../stores/payout.store';
+import { $payouts } from '../../stores/payout.store';
 import { PayoutCard } from '../../components/PayoutCard/PayoutCard';
-import { PayoutPage } from '../PayoutPage/PayoutPage';
 import { PayoutPlug } from '../../components/PayoutPlug/PayoutPlug';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
+import { StyledSelect } from '../../components/StyledSelect/StyledSelect';
 
 export const PayoutsPage: React.FC = () => {
     const { getPayoutsList, getPayoutsByType } = usePayoutsPage();
 
-    const selectedPayout = useStore($selectedPayout);
+    const { id = '' } = useParams();
+
+    const navigate = useNavigate();
 
     const payouts = useStore($payouts);
 
@@ -33,11 +37,12 @@ export const PayoutsPage: React.FC = () => {
 
             return;
         }
+
         getPayoutsByType(value);
     };
 
-    const handleClickRow = (payout: Payout) => {
-        $selectedPayout.set(payout);
+    const handlePayoutClick = (payout: Payout) => {
+        navigate(ROUTES.payout(payout?.id));
     };
 
     const handleReloadPage = () => {
@@ -50,8 +55,8 @@ export const PayoutsPage: React.FC = () => {
                 <title>Заявки</title>
             </head>
 
-            <TwoColumns>
-                <StyledRoot>
+            <StyledRoot>
+                <StyledHeader>
                     <Headline3>Заявки</Headline3>
                     <StyledButtons>
                         <StyledButton
@@ -66,7 +71,9 @@ export const PayoutsPage: React.FC = () => {
                             onChange={(value) => handleClickPayoutType(value as string)}
                         />
                     </StyledButtons>
+                </StyledHeader>
 
+                <TwoColumns>
                     <StyledTableWrapper>
                         <StyledTableHeader>
                             <StyledTableHeaderCell>Заявка</StyledTableHeaderCell>
@@ -74,16 +81,17 @@ export const PayoutsPage: React.FC = () => {
                         <TableBody>
                             {payouts.map((item) => {
                                 return (
-                                    <StyledTableRow key={item.id} onClick={() => handleClickRow(item)}>
+                                    <StyledTableRow key={item.id} onClick={() => handlePayoutClick(item)}>
                                         <PayoutCard payout={item} />
                                     </StyledTableRow>
                                 );
                             })}
                         </TableBody>
                     </StyledTableWrapper>
-                </StyledRoot>
-                {selectedPayout ? <PayoutPage /> : <PayoutPlug />}
-            </TwoColumns>
+
+                    {id ? <Outlet /> : <PayoutPlug />}
+                </TwoColumns>
+            </StyledRoot>
         </>
     );
 };

@@ -11,7 +11,7 @@ import {
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
 import { $payout } from '../../stores/payout.store';
-import { formatNumber } from '../../utils/formatNumber';
+import { formatCalculatorInput, formatNumber } from '../../utils/formatNumber';
 
 export const OperationInfo: React.FC = () => {
     const sourceCurrency = useStore($sourceCurrency);
@@ -37,7 +37,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{formatNumber(payout?.amountFrom) || amountFrom}</Amount>
+                    <Amount>{formatNumber(payout?.amountFrom) || formatCalculatorInput(amountFrom)}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img src={payout?.srcCurrency.paymentSystem.imagePath || sourceCurrency?.paymentSystem.imagePath} />
@@ -48,7 +48,7 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{formatNumber(payout?.amountTo) || amountTo}</Amount>
+                    <Amount>{formatNumber(payout?.amountTo) || formatCalculatorInput(amountTo)}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img

@@ -4,10 +4,12 @@ import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $s
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
 import { $email, $payout, $referralCode, $requisites } from '../../stores/payout.store';
+import { formatToSubmit } from '../../utils/formatNumber';
 
 export const useMainPage = () => {
     const sourceCurrency = useStore($sourceCurrency);
     const tagretCurrency = useStore($targetCurrency);
+    const sourceAmount = useStore($amountFrom);
 
     const [error, setError] = React.useState('');
 
@@ -29,7 +31,7 @@ export const useMainPage = () => {
         $course.set(exchangeDirectionsCourse);
 
         if (exchangeDirectionsCourse.isReversed) {
-            $amountTo.set(String(exchangeDirectionsCourse.course / exchangeDirections.minSourceAmount));
+            $amountTo.set(String(exchangeDirections.minSourceAmount /exchangeDirectionsCourse.course));
         } else {
             $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
         }
@@ -39,7 +41,14 @@ export const useMainPage = () => {
         const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceId, targetId);
         $course.set(exchangeDirectionsCourse);
 
-    }, []);
+        if (!formatToSubmit(sourceAmount)) return;
+
+        if (exchangeDirectionsCourse.isReversed ) {
+            $amountTo.set(String(formatToSubmit(sourceAmount) / exchangeDirectionsCourse.course));
+        } else {
+            $amountTo.set(String(exchangeDirectionsCourse.course * formatToSubmit(sourceAmount)));
+        }
+    }, [sourceAmount]);
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
         $exchangeError.set(false);

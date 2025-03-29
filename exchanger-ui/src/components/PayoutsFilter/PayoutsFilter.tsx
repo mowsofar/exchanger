@@ -9,9 +9,9 @@ import { $userPayouts } from '../../stores/user.store';
 export const PayoutStatusValues = [
     { value: '', label: 'Все' },
     { value: 'CREATED', label: 'Создана' },
-    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Ожидается оплата' },
-    { value: 'PAYMENT_RECEIVED', label: 'Оплата получена' },
-    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'Ожидает обработки' },
+    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
+    { value: 'PAYMENT_RECEIVED', label: 'Оплата потверждена' },
+    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'В обработке оператором' },
     { value: 'CANCELLED', label: 'Отклонена' },
     { value: 'ERROR', label: 'Ошибка' },
     { value: 'COMPLETED', label: 'Завершна' },
@@ -64,9 +64,7 @@ export const PayoutsFilter = () => {
             $payoutFilter.set(status);
             const payouts = await getFilteredPayouts(status);
             $userPayouts.set(payouts);
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
 
     return (

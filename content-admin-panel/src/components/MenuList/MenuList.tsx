@@ -87,6 +87,7 @@ const menuItems = [
     { key: ROUTES.payouts, name: 'Заявки' },
     { key: ROUTES.exchangeDirections, name: 'Направления обмена' },
     { key: ROUTES.additionalFields, name: 'Дополнительные поля валют' },
+    { key: ROUTES.requisites, name: 'Реквизиты' },
 ];
 
 export const MenuList: React.FC = () => {

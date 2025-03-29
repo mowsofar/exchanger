@@ -9,7 +9,13 @@ export function formatNumber(n: number | undefined) {
 }
 
 export function formatCalculatorInput(value: string | number): string {
-    let inputValue = String(value);
+    let number = value;
+
+    if (String(value).includes('e')) {
+        number = Number(value).toFixed(12);
+    }
+
+    let inputValue = String(number);
 
     const parts = inputValue.split('.');
 

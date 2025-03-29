@@ -7,6 +7,7 @@ export const ROUTES = {
     currencyCode: '/content-admin/currecy_code',
     exchangeDirections: '/content-admin/exchange-directions',
     payouts: '/content-admin/payouts',
-    payout: (id: number | undefined) => `/content-admin/payout/${id || ':id'}`,
+    payout: (payouId?: number | undefined) => `/content-admin/payouts/${payouId || ':id'}`,
     additionalFields: '/content-admin/additional-fields',
+    requisites: '/content-admin/requisites',
 };

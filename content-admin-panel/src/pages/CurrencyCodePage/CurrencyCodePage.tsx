@@ -1,6 +1,6 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledRoot, StyledTableHeader, StyledTableRow } from './CurrencyCodePage.styled';
+import { StyledContent, StyledRoot, StyledTableHeader, StyledTableRow } from './CurrencyCodePage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
 import { AddCurrencyCodeModal } from '../../components/CurrencyCodeModals/AddCurrencyCodeModal';
@@ -32,47 +32,49 @@ export const CurrencyCodePage: React.FC = () => {
             </head>
 
             <StyledRoot>
-                <Headline3>Коды валют</Headline3>
-                <Button
-                    text="Добавить код валюты"
-                    size="s"
-                    contentLeft={<IconPlus color="white" />}
-                    onClick={() => setAddCurrencyCodeModalOpen((state) => !state)}
-                />
-                <TableWrapper>
-                    <StyledTableHeader>
-                        <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Символ</StyledTableHeaderCell>
-                    </StyledTableHeader>
-                    <TableBody>
-                        {currencyCodeList.map((item) => {
-                            return (
-                                <StyledTableRow key={item.id}>
-                                    <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                        {item.code}
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>{item.symbol}</StyledTableCellName>
-                                    <StyledTableCellName>
-                                        <Button
-                                            view="clear"
-                                            onClick={() => {
-                                                setSelectedCurrencyCode(item);
-                                                setEditCurrencyCodeModalOpen(true);
-                                            }}
-                                        >
-                                            <IconEdit color={accent} />
-                                        </Button>
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>
-                                        <Button view="clear" onClick={() => handleDeleteCurrencyCode(item.id)}>
-                                            <IconTrash />
-                                        </Button>
-                                    </StyledTableCellName>
-                                </StyledTableRow>
-                            );
-                        })}
-                    </TableBody>
-                </TableWrapper>
+                <StyledContent>
+                    <Headline3>Коды валют</Headline3>
+                    <Button
+                        text="Добавить код валюты"
+                        size="s"
+                        contentLeft={<IconPlus color="white" />}
+                        onClick={() => setAddCurrencyCodeModalOpen((state) => !state)}
+                    />
+                    <TableWrapper>
+                        <StyledTableHeader>
+                            <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Символ</StyledTableHeaderCell>
+                        </StyledTableHeader>
+                        <TableBody>
+                            {currencyCodeList.map((item) => {
+                                return (
+                                    <StyledTableRow key={item.id}>
+                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                            {item.code}
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>{item.symbol}</StyledTableCellName>
+                                        <StyledTableCellName>
+                                            <Button
+                                                view="clear"
+                                                onClick={() => {
+                                                    setSelectedCurrencyCode(item);
+                                                    setEditCurrencyCodeModalOpen(true);
+                                                }}
+                                            >
+                                                <IconEdit color={accent} />
+                                            </Button>
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>
+                                            <Button view="clear" onClick={() => handleDeleteCurrencyCode(item.id)}>
+                                                <IconTrash />
+                                            </Button>
+                                        </StyledTableCellName>
+                                    </StyledTableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </TableWrapper>
+                </StyledContent>
 
                 <AddCurrencyCodeModal
                     opened={isAddCurrencyCodeModalOpen}

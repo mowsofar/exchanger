@@ -4,6 +4,7 @@ import {
     CurrenciesExchangeDirection,
     Currency,
     Icon,
+    StyledContent,
     StyledRoot,
     StyledTableHeader,
     StyledTableRow,
@@ -36,67 +37,69 @@ export const ExchangeDirectionsPage: React.FC = () => {
             </head>
 
             <StyledRoot>
-                <Headline3>Направления обмена</Headline3>
-                <Button
-                    text="Добавить направление"
-                    size="s"
-                    contentLeft={<IconPlus color="white" />}
-                    onClick={() => setAddExchangeDirectionModalOpen(true)}
-                />
-                <TableWrapper>
-                    <StyledTableHeader>
-                        <StyledTableHeaderCell>Направление</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Мин. сумма обмена</StyledTableHeaderCell>
-                        <StyledTableHeaderCell>Макс. сумма обмена</StyledTableHeaderCell>
-                        <StyledTableHeaderCell />
-                        <StyledTableHeaderCell />
-                    </StyledTableHeader>
-                    <TableBody>
-                        {exchangeDirectionsList.map((item) => {
-                            return (
-                                <StyledTableRow key={item.id}>
-                                    <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                        <CurrenciesExchangeDirection>
-                                            <Currency>
-                                                <Icon src={item.sourceCurrency.paymentSystem.imagePath} />{' '}
-                                                {item.sourceCurrency.paymentSystem.name}{' '}
-                                                {item.sourceCurrency.currencyCode.code}
-                                            </Currency>
-                                            <IconChevronRight size="xs" color={accent} />
-                                            <Currency>
-                                                <Icon src={item.targetCurrency.paymentSystem.imagePath} />{' '}
-                                                {item.targetCurrency.paymentSystem.name}{' '}
-                                                {item.targetCurrency.currencyCode.code}
-                                            </Currency>
-                                        </CurrenciesExchangeDirection>
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>
-                                        {item.minSourceAmount} {item.sourceCurrency.currencyCode.code}
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>
-                                        {item.maxSourceAmount} {item.sourceCurrency.currencyCode.code}
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>
-                                        <Button
-                                            view="clear"
-                                            onClick={() => {
-                                                setSelectedExchangeDirection(item);
-                                                setEditExchangeDirectionModalOpen(true);
-                                            }}
-                                        >
-                                            <IconEdit />
-                                        </Button>
-                                    </StyledTableCellName>
-                                    <StyledTableCellName>
-                                        <Button view="clear" onClick={() => deleteExchangeDirectionItem(item.id)}>
-                                            <IconTrash />
-                                        </Button>
-                                    </StyledTableCellName>
-                                </StyledTableRow>
-                            );
-                        })}
-                    </TableBody>
-                </TableWrapper>
+                <StyledContent>
+                    <Headline3>Направления обмена</Headline3>
+                    <Button
+                        text="Добавить направление"
+                        size="s"
+                        contentLeft={<IconPlus color="white" />}
+                        onClick={() => setAddExchangeDirectionModalOpen(true)}
+                    />
+                    <TableWrapper>
+                        <StyledTableHeader>
+                            <StyledTableHeaderCell>Направление</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Мин. сумма обмена</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Макс. сумма обмена</StyledTableHeaderCell>
+                            <StyledTableHeaderCell />
+                            <StyledTableHeaderCell />
+                        </StyledTableHeader>
+                        <TableBody>
+                            {exchangeDirectionsList.map((item) => {
+                                return (
+                                    <StyledTableRow key={item.id}>
+                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                            <CurrenciesExchangeDirection>
+                                                <Currency>
+                                                    <Icon src={item.sourceCurrency.paymentSystem.imagePath} />{' '}
+                                                    {item.sourceCurrency.paymentSystem.name}{' '}
+                                                    {item.sourceCurrency.currencyCode.code}
+                                                </Currency>
+                                                <IconChevronRight size="xs" color={accent} />
+                                                <Currency>
+                                                    <Icon src={item.targetCurrency.paymentSystem.imagePath} />{' '}
+                                                    {item.targetCurrency.paymentSystem.name}{' '}
+                                                    {item.targetCurrency.currencyCode.code}
+                                                </Currency>
+                                            </CurrenciesExchangeDirection>
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>
+                                            {item.minSourceAmount} {item.sourceCurrency.currencyCode.code}
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>
+                                            {item.maxSourceAmount} {item.sourceCurrency.currencyCode.code}
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>
+                                            <Button
+                                                view="clear"
+                                                onClick={() => {
+                                                    setSelectedExchangeDirection(item);
+                                                    setEditExchangeDirectionModalOpen(true);
+                                                }}
+                                            >
+                                                <IconEdit />
+                                            </Button>
+                                        </StyledTableCellName>
+                                        <StyledTableCellName>
+                                            <Button view="clear" onClick={() => deleteExchangeDirectionItem(item.id)}>
+                                                <IconTrash />
+                                            </Button>
+                                        </StyledTableCellName>
+                                    </StyledTableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </TableWrapper>
+                </StyledContent>
 
                 <AddExchangeDirectionModal
                     opened={isAddExchangeDirectionModalOpen}

@@ -1,9 +1,10 @@
 import { ROUTES } from "../constants/routes";
-import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus } from "./types/common";
+import { handleTokenRefresh } from "./tokenHandlers";
+import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
 
 function handleResponse(response: Response) {
     if (response.status === 403) {
-        window.location.replace(ROUTES.login);
+        handleTokenRefresh();
     }
 
     if (response.status === 200 && window.location.pathname === ROUTES.login) {
@@ -24,7 +25,7 @@ function handleResponse(response: Response) {
 
 function requestToApi(
     endpoint: string,
-    options: Partial<RequestInit>,
+    options?: Partial<RequestInit>,
     body?: unknown,
 ) {
     const requestOptions: RequestInit = {
@@ -44,6 +45,14 @@ function requestToApi(
 export function getLoginData(email: string, password: string, twoFactorCode: string
 ): Promise<LoginData> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password, twoFactorCode });
+}
+
+export function refreshToken(): Promise<unknown> {
+    return requestToApi('api/v1/auth/refreshToken', { method: 'POST' });
+}
+
+export function getAccount(): Promise<User> {
+    return requestToApi('api/user/getaccount');
 }
 
 export function getCurrencyCodes(
@@ -190,4 +199,24 @@ export function setPayoutStatus(id: number, status: PayoutStatus
 export function updatePayoutRequisites(id: number, exchangeRequisites: string
 ): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/exchange-requisites`, { method: 'PATCH' }, { exchangeRequisites });
+}
+
+export function getRequisites(
+): Promise<Requisites[]> {
+    return requestToApi(`api/requisites`, { method: 'GET' });
+}
+
+export function createRequisites(name: string, details: string, currencyIds: number[]
+): Promise<Requisites[]> {
+    return requestToApi(`api/requisites`, { method: 'POST' }, { name, details, currencyIds });
+}
+
+export function editRequisites(id: number, name: string, details: string, currencyIds: number[]
+): Promise<unknown> {
+    return requestToApi(`api/requisites/${id}`, { method: 'PUT' }, { name, details, currencyIds });
+}
+
+export function deleteRequisites(id: number
+): Promise<unknown> {
+    return requestToApi(`api/requisites/${id}`, { method: 'DELETE' });
 }

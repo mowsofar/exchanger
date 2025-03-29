@@ -86,25 +86,15 @@ export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_R
 export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
     { value: '', label: 'Все заявки' },
     { value: 'CREATED', label: 'Созданные' },
-    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Ожидают оплаты' },
-    { value: 'PAYMENT_RECEIVED', label: 'Оплата получена' },
-    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'Ожидают обработки' },
+    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
+    { value: 'PAYMENT_RECEIVED', label: 'Оплачена и ожидает обработки' },
+    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'В обработке' },
     { value: 'CANCELLED', label: 'Отклонённые' },
     { value: 'ERROR', label: 'Ошибка' },
     { value: 'COMPLETED', label: 'Завершённые' },
 ];
 
 export type StatusType = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
-
-export const PayoutStatusValues = [
-    { value: 'CREATED', label: 'Создана', view: 'primary' },
-    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Ожидается оплата', view: 'accent' },
-    { value: 'PAYMENT_RECEIVED', label: 'Оплата получена', view: 'accent' },
-    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'Ожидает обработки', view: 'accent' },
-    { value: 'CANCELLED', label: 'Отклонена', view: 'accent' },
-    { value: 'ERROR', label: 'Ошибка', view: 'negative'},
-    { value: 'COMPLETED', label: 'Завершна', view: 'positive' }
-];
 
 export interface UserForPayout {
     firstname: string;
@@ -153,3 +143,20 @@ export interface ExchangeDirection {
         updatedAt: string;
         currentRate: number;
 };
+
+export interface User {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    referralCode: string;
+    balance: number;
+    payouts: Payout[];
+}
+
+export interface Requisites {
+    id: number;
+    name: string;
+    details: string;
+    currencies: Currency[];
+}

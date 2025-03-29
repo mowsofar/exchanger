@@ -4,20 +4,25 @@ import { Badge } from '@salutejs/plasma-web';
 import { accent } from '@salutejs/plasma-tokens';
 
 export const StyledRoot = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
+export const StyledContent = styled.div`
+    height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
     row-gap: 25px;
     padding: 30px;
-    height: 100vh;
 `;
 
 export const StyledTableRow = styled(TableRow)`
-    grid-template-columns: 200px 1fr 220px 150px 60px 60px;
+    grid-template-columns: 350px 1fr 220px 150px 60px 60px;
     padding: 0 16px;
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
-    grid-template-columns: 200px 1fr 220px 150px 60px 60px;
+    grid-template-columns: 350px 1fr 220px 150px 60px 60px;
     padding: 0 16px;
     padding-right: 23px;
 `;

@@ -7,14 +7,14 @@ import { getPayoutData } from '../../utils/getPayoutData';
 import { IconArrowRight } from '@salutejs/plasma-icons';
 
 const StyledRoot = styled.div`
-    width: 340px;
+    width: 360px;
     height: fit-content;
     background-color: ${surfaceSolid02};
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     margin: auto;
-    row-gap: 20px;
+    row-gap: 10px;
     padding: 20px 20px;
 
     &:hover {
@@ -23,7 +23,7 @@ const StyledRoot = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     color: ${blackSecondary};
 
@@ -34,27 +34,30 @@ const Title = styled.div`
 
 const StyledBadge = styled(Badge)`
     border-radius: 15px;
-    height: 35px;
+    height: 30px;
     font-weight: 600;
-    padding: 10px 15px;
+    font-size: 14px !important;
+    padding: 0px 15px;
 `;
 
 const Direction = styled.div`
     display: flex;
     column-gap: 5px;
+    font-size: 15px;
     align-items: center;
     font-weight: 600;
     flex-wrap: wrap;
 `;
 
 const Icon = styled.img`
-    width: 20px;
+    width: 15px;
 `;
 
 const Email = styled.div`
     display: flex;
     justify-content: space-between;
     font-weight: 600;
+    font-size: 15px;
 
     & div:nth-child(1) {
         color: ${blackSecondary};

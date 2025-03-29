@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { createCurrencyCode, deleteCurrencyCode, editCurrencyCode, getCurrencyCodes } from '../../api/handlers';
+import { createCurrencyCode, deleteCurrencyCode, editCurrencyCode, getAccount, getCurrencyCodes } from '../../api/handlers';
 import { $currencyCodeList } from '../../stores/currencyCode.store';
 import { useNotification } from '../../hooks/useNotification';
 
@@ -9,6 +9,12 @@ export const useCurrencyCodePage = () => {
     const getCurrencyCodeList = useCallback(
         async () => {
                 try {
+                    const user = await getAccount();
+                    localStorage.setItem('firstName', user?.firstname);
+                    localStorage.setItem('lastName', user?.lastname);
+                    localStorage.setItem('email', user?.email);
+                    
+                    console.log(user);
                     const currencyCodes = await getCurrencyCodes();
                     $currencyCodeList.set(currencyCodes);
 

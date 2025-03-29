@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
 import { AppLayout } from './components/AppLayout';
 import { LoginPage } from './pages/LoginPage/LoginPage';
@@ -13,24 +13,26 @@ import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
 import { PayoutPage } from './pages/PayoutPage/PayoutPage';
 import { ExchangeDirectionsPage } from './pages/ExchangeDirectionsPage/ExchangeDirectionsPage';
 import { AdditionalFieldsPage } from './pages/AdditionalFieldsPage/AdditionalFieldsPage';
-import { $selectedPayout } from './stores/payout.store';
+import { RequisitesPage } from './pages/RequisitesPage/RequisitesPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
-    const selectedPayout = useStore($selectedPayout);
 
     return (
         <BrowserRouter>
             <Routes>
                 <Route path={ROUTES.root} element={<AppLayout />}>
+                    <Route index element={<Navigate to={ROUTES.login} replace />} />
                     <Route path={ROUTES.paymentSystems} element={<PaymentSystemsPage />} />
                     <Route path={ROUTES.currencyCode} element={<CurrencyCodePage />} />
                     <Route path={ROUTES.currency} element={<CurrenciesPage />} />
-                    <Route path={ROUTES.payouts} element={<PayoutsPage />} />
-                    <Route path={ROUTES.payout(selectedPayout?.id)} element={<PayoutPage />} />
+                    <Route path={ROUTES.payouts} element={<PayoutsPage />}>
+                        <Route path={ROUTES.payout()} element={<PayoutPage />} />
+                    </Route>
                     <Route path={ROUTES.currencyGenerals(selectedCurrency?.id)} element={<CurrenciesGeneralsPage />} />
                     <Route path={ROUTES.exchangeDirections} element={<ExchangeDirectionsPage />} />
                     <Route path={ROUTES.additionalFields} element={<AdditionalFieldsPage />} />
+                    <Route path={ROUTES.requisites} element={<RequisitesPage />} />
                     <Route path="*" element="" />
                 </Route>
                 <Route path={ROUTES.login} element={<LoginPage />} />

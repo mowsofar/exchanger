@@ -5,9 +5,10 @@ import { accent, blackTertiary } from "@salutejs/plasma-tokens";
 
 export const StyledRoot = styled.div`
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
-    row-gap: 30px;
-    padding: 30px;
+    row-gap: 20px;
+    padding: 0px 50px;
     margin-top: 20px;
     overflow-y: scroll;
 `;
@@ -18,8 +19,8 @@ export const TitleBlock = styled.div`
 `;
 
 export const StyledSaveButton = styled(Button)`
-    height: 40px;
-    padding: 20px 40px;
+    height: 25px !important;
+    padding: 17px 25px;
 `;
 
 export const StyledLine = styled.div`
@@ -39,18 +40,21 @@ export const StyledLine = styled.div`
 
 export const StyledTwoBlocks = styled.div`
     display: flex;
-    column-gap: 70px;
+    column-gap: 60px;
+    overflow-y: scroll;
+    padding-right: 10px;
 `;
 
 export const StyledButtons = styled.div`
     display: flex;
-    column-gap: 30px;
+    column-gap: 20px;
 `;
 
 export const StyledBlock = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 15px;
+    max-width: 350px;
 `;
 
 export const StyledBadge = styled(Badge)`
@@ -76,7 +80,7 @@ export const Row = styled.div`
 
 export const Course = styled.div`
     color: ${accent};
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
 `;
 
@@ -86,4 +90,16 @@ export const StyledTextField = styled(TextField)`
     & label {
         font-weight: 550 !important;
     }
+`;
+
+export const StyledBill = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+   
+   & a {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+   }
 `;

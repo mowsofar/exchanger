@@ -4,6 +4,10 @@ import { refreshToken } from "./handlers";
 function logoutUser() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage.removeItem('email');
+    window.location.replace(ROUTES.login);
 }
 
 export async function handleTokenRefresh() {

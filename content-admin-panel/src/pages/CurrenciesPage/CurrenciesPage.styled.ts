@@ -2,11 +2,16 @@ import styled from "styled-components";
 import { TableHeader, TableRow } from "../../components/Table/Table";
 
 export const StyledRoot = styled.div`
+    width: 100%;
+    height: 100%;
+`;
+
+export const StyledContent = styled.div`
+    height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
     row-gap: 25px;
     padding: 30px;
-    height: 100vh;
 `;
 
 export const StyledTableRow = styled(TableRow)`
@@ -21,6 +26,5 @@ export const StyledTableHeader = styled(TableHeader)`
 `;
 
 export const StyledImg = styled.img`
-    height: 45px;
-    width: 45px;
+    height: 40px;
 `;

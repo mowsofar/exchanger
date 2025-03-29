@@ -22,8 +22,7 @@ export const StyledForm = styled.form`
     row-gap: 15px;
     align-items: center;
     height: fit-content;
-    width: 22vw;
-    min-width: 300px;
+    width: 380px;
     border-radius: 30px;
     padding: 40px;
     background-color: ${whitePrimary};
@@ -58,4 +57,9 @@ export const StyledControls = styled.div`
     flex-direction: column;
     align-items: center;
     margin-top: 24px;
+`;
+
+export const StyledError = styled.div`
+    padding-top: 10px;
+    color: red;
 `;

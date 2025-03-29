@@ -13,26 +13,26 @@ export function getPayoutStatus(payout: Payout | null) {
         case 'COMPLETED':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> завершена
+                    Заявка <span>№{payout.id}</span> завершена.
                 </div>
             );
         case 'WAITING_FOR_CLIENT_PAYMENT':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> ожидает оплаты
+                    Заявка <span>№{payout.id}</span>. Проверка поступления средств
                 </div>
             );
 
         case 'PAYMENT_RECEIVED':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span>. Оплата подтверждена
+                    Заявка <span>№{payout.id}</span>. Оплата подтверждена. Осуществляется выплата
                 </div>
             );
         case 'WAITING_FOR_OPERATOR_PROCESSING':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> ожидает обработки
+                    Заявка <span>№{payout.id}</span> в обработке. Оплата подтверждена. Осуществляется выплата
                 </div>
             );
 
@@ -67,7 +67,12 @@ export function getPayoutStatusDescription(payout: Payout | null) {
                 </div>
             );
         case 'WAITING_FOR_CLIENT_PAYMENT':
-            return <div>Заявка ожидает оплаты.</div>;
+            return (
+                <div>
+                    После отправки средства не всегда поступают мгновенно. Зачисление средств на ваш счёт может занять
+                    некоторое время. Операция занимает от 5 до 20 минут.
+                </div>
+            );
 
         case 'PAYMENT_RECEIVED':
             return <div>В течение 15-30 минут ваша заявка будет обработана.</div>;

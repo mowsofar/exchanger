@@ -11,10 +11,13 @@ export function getPayoutData(payout: PayoutStatus): { label: string, view: View
             return { label: 'Создана', view: 'accent' };
         }
         case 'WAITING_FOR_CLIENT_PAYMENT': 
-            return { label: 'Ожидается оплата', view: 'accent' };
+            return { label: 'Проверка поступления средств', view: 'warning' };
+
+        case 'PAYMENT_RECEIVED':
+                return { label: 'Оплачена и ожидает обработки', view: 'warning' };
 
         case 'WAITING_FOR_OPERATOR_PROCESSING': 
-            return { label: 'Ожидает обработки', view: 'accent' };
+            return { label: 'В обработке', view: 'accent' };
 
         case 'ERROR':
             return { label: 'Ошибка', view: 'negative' };
@@ -30,18 +33,20 @@ export function getPayoutData(payout: PayoutStatus): { label: string, view: View
     }
 }
 
-export function getPayoutControls(payout: PayoutStatus | undefined): { label: string, value: PayoutStatus, view?: ButtonViewType}[]  {
+export function getPayoutControls(payout: PayoutStatus | undefined): { label: string, value: PayoutStatus | '', view?: ButtonViewType}[]  {
     if (!payout) {
         return [];
     }
 
     switch (payout) {
         case 'CREATED': 
-            return [{ label: 'Перевести в "Ожидает оплаты"', value: 'WAITING_FOR_CLIENT_PAYMENT'}];
+            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}];
         case 'WAITING_FOR_CLIENT_PAYMENT': 
-            return [{ label: 'Взять в работу', value: 'WAITING_FOR_OPERATOR_PROCESSING' }];
+            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}];
+        case 'PAYMENT_RECEIVED': 
+            return [{ label: 'Взять в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
         case 'WAITING_FOR_OPERATOR_PROCESSING': 
-            return [{ label: 'Выполнить', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'Ошибка', value: 'ERROR', view: 'critical'}];
+            return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
         default:
             return [];
     }

@@ -2,25 +2,24 @@ import React, { useCallback } from 'react';
 import { getPayout, getPayouts, setPayoutStatus, updatePayoutRequisites } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts, $selectedPayout } from '../../stores/payout.store';
-import { useStore } from '@nanostores/react';
 import { PayoutStatus } from '../../api/types/common';
+import { useParams } from 'react-router-dom';
 
 export const usePayoutPage = () => {
     const showNotification = useNotification();
-    const selectedPayout = useStore($selectedPayout);
+
+    const { id = '' } = useParams();
 
     const getPayoutItem = useCallback(
         async () => {
                 try {
-                    if (selectedPayout?.id) {
-                        const payoutItem = await getPayout(selectedPayout.id);
-                        $selectedPayout.set(payoutItem);
-                    }
+                    const payoutItem = await getPayout(Number(id));
+                    $selectedPayout.set(payoutItem);
                     
                 } catch (error) {
                     showNotification('Не удалось загрузить заявку', 'error', error);
                 }
-            }, [selectedPayout?.id, showNotification]
+            }, [id, showNotification]
     );
 
     const getPayoutsList = useCallback(

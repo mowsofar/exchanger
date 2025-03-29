@@ -7,7 +7,6 @@ function handleResponse(response: Response) {
         const data = text && JSON.parse(text);
 
         if (response.status === 403) {
-            console.log('ss');
             handleTokenRefresh();
         }
 
@@ -151,7 +150,7 @@ export function getPayout(id: number): Promise<Payout> {
 
 export function setPayoutStatus(id: number
 ): Promise<Payout> {
-    return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_OPERATOR_PROCESSING' });
+    return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_CLIENT_PAYMENT' });
 }
 
 export function uploadPayoutAttachment(id: number, file: FormData
