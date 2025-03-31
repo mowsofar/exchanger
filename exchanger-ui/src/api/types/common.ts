@@ -52,6 +52,7 @@ export interface ExchangeDirection {
     reserves: number;
     updatedAt: string;
     currentRate: number;
+    course: number;
 };
 
 export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
@@ -108,3 +109,4 @@ export interface User {
     balance: number;
     payouts: Payout[];
 }
+  

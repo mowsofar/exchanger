@@ -26,7 +26,7 @@ export function getPayoutData(payout: PayoutStatus): { label: string, view: View
             return { label: 'Отклонена', view: 'negative' };
 
         case 'COMPLETED': 
-            return { label: 'Завершна', view: 'positive' }
+            return { label: 'Завершена', view: 'positive' }
 
         default:
             return { label: '', view: 'primary' };

@@ -3,6 +3,7 @@ import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } f
 import {
     Currencies,
     StyledBadge,
+    StyledButton,
     StyledContent,
     StyledRoot,
     StyledTableHeader,
@@ -10,7 +11,6 @@ import {
 } from './AdditionalFieldsPage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
-import { Button } from '../../components/Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { accent } from '@salutejs/plasma-tokens';
 import { useAdditionalFieldsPage } from './AdditionalFieldsPage.hooks';
@@ -18,6 +18,7 @@ import { $additionalFields } from '../../stores/currency.store';
 import { AddAdditionalFieldModal } from '../../components/AdditionaFieldModals/AddAdditionaFieldModal';
 import { AdditionalFieldDirection } from '../../api/types/common';
 import { EditAdditionalFieldModal } from '../../components/AdditionaFieldModals/EditAdditionalFieldModal';
+import { Button } from '@salutejs/plasma-ui';
 
 export const AdditionalFieldsPage: React.FC = () => {
     const { createAdditionalFieldItem, editAdditionalFieldItem, deleteAdditionalFieldItem } = useAdditionalFieldsPage();
@@ -38,10 +39,10 @@ export const AdditionalFieldsPage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Дополнительные поля валют</Headline3>
-                    <Button
+                    <StyledButton
                         text="Добавить поле"
                         size="s"
-                        contentLeft={<IconPlus color="white" />}
+                        contentLeft={<IconPlus />}
                         onClick={() => setAddAdditionaFieldModalOpen(true)}
                     />
                     <TableWrapper>

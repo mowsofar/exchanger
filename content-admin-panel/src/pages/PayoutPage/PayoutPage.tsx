@@ -21,6 +21,7 @@ import { $selectedPayout } from '../../stores/payout.store';
 import { usePayoutPage } from './PayoutPage.hooks';
 import { InfoBlock } from '../../components/InfoBlock/InfoBlock';
 import { Link } from 'react-router-dom';
+import { formatCalculatorInput } from '../../utils/formatNumber';
 
 export const PayoutPage: React.FC = () => {
     const { editPayoutStatus, setPayoutRequisites } = usePayoutPage();
@@ -29,7 +30,9 @@ export const PayoutPage: React.FC = () => {
 
     const [exchangeRequisites, setExchangeRequisites] = React.useState('');
 
-    const courseTitle = `Курс: 1 ${payout?.srcCurrency?.currencyCode.code} = ${payout?.course} ${payout?.targetCurrency?.currencyCode.code}`;
+    const courseTitle = `Курс: 1 ${payout?.srcCurrency?.currencyCode.code} = ${formatCalculatorInput(
+        payout?.course,
+    )} ${payout?.targetCurrency?.currencyCode.code}`;
 
     const controls = getPayoutControls(payout?.status);
 
@@ -85,7 +88,7 @@ export const PayoutPage: React.FC = () => {
                     {payout?.user?.lastname && (
                         <InfoBlock label="Фамилия" value={payout?.user?.lastname} hasCopyButton />
                     )}
-                    <InfoBlock label="E-mail" value={payout?.email} hasCopyButton />
+                    <InfoBlock label="E-mail" value={payout?.email || payout?.user?.email} hasCopyButton />
                     <InfoBlock label="IP" value={payout?.ipAddress} hasCopyButton />
 
                     {payout?.sourceAdditionalFields.map((field) => (
@@ -101,7 +104,7 @@ export const PayoutPage: React.FC = () => {
 
                 <StyledBlock>
                     <Headline4>Детали</Headline4>
-                    <InfoBlock label="Отдаёт клиент" value={payout?.amountFrom} hasCopyButton />
+                    <InfoBlock label="Отдаёт клиент" value={formatCalculatorInput(payout?.amountFrom)} hasCopyButton />
                     <InfoBlock
                         label="Валюта"
                         value={
@@ -111,7 +114,7 @@ export const PayoutPage: React.FC = () => {
                             </Row>
                         }
                     />
-                    <InfoBlock label="Переводит сервис" value={payout?.amountTo} hasCopyButton />
+                    <InfoBlock label="Переводит сервис" value={formatCalculatorInput(payout?.amountTo)} hasCopyButton />
                     <InfoBlock
                         label="Валюта"
                         value={
@@ -132,7 +135,8 @@ export const PayoutPage: React.FC = () => {
                     ) : null}
 
                     <StyledTextField
-                        label="Реквизиты для оплаты заявки"
+                        label="Введите реквизиты для оплаты заявки"
+                        placeholder="Введите реквизиты"
                         value={exchangeRequisites}
                         onChange={(e) => setExchangeRequisites(e.target.value)}
                     />

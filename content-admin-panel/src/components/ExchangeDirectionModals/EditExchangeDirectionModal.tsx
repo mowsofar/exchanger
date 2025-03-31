@@ -1,9 +1,11 @@
-import { Headline3, Modal, Select, TextField } from '@salutejs/plasma-web';
+import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { ExchangeDirection } from '../../api/types/common';
 import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
+import { TextFieldGrey } from '../TextField/TextField';
+import { Select } from '../Select/Select';
 
 interface EditExchangeDirectionModalProps {
     exchangeDirection: ExchangeDirection;
@@ -34,7 +36,7 @@ const Content = styled.div`
     }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 
     & label {

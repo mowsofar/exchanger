@@ -14,84 +14,91 @@ export const useMainPage = () => {
     const [error, setError] = React.useState('');
 
     const getCurrencies = React.useCallback(async () => {
-        $payout.set(null);
-        const sourceCurrencies = await getLeftColumnCurrencies();
-        $sourceCurrencies.set(sourceCurrencies);
-        $sourceCurrency.set(sourceCurrencies[0]);
-
-        const targetCurrencies = await getRightColumnCurrencies(sourceCurrencies[0].id);
-        $targetCurrencies.set(targetCurrencies);
-        $targetCurrency.set(targetCurrencies[0]);
-
-        const exchangeDirections = await getExchangeDirections(sourceCurrencies[0].id, targetCurrencies[0].id);
-        $exchangeDirection.set(exchangeDirections);
-        $amountFrom.set(String(exchangeDirections.minSourceAmount));
-
-        const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrencies[0].id, targetCurrencies[0].id);
-        $course.set(exchangeDirectionsCourse);
-
-        if (exchangeDirectionsCourse.isReversed) {
-            $amountTo.set(String(exchangeDirections.minSourceAmount /exchangeDirectionsCourse.course));
-        } else {
-            $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
-        }
+        try {
+            $payout.set(null);
+            const sourceCurrencies = await getLeftColumnCurrencies();
+            $sourceCurrencies.set(sourceCurrencies);
+            $sourceCurrency.set(sourceCurrencies[0]);
+    
+            const targetCurrencies = await getRightColumnCurrencies(sourceCurrencies[0].id);
+            $targetCurrencies.set(targetCurrencies);
+            $targetCurrency.set(targetCurrencies[0]);
+    
+            const exchangeDirections = await getExchangeDirections(sourceCurrencies[0].id, targetCurrencies[0].id);
+            $exchangeDirection.set(exchangeDirections);
+            $amountFrom.set(String(exchangeDirections.minSourceAmount));
+    
+            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrencies[0].id, targetCurrencies[0].id);
+            $course.set(exchangeDirectionsCourse);
+    
+            if (exchangeDirectionsCourse.isReversed) {
+                $amountTo.set(String(exchangeDirections.minSourceAmount /exchangeDirectionsCourse.course));
+            } else {
+                $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+            }
+        } catch {}
     }, []);
 
     const getExchangeCourse = React.useCallback(async (sourceId: number, targetId: number) => {
-        const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceId, targetId);
-        $course.set(exchangeDirectionsCourse);
-
-        if (!formatToSubmit(sourceAmount)) return;
-
-        if (exchangeDirectionsCourse.isReversed ) {
-            $amountTo.set(String(formatToSubmit(sourceAmount) / exchangeDirectionsCourse.course));
-        } else {
-            $amountTo.set(String(exchangeDirectionsCourse.course * formatToSubmit(sourceAmount)));
-        }
+        try {
+            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceId, targetId);
+            $course.set(exchangeDirectionsCourse);
+    
+            if (!formatToSubmit(sourceAmount)) return;
+    
+            if (exchangeDirectionsCourse.isReversed ) {
+                $amountTo.set(String(formatToSubmit(sourceAmount) / exchangeDirectionsCourse.course));
+            } else {
+                $amountTo.set(String(exchangeDirectionsCourse.course * formatToSubmit(sourceAmount)));
+            }
+        } catch {}        
     }, [sourceAmount]);
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
-        $exchangeError.set(false);
-        setError('');
-        const targetCurrencies = await getRightColumnCurrencies(sourceCurrency.id);
-            $targetCurrencies.set(targetCurrencies);
-
-            if (tagretCurrency && !targetCurrencies.includes(tagretCurrency)) {
-                $targetCurrency.set(targetCurrencies[0]);
-            }
-
-            const exchangeDirections = await getExchangeDirections(sourceCurrency.id, targetCurrencies[0]?.id);
-            $exchangeDirection.set(exchangeDirections);
-                
-            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, targetCurrencies[0]?.id);
-            $course.set(exchangeDirectionsCourse);
-            $amountFrom.set(String(exchangeDirections.minSourceAmount));
-
-            if (exchangeDirectionsCourse.isReversed) {
-                $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
-            } else {
-                $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
-            }
+        try {
+            $exchangeError.set(false);
+            setError('');
+            const targetCurrencies = await getRightColumnCurrencies(sourceCurrency.id);
+                $targetCurrencies.set(targetCurrencies);
+    
+                if (tagretCurrency && !targetCurrencies.includes(tagretCurrency)) {
+                    $targetCurrency.set(targetCurrencies[0]);
+                }
+    
+                const exchangeDirections = await getExchangeDirections(sourceCurrency.id, targetCurrencies[0]?.id);
+                $exchangeDirection.set(exchangeDirections);
+                    
+                const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, targetCurrencies[0]?.id);
+                $course.set(exchangeDirectionsCourse);
+                $amountFrom.set(String(exchangeDirections.minSourceAmount));
+    
+                if (exchangeDirectionsCourse.isReversed) {
+                    $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
+                } else {
+                    $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+                }
+        } catch {}
     }, [tagretCurrency]);
 
     const setTargetCurrency = React.useCallback(async (tagretCurrency: Currency) => {
-        $exchangeError.set(false);
-        setError('');
-        if (sourceCurrency) {
-            const exchangeDirections = await getExchangeDirections(sourceCurrency?.id, tagretCurrency?.id);
-            $exchangeDirection.set(exchangeDirections);
-
-            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, tagretCurrency?.id);
-            $course.set(exchangeDirectionsCourse);
-            $amountFrom.set(String(exchangeDirections.minSourceAmount));
-
-            if (exchangeDirectionsCourse.isReversed) {
-                $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
-            } else {
-                $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+        try {
+            $exchangeError.set(false);
+            setError('');
+            if (sourceCurrency) {
+                const exchangeDirections = await getExchangeDirections(sourceCurrency?.id, tagretCurrency?.id);
+                $exchangeDirection.set(exchangeDirections);
+    
+                const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, tagretCurrency?.id);
+                $course.set(exchangeDirectionsCourse);
+                $amountFrom.set(String(exchangeDirections.minSourceAmount));
+    
+                if (exchangeDirectionsCourse.isReversed) {
+                    $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
+                } else {
+                    $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+                }
             }
-        }
-
+        } catch {}
     }, [sourceCurrency]);
 
     const handleChangeCurrencies = React.useCallback(async (sourceCurrency: Currency, tagretCurrency: Currency) => {

@@ -1,9 +1,15 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledContent, StyledImg, StyledRoot, StyledTableHeader, StyledTableRow } from './CurrenciesPage.styled';
+import {
+    StyledButton,
+    StyledContent,
+    StyledImg,
+    StyledRoot,
+    StyledTableHeader,
+    StyledTableRow,
+} from './CurrenciesPage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
-import { Button } from '../../components/Button/Button.styled';
 import { AddCurrencyModal } from '../../components/AddCurrencyModal/AddCurrencyModal';
 import { useCurrenciesPage } from './CurrenciesPage.hooks';
 import { useStore } from '@nanostores/react';
@@ -12,6 +18,7 @@ import { ROUTES } from '../../constants/routes';
 import { useNavigate } from 'react-router-dom';
 import { Currency } from '../../api/types/common';
 import { accent } from '@salutejs/plasma-tokens';
+import { Button } from '@salutejs/plasma-ui';
 
 export const CurrenciesPage: React.FC = () => {
     const { createCurrencyItem, deleteCurrencyItem } = useCurrenciesPage();
@@ -35,8 +42,8 @@ export const CurrenciesPage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Список валют</Headline3>
-                    <Button
-                        contentLeft={<IconPlus color="white" />}
+                    <StyledButton
+                        contentLeft={<IconPlus />}
                         size="s"
                         text="Добавить валюту"
                         onClick={() => setAddCurrencyModalOpen((state) => !state)}

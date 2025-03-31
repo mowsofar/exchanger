@@ -4,7 +4,17 @@ import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { blackPrimary, headline4, tertiary } from '@salutejs/plasma-tokens';
 import React from 'react';
-import { IconChevronLeft, IconChevronRight } from '@salutejs/plasma-icons';
+import {
+    IconBankCardOutline,
+    IconBoardingPassOutline,
+    IconChevronLeft,
+    IconChevronRight,
+    IconFileTextOutline,
+    IconNumberedView,
+    IconRubleOutline,
+    IconRublePlusDollar,
+    IconSwapHoriz,
+} from '@salutejs/plasma-icons';
 import { $isRolledUpPartnerListStore } from '../../stores/menu.store';
 import { useStore } from '@nanostores/react';
 
@@ -56,7 +66,9 @@ const StyledIconChevronRight = styled(IconChevronRight)`
 
 const StyledMenuItem = styled(NavLink)`
     padding: 14px 16px 14px 32px;
-    display: block;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
     font-size: 20px;
     cursor: pointer;
     text-decoration: none;
@@ -81,13 +93,13 @@ const StyledMenuItem = styled(NavLink)`
 `;
 
 const menuItems = [
-    { key: ROUTES.currencyCode, name: 'Коды валют' },
-    { key: ROUTES.paymentSystems, name: 'Платёжные системы' },
-    { key: ROUTES.currency, name: 'Валюты' },
-    { key: ROUTES.payouts, name: 'Заявки' },
-    { key: ROUTES.exchangeDirections, name: 'Направления обмена' },
-    { key: ROUTES.additionalFields, name: 'Дополнительные поля валют' },
-    { key: ROUTES.requisites, name: 'Реквизиты' },
+    { key: ROUTES.currencyCode, name: 'Коды валют', icon: <IconRubleOutline size="s" /> },
+    { key: ROUTES.paymentSystems, name: 'Платёжные системы', icon: <IconBankCardOutline size="s" /> },
+    { key: ROUTES.currency, name: 'Валюты', icon: <IconRublePlusDollar size="s" /> },
+    { key: ROUTES.payouts, name: 'Заявки', icon: <IconFileTextOutline size="s" /> },
+    { key: ROUTES.exchangeDirections, name: 'Направления обмена', icon: <IconSwapHoriz size="s" /> },
+    { key: ROUTES.additionalFields, name: 'Дополнительные поля валют', icon: <IconNumberedView size="s" /> },
+    { key: ROUTES.requisites, name: 'Реквизиты', icon: <IconBoardingPassOutline size="s" /> },
 ];
 
 export const MenuList: React.FC = () => {
@@ -126,7 +138,10 @@ export const MenuList: React.FC = () => {
             <StyledSearch placeholder="Поиск" onChange={onChange} />
             <StyledMenu>
                 {menu.map((item) => (
-                    <StyledMenuItem to={item.key}>{item.name}</StyledMenuItem>
+                    <StyledMenuItem to={item.key}>
+                        {item?.icon}
+                        {item.name}
+                    </StyledMenuItem>
                 ))}
             </StyledMenu>
         </StyledRoot>

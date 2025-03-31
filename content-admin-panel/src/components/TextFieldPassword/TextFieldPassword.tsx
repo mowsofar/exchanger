@@ -2,7 +2,7 @@ import React from 'react';
 import { IconEyeClosedFill, IconEyeFill } from '@salutejs/plasma-icons';
 import { TextFieldProps } from '@salutejs/plasma-web';
 
-import { TextField } from '../TextField/TextField';
+import { TextFieldGrey } from '../TextField/TextField';
 
 import styled from 'styled-components';
 
@@ -10,7 +10,7 @@ const EyeIconWrapper = styled.div`
     cursor: pointer;
 `;
 
-export const TextFieldPassword = React.forwardRef<HTMLInputElement, TextFieldProps>((props) => {
+export const TextFieldPassword = React.forwardRef<HTMLInputElement, TextFieldProps>((props, ref) => {
     const [inputType, setInputType] = React.useState<'password' | 'text'>('password');
     const isPassword = inputType === 'password';
 
@@ -24,7 +24,7 @@ export const TextFieldPassword = React.forwardRef<HTMLInputElement, TextFieldPro
         </EyeIconWrapper>
     );
 
-    return <TextField {...props} type={inputType} contentRight={contentRight} />;
+    return <TextFieldGrey {...props} ref={ref} type={inputType} contentRight={contentRight} />;
 });
 
 TextFieldPassword.displayName = 'TextFieldPassword';

@@ -14,7 +14,6 @@ export const useCurrencyCodePage = () => {
                     localStorage.setItem('lastName', user?.lastname);
                     localStorage.setItem('email', user?.email);
                     
-                    console.log(user);
                     const currencyCodes = await getCurrencyCodes();
                     $currencyCodeList.set(currencyCodes);
 

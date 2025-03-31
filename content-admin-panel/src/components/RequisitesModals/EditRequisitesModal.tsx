@@ -1,4 +1,4 @@
-import { Headline3, Modal, Select, TextField } from '@salutejs/plasma-web';
+import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
@@ -6,6 +6,8 @@ import { useStore } from '@nanostores/react';
 import { Requisites } from '../../api/types/common';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
+import { TextFieldGrey } from '../TextField/TextField';
+import { Select } from '../Select/Select';
 
 interface EditRequisitesModalProps {
     requisites: Requisites;
@@ -30,7 +32,7 @@ const Content = styled.div`
     }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 
     & label {
@@ -69,7 +71,7 @@ export const EditRequisitesModal: React.FC<EditRequisitesModalProps> = ({
 
     return (
         <StyledModal opened={opened} onClose={onClose}>
-            <Headline3>Редактировать дополнительное поле</Headline3>
+            <Headline3>Редактировать реквизиты</Headline3>
             <Content>
                 <StyledTextField label="Название" value={name} onChange={(e) => setName(e.target.value)} />
 
@@ -80,7 +82,7 @@ export const EditRequisitesModal: React.FC<EditRequisitesModalProps> = ({
                     multiselect
                     items={currencyOptions}
                     value={currencyIds}
-                    onChange={setCurrencyIds}
+                    onChange={(value) => setCurrencyIds(value as string[])}
                     size="l"
                 />
 

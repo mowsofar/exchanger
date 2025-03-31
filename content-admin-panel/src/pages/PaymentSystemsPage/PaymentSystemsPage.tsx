@@ -1,7 +1,13 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledContent, StyledImg, StyledRoot, StyledTableHeader, StyledTableRow } from './PaymentSystemsPage.styled';
-import { Button } from '../../components/Button/Button.styled';
+import {
+    StyledButton,
+    StyledContent,
+    StyledImg,
+    StyledRoot,
+    StyledTableHeader,
+    StyledTableRow,
+} from './PaymentSystemsPage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
 import { useStore } from '@nanostores/react';
@@ -11,6 +17,7 @@ import { AddPaymentSystemModal } from '../../components/PaymentSystemModals/AddP
 import { accent } from '@salutejs/plasma-tokens';
 import { EditPaymentSystemModal } from '../../components/PaymentSystemModals/EditPaymentSystemModal';
 import { PaymentSystem } from '../../api/types/common';
+import { Button } from '@salutejs/plasma-ui';
 
 export const PaymentSystemsPage: React.FC = () => {
     const { createPaymentSystemItem, deletePaymentSystemItem, editPaymentSystemItem } = usePaymentSystemsPage();
@@ -35,10 +42,10 @@ export const PaymentSystemsPage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Список платёжных систем</Headline3>
-                    <Button
+                    <StyledButton
                         text="Добавить платёжную систему"
                         size="s"
-                        contentLeft={<IconPlus color="white" />}
+                        contentLeft={<IconPlus />}
                         onClick={() => setAddPaymentSystemModalOpen((state) => !state)}
                     />
                     <TableWrapper>

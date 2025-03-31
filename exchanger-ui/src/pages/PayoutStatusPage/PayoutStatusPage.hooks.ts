@@ -11,8 +11,13 @@ export const usePayoutStatusPage = () => {
     const { id = '' } = useParams();
 
     const getPayoutInfo = React.useCallback(async () => {
-        const newPayout = await getPayout(Number(id) || payout?.id || 0);
-        $payout.set(newPayout);
+        try {
+            const newPayout = await getPayout(Number(id) || payout?.id || 0);
+            $payout.set(newPayout)
+        } catch (error) {
+            console.log(error);
+        }
+        ;
     }, [id, payout]);
 
     React.useEffect(() => {

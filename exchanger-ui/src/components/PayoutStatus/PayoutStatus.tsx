@@ -12,7 +12,7 @@ import {
     StyledSpinner,
 } from './PayoutStatus.styled';
 import { useStore } from '@nanostores/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
@@ -23,6 +23,7 @@ import { Spinner } from '@salutejs/plasma-web';
 export const PayoutStatus: React.FC = () => {
     const payout = useStore($payout);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleBack = () => {
         navigate(ROUTES.payment(payout?.id));
@@ -34,7 +35,13 @@ export const PayoutStatus: React.FC = () => {
 
     React.useEffect(() => {
         const handlePopState = () => {
-            navigate(ROUTES.root);
+            const fromPage = location?.state?.from;
+            console.log(fromPage);
+            console.log(ROUTES.payment(payout?.id));
+
+            if (fromPage === ROUTES.payment(payout?.id)) {
+                navigate(ROUTES.root);
+            }
         };
 
         window.addEventListener('popstate', handlePopState);
@@ -42,7 +49,7 @@ export const PayoutStatus: React.FC = () => {
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [navigate]);
+    }, [location?.state?.from, navigate, payout?.id]);
 
     return (
         <StyledLayout>
@@ -68,6 +75,7 @@ export const PayoutStatus: React.FC = () => {
                 )}
 
                 {(payout?.status === 'CREATED' ||
+                    payout?.status === 'PAYMENT_RECEIVED' ||
                     payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
                     payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
                     <StyledSpinner>

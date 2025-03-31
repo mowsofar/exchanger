@@ -132,16 +132,17 @@ export interface Payout {
 };
 
 export interface ExchangeDirection {
-        id: number;
-        sourceCurrency: Currency;
-        targetCurrency: Currency;
-        profitPercent:	number;
-        status:	StatusType
-        minSourceAmount: number;
-        maxSourceAmount: number;
-        reserves: number;
-        updatedAt: string;
-        currentRate: number;
+    id: number;
+    sourceCurrency: Currency;
+    targetCurrency: Currency;
+    profitPercent:	number;
+    status:	StatusType
+    minSourceAmount: number;
+    maxSourceAmount: number;
+    reserves: number;
+    updatedAt: string;
+    currentRate: number;
+    course: number;
 };
 
 export interface User {
@@ -159,4 +160,15 @@ export interface Requisites {
     name: string;
     details: string;
     currencies: Currency[];
+}
+
+export interface ProfitUpdatePayload {
+    ids: number[];
+    newProfit: number;
+}
+
+export interface MinMaxAmountPayload {
+    ids: number[];
+    minSourceAmount: number;
+    maxSourceAmount: number;
 }

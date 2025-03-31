@@ -1,10 +1,12 @@
-import { Headline3, Modal, Select, TextField } from '@salutejs/plasma-web';
+import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
+import { TextFieldGrey } from '../TextField/TextField';
+import { Select } from '../Select/Select';
 
 interface AddRequisitesModalProps {
     opened: boolean;
@@ -28,7 +30,7 @@ const Content = styled.div`
     }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 
     & label {
@@ -77,7 +79,7 @@ export const AddRequisitesModal: React.FC<AddRequisitesModalProps> = ({ opened, 
                     multiselect
                     items={currencyOptions}
                     value={currencyIds}
-                    onChange={setCurrencyIds}
+                    onChange={(value) => setCurrencyIds(value as string[])}
                     size="l"
                 />
 

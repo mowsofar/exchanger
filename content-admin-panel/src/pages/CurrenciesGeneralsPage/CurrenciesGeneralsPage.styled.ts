@@ -1,6 +1,7 @@
-import { Select, TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button.styled";
+import { Select } from "../../components/Select/Select";
+import { TextFieldGrey } from "../../components/TextField/TextField";
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -18,7 +19,7 @@ export const StyledSelect = styled(Select)`
     }
 `;
 
-export const StyledTextField = styled(TextField)`
+export const StyledTextField = styled(TextFieldGrey)`
     width: 350px;
 
     & label {

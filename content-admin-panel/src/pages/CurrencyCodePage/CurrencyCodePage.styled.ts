@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow } from '../../components/Table/Table';
+import { Button } from '@salutejs/plasma-ui';
 
 export const StyledRoot = styled.div`
     width: 100%;
@@ -7,10 +8,10 @@ export const StyledRoot = styled.div`
 `;
 
 export const StyledContent = styled.div`
-    height: calc(100% - 60px);
+    height: calc(100% - 100px);
     display: flex;
     flex-direction: column;
-    row-gap: 25px;
+    row-gap: 20px;
     padding: 30px;
 `;
 
@@ -23,4 +24,8 @@ export const StyledTableHeader = styled(TableHeader)`
     grid-template-columns: 550px 1fr 60px 60px;
     padding: 0 16px;
     padding-right: 23px;
+`;
+
+export const StyledButton = styled(Button)`
+    width: 250px;
 `;

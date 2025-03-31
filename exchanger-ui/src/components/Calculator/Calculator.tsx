@@ -121,6 +121,14 @@ export const Calculator: React.FC<Props> = ({
 
     return (
         <>
+            <ExchangeInfo>
+                <div>
+                    Мин: {formatNumber(exchangeDirection?.minSourceAmount)} {sourceCurrency?.currencyCode.code}
+                </div>
+                <div>
+                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount)} {sourceCurrency?.currencyCode.code}
+                </div>
+            </ExchangeInfo>
             <StyledRoot>
                 <SwapButton onClick={() => onChangeCurrencies()}>
                     <StyledIcon />
@@ -151,14 +159,6 @@ export const Calculator: React.FC<Props> = ({
                     </InputContainer>
                 </StyledCard>
             </StyledRoot>
-            <ExchangeInfo>
-                <div>
-                    Мин: {formatNumber(exchangeDirection?.minSourceAmount)} {sourceCurrency?.currencyCode.code}
-                </div>
-                <div>
-                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount)} {sourceCurrency?.currencyCode.code}
-                </div>
-            </ExchangeInfo>
             {error && <StyledError>{error}</StyledError>}
         </>
     );

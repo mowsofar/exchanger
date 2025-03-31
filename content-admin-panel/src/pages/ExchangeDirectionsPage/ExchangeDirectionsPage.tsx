@@ -4,31 +4,53 @@ import {
     CurrenciesExchangeDirection,
     Currency,
     Icon,
+    StyledButtons,
     StyledContent,
+    StyledPaging,
     StyledRoot,
     StyledTableHeader,
     StyledTableRow,
 } from './ExchangeDirectionsPage.styled';
-import { IconChevronRight, IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
+import {
+    IconChevronRight,
+    IconEdit,
+    IconPercent,
+    IconPlus,
+    IconRublePlusDollar,
+    IconTrash,
+} from '@salutejs/plasma-icons';
 import React from 'react';
-import { Button } from '../../components/Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { accent } from '@salutejs/plasma-tokens';
 import { useExchangeDirectionsPage } from './ExchangeDirectionsPage.hooks';
 import { AddExchangeDirectionModal } from '../../components/ExchangeDirectionModals/AddExchangeDirectionModal';
-import { $exchangeDirectionsList } from '../../stores/exchangeDirections.store';
+import { $exchangeDirectionsPaged, $exchangeDirectionsTotal } from '../../stores/exchangeDirections.store';
 import { ExchangeDirection } from '../../api/types/common';
 import { EditExchangeDirectionModal } from '../../components/ExchangeDirectionModals/EditExchangeDirectionModal';
+import { UpdateProfitPercentModal } from '../../components/UpdateProfitPercentModal/UpdateProfitPercentModal';
+import { MinMaxAmountModal } from '../../components/MinMaxAmountModal/MinMaxAmountModal';
+import { formatCalculatorInput } from '../../utils/formatNumber';
+import { Button } from '@salutejs/plasma-ui';
 
 export const ExchangeDirectionsPage: React.FC = () => {
-    const { createExchangeDirectionItem, editExchangeDirectionItem, deleteExchangeDirectionItem } =
-        useExchangeDirectionsPage();
+    const {
+        exchangeDirectionsPage,
+        getExchangeDirectionsListPaged,
+        handleClickPage,
+        createExchangeDirectionItem,
+        editExchangeDirectionItem,
+        deleteExchangeDirectionItem,
+    } = useExchangeDirectionsPage();
 
     const [isAddExchangeDirectionModalOpen, setAddExchangeDirectionModalOpen] = React.useState(false);
     const [isEditExchangeDirectionModalOpen, setEditExchangeDirectionModalOpen] = React.useState(false);
+    const [isUpdateProfitPercentModalOpen, setUpdateProfitPercentModalOpen] = React.useState(false);
+    const [isMinMaxAmountModalOpen, setMinMaxAmountModalOpen] = React.useState(false);
+
     const [selectedExchangeDirection, setSelectedExchangeDirection] = React.useState<ExchangeDirection>();
 
-    const exchangeDirectionsList = useStore($exchangeDirectionsList);
+    const exchangeDirectionsPaged = useStore($exchangeDirectionsPaged);
+    const exchangeDirectionsTotal = useStore($exchangeDirectionsTotal);
 
     return (
         <>
@@ -39,22 +61,42 @@ export const ExchangeDirectionsPage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Направления обмена</Headline3>
-                    <Button
-                        text="Добавить направление"
-                        size="s"
-                        contentLeft={<IconPlus color="white" />}
-                        onClick={() => setAddExchangeDirectionModalOpen(true)}
-                    />
+
+                    <StyledButtons>
+                        <Button
+                            text="Добавить направление"
+                            size="s"
+                            contentLeft={<IconPlus />}
+                            onClick={() => setAddExchangeDirectionModalOpen(true)}
+                        />
+
+                        <Button
+                            text="Проценты обмена"
+                            size="s"
+                            onClick={() => setUpdateProfitPercentModalOpen(true)}
+                            contentLeft={<IconPercent size="xs" />}
+                        />
+
+                        <Button
+                            text="Границы обмена"
+                            size="s"
+                            onClick={() => setMinMaxAmountModalOpen(true)}
+                            contentLeft={<IconRublePlusDollar size="xs" />}
+                        />
+                    </StyledButtons>
+
                     <TableWrapper>
                         <StyledTableHeader>
                             <StyledTableHeaderCell>Направление</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Мин. сумма обмена</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Макс. сумма обмена</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Курс</StyledTableHeaderCell>
                             <StyledTableHeaderCell />
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
+
                         <TableBody>
-                            {exchangeDirectionsList.map((item) => {
+                            {exchangeDirectionsPaged.map((item) => {
                                 return (
                                     <StyledTableRow key={item.id}>
                                         <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
@@ -73,11 +115,14 @@ export const ExchangeDirectionsPage: React.FC = () => {
                                             </CurrenciesExchangeDirection>
                                         </StyledTableCellName>
                                         <StyledTableCellName>
-                                            {item.minSourceAmount} {item.sourceCurrency.currencyCode.code}
+                                            {formatCalculatorInput(item.minSourceAmount)}{' '}
+                                            {item.sourceCurrency.currencyCode.code}
                                         </StyledTableCellName>
                                         <StyledTableCellName>
-                                            {item.maxSourceAmount} {item.sourceCurrency.currencyCode.code}
+                                            {formatCalculatorInput(item.maxSourceAmount)}{' '}
+                                            {item.sourceCurrency.currencyCode.code}
                                         </StyledTableCellName>
+                                        <StyledTableCellName>{formatCalculatorInput(item.course)}</StyledTableCellName>
                                         <StyledTableCellName>
                                             <Button
                                                 view="clear"
@@ -99,6 +144,13 @@ export const ExchangeDirectionsPage: React.FC = () => {
                             })}
                         </TableBody>
                     </TableWrapper>
+
+                    <StyledPaging
+                        currentPage={exchangeDirectionsPage}
+                        recordsOnPage={10}
+                        recordsTotal={exchangeDirectionsTotal}
+                        onClick={handleClickPage}
+                    />
                 </StyledContent>
 
                 <AddExchangeDirectionModal
@@ -118,6 +170,22 @@ export const ExchangeDirectionsPage: React.FC = () => {
                         editExchangeDirectionItem={editExchangeDirectionItem}
                     />
                 )}
+
+                <UpdateProfitPercentModal
+                    opened={isUpdateProfitPercentModalOpen}
+                    onClose={() => {
+                        setUpdateProfitPercentModalOpen(false);
+                        getExchangeDirectionsListPaged(exchangeDirectionsPage);
+                    }}
+                />
+
+                <MinMaxAmountModal
+                    opened={isMinMaxAmountModalOpen}
+                    onClose={() => {
+                        setMinMaxAmountModalOpen(false);
+                        getExchangeDirectionsListPaged(exchangeDirectionsPage);
+                    }}
+                />
             </StyledRoot>
         </>
     );

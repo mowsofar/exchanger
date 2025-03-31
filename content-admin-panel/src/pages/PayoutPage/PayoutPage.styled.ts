@@ -1,7 +1,8 @@
-import { Badge, TextField } from "@salutejs/plasma-web";
+import { Badge } from "@salutejs/plasma-web";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button.styled";
 import { accent, blackTertiary } from "@salutejs/plasma-tokens";
+import { TextFieldGrey } from "../../components/TextField/TextField";
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -84,7 +85,7 @@ export const Course = styled.div`
     font-weight: 600;
 `;
 
-export const StyledTextField = styled(TextField)`
+export const StyledTextField = styled(TextFieldGrey)`
     width: 320px;
 
     & label {

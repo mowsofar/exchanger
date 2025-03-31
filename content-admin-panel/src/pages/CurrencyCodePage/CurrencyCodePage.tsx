@@ -1,16 +1,16 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { StyledContent, StyledRoot, StyledTableHeader, StyledTableRow } from './CurrencyCodePage.styled';
+import { StyledButton, StyledContent, StyledRoot, StyledTableHeader, StyledTableRow } from './CurrencyCodePage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
 import { AddCurrencyCodeModal } from '../../components/CurrencyCodeModals/AddCurrencyCodeModal';
-import { Button } from '../../components/Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyCodeList } from '../../stores/currencyCode.store';
 import { useCurrencyCodePage } from './CurrencyCodePage.hooks';
 import { accent } from '@salutejs/plasma-tokens';
 import { CurrencyCode } from '../../api/types/common';
 import { EditCurrencyCodeModal } from '../../components/CurrencyCodeModals/EditCurrencyCodeModal';
+import { Button } from '@salutejs/plasma-ui';
 
 export const CurrencyCodePage: React.FC = () => {
     const { createCurrencyCodeItem, deleteCurrencyCodeItem, editCurrencyCodeItem } = useCurrencyCodePage();
@@ -34,10 +34,10 @@ export const CurrencyCodePage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Коды валют</Headline3>
-                    <Button
+                    <StyledButton
                         text="Добавить код валюты"
                         size="s"
-                        contentLeft={<IconPlus color="white" />}
+                        contentLeft={<IconPlus />}
                         onClick={() => setAddCurrencyCodeModalOpen((state) => !state)}
                     />
                     <TableWrapper>

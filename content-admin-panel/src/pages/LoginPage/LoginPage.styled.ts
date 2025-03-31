@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 import { Footnote1 } from '@salutejs/plasma-web';
 import { secondary } from '@salutejs/plasma-tokens-web';
-import { TextField } from '../../components/TextField';
 import { TextFieldPassword } from '../../components/TextFieldPassword';
-import { whitePrimary } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
+import { TextFieldGrey } from '../../components/TextField/TextField';
 
 export const StyledRoot = styled.div`
     display: flex;
-    background-image: linear-gradient(120deg, #c4c4c4,  #e8e8e8,  #c7c7c7);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -19,16 +17,12 @@ export const StyledRoot = styled.div`
 export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
+    row-gap: 5px;
     align-items: center;
     height: fit-content;
     width: 380px;
     border-radius: 30px;
     padding: 40px;
-    background-color: ${whitePrimary};
-    -webkit-box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
-    -moz-box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
-    box-shadow: 2px 2px 29px 0px rgba(34, 60, 80, 0.32);
 `;
 
 export const StyledDescription = styled(Footnote1)`
@@ -38,7 +32,7 @@ export const StyledDescription = styled(Footnote1)`
     margin-top: 24px;
 `;
 
-export const StyledTextFieldLogin = styled(TextField)`
+export const StyledTextFieldLogin = styled(TextFieldGrey)`
     margin-top: 24px;
     width: 100%;
 `;
@@ -50,6 +44,7 @@ export const StyledTextFieldPassword = styled(TextFieldPassword)`
 
 export const StyledButton = styled(Button)`
     margin-top: 20px;
+    border-radius: 13px;
 `;
 
 export const StyledControls = styled.div`
@@ -62,4 +57,9 @@ export const StyledControls = styled.div`
 export const StyledError = styled.div`
     padding-top: 10px;
     color: red;
+`;
+
+export const Logo = styled.img`
+    align-self: center;
+    height: 80px;
 `;

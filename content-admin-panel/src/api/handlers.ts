@@ -1,10 +1,24 @@
 import { ROUTES } from "../constants/routes";
-import { handleTokenRefresh } from "./tokenHandlers";
+import { queueTokenRefresh } from "./tokenHandlers";
 import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
 
-function handleResponse(response: Response) {
+async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
-        handleTokenRefresh();
+        try {
+
+            await queueTokenRefresh();
+            const newResponse = await fetch(response.url, {
+                ...originalRequest,
+                headers: {
+                    ...originalRequest?.headers,
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            });
+            return handleResponse(newResponse, originalRequest);
+        } catch (error) {
+            window.location.replace(ROUTES.login);
+            return Promise.reject(error);
+        }
     }
 
     if (response.status === 200 && window.location.pathname === ROUTES.login) {
@@ -39,7 +53,27 @@ function requestToApi(
         body: JSON.stringify(body),
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+}
+
+
+function refresh(
+    endpoint: string,
+    options?: Partial<RequestInit>,
+    body?: unknown,
+) {
+    const requestOptions: RequestInit = {
+        ...options,
+        method: options?.method,
+        headers: {
+            ...options?.headers,
+            Authorization: `Bearer ${localStorage.getItem('refreshToken')}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
 }
 
 export function getLoginData(email: string, password: string, twoFactorCode: string
@@ -47,8 +81,13 @@ export function getLoginData(email: string, password: string, twoFactorCode: str
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password, twoFactorCode });
 }
 
-export function refreshToken(): Promise<unknown> {
-    return requestToApi('api/v1/auth/refreshToken', { method: 'POST' });
+export function logout(
+): Promise<LoginData> {
+    return requestToApi('api/v1/auth/logout', { method: 'POST' });
+}
+
+export function refreshToken(): Promise<LoginData> {
+    return refresh('api/v1/auth/refresh-token', { method: 'POST' });
 }
 
 export function getAccount(): Promise<User> {
@@ -93,7 +132,7 @@ function uploadImage(
         body: formData,
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
 }
 
 export function createPaymentSystem(name: string, file: FormData
@@ -141,6 +180,11 @@ export function getExchangeDirections(
     return requestToApi('api/exchange-directions', { method: 'GET' });
 }
 
+export function getExchangeDirectionsPaged(page: number, size: number
+): Promise<{ totalPages: number, totalElements: number, size: number, content: ExchangeDirection[]}> {
+    return requestToApi(`api/exchange-directions/paged?page=${page-1}&size=${size}`, { method: 'GET' });
+}
+
 export function createExchangeDirection(sourceCurrencyId: number, targetCurrencyId: number, profitPercent: number, minSourceAmount: number, maxSourceAmount: number, reserves: number
 ): Promise<ExchangeDirection[]> {
     return requestToApi('api/exchange-directions', { method: 'POST' }, { sourceCurrencyId, targetCurrencyId, profitPercent, minSourceAmount, maxSourceAmount, reserves });
@@ -155,6 +199,17 @@ export function deleteExchangeDirection(id: number
 ): Promise<unknown> {
     return requestToApi(`api/exchange-directions/${id}`, { method: 'DELETE' });
 }
+
+export function updateProfitPercent(ids: number[], newProfit: number
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/batch/update-profit-percent`, { method: 'PATCH' }, { ids, newProfit });
+}
+
+export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/batch/update-min-max-amounts`, { method: 'PATCH' }, { ids, minSourceAmount, maxSourceAmount });
+}
+
 
 export function getAdditionalFields(
 ): Promise<AdditionalFields> {

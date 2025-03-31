@@ -1,9 +1,11 @@
-import { ROUTES } from "../constants/routes";
 import { refreshToken } from "./handlers";
 
 function logoutUser() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    localStorage.removeItem('email');
 }
 
 export async function handleTokenRefresh() {

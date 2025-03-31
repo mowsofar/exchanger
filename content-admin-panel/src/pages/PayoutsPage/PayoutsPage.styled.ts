@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow, TableWrapper } from '../../components/Table/Table';
 import { Badge, Select } from '@salutejs/plasma-web';
-import { success } from '@salutejs/plasma-tokens';
+import { success, surfaceSolid02, surfaceSolid03, whitePrimary } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
 
 export const StyledRoot = styled.div`
@@ -28,7 +28,10 @@ export const StyledHeader = styled.div`
 
 export const StyledTableWrapper = styled(TableWrapper)`
     width: 440px;
+    margin-left: 0px;
+    border-radius: 18px;
     flex-grow: 0;
+    border-left: 1px solid ${surfaceSolid03};
 `;
 
 export const StyledTableRow = styled(TableRow)`
@@ -36,12 +39,14 @@ export const StyledTableRow = styled(TableRow)`
     padding: 0 16px;
     cursor: pointer;
     height: 180px;
+    background-color: ${whitePrimary};
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
     grid-template-columns: 380px;
     padding: 0 16px;
     padding-right: 23px;
+    background-color: ${surfaceSolid02};
 `;
 
 export const StyledButton = styled(Button)`

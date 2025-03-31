@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow } from '../../components/Table/Table';
 import { Badge } from '@salutejs/plasma-web';
-import { accent } from '@salutejs/plasma-tokens';
+import { Button } from '@salutejs/plasma-ui';
 
 export const StyledRoot = styled.div`
     width: 100%;
@@ -9,10 +9,10 @@ export const StyledRoot = styled.div`
 `;
 
 export const StyledContent = styled.div`
-    height: calc(100% - 60px);
+    height: calc(100% - 100px);
     display: flex;
     flex-direction: column;
-    row-gap: 25px;
+    row-gap: 20px;
     padding: 30px;
 `;
 
@@ -35,7 +35,10 @@ export const StyledBadge = styled(Badge)`
 `;
 
 export const Currencies = styled.div`
-    color: ${accent};
     overflow: hidden;
     text-overflow: ellipsis;
+`;
+
+export const StyledButton = styled(Button)`
+    width: 200px;
 `;

@@ -11,6 +11,10 @@ export const useUserAccountPage = () => {
     const getUserInfo = React.useCallback(async () => {
         try {
             const user = await getAccount();
+            localStorage.setItem('firstName', user?.firstname);
+            localStorage.setItem('lastName', user?.lastname);
+            localStorage.setItem('email', user?.email);
+            
             $user.set(user);
             $userPayouts.set(user.payouts);
 

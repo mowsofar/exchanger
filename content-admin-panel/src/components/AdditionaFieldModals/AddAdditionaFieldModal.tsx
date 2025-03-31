@@ -1,4 +1,4 @@
-import { Headline3, Modal, Select, TextField } from '@salutejs/plasma-web';
+import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
@@ -6,6 +6,8 @@ import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
 import { AdditionalFieldDirections } from '../../api/types/common';
+import { TextFieldGrey } from '../TextField/TextField';
+import { Select } from '../Select/Select';
 
 interface AddAdditionalFieldModalProps {
     opened: boolean;
@@ -34,7 +36,7 @@ const Content = styled.div`
     }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 
     & label {
@@ -54,7 +56,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
 }) => {
     const [fieldName, setFieldName] = React.useState('');
     const [currencyIds, setCurrencyIds] = React.useState<string[]>();
-    const [additionalFieldType, setAdditionalFieldType] = React.useState();
+    const [additionalFieldType, setAdditionalFieldType] = React.useState<'SOURCE' | 'TARGET'>();
 
     const currencies = useStore($currencyList);
 
@@ -95,7 +97,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     multiselect
                     items={currencyOptions}
                     value={currencyIds}
-                    onChange={setCurrencyIds}
+                    onChange={(value) => setCurrencyIds(value as string[])}
                     size="l"
                 />
 
@@ -103,7 +105,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     label="Тип поля"
                     items={AdditionalFieldTypes}
                     value={additionalFieldType}
-                    onChange={setAdditionalFieldType}
+                    onChange={(value) => setAdditionalFieldType(value as 'SOURCE' | 'TARGET')}
                     size="l"
                 />
 

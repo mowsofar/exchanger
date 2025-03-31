@@ -120,7 +120,7 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
             return { label: 'Отклонена', color: '#a4232f' };
 
         case 'COMPLETED':
-            return { label: 'Завершна', color: '#458c34' };
+            return { label: 'Завершена', color: '#458c34' };
 
         default:
             return { label: '', color: '#18181a' };

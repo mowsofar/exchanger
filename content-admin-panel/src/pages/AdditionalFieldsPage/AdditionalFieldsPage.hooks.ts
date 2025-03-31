@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
-import { createAdditionalField, deleteAdditionalField, editAdditionalField, getAdditionalFields, getCurrencies, getExchangeDirections } from '../../api/handlers';
+import { createAdditionalField, deleteAdditionalField, editAdditionalField, getAdditionalFields, getCurrencies } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $additionalFields, $currencyList } from '../../stores/currency.store';
-import { $exchangeDirectionsList } from '../../stores/exchangeDirections.store';
 import { AdditionalFieldDirections } from '../../api/types/common';
 
 export const useAdditionalFieldsPage = () => {
@@ -16,18 +15,6 @@ export const useAdditionalFieldsPage = () => {
 
                 } catch (error) {
                     showNotification('Ошибка получения списка дополнительных полей', 'error', error);
-                }
-            }, [showNotification]
-    );
-
-    const getExchangeDirectionsList = useCallback(
-        async () => {
-                try {
-                    const exchangeDirections = await getExchangeDirections();
-                    $exchangeDirectionsList.set(exchangeDirections);
-
-                } catch (error) {
-                    showNotification('Ошибка получения списка направлений обмена', 'error', error);
                 }
             }, [showNotification]
     );
@@ -87,10 +74,6 @@ export const useAdditionalFieldsPage = () => {
     React.useEffect(() => {
         getAdditionalFieldsList();
     }, [getAdditionalFieldsList]);
-
-    React.useEffect(() => {
-        getExchangeDirectionsList();
-    }, [getExchangeDirectionsList]);
 
     React.useEffect(() => {
         getCurrenciesList();

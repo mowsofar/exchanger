@@ -85,20 +85,22 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         $referralCode.set(referralCode);
 
         if (sourceCurrency?.id && targetCurrency?.id && course) {
-            const newPayout = await createPayout(
-                sourceCurrency?.id,
-                targetCurrency?.id,
-                formatToSubmit(amountFrom),
-                formatToSubmit(amountTo),
-                requisites.replace(/\s+/g, ''),
-                transformFormData(sourceFormData),
-                transformFormData(targetFormData),
-                course.course,
-                email,
-                referralCode ? referralCode : null,
-            );
+            try {
+                const newPayout = await createPayout(
+                    sourceCurrency?.id,
+                    targetCurrency?.id,
+                    formatToSubmit(amountFrom),
+                    formatToSubmit(amountTo),
+                    requisites.replace(/\s+/g, ''),
+                    transformFormData(sourceFormData),
+                    transformFormData(targetFormData),
+                    course.course,
+                    email,
+                    referralCode ? referralCode : null,
+                );
 
-            navigate(ROUTES.payment(newPayout.id));
+                navigate(ROUTES.payment(newPayout.id));
+            } catch {}
         }
     };
 
@@ -158,7 +160,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         <StyledTextField
                             placeholder="Email"
                             type="email"
-                            value={email}
+                            value={localStorage.getItem('email') || email}
                             onChange={handleEmailChange}
                             helperText={emailError}
                         />
@@ -179,7 +181,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     </StyledUserForm>
 
                     <StyledUserForm>
-                        <StyledHeader>Реквизиты</StyledHeader>
+                        <StyledHeader>Получатель</StyledHeader>
                         <StyledTextField placeholder="Реквизиты" value={requisites} onChange={handleChangeRequisites} />
 
                         {targetAdditionalFields?.map((field) => (
@@ -211,7 +213,12 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         onClick={() => setIsChecked(!isChecked)}
                     />
                     <StyledButton
-                        disabled={!requisites || !email || Boolean(emailError) || !isChecked}
+                        disabled={
+                            !requisites ||
+                            (!email && !localStorage.getItem('email')) ||
+                            Boolean(emailError) ||
+                            !isChecked
+                        }
                         onClick={handleSubmit}
                     >
                         Начать транзакцию

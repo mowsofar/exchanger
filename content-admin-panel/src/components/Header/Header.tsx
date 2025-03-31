@@ -1,9 +1,13 @@
-import { IconProfileCircleFill } from '@salutejs/plasma-icons';
+import { IconLogout, IconProfileCircleFill } from '@salutejs/plasma-icons';
 import { surfaceSolid02, surfaceSolid03 } from '@salutejs/plasma-tokens';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import React from 'react';
 import { Popover } from '@salutejs/plasma-web';
+import { useNotification } from '../../hooks/useNotification';
+import { logout } from '../../api/handlers';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
 
 const StyledRoot = styled.div`
     height: 84px;
@@ -57,6 +61,23 @@ export const Header: React.FC = () => {
     const lastName = localStorage.getItem('lastName');
     const email = localStorage.getItem('email');
 
+    const showNotification = useNotification();
+    const navigate = useNavigate();
+
+    const handleClickLogoutButton = async () => {
+        try {
+            await logout();
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('firstName');
+            localStorage.removeItem('lastName');
+            localStorage.removeItem('email');
+            navigate(ROUTES.login);
+        } catch (error) {
+            showNotification('Произошла ошибка', 'error', error);
+        }
+    };
+
     return (
         <StyledRoot>
             <Logo src="images/logo-kykyshka2.png" />
@@ -91,6 +112,10 @@ export const Header: React.FC = () => {
                         </UserInfoItem>
                     </UserInfo>
                 </Popover>
+
+                <StyledButton view="secondary" onClick={handleClickLogoutButton}>
+                    <IconLogout size="s" />
+                </StyledButton>
             </StyledRightHeaderButtons>
         </StyledRoot>
     );

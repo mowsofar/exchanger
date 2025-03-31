@@ -1,9 +1,15 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
-import { Currencies, StyledContent, StyledRoot, StyledTableHeader, StyledTableRow } from './RequisitesPage.styled';
+import {
+    Currencies,
+    StyledButton,
+    StyledContent,
+    StyledRoot,
+    StyledTableHeader,
+    StyledTableRow,
+} from './RequisitesPage.styled';
 import { IconEdit, IconPlus, IconTrash } from '@salutejs/plasma-icons';
 import React from 'react';
-import { Button } from '../../components/Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { accent } from '@salutejs/plasma-tokens';
 import { $requisites } from '../../stores/currency.store';
@@ -11,6 +17,7 @@ import { Requisites } from '../../api/types/common';
 import { useRequisitesPage } from './RequisitesPage.hooks';
 import { AddRequisitesModal } from '../../components/RequisitesModals/AddRequisitesModal';
 import { EditRequisitesModal } from '../../components/RequisitesModals/EditRequisitesModal';
+import { Button } from '@salutejs/plasma-ui';
 
 export const RequisitesPage: React.FC = () => {
     const { createRequiustesItem, editRequiustesItem, deleteRequisitesItem } = useRequisitesPage();
@@ -30,10 +37,10 @@ export const RequisitesPage: React.FC = () => {
             <StyledRoot>
                 <StyledContent>
                     <Headline3>Реквизиты</Headline3>
-                    <Button
+                    <StyledButton
                         text="Добавить реквизиты"
                         size="s"
-                        contentLeft={<IconPlus color="white" />}
+                        contentLeft={<IconPlus />}
                         onClick={() => setAddRequisitesModalOpen(true)}
                     />
                     <TableWrapper>

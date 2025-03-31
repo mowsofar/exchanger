@@ -1,4 +1,4 @@
-import { Headline3, Modal, Select, TextField } from '@salutejs/plasma-web';
+import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
@@ -6,6 +6,8 @@ import { useStore } from '@nanostores/react';
 import { $currencyCodeList } from '../../stores/currencyCode.store';
 import { $paymentSystemsList } from '../../stores/paymentSystems.store';
 import { FilterTypeValues } from '../../api/types/common';
+import { TextFieldGrey } from '../TextField/TextField';
+import { Select } from '../Select/Select';
 
 interface AddCurrencyModalProps {
     opened: boolean;
@@ -35,7 +37,7 @@ const Content = styled.div`
     }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 
     & label {
@@ -100,7 +102,7 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
                     label="Платёжная система"
                     items={paymentSystemsOptions}
                     value={selectedPaymentSystem}
-                    onChange={setSelectedPaymentSystem}
+                    onChange={(value) => setSelectedPaymentSystem(value as number)}
                     size="l"
                 />
 
@@ -108,7 +110,7 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
                     label="Код валюты"
                     items={currencyCodeOptions}
                     value={selectedCurrencyCode}
-                    onChange={setSelectedCurrencyCode}
+                    onChange={(value) => setSelectedCurrencyCode(value as number)}
                     size="l"
                 />
 
@@ -124,7 +126,7 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
                     label="Фильтр"
                     value={filterType}
                     items={FilterTypeValues}
-                    onChange={(value) => setFilterType(value)}
+                    onChange={(value) => setFilterType(value as 'RUB' | 'USDT' | 'COIN' | '')}
                 />
                 <Button
                     text="Добавить"

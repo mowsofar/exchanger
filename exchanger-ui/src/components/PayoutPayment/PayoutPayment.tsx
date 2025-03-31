@@ -43,7 +43,7 @@ export const PayoutPayment: React.FC = () => {
     };
 
     const handleForward = () => {
-        navigate(ROUTES.payoutStatus(payout?.id));
+        navigate(ROUTES.payoutStatus(payout?.id), { state: { from: ROUTES.payment(payout?.id) } });
 
         if (payout?.id && payout.status !== 'COMPLETED' && payout?.status !== 'ERROR') {
             setPayoutStatus(payout.id);

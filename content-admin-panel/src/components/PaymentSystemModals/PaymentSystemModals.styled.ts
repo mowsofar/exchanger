@@ -1,5 +1,6 @@
-import { Modal, TextField } from "@salutejs/plasma-web";
+import { Modal } from "@salutejs/plasma-web";
 import styled from "styled-components";
+import { TextFieldGrey } from "../TextField/TextField";
 
 export const Content = styled.div`
     width: 100%;
@@ -13,7 +14,7 @@ export const Content = styled.div`
     }
 `;
 
-export const StyledTextField = styled(TextField)`
+export const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
 `;
 

@@ -14,7 +14,7 @@ export const PayoutStatusValues = [
     { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'В обработке оператором' },
     { value: 'CANCELLED', label: 'Отклонена' },
     { value: 'ERROR', label: 'Ошибка' },
-    { value: 'COMPLETED', label: 'Завершна' },
+    { value: 'COMPLETED', label: 'Завершена' },
 ];
 
 const Root = styled.div`
