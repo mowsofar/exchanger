@@ -7,13 +7,13 @@ export function getPayoutStatus(payout: Payout | null) {
         case 'CREATED':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> успешно создана!
+                    Заявка <span>№{payout.id}</span> успешно создана
                 </div>
             );
         case 'COMPLETED':
             return (
                 <div>
-                    Заявка <span>№{payout.id}</span> завершена.
+                    Заявка <span>№{payout.id}</span> завершена
                 </div>
             );
         case 'WAITING_FOR_CLIENT_PAYMENT':

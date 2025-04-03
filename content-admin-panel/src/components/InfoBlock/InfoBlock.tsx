@@ -7,9 +7,9 @@ import { useStore } from '@nanostores/react';
 import { $selectedPayout } from '../../stores/payout.store';
 
 const StyledInfoBlock = styled.div<{ isCopied: boolean }>`
-    font-size: 14px;
+    font-size: 13px;
     background-color: ${({ isCopied }) => (isCopied ? '#cfe5cd' : surfaceLiquid02)};
-    padding: 8px 20px;
+    padding: 5px 16px;
     border-radius: 16px;
     min-width: 220px;
 `;
@@ -27,7 +27,7 @@ const Label = styled.div`
 
 const Value = styled.div`
     color: ${primary};
-    font-size: 16px;
+    font-size: 15px;
 `;
 
 const TwoColumns = styled.div`

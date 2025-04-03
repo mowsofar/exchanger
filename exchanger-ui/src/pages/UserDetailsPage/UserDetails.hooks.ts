@@ -22,8 +22,8 @@ export const useUserDetailsPage = () => {
     }, [sourceCurrency?.id, sourceId, targetCurrency?.id, targetId]);
 
     const createNewPayout = React.useCallback(async (
-        srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string, referralCode: string | null) => {
-        const payout = await createPayout(srcCurrencyId,targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email, referralCode);
+        srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string) => {
+        const payout = await createPayout(srcCurrencyId,targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email);
         $payout.set(payout);
     
         searchParams.set('payout', String(payout.id));

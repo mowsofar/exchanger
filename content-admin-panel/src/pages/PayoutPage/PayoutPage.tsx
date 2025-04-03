@@ -83,12 +83,11 @@ export const PayoutPage: React.FC = () => {
             <StyledTwoBlocks>
                 <StyledBlock>
                     <Headline4>О клиенте</Headline4>
-                    <InfoBlock label="Реквизиты" value={payout?.requisites} hasCopyButton />
                     {payout?.user?.firstname && <InfoBlock label="Имя" value={payout?.user?.firstname} hasCopyButton />}
                     {payout?.user?.lastname && (
                         <InfoBlock label="Фамилия" value={payout?.user?.lastname} hasCopyButton />
                     )}
-                    <InfoBlock label="E-mail" value={payout?.email || payout?.user?.email} hasCopyButton />
+                    <InfoBlock label="E-mail" value={payout?.email} hasCopyButton />
                     <InfoBlock label="IP" value={payout?.ipAddress} hasCopyButton />
 
                     {payout?.sourceAdditionalFields.map((field) => (
@@ -124,6 +123,8 @@ export const PayoutPage: React.FC = () => {
                             </Row>
                         }
                     />
+
+                    <InfoBlock label="Номер счёта клиента" value={payout?.requisites} hasCopyButton />
 
                     {payout?.attachments?.length ? (
                         <StyledBill>

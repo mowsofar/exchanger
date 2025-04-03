@@ -19,7 +19,7 @@ import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } fro
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
-import { $email, $referralCode, $requisites } from '../../stores/payout.store';
+import { $email, $requisites } from '../../stores/payout.store';
 import { Payout } from '../../api/types/common';
 import { formatToSubmit } from '../../utils/formatNumber';
 
@@ -34,7 +34,6 @@ interface UserDetailsProps {
         targetFields: { fieldId: number; userValue: string }[],
         course: number,
         email: string,
-        referralCode: string | null,
     ) => Promise<Payout>;
 }
 
@@ -67,8 +66,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     }, {});
 
     const [requisites, setRequisites] = React.useState('');
-    const [email, setEmail] = React.useState('');
-    const [referralCode, setReferralCode] = React.useState('');
+    const [email, setEmail] = React.useState(localStorage.getItem('email') || '');
     const [isChecked, setIsChecked] = React.useState(false);
 
     const [emailError, setEmailError] = React.useState('');
@@ -82,7 +80,6 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const handleSubmit = async () => {
         $requisites.set(requisites);
         $email.set(email);
-        $referralCode.set(referralCode);
 
         if (sourceCurrency?.id && targetCurrency?.id && course) {
             try {
@@ -96,7 +93,6 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     transformFormData(targetFormData),
                     course.course,
                     email,
-                    referralCode ? referralCode : null,
                 );
 
                 navigate(ROUTES.payment(newPayout.id));
@@ -160,14 +156,9 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         <StyledTextField
                             placeholder="Email"
                             type="email"
-                            value={localStorage.getItem('email') || email}
+                            value={email}
                             onChange={handleEmailChange}
                             helperText={emailError}
-                        />
-                        <StyledTextField
-                            placeholder="Промокод (необязательно)"
-                            value={referralCode}
-                            onChange={(e) => setReferralCode(e.target.value)}
                         />
 
                         {sourceAdditionalFields?.map((field) => (
@@ -213,12 +204,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         onClick={() => setIsChecked(!isChecked)}
                     />
                     <StyledButton
-                        disabled={
-                            !requisites ||
-                            (!email && !localStorage.getItem('email')) ||
-                            Boolean(emailError) ||
-                            !isChecked
-                        }
+                        disabled={!requisites || !email || Boolean(emailError) || !isChecked}
                         onClick={handleSubmit}
                     >
                         Начать транзакцию

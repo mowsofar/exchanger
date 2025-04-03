@@ -59,7 +59,7 @@ export const CurrenciesList = styled.div`
 
     ::-webkit-scrollbar-thumb {
         border-radius: 1rem;
-        background-color: var(--backgroundTertiary);
+        background-color: var(--accent);
     }
 
     @media (max-width: 1024px) {
@@ -87,11 +87,11 @@ export const StyledRow = styled.div<{ isSelected: boolean }>`
     ${({ isSelected }) =>
         isSelected &&
         css`
-            background-color: var(--backgroundTertiary);
+            background-color: rgba(85, 87, 86, 0.4);
         `};
 
     &:hover {
-        background-color: var(--backgroundTertiary);
+        background-color: rgba(85, 87, 86, 0.4);
     }
 `;
 

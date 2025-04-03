@@ -15,7 +15,7 @@ import {
 } from './PayoutsPage.styled';
 import { Payout, PayoutSelectStatusValues } from '../../api/types/common';
 import { useStore } from '@nanostores/react';
-import { $payouts } from '../../stores/payout.store';
+import { $payouts, $selectedPayout } from '../../stores/payout.store';
 import { PayoutCard } from '../../components/PayoutCard/PayoutCard';
 import { PayoutPlug } from '../../components/PayoutPlug/PayoutPlug';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
@@ -30,6 +30,7 @@ export const PayoutsPage: React.FC = () => {
     const navigate = useNavigate();
 
     const payouts = useStore($payouts);
+    const selectedPayout = useStore($selectedPayout);
 
     const handleClickPayoutType = (value: string) => {
         if (value === '') {
@@ -80,9 +81,11 @@ export const PayoutsPage: React.FC = () => {
                         </StyledTableHeader>
                         <TableBody>
                             {payouts.map((item) => {
+                                const isSelected = item?.id === selectedPayout?.id;
+
                                 return (
                                     <StyledTableRow key={item.id} onClick={() => handlePayoutClick(item)}>
-                                        <PayoutCard payout={item} />
+                                        <PayoutCard payout={item} isSelected={isSelected} />
                                     </StyledTableRow>
                                 );
                             })}

@@ -36,8 +36,6 @@ export const PayoutStatus: React.FC = () => {
     React.useEffect(() => {
         const handlePopState = () => {
             const fromPage = location?.state?.from;
-            console.log(fromPage);
-            console.log(ROUTES.payment(payout?.id));
 
             if (fromPage === ROUTES.payment(payout?.id)) {
                 navigate(ROUTES.root);
@@ -74,12 +72,15 @@ export const PayoutStatus: React.FC = () => {
                     <StyledIconStatus src="/images/error.png" />
                 )}
 
-                {(payout?.status === 'CREATED' ||
-                    payout?.status === 'PAYMENT_RECEIVED' ||
-                    payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
-                    payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
+                {(payout?.status === 'CREATED' || payout?.status === 'WAITING_FOR_CLIENT_PAYMENT') && (
                     <StyledSpinner>
                         <Spinner size="8rem" color="white" />
+                    </StyledSpinner>
+                )}
+
+                {(payout?.status === 'PAYMENT_RECEIVED' || payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
+                    <StyledSpinner>
+                        <Spinner size="8rem" color="#26c499" />
                     </StyledSpinner>
                 )}
 

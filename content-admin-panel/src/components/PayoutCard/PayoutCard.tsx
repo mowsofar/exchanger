@@ -7,16 +7,17 @@ import { getPayoutData } from '../../utils/getPayoutData';
 import { IconArrowRight } from '@salutejs/plasma-icons';
 import { formatCalculatorInput } from '../../utils/formatNumber';
 
-const StyledRoot = styled.div`
+const StyledRoot = styled.div<{ isSelected: boolean }>`
     width: 360px;
     height: fit-content;
-    background-color: ${surfaceSolid02};
+    background-color: ${({ isSelected }) => (isSelected ? surfaceSolid03 : surfaceSolid02)};
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     margin: auto;
     row-gap: 10px;
     padding: 20px 20px;
+    cursor: pointer;
 
     &:hover {
         background-color: ${surfaceSolid03};
@@ -67,13 +68,14 @@ const Email = styled.div`
 
 interface Props {
     payout: Payout;
+    isSelected: boolean;
 }
 
-export const PayoutCard: React.FC<Props> = ({ payout }) => {
+export const PayoutCard: React.FC<Props> = ({ payout, isSelected }) => {
     const createdAt = new Date(payout.createdAt).toLocaleString();
 
     return (
-        <StyledRoot>
+        <StyledRoot isSelected={isSelected}>
             <Title>
                 <span>Заявка №{payout.id} </span> от {createdAt}
             </Title>
@@ -91,7 +93,7 @@ export const PayoutCard: React.FC<Props> = ({ payout }) => {
             </Direction>
             <Email>
                 <div>Заказчик:</div>
-                <div>{payout?.email || payout?.user?.email}</div>
+                <div>{payout?.email}</div>
             </Email>
         </StyledRoot>
     );

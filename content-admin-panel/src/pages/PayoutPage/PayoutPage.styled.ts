@@ -87,9 +87,10 @@ export const Course = styled.div`
 
 export const StyledTextField = styled(TextFieldGrey)`
     width: 320px;
+    font-size: 15px;
 
-    & label {
-        font-weight: 550 !important;
+    > div:first-child > div {
+        font-size: 13px !important;
     }
 `;
 

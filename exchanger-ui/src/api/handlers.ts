@@ -50,7 +50,7 @@ function requestToAccountApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export async function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string, referralCode: string | null): Promise<Payout> {
+export async function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string): Promise<Payout> {
     const accessToken = localStorage.getItem('accessToken');
     
     const headers: HeadersInit = {
@@ -65,13 +65,13 @@ export async function createPayout(srcCurrencyId: number, targetCurrencyId: numb
       const response = await fetch('https://server.kykyshka.com/api/payouts', {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify({ srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email, referralCode }),
+        body: JSON.stringify({ srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email }),
       });
   
       if (!response.ok) {
         if (response.status === 403) {
             await handleTokenRefresh();
-            return createPayout(srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email, referralCode);
+            return createPayout(srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email);
         }
         
         throw new Error('Request failed');

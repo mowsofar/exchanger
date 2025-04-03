@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     Badge,
@@ -28,7 +28,6 @@ import { $payout } from '../../stores/payout.store';
 import { setPayoutStatus, uploadPayoutAttachment } from '../../api/handlers';
 import { Spinner } from '@salutejs/plasma-web';
 import { formatNumber } from '../../utils/formatNumber';
-import { getPayoutStatus } from '../../utils/getPayoutStatus';
 
 export const PayoutPayment: React.FC = () => {
     const payout = useStore($payout);
@@ -42,13 +41,20 @@ export const PayoutPayment: React.FC = () => {
         navigate(ROUTES.userDetails());
     };
 
-    const handleForward = () => {
+    const handleForward = useCallback(() => {
         navigate(ROUTES.payoutStatus(payout?.id), { state: { from: ROUTES.payment(payout?.id) } });
+    }, [navigate, payout?.id]);
 
-        if (payout?.id && payout.status !== 'COMPLETED' && payout?.status !== 'ERROR') {
-            setPayoutStatus(payout.id);
-        }
-    };
+    const handleSubmit = useCallback(async () => {
+        try {
+            if (payout?.id) {
+                const newPayout = await setPayoutStatus(payout?.id);
+                $payout.set(newPayout);
+            }
+
+            handleForward();
+        } catch {}
+    }, [handleForward, payout?.id]);
 
     const handleUploadFile = async (file: File) => {
         try {
@@ -64,6 +70,12 @@ export const PayoutPayment: React.FC = () => {
             setError('Ошибка загрузки файла');
         }
     };
+
+    React.useEffect(() => {
+        if (payout?.status !== 'CREATED') {
+            handleForward();
+        }
+    }, [handleForward, navigate, payout?.status]);
 
     React.useEffect(() => {
         const handlePopState = () => {
@@ -94,7 +106,7 @@ export const PayoutPayment: React.FC = () => {
                     />
                 </Row>
 
-                <StyledText>{getPayoutStatus(payout)}</StyledText>
+                <StyledText>Заявка №{payout?.id} успешно создана!</StyledText>
 
                 <StyledHeader>Оплатите заявку</StyledHeader>
 
@@ -153,7 +165,7 @@ export const PayoutPayment: React.FC = () => {
                     засчитаны в пользу оплаты. Средства поступят в течение 24 часов.
                 </StyledDescription>
 
-                <StyledButton onClick={handleForward}>Я оплатил(-а)</StyledButton>
+                <StyledButton onClick={handleSubmit}>Я оплатил(-а)</StyledButton>
             </StyledContent>
         </StyledLayout>
     );

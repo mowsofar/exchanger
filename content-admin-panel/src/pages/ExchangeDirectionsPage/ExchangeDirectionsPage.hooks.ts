@@ -16,6 +16,7 @@ export const useExchangeDirectionsPage = () => {
                     $exchangeDirectionsTotal.set(exchangeDirections.totalElements);
 
                 } catch (error) {
+                    $exchangeDirectionsPaged.set([]);
                     showNotification('Ошибка получения списка направлений обмена', 'error', error);
                 }
             }, [showNotification]

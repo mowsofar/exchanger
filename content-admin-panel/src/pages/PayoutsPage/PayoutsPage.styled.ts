@@ -40,6 +40,10 @@ export const StyledTableRow = styled(TableRow)`
     cursor: pointer;
     height: 180px;
     background-color: ${whitePrimary};
+
+    &:hover {
+        background-color: ${whitePrimary}; 
+    }
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
