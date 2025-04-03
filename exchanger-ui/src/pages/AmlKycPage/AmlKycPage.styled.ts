@@ -19,7 +19,7 @@ export const StyledAccordionItem = styled(AccordionItem)`
     padding: 1.5rem;
     border-radius: 1.5rem !important;
 
-    & button > div > div {
+    & div > div > div {
         color: white;
         font-weight: 600;
         font-size: 1.8rem;

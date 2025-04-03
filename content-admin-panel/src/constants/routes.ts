@@ -1,5 +1,5 @@
 export const ROUTES = {
-    root: '/',
+    root: '/content-admin',
     login: '/content-admin/login',
     paymentSystems: '/content-admin/payment-systems',
     currency: '/content-admin/currency',

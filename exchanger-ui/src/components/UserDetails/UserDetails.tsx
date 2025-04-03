@@ -70,6 +70,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const [isChecked, setIsChecked] = React.useState(false);
 
     const [emailError, setEmailError] = React.useState('');
+    const [requisitesError, setRequisitesError] = React.useState('');
     const [sourceFormData, setSourceFormData] = React.useState<FormData>(sourceFieldsInitial || {});
     const [targetFormData, setTargetFormData] = React.useState<FormData>(targetFieldsInitial || {});
 
@@ -134,6 +135,39 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         setRequisites(value);
     };
 
+    const handleChangeCoinRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setRequisites(e.target.value);
+    };
+
+    const getRequisites = () => {
+        switch (targetCurrency?.filterType) {
+            case 'COIN':
+                return (
+                    <StyledTextField
+                        placeholder="Криптовалютный кошелёк"
+                        value={requisites}
+                        onChange={handleChangeCoinRequisites}
+                    />
+                );
+            case 'RUB': {
+                return (
+                    <StyledTextField
+                        placeholder="Номер карты (от 16 до 18 цифр)"
+                        value={requisites}
+                        onChange={handleChangeRequisites}
+                        helperText={requisitesError}
+                    />
+                );
+            }
+
+            case 'USDT': {
+                return (
+                    <StyledTextField placeholder="Номер карты" value={requisites} onChange={handleChangeRequisites} />
+                );
+            }
+        }
+    };
+
     return (
         <StyledLayout>
             <StyledContent>
@@ -173,7 +207,8 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
 
                     <StyledUserForm>
                         <StyledHeader>Получатель</StyledHeader>
-                        <StyledTextField placeholder="Реквизиты" value={requisites} onChange={handleChangeRequisites} />
+
+                        {getRequisites()}
 
                         {targetAdditionalFields?.map((field) => (
                             <StyledTextField

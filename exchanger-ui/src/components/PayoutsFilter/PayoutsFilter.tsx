@@ -1,10 +1,10 @@
-import { useStore } from '@nanostores/react';
 import { Checkbox } from '@salutejs/plasma-web';
 import styled from 'styled-components';
-import { $payoutFilter } from '../../stores/payout.store';
 import { PayoutStatus } from '../../api/types/common';
 import { getFilteredPayouts, getPayouts } from '../../api/handlers';
 import { $userPayouts } from '../../stores/user.store';
+import { useSearchParams } from 'react-router-dom';
+import React from 'react';
 
 export const PayoutStatusValues = [
     { value: '', label: 'Все' },
@@ -37,11 +37,15 @@ const StyledCheckbox = styled(Checkbox)`
     flex-direction: column;
     row-gap: 2rem;
 
-    & label > div:first-child {
+    & label > div:first-child > div {
         background: none !important;
         border-color: var(--accent) !important;
         width: 1.8rem;
         height: 1.8rem;
+    }
+
+    & span {
+        color: white;
     }
 
     & svg > path {
@@ -50,20 +54,28 @@ const StyledCheckbox = styled(Checkbox)`
 `;
 
 export const PayoutsFilter = () => {
-    const filter = useStore($payoutFilter);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const initialType = new URLSearchParams(window.location.search).get('type');
+
+    const [typeFilter, setTypeFilter] = React.useState(initialType || '');
 
     const handleClickFilter = async (status?: PayoutStatus) => {
         try {
+            const newSearchParams = new URLSearchParams(searchParams);
+
             if (!status) {
+                newSearchParams.delete('type');
+                setTypeFilter('');
                 const payouts = await getPayouts();
                 $userPayouts.set(payouts);
-                $payoutFilter.set('');
-                return;
+            } else {
+                newSearchParams.set('type', status);
+                setTypeFilter(status);
+                const payouts = await getFilteredPayouts(status);
+                $userPayouts.set(payouts);
             }
-
-            $payoutFilter.set(status);
-            const payouts = await getFilteredPayouts(status);
-            $userPayouts.set(payouts);
+            setSearchParams(newSearchParams);
         } catch (error) {}
     };
 
@@ -73,10 +85,10 @@ export const PayoutsFilter = () => {
             {PayoutStatusValues.map((payout) => (
                 <StyledCheckbox
                     label={payout.label}
-                    checked={payout.value === filter}
+                    checked={payout.value === typeFilter}
                     onClick={() => {
-                        if (payout.value === filter) {
-                            $payoutFilter.set('');
+                        if (payout.value === typeFilter) {
+                            setTypeFilter('');
                             handleClickFilter();
                         } else {
                             handleClickFilter(payout?.value as PayoutStatus);

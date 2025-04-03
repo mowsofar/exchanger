@@ -126,19 +126,25 @@ export const Description = styled.div`
 
 export const StyledCheckbox = styled(Checkbox)`
     font-family: Onest;
-    display: flex;
     font-size: 1.6rem;
     align-items: center !important;
-    color: white;
 
-    & label > div:first-child {
+    & label > div:first-child > div {
         background-color: var(--accent) !important;
         width: 1.8rem;
         height: 1.8rem;
     }
 
+    & span {
+        color: white;
+    }
+
     & svg > path {
         fill: black !important;
+    }
+
+    @media (max-width: 450px) {
+        font-size: 1.3rem;
     }
 `;
 

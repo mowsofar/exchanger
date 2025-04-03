@@ -3,9 +3,13 @@ import { TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 
 export const StyledImg = styled.img`
-    height: 30px;
+    height: 28px;
     display: block;
     margin: 0 auto;
+`;
+
+export const VerticalImg = styled(StyledImg)`
+    margin-right: 5px;
 `;
 
 export const StyledTable = styled.table`
@@ -52,22 +56,22 @@ export const StyledTh = styled.th`
 `;
 
 export const StyledTd = styled.td`
-    padding: 5px;
+    padding: 1px;
     text-align: center;
     vertical-align: middle;
 `;
 
-export const DiagonalCell = styled(StyledTd)`
+export const DiagonalCell = styled.div`
     background-color: ${surfaceLiquid03};
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 35px;
 `;
 
-export const EmptyCell = styled(StyledTd)`
+export const EmptyCell = styled.div`
     background-color: ${surfaceLiquid02};
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 35px;
 `;
 
@@ -75,8 +79,8 @@ export const ProfitCircle = styled.div<{ isSelected?: boolean }>`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     font-size: 12px;
     border-radius: 50%;
     background-color: ${({ isSelected }) => (isSelected ? '#white' : 'black')};

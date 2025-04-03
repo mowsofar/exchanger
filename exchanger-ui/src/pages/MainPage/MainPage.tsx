@@ -12,6 +12,7 @@ export const MainPage: React.FC = () => {
             <head>
                 <title>Кукушка - надёжный обменник криптовалют</title>
             </head>
+
             <StyledLayout>
                 <StyledDescription>Обменивайте быстро, безопасно и выгодно</StyledDescription>
                 <ExchangeModal

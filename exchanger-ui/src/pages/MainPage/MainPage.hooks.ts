@@ -3,7 +3,7 @@ import { getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurren
 import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
-import { $email, $payout, $referralCode, $requisites } from '../../stores/payout.store';
+import { $email, $payout, $requisites } from '../../stores/payout.store';
 import { formatToSubmit } from '../../utils/formatNumber';
 
 export const useMainPage = () => {
@@ -131,7 +131,6 @@ export const useMainPage = () => {
         return () => {
             $payout.set(null);
             $email.set('');
-            $referralCode.set('');
             $requisites.set('');
             setError('');
         };

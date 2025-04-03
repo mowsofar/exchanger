@@ -6,7 +6,7 @@ import { IconChevronRight } from '@salutejs/plasma-icons';
 import { Button } from '@salutejs/plasma-web';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { formatNumber } from '../../utils/formatNumber';
+import { formatCalculatorInput } from '../../utils/formatNumber';
 import { Payout } from '../../api/types/common';
 
 const Payouts = styled.div`
@@ -184,13 +184,13 @@ export const PayoutsList = () => {
                             <Column>
                                 <Direction>
                                     <Icon src={payout.srcCurrency?.paymentSystem.imagePath} />
-                                    <div>{formatNumber(payout.amountFrom)}</div>
+                                    <div>{formatCalculatorInput(payout.amountFrom)}</div>
                                     <div>{payout.srcCurrency?.currencyCode.code}</div>
 
                                     <IconChevronRight color="white" size="m" />
 
                                     <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
-                                    <div>{formatNumber(payout.amountTo)}</div>
+                                    <div>{formatCalculatorInput(payout.amountTo)}</div>
                                     <div>{payout.targetCurrency?.currencyCode.code}</div>
                                 </Direction>
                             </Column>

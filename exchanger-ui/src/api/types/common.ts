@@ -1,3 +1,9 @@
+export interface LoginData {
+    access_token: string;
+    refresh_token: string;
+    role: string;
+};
+
 export type AdditionalFieldDirection = 'SOURCE' | 'TARGET';
 export interface AdditionalFields {
     id: number;

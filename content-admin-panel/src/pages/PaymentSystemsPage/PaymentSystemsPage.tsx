@@ -1,6 +1,7 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
+    Plug,
     StyledButton,
     StyledContent,
     StyledImg,
@@ -54,33 +55,38 @@ export const PaymentSystemsPage: React.FC = () => {
                             <StyledTableHeaderCell>Название</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Дата обновления</StyledTableHeaderCell>
                         </StyledTableHeader>
-                        <TableBody>
-                            {paymentSystems.map((item) => {
-                                const lastSeenText = new Date(item.updatedAt).toLocaleString();
 
-                                return (
-                                    <StyledTableRow key={item.id}>
-                                        <StyledTableCellName>
-                                            <StyledImg src={item.imagePath} alt="" />
-                                        </StyledTableCellName>
-                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                            {item.name}
-                                        </StyledTableCellName>
-                                        <StyledTableCellName isSecondary>{lastSeenText}</StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => handleEditButtonClick(item)}>
-                                                <IconEdit />
-                                            </Button>
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => deletePaymentSystemItem(item.id)}>
-                                                <IconTrash />
-                                            </Button>
-                                        </StyledTableCellName>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
+                        {!Boolean(paymentSystems.length) && <Plug>Нет доступных платёжных систем</Plug>}
+
+                        {Boolean(paymentSystems.length) && (
+                            <TableBody>
+                                {paymentSystems.map((item) => {
+                                    const lastSeenText = new Date(item.updatedAt).toLocaleString();
+
+                                    return (
+                                        <StyledTableRow key={item.id}>
+                                            <StyledTableCellName>
+                                                <StyledImg src={item.imagePath} alt="" />
+                                            </StyledTableCellName>
+                                            <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                                {item.name}
+                                            </StyledTableCellName>
+                                            <StyledTableCellName isSecondary>{lastSeenText}</StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => handleEditButtonClick(item)}>
+                                                    <IconEdit />
+                                                </Button>
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => deletePaymentSystemItem(item.id)}>
+                                                    <IconTrash />
+                                                </Button>
+                                            </StyledTableCellName>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        )}
                     </TableWrapper>
                 </StyledContent>
 

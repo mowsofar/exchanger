@@ -4,6 +4,7 @@ import {
     CurrenciesExchangeDirection,
     Currency,
     Icon,
+    Plug,
     StyledButtons,
     StyledContent,
     StyledPaging,
@@ -95,62 +96,73 @@ export const ExchangeDirectionsPage: React.FC = () => {
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
 
-                        <TableBody>
-                            {exchangeDirectionsPaged.map((item) => {
-                                return (
-                                    <StyledTableRow key={item.id}>
-                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                            <CurrenciesExchangeDirection>
-                                                <Currency>
-                                                    <Icon src={item.sourceCurrency.paymentSystem.imagePath} />{' '}
-                                                    {item.sourceCurrency.paymentSystem.name}{' '}
-                                                    {item.sourceCurrency.currencyCode.code}
-                                                </Currency>
-                                                <IconChevronRight size="xs" color={accent} />
-                                                <Currency>
-                                                    <Icon src={item.targetCurrency.paymentSystem.imagePath} />{' '}
-                                                    {item.targetCurrency.paymentSystem.name}{' '}
-                                                    {item.targetCurrency.currencyCode.code}
-                                                </Currency>
-                                            </CurrenciesExchangeDirection>
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>
-                                            {formatCalculatorInput(item.minSourceAmount)}{' '}
-                                            {item.sourceCurrency.currencyCode.code}
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>
-                                            {formatCalculatorInput(item.maxSourceAmount)}{' '}
-                                            {item.sourceCurrency.currencyCode.code}
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>{formatCalculatorInput(item.course)}</StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button
-                                                view="clear"
-                                                onClick={() => {
-                                                    setSelectedExchangeDirection(item);
-                                                    setEditExchangeDirectionModalOpen(true);
-                                                }}
-                                            >
-                                                <IconEdit />
-                                            </Button>
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => deleteExchangeDirectionItem(item.id)}>
-                                                <IconTrash />
-                                            </Button>
-                                        </StyledTableCellName>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
+                        {!Boolean(exchangeDirectionsPaged.length) && <Plug>Нет доступных направлений обмена</Plug>}
+
+                        {Boolean(exchangeDirectionsPaged.length) && (
+                            <TableBody>
+                                {exchangeDirectionsPaged.map((item) => {
+                                    return (
+                                        <StyledTableRow key={item.id}>
+                                            <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                                <CurrenciesExchangeDirection>
+                                                    <Currency>
+                                                        <Icon src={item.sourceCurrency.paymentSystem.imagePath} />{' '}
+                                                        {item.sourceCurrency.paymentSystem.name}{' '}
+                                                        {item.sourceCurrency.currencyCode.code}
+                                                    </Currency>
+                                                    <IconChevronRight size="xs" color={accent} />
+                                                    <Currency>
+                                                        <Icon src={item.targetCurrency.paymentSystem.imagePath} />{' '}
+                                                        {item.targetCurrency.paymentSystem.name}{' '}
+                                                        {item.targetCurrency.currencyCode.code}
+                                                    </Currency>
+                                                </CurrenciesExchangeDirection>
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                {formatCalculatorInput(item.minSourceAmount)}{' '}
+                                                {item.sourceCurrency.currencyCode.code}
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                {formatCalculatorInput(item.maxSourceAmount)}{' '}
+                                                {item.sourceCurrency.currencyCode.code}
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                {formatCalculatorInput(item.course)}
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button
+                                                    view="clear"
+                                                    onClick={() => {
+                                                        setSelectedExchangeDirection(item);
+                                                        setEditExchangeDirectionModalOpen(true);
+                                                    }}
+                                                >
+                                                    <IconEdit />
+                                                </Button>
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button
+                                                    view="clear"
+                                                    onClick={() => deleteExchangeDirectionItem(item.id)}
+                                                >
+                                                    <IconTrash />
+                                                </Button>
+                                            </StyledTableCellName>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        )}
                     </TableWrapper>
 
-                    <StyledPaging
-                        currentPage={exchangeDirectionsPage}
-                        recordsOnPage={10}
-                        recordsTotal={exchangeDirectionsTotal}
-                        onClick={handleClickPage}
-                    />
+                    {exchangeDirectionsTotal > 10 && (
+                        <StyledPaging
+                            currentPage={exchangeDirectionsPage}
+                            recordsOnPage={10}
+                            recordsTotal={exchangeDirectionsTotal}
+                            onClick={handleClickPage}
+                        />
+                    )}
                 </StyledContent>
 
                 <AddExchangeDirectionModal

@@ -3,9 +3,13 @@ import { TextField } from "@salutejs/plasma-web";
 import styled from "styled-components";
 
 export const StyledImg = styled.img`
-    height: 30px;
+    width: 28px;
     display: block;
     margin: 0 auto;
+`;
+
+export const VerticalImg = styled(StyledImg)`
+    margin-right: 8px;
 `;
 
 export const StyledTable = styled.table`
@@ -51,33 +55,33 @@ export const StyledTh = styled.th`
 `;
 
 export const StyledTd = styled.td`
-    padding: 5px;
-    text-align: center;
+    padding: 1px;
     vertical-align: middle;
 `;
 
-export const DiagonalCell = styled(StyledTd)`
+export const DiagonalCell = styled.div`
     background-color: ${surfaceLiquid03};
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
 `;
 
-export const EmptyCell = styled(StyledTd)`
+export const EmptyCell = styled.div`
     background-color: ${surfaceLiquid02};
-    width: 35px;
-    height: 35px;
-    border-radius: 35px;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
 `;
 
 export const ProfitCircle = styled.div<{ isSelected?: boolean }>`
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     font-size: 8px;
-    border-radius: 50%;
+    border-radius: 12px;
     background-color: ${({ isSelected }) => (isSelected ? '#white' : 'black')};
     color: ${({ isSelected }) => (isSelected ? '#black' : 'white')};
     font-weight: 600;

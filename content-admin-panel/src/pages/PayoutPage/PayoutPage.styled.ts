@@ -22,6 +22,8 @@ export const TitleBlock = styled.div`
 export const StyledSaveButton = styled(Button)`
     height: 25px !important;
     padding: 17px 25px;
+    border-radius: 12px;
+    font-weight: 600;
 `;
 
 export const StyledLine = styled.div`
@@ -67,6 +69,7 @@ export const StyledBadge = styled(Badge)`
 
 export const Icon = styled.img`
     width: 30px;
+    border-radius: 5px;
 `;
 
 export const Row = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react';
-import { authenticate, refreshToken } from '../../api/handlers';
+import { authenticate } from '../../api/handlers';
 import {
     ButtonBlock,
     Content,

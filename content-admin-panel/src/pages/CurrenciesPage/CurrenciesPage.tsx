@@ -1,6 +1,7 @@
 import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
+    Plug,
     StyledButton,
     StyledContent,
     StyledImg,
@@ -57,32 +58,37 @@ export const CurrenciesPage: React.FC = () => {
                             <StyledTableHeaderCell />
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
-                        <TableBody>
-                            {currencyList.map((item) => {
-                                return (
-                                    <StyledTableRow key={item.id}>
-                                        <StyledTableCellName>
-                                            <StyledImg src={item.paymentSystem.imagePath} />
-                                        </StyledTableCellName>
-                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                            {item.paymentSystem.name}
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>{item.currencyCode.code}</StyledTableCellName>
-                                        <StyledTableCellName>{item.xmlCode}</StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => hanleClickEditButton(item)}>
-                                                <IconEdit />
-                                            </Button>
-                                        </StyledTableCellName>
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => deleteCurrencyItem(item.id)}>
-                                                <IconTrash />
-                                            </Button>
-                                        </StyledTableCellName>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
+
+                        {!Boolean(currencyList.length) && <Plug>Нет доступных валют</Plug>}
+
+                        {Boolean(currencyList.length) && (
+                            <TableBody>
+                                {currencyList.map((item) => {
+                                    return (
+                                        <StyledTableRow key={item.id}>
+                                            <StyledTableCellName>
+                                                <StyledImg src={item.paymentSystem.imagePath} />
+                                            </StyledTableCellName>
+                                            <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                                {item.paymentSystem.name}
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>{item.currencyCode.code}</StyledTableCellName>
+                                            <StyledTableCellName>{item.xmlCode}</StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => hanleClickEditButton(item)}>
+                                                    <IconEdit />
+                                                </Button>
+                                            </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => deleteCurrencyItem(item.id)}>
+                                                    <IconTrash />
+                                                </Button>
+                                            </StyledTableCellName>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        )}
                     </TableWrapper>
                 </StyledContent>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
 import { AppLayout } from './components/AppLayout';
 import { LoginPage } from './pages/LoginPage/LoginPage';
@@ -14,6 +14,7 @@ import { PayoutPage } from './pages/PayoutPage/PayoutPage';
 import { ExchangeDirectionsPage } from './pages/ExchangeDirectionsPage/ExchangeDirectionsPage';
 import { AdditionalFieldsPage } from './pages/AdditionalFieldsPage/AdditionalFieldsPage';
 import { RequisitesPage } from './pages/RequisitesPage/RequisitesPage';
+import { AuthCheckRedirect } from './components/AuthCheckRedirect/AuthCheckRedirect';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -21,8 +22,12 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route
+                    path="/content-admin"
+                    element={<AuthCheckRedirect />} // Компонент с логикой редиректа
+                />
+
                 <Route path={ROUTES.root} element={<AppLayout />}>
-                    <Route index element={<Navigate to={ROUTES.login} replace />} />
                     <Route path={ROUTES.paymentSystems} element={<PaymentSystemsPage />} />
                     <Route path={ROUTES.currencyCode} element={<CurrencyCodePage />} />
                     <Route path={ROUTES.currency} element={<CurrenciesPage />} />

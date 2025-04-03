@@ -5,7 +5,6 @@ import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, Ex
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
         try {
-
             await queueTokenRefresh();
             const newResponse = await fetch(response.url, {
                 ...originalRequest,

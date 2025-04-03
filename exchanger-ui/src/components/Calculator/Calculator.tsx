@@ -137,12 +137,14 @@ export const Calculator: React.FC<Props> = ({
                     <StyledCardName>Отдаёте</StyledCardName>
                     <InputContainer>
                         <StyledInput value={amountFrom} onChange={handleChangeSourceAmount} />
-                        <StyledSelect
-                            contentLeft={sourceCurrency?.paymentSystem.imagePath}
-                            onClick={onClickSourceCurrency}
-                        >
-                            {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
-                        </StyledSelect>
+                        {sourceCurrency && (
+                            <StyledSelect
+                                contentLeft={sourceCurrency?.paymentSystem.imagePath}
+                                onClick={onClickSourceCurrency}
+                            >
+                                {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
+                            </StyledSelect>
+                        )}
                     </InputContainer>
                 </StyledCard>
 
@@ -150,12 +152,14 @@ export const Calculator: React.FC<Props> = ({
                     <StyledCardName>Получаете</StyledCardName>
                     <InputContainer>
                         <StyledInput value={amountTo} onChange={handleChangeTargetAmount} />
-                        <StyledSelect
-                            contentLeft={targetCurrency?.paymentSystem.imagePath}
-                            onClick={onClickTargetCurrency}
-                        >
-                            {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
-                        </StyledSelect>
+                        {targetCurrency && (
+                            <StyledSelect
+                                contentLeft={targetCurrency?.paymentSystem.imagePath}
+                                onClick={onClickTargetCurrency}
+                            >
+                                {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
+                            </StyledSelect>
+                        )}
                     </InputContainer>
                 </StyledCard>
             </StyledRoot>

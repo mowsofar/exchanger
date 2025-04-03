@@ -35,6 +35,11 @@ export const PayoutPayment: React.FC = () => {
     const [preview, setPreview] = React.useState('');
     const [error, setError] = React.useState('');
 
+    const hasImage = React.useMemo(
+        () => Boolean(payout?.attachments?.[0]?.fileName) || Boolean(preview),
+        [payout?.attachments, preview],
+    );
+
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -72,7 +77,7 @@ export const PayoutPayment: React.FC = () => {
     };
 
     React.useEffect(() => {
-        if (payout?.status !== 'CREATED') {
+        if (payout?.status && payout?.status !== 'CREATED') {
             handleForward();
         }
     }, [handleForward, navigate, payout?.status]);
@@ -141,23 +146,24 @@ export const PayoutPayment: React.FC = () => {
                         {formatNumber(payout?.amountFrom)} {payout?.srcCurrency.currencyCode.code || ''}
                     </div>
                 </StyledAmount>
-
-                <UploadBlock>
-                    <div>Загрузите чек об оплате в формате pdf:</div>
-                    <UploadRow>
-                        <StyledUpload content="Выберите pdf-файл" accept=".pdf" onChange={handleUploadFile} />
-                        {error ? (
-                            <Preview style={{ color: 'red' }}>{error}</Preview>
-                        ) : (
-                            (preview || payout?.attachments?.[0]?.fileName) && (
-                                <ClipPreview>
-                                    <IconClip size="m" color="#26c499" />
-                                    <Preview>{preview || payout?.attachments?.[0]?.fileName}</Preview>
-                                </ClipPreview>
-                            )
-                        )}
-                    </UploadRow>
-                </UploadBlock>
+                {payout?.srcCurrency.filterType !== 'COIN' && (
+                    <UploadBlock>
+                        <div>Загрузите чек об оплате в формате pdf:</div>
+                        <UploadRow>
+                            <StyledUpload content="Выберите pdf-файл" accept=".pdf" onChange={handleUploadFile} />
+                            {error ? (
+                                <Preview style={{ color: 'red' }}>{error}</Preview>
+                            ) : (
+                                (preview || payout?.attachments?.[0]?.fileName) && (
+                                    <ClipPreview>
+                                        <IconClip size="m" color="#26c499" />
+                                        <Preview>{preview || payout?.attachments?.[0]?.fileName}</Preview>
+                                    </ClipPreview>
+                                )
+                            )}
+                        </UploadRow>
+                    </UploadBlock>
+                )}
 
                 <StyledDescription>
                     Время на оплату заявки до 10 минут. Мы не принимаем платежи от юридических лиц. Заявки оплаченные от
@@ -165,7 +171,12 @@ export const PayoutPayment: React.FC = () => {
                     засчитаны в пользу оплаты. Средства поступят в течение 24 часов.
                 </StyledDescription>
 
-                <StyledButton onClick={handleSubmit}>Я оплатил(-а)</StyledButton>
+                <StyledButton
+                    onClick={handleSubmit}
+                    disabled={payout?.srcCurrency.filterType === 'COIN' ? false : !hasImage || Boolean(error)}
+                >
+                    Я оплатил(-а)
+                </StyledButton>
             </StyledContent>
         </StyledLayout>
     );

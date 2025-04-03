@@ -2,6 +2,7 @@ import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Currencies,
+    Plug,
     StyledButton,
     StyledContent,
     StyledRoot,
@@ -51,44 +52,49 @@ export const RequisitesPage: React.FC = () => {
                             <StyledTableHeaderCell />
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
-                        <TableBody>
-                            {requisites.map((item) => {
-                                const currencies = item?.currencies.map((currency) => currency.technicalName);
 
-                                const linkedCurrencies = currencies.join(', ');
-                                return (
-                                    <StyledTableRow key={item.id}>
-                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                            {item.name}
-                                        </StyledTableCellName>
+                        {!Boolean(requisites.length) && <Plug>Нет доступных реквизитов</Plug>}
 
-                                        <StyledTableCellName>{item.details}</StyledTableCellName>
+                        {Boolean(requisites.length) && (
+                            <TableBody>
+                                {requisites.map((item) => {
+                                    const currencies = item?.currencies.map((currency) => currency.technicalName);
 
-                                        <StyledTableCellName>
-                                            <Currencies>{linkedCurrencies || '—'}</Currencies>
-                                        </StyledTableCellName>
+                                    const linkedCurrencies = currencies.join(', ');
+                                    return (
+                                        <StyledTableRow key={item.id}>
+                                            <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                                {item.name}
+                                            </StyledTableCellName>
 
-                                        <StyledTableCellName>
-                                            <Button
-                                                view="clear"
-                                                onClick={() => {
-                                                    setSelectedRequisites(item);
-                                                    setEditRequisitesModalOpen(true);
-                                                }}
-                                            >
-                                                <IconEdit />
-                                            </Button>
-                                        </StyledTableCellName>
+                                            <StyledTableCellName>{item.details}</StyledTableCellName>
 
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => deleteRequisitesItem(item.id)}>
-                                                <IconTrash />
-                                            </Button>
-                                        </StyledTableCellName>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
+                                            <StyledTableCellName>
+                                                <Currencies>{linkedCurrencies || '—'}</Currencies>
+                                            </StyledTableCellName>
+
+                                            <StyledTableCellName>
+                                                <Button
+                                                    view="clear"
+                                                    onClick={() => {
+                                                        setSelectedRequisites(item);
+                                                        setEditRequisitesModalOpen(true);
+                                                    }}
+                                                >
+                                                    <IconEdit />
+                                                </Button>
+                                            </StyledTableCellName>
+
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => deleteRequisitesItem(item.id)}>
+                                                    <IconTrash />
+                                                </Button>
+                                            </StyledTableCellName>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        )}
                     </TableWrapper>
                 </StyledContent>
 

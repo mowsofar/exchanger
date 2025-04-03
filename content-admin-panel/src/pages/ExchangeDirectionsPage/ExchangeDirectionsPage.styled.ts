@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow } from '../../components/Table/Table';
 import { Paging } from '../../components/Paging/Paging';
+import { blackSecondary, surfaceSolid02 } from '@salutejs/plasma-tokens';
 
 export const StyledRoot = styled.div`
     width: 100%;
@@ -39,6 +40,7 @@ export const StyledTableHeader = styled(TableHeader)`
 export const Icon = styled.img`
     width: 35px;
     margin-right: 10px;
+    border-radius: 5px;
 `;
 
 export const CurrenciesExchangeDirection = styled.div`
@@ -55,4 +57,17 @@ export const Currency = styled.div`
 
 export const StyledPaging = styled(Paging)`
     align-self: flex-start;
+`;
+
+export const Plug = styled.div`
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: ${blackSecondary};
+    background-color: ${surfaceSolid02};
 `;

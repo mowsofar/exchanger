@@ -105,13 +105,13 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
             return { label: 'Создана', color: '#18181a' };
         }
         case 'WAITING_FOR_CLIENT_PAYMENT':
-            return { label: 'Ожидается оплата', color: '#18181a' };
+            return { label: 'Проверка оплаты', color: '#18181a' };
 
         case 'PAYMENT_RECEIVED':
             return { label: 'Оплата получена', color: '#18181a' };
 
         case 'WAITING_FOR_OPERATOR_PROCESSING':
-            return { label: 'Ожидает обработки', color: '#18181a' };
+            return { label: 'В обработке', color: '#18181a' };
 
         case 'ERROR':
             return { label: 'Ошибка', color: '#a4232f' };

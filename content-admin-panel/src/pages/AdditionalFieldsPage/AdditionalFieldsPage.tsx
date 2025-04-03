@@ -2,6 +2,7 @@ import { Headline3 } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Currencies,
+    Plug,
     StyledBadge,
     StyledButton,
     StyledContent,
@@ -53,57 +54,62 @@ export const AdditionalFieldsPage: React.FC = () => {
                             <StyledTableHeaderCell>Статус</StyledTableHeaderCell>
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
-                        <TableBody>
-                            {additionalFieldsList.map((item) => {
-                                const currencies = item?.currencies.map((currency) => currency.technicalName);
 
-                                const linkedCurrencies = currencies.join(', ');
-                                return (
-                                    <StyledTableRow key={item.id}>
-                                        <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                            {item.fieldName}
-                                        </StyledTableCellName>
+                        {!Boolean(additionalFieldsList.length) && <Plug>Нет доступных дополнительных полей</Plug>}
 
-                                        <StyledTableCellName title={linkedCurrencies}>
-                                            <Currencies>{linkedCurrencies || '—'}</Currencies>
-                                        </StyledTableCellName>
+                        {Boolean(additionalFieldsList.length) && (
+                            <TableBody>
+                                {additionalFieldsList.map((item) => {
+                                    const currencies = item?.currencies.map((currency) => currency.technicalName);
 
-                                        <StyledTableCellName>
-                                            <div>
-                                                {item.direction === 'TARGET' ? 'Для получателя' : 'Для отправителя'}
-                                            </div>
-                                        </StyledTableCellName>
+                                    const linkedCurrencies = currencies.join(', ');
+                                    return (
+                                        <StyledTableRow key={item.id}>
+                                            <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
+                                                {item.fieldName}
+                                            </StyledTableCellName>
 
-                                        <StyledTableCellName>
-                                            <StyledBadge
-                                                size="xs"
-                                                view={item.status === 'ACTIVE' ? 'positive' : 'negative'}
-                                            >
-                                                {item.status === 'ACTIVE' ? 'Включён' : 'Отключён'}
-                                            </StyledBadge>
-                                        </StyledTableCellName>
+                                            <StyledTableCellName title={linkedCurrencies}>
+                                                <Currencies>{linkedCurrencies || '—'}</Currencies>
+                                            </StyledTableCellName>
 
-                                        <StyledTableCellName>
-                                            <Button
-                                                view="clear"
-                                                onClick={() => {
-                                                    setSelectedAdditionalField(item);
-                                                    setEditAdditionaFieldModalOpen(true);
-                                                }}
-                                            >
-                                                <IconEdit />
-                                            </Button>
-                                        </StyledTableCellName>
+                                            <StyledTableCellName>
+                                                <div>
+                                                    {item.direction === 'TARGET' ? 'Для получателя' : 'Для отправителя'}
+                                                </div>
+                                            </StyledTableCellName>
 
-                                        <StyledTableCellName>
-                                            <Button view="clear" onClick={() => deleteAdditionalFieldItem(item.id)}>
-                                                <IconTrash />
-                                            </Button>
-                                        </StyledTableCellName>
-                                    </StyledTableRow>
-                                );
-                            })}
-                        </TableBody>
+                                            <StyledTableCellName>
+                                                <StyledBadge
+                                                    size="xs"
+                                                    view={item.status === 'ACTIVE' ? 'positive' : 'negative'}
+                                                >
+                                                    {item.status === 'ACTIVE' ? 'Включён' : 'Отключён'}
+                                                </StyledBadge>
+                                            </StyledTableCellName>
+
+                                            <StyledTableCellName>
+                                                <Button
+                                                    view="clear"
+                                                    onClick={() => {
+                                                        setSelectedAdditionalField(item);
+                                                        setEditAdditionaFieldModalOpen(true);
+                                                    }}
+                                                >
+                                                    <IconEdit />
+                                                </Button>
+                                            </StyledTableCellName>
+
+                                            <StyledTableCellName>
+                                                <Button view="clear" onClick={() => deleteAdditionalFieldItem(item.id)}>
+                                                    <IconTrash />
+                                                </Button>
+                                            </StyledTableCellName>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        )}
                     </TableWrapper>
 
                     <AddAdditionalFieldModal

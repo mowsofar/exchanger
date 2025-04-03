@@ -13,11 +13,11 @@ import {
     StyledTd,
     StyledTextField,
     StyledTh,
+    VerticalImg,
 } from './MinMaxAmountMatrix.styled';
 import { Button } from '../Button/Button.styled';
 import { updateMinMaxAmount } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
-import { IconDone, IconPlus } from '@salutejs/plasma-icons';
 
 interface MinMaxAmountMatrixProps {
     directions: ExchangeDirection[];
@@ -185,15 +185,23 @@ export const MinMaxAmountMatrix: React.FC<MinMaxAmountMatrixProps> = ({ directio
                     {matrixData.map((row, rowIndex) => (
                         <tr key={`row-${currencies[rowIndex].id}`}>
                             <StyledTd>
-                                <StyledImg src={currencies[rowIndex].paymentSystem.imagePath} />
+                                <VerticalImg src={currencies[rowIndex].paymentSystem.imagePath} />
                             </StyledTd>
                             {row.map((cell, colIndex) => {
                                 if (rowIndex === colIndex) {
-                                    return <DiagonalCell key={`diag-${rowIndex}-${colIndex}`} />;
+                                    return (
+                                        <StyledTd>
+                                            <DiagonalCell key={`diag-${rowIndex}-${colIndex}`} />
+                                        </StyledTd>
+                                    );
                                 }
 
                                 if (!cell) {
-                                    return <EmptyCell key={`empty-${rowIndex}-${colIndex}`} />;
+                                    return (
+                                        <StyledTd>
+                                            <EmptyCell key={`empty-${rowIndex}-${colIndex}`} />
+                                        </StyledTd>
+                                    );
                                 }
 
                                 const isSelected = selectedDirections.some((d) => d.id === cell.id);
@@ -205,7 +213,8 @@ export const MinMaxAmountMatrix: React.FC<MinMaxAmountMatrixProps> = ({ directio
                                             isSelected={isSelected || isStartCell}
                                             onClick={() => handleCellClick(cell, rowIndex, colIndex)}
                                         >
-                                            {Boolean(isSelected) ? <IconDone /> : <IconPlus color="white" size="xs" />}
+                                            <div>{cell.minSourceAmount}</div>
+                                            <div>{cell.maxSourceAmount}</div>
                                         </ProfitCircle>
                                     </StyledTd>
                                 );

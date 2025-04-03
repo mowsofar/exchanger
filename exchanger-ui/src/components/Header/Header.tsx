@@ -7,8 +7,11 @@ import { useStore } from '@nanostores/react';
 import { RegistrationPopup } from '../RegistrationPopup/RegistrationPopup';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { IconMenu } from '@salutejs/plasma-icons';
-import { Button as PlasmaButton } from '@salutejs/plasma-web';
+import { IconLogout, IconMenu } from '@salutejs/plasma-icons';
+import { Button as PlasmaButton, Popover } from '@salutejs/plasma-web';
+import { logout } from '../../api/handlers';
+import { logoutUser } from '../../api/tokenHandlers';
+import { AccountCard } from '../AccountCard/AccountCard';
 
 const StyledRoot = styled.div`
     background: transparent;
@@ -35,14 +38,13 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
     width: fit-content;
     padding: 0rem 1.5rem;
     font-size: 1.9rem;
-    margin-right: 5rem;
     z-index: 100;
 
     @media (max-width: 820px) {
         display: block;
         position: fixed;
         z-index: 1000;
-        right: -2rem;
+        right: 4rem;
         top: 20rem;
 
         ${({ isActive }) =>
@@ -56,6 +58,16 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
 const LoginButton = styled(StyledButton)`
     @media (max-width: 820px) {
         right: 7rem;
+    }
+`;
+
+const LogoutButton = styled(StyledButton)`
+    padding: 0 1.2rem;
+    padding-top: 0.4rem;
+
+    @media (max-width: 820px) {
+        top: 25rem;
+        right: 12rem;
     }
 `;
 
@@ -121,14 +133,31 @@ const HidingButton = styled(PlasmaButton)`
     }
 `;
 
+const RightButtons = styled.div`
+    display: flex;
+    column-gap: 2rem;
+
+    & button:last-child {
+        margin-right: 5rem;
+    }
+`;
+
 export const Header = () => {
     const [isMenuOpen, setMenuOpen] = React.useState(false);
+    const [isPopoverOpen, setPopoverOpen] = React.useState(false);
 
     const isLoginModalOpen = useStore($isLoginModalOpen);
     const isRegistrationModalOpen = useStore($isRegistrationModalOpen);
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    const handleClickLogoutButton = async () => {
+        try {
+            await logout();
+            logoutUser();
+        } catch {}
+    };
 
     return (
         <>
@@ -147,27 +176,37 @@ export const Header = () => {
                     </MenuItem>
                 </Menu>
 
-                {localStorage.getItem('accessToken') ? (
-                    <StyledButton
-                        isActive={isMenuOpen}
-                        onClick={() => {
-                            navigate(ROUTES.profile);
-                            setMenuOpen(false);
-                        }}
-                    >
-                        Личный кабинет
-                    </StyledButton>
-                ) : (
-                    <LoginButton
-                        onClick={() => {
-                            $isLoginModalOpen.set(true);
-                            setMenuOpen(false);
-                        }}
-                        isActive={isMenuOpen}
-                    >
-                        Войти
-                    </LoginButton>
-                )}
+                <RightButtons>
+                    {localStorage.getItem('accessToken') ? (
+                        <Popover
+                            opened={isPopoverOpen}
+                            onToggle={(is) => setPopoverOpen(is)}
+                            offset={[-60, 8]}
+                            placement="bottom"
+                            closeOnOverlayClick
+                            closeOnEsc
+                            target={<StyledButton isActive={isMenuOpen}>Личный кабинет</StyledButton>}
+                        >
+                            <AccountCard closeMenu={() => setPopoverOpen(false)} />
+                        </Popover>
+                    ) : (
+                        <LoginButton
+                            onClick={() => {
+                                $isLoginModalOpen.set(true);
+                                setMenuOpen(false);
+                            }}
+                            isActive={isMenuOpen}
+                        >
+                            Войти
+                        </LoginButton>
+                    )}
+
+                    {localStorage.getItem('accessToken') && (
+                        <LogoutButton isActive={isMenuOpen} onClick={handleClickLogoutButton}>
+                            <IconLogout size="m" />
+                        </LogoutButton>
+                    )}
+                </RightButtons>
 
                 <HidingButton view="clear" onClick={() => setMenuOpen(!isMenuOpen)}>
                     <IconMenu color="#26c499" size="m" />

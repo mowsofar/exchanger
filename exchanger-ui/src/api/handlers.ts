@@ -1,5 +1,5 @@
 import { handleTokenRefresh } from "./tokenHandlers";
-import { Course, Currency, ExchangeDirection, Payout, PayoutStatus, User } from "./types/common";
+import { Course, Currency, ExchangeDirection, LoginData, Payout, PayoutStatus, User } from "./types/common";
 
 
 function handleResponse(response: Response) {
@@ -45,6 +45,24 @@ function requestToAccountApi(
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Content-Type': 'application/json',
         },
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+}
+
+function requestToAccountApiWithToken(
+    endpoint: string,
+    options: Partial<RequestInit>,
+    body?: unknown,
+) {
+    const requestOptions: RequestInit = {
+        ...options,
+        method: options?.method,
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
     };
 
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
@@ -104,11 +122,19 @@ export function authenticate(email: string, password: string): Promise<{ access_
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password });
 }
 
+export function logout(): Promise<LoginData> {
+    return requestToAccountApiWithToken('api/v1/auth/logout', { method: 'POST' });
+}
+
+export function changePassword(currentPassword: string, newPassword: string, confirmationPassword: string): Promise<LoginData> {
+    return requestToAccountApiWithToken('api/user/changepassword', { method: 'PATCH' }, { currentPassword, newPassword, confirmationPassword });
+}
+
 export function register(firstname: string, lastname: string, email: string, password: string): Promise<unknown> {
     return requestToApi('api/v1/auth/register', { method: 'POST' }, { firstname, lastname, email, password });
 }
 
-export function refreshToken(): Promise<unknown> {
+export function refreshToken(): Promise<LoginData> {
     return requestToApi('api/v1/auth/refreshToken', { method: 'POST' });
 }
 

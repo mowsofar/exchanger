@@ -102,5 +102,6 @@ export const StyledCurrencyName = styled.div`
 
     & img {
         width: 3rem;
+        border-radius: .5rem;
     }
 `;

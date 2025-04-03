@@ -1,11 +1,13 @@
+import { ROUTES } from "../constants/routes";
 import { refreshToken } from "./handlers";
 
-function logoutUser() {
+export function logoutUser() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');
     localStorage.removeItem('email');
+    window.location.replace(ROUTES.root);
 }
 
 export async function handleTokenRefresh() {
@@ -18,7 +20,10 @@ export async function handleTokenRefresh() {
     }
   
     try {
-      await refreshToken();
+      const { access_token, refresh_token } = await refreshToken();
+
+      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('refreshToken', refresh_token);
     } catch (error) {
       logoutUser();
     }

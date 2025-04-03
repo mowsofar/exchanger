@@ -9,8 +9,8 @@ import { $selectedPayout } from '../../stores/payout.store';
 const StyledInfoBlock = styled.div<{ isCopied: boolean }>`
     font-size: 13px;
     background-color: ${({ isCopied }) => (isCopied ? '#cfe5cd' : surfaceLiquid02)};
-    padding: 5px 16px;
-    border-radius: 16px;
+    padding: 7px 7px 7px 16px;
+    border-radius: 15px;
     min-width: 220px;
 `;
 

@@ -53,6 +53,7 @@ const Direction = styled.div`
 
 const Icon = styled.img`
     width: 15px;
+    border-radius: 3px;
 `;
 
 const Email = styled.div`

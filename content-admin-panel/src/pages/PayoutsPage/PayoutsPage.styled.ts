@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow, TableWrapper } from '../../components/Table/Table';
 import { Badge, Select } from '@salutejs/plasma-web';
-import { success, surfaceSolid02, surfaceSolid03, whitePrimary } from '@salutejs/plasma-tokens';
+import { blackSecondary, success, surfaceSolid02, surfaceSolid03, whitePrimary } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
 
 export const StyledRoot = styled.div`
@@ -85,4 +85,21 @@ export const StyledButtons = styled.div`
 
 export const StyledSelect = styled(Select)`
     width: 250px; 
+`;
+
+export const Plug = styled.div`
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: ${blackSecondary};
+    background-color: ${surfaceSolid02};
+`;
+
+export const SpinnerWrapper = styled(Plug)`
+    background-color: ${whitePrimary};
 `;

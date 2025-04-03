@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { TableHeader, TableRow } from '../../components/Table/Table';
 import { Button } from '@salutejs/plasma-ui';
+import { blackSecondary, surfaceSolid02 } from '@salutejs/plasma-tokens';
 
 export const StyledRoot = styled.div`
     width: 100%;
@@ -28,8 +29,22 @@ export const StyledTableHeader = styled(TableHeader)`
 
 export const StyledImg = styled.img`
     height: 40px;
+    border-radius: 5px;
 `;
 
 export const StyledButton = styled(Button)`
     width: 300px;
+`;
+
+export const Plug = styled.div`
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: ${blackSecondary};
+    background-color: ${surfaceSolid02};
 `;

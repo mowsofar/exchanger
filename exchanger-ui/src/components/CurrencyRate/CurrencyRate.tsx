@@ -40,21 +40,25 @@ export const CurrencyRate: React.FC<CurrencyRateProps> = ({ onComplete }) => {
 
     return (
         <StyledRoot>
-            <CountDown>
-                <Seconds>{countdown}</Seconds>
-                <CountDownContainer>
-                    <Svg>
-                        <Circle
-                            r="20"
-                            cx="20"
-                            cy="20"
-                            strokeDasharray={circumference}
-                            strokeDashoffset={strokeDashoffset}
-                        ></Circle>
-                    </Svg>
-                </CountDownContainer>
-            </CountDown>
-            {courseTitle}
+            {course?.course && (
+                <>
+                    <CountDown>
+                        <Seconds>{countdown}</Seconds>
+                        <CountDownContainer>
+                            <Svg>
+                                <Circle
+                                    r="20"
+                                    cx="20"
+                                    cy="20"
+                                    strokeDasharray={circumference}
+                                    strokeDashoffset={strokeDashoffset}
+                                ></Circle>
+                            </Svg>
+                        </CountDownContainer>
+                    </CountDown>
+                    {courseTitle}
+                </>
+            )}
         </StyledRoot>
     );
 };

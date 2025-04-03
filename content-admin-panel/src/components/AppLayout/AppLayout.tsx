@@ -1,17 +1,10 @@
 import { StyledLayout, StyledLeftColumn, StyledRightColumn, StyledTwoColumnsRoot } from './AppLayout.styled';
 import { MenuList } from '../MenuList/MenuList';
 import { Header } from '../Header/Header';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../constants/routes';
+import { Outlet } from 'react-router-dom';
+import React from 'react';
 
 export const AppLayout: React.FC = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-
-    if (location.pathname === ROUTES.root) {
-        navigate(ROUTES.login);
-    }
-
     return (
         <StyledLayout>
             <Header />

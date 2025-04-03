@@ -42,11 +42,15 @@ export function getPayoutControls(payout: PayoutStatus | undefined): { label: st
         case 'CREATED': 
             return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}];
         case 'WAITING_FOR_CLIENT_PAYMENT': 
-            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}];
+            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}];
         case 'PAYMENT_RECEIVED': 
             return [{ label: 'Взять в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
         case 'WAITING_FOR_OPERATOR_PROCESSING': 
             return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
+        case 'CANCELLED': 
+            return [{ label: 'Восстановить в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
+        case 'ERROR': 
+            return [{ label: 'Восстановить в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
         default:
             return [];
     }

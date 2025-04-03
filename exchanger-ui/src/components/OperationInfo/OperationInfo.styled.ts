@@ -101,4 +101,5 @@ export const Currnecy = styled.div`
 
 export const Img = styled.img`
     height: 2.8rem;
+    border-radius: .5rem;
 `;

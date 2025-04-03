@@ -8,6 +8,7 @@ import { useNotification } from '../../hooks/useNotification';
 import { logout } from '../../api/handlers';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
+import logo from './images/logo-kykyshka2.png';
 
 const StyledRoot = styled.div`
     height: 84px;
@@ -80,7 +81,7 @@ export const Header: React.FC = () => {
 
     return (
         <StyledRoot>
-            <Logo src="images/logo-kykyshka2.png" />
+            <Logo src={logo} />
             <StyledRightHeaderButtons>
                 <Popover
                     opened={isPopoverOpen}
