@@ -109,9 +109,6 @@ export async function createPayout(srcCurrencyId: number, targetCurrencyId: numb
 ) {
     const requestOptions: RequestInit = {
         method: options?.method,
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
         body: formData,
     };
 

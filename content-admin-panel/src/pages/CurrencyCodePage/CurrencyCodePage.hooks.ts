@@ -5,10 +5,13 @@ import { useNotification } from '../../hooks/useNotification';
 
 export const useCurrencyCodePage = () => {
     const showNotification = useNotification();
+
+    const [isLoading, setIsLoading] = React.useState(false);
     
     const getCurrencyCodeList = useCallback(
         async () => {
                 try {
+                    setIsLoading(true);
                     const user = await getAccount();
                     localStorage.setItem('firstName', user?.firstname);
                     localStorage.setItem('lastName', user?.lastname);
@@ -19,6 +22,8 @@ export const useCurrencyCodePage = () => {
 
                 } catch (error) {
                     showNotification('Не удалось получить список кодов валют', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -64,6 +69,6 @@ export const useCurrencyCodePage = () => {
         getCurrencyCodeList();
     }, [getCurrencyCodeList]);
 
-    return { createCurrencyCodeItem, deleteCurrencyCodeItem, editCurrencyCodeItem };
+    return { createCurrencyCodeItem, deleteCurrencyCodeItem, editCurrencyCodeItem, isLoading };
 
 };

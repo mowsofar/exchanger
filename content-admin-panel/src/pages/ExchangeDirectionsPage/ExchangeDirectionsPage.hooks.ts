@@ -7,10 +7,12 @@ import { $currencyList } from '../../stores/currency.store';
 export const useExchangeDirectionsPage = () => {
     const showNotification = useNotification();
     const [exchangeDirectionsPage, setExchangeDirectionsPage] = React.useState(1);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     const getExchangeDirectionsListPaged = useCallback(
         async (page: number) => {
                 try {
+                    setIsLoading(true);
                     const exchangeDirections = await getExchangeDirectionsPaged(page, 10);
                     $exchangeDirectionsPaged.set(exchangeDirections.content);
                     $exchangeDirectionsTotal.set(exchangeDirections.totalElements);
@@ -18,6 +20,8 @@ export const useExchangeDirectionsPage = () => {
                 } catch (error) {
                     $exchangeDirectionsPaged.set([]);
                     showNotification('Ошибка получения списка направлений обмена', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -89,6 +93,6 @@ export const useExchangeDirectionsPage = () => {
     }, [getCurrenciesList]);
 
 
-    return { getExchangeDirectionsListPaged, exchangeDirectionsPage, handleClickPage, createExchangeDirectionItem, editExchangeDirectionItem, deleteExchangeDirectionItem };
+    return { getExchangeDirectionsListPaged, exchangeDirectionsPage, handleClickPage, createExchangeDirectionItem, editExchangeDirectionItem, deleteExchangeDirectionItem, isLoading };
 
 };

@@ -94,6 +94,12 @@ export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
     { value: 'COMPLETED', label: 'Завершённые' },
 ];
 
+export const AdditionalFieldTypeValues: Array<{value: string; label: string}> = [
+    { value: '', label: 'Все поля' },
+    { value: 'ACTIVE', label: 'Активные' },
+    { value: 'INACTIVE', label: 'Не активные' },
+];
+
 export type StatusType = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
 
 export interface UserForPayout {

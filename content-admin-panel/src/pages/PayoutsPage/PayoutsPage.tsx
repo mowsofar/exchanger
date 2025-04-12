@@ -67,6 +67,7 @@ export const PayoutsPage: React.FC = () => {
             <StyledRoot>
                 <StyledHeader>
                     <Headline3>Заявки</Headline3>
+
                     <StyledButtons>
                         <StyledButton
                             view="secondary"
@@ -74,6 +75,7 @@ export const PayoutsPage: React.FC = () => {
                             contentLeft={<IconRotateCcw />}
                             onClick={handleReloadPage}
                         />
+
                         <StyledSelect
                             placeholder="Тип заявки"
                             items={PayoutSelectStatusValues}

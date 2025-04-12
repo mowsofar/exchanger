@@ -1,4 +1,4 @@
-import { Headline3 } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Plug,
@@ -21,7 +21,8 @@ import { PaymentSystem } from '../../api/types/common';
 import { Button } from '@salutejs/plasma-ui';
 
 export const PaymentSystemsPage: React.FC = () => {
-    const { createPaymentSystemItem, deletePaymentSystemItem, editPaymentSystemItem } = usePaymentSystemsPage();
+    const { createPaymentSystemItem, deletePaymentSystemItem, editPaymentSystemItem, isLoading } =
+        usePaymentSystemsPage();
 
     const paymentSystems = useStore($paymentSystemsList);
 
@@ -56,9 +57,17 @@ export const PaymentSystemsPage: React.FC = () => {
                             <StyledTableHeaderCell>Дата обновления</StyledTableHeaderCell>
                         </StyledTableHeader>
 
-                        {!Boolean(paymentSystems.length) && <Plug>Нет доступных платёжных систем</Plug>}
+                        {Boolean(isLoading) && (
+                            <Plug>
+                                <Spinner size={32} />
+                            </Plug>
+                        )}
 
-                        {Boolean(paymentSystems.length) && (
+                        {!Boolean(paymentSystems.length) && !Boolean(isLoading) && (
+                            <Plug>Нет доступных платёжных систем</Plug>
+                        )}
+
+                        {Boolean(paymentSystems.length) && !Boolean(isLoading) && (
                             <TableBody>
                                 {paymentSystems.map((item) => {
                                     const lastSeenText = new Date(item.updatedAt).toLocaleString();

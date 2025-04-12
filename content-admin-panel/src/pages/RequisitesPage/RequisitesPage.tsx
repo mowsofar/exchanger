@@ -1,4 +1,4 @@
-import { Headline3 } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Currencies,
@@ -21,7 +21,7 @@ import { EditRequisitesModal } from '../../components/RequisitesModals/EditRequi
 import { Button } from '@salutejs/plasma-ui';
 
 export const RequisitesPage: React.FC = () => {
-    const { createRequiustesItem, editRequiustesItem, deleteRequisitesItem } = useRequisitesPage();
+    const { createRequiustesItem, editRequiustesItem, deleteRequisitesItem, isLoading } = useRequisitesPage();
 
     const [isAddRequisitesModalOpen, setAddRequisitesModalOpen] = React.useState(false);
     const [isEditRequisitesModalOpen, setEditRequisitesModalOpen] = React.useState(false);
@@ -53,9 +53,15 @@ export const RequisitesPage: React.FC = () => {
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
 
-                        {!Boolean(requisites.length) && <Plug>Нет доступных реквизитов</Plug>}
+                        {Boolean(isLoading) && (
+                            <Plug>
+                                <Spinner size={32} />
+                            </Plug>
+                        )}
 
-                        {Boolean(requisites.length) && (
+                        {!Boolean(requisites.length) && !Boolean(isLoading) && <Plug>Нет доступных реквизитов</Plug>}
+
+                        {Boolean(requisites.length) && !Boolean(isLoading) && (
                             <TableBody>
                                 {requisites.map((item) => {
                                     const currencies = item?.currencies.map((currency) => currency.technicalName);

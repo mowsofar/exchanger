@@ -56,3 +56,10 @@ export const Circle = styled.circle`
     fill: none;
     transition: all 1.5s ease-in-out;
 `;
+
+export const Skeleton = styled.div`
+    background-color: var(--backgroundSecondary);
+    border-radius: 2rem;
+    height: 4.6rem;
+    width: 8rem;
+`;

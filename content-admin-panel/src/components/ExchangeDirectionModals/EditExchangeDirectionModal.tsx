@@ -6,6 +6,7 @@ import { ExchangeDirection } from '../../api/types/common';
 import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
 import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
+import { formatCalculatorInput, formatToSubmit } from '../../utils/formatNumber';
 
 interface EditExchangeDirectionModalProps {
     exchangeDirection: ExchangeDirection;
@@ -54,10 +55,18 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
     onClose,
     editExchangeDirectionItem,
 }) => {
-    const [profitPercent, setProfitPercent] = React.useState<number | undefined>(exchangeDirection.profitPercent);
-    const [minSourceAmount, setMinSourceAmount] = React.useState<number | undefined>(exchangeDirection.minSourceAmount);
-    const [maxSourceAmount, setMaxSourceAmount] = React.useState<number | undefined>(exchangeDirection.maxSourceAmount);
-    const [reserves, setReserves] = React.useState<number | undefined>(exchangeDirection.reserves);
+    const [profitPercent, setProfitPercent] = React.useState<string | undefined>(
+        formatCalculatorInput(exchangeDirection.profitPercent),
+    );
+    const [minSourceAmount, setMinSourceAmount] = React.useState<string | undefined>(
+        formatCalculatorInput(exchangeDirection.minSourceAmount),
+    );
+    const [maxSourceAmount, setMaxSourceAmount] = React.useState<string | undefined>(
+        formatCalculatorInput(exchangeDirection.maxSourceAmount),
+    );
+    const [reserves, setReserves] = React.useState<string | undefined>(
+        formatCalculatorInput(exchangeDirection.reserves),
+    );
 
     const onCloseModal = () => {
         setProfitPercent(undefined);
@@ -71,20 +80,20 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
     const handleSubmit = () => {
         const newData: any = {};
 
-        if (profitPercent !== exchangeDirection?.profitPercent) {
-            newData.profitPercent = profitPercent;
+        if (profitPercent && profitPercent !== formatCalculatorInput(exchangeDirection?.profitPercent)) {
+            newData.profitPercent = formatToSubmit(profitPercent);
         }
 
-        if (minSourceAmount !== exchangeDirection?.minSourceAmount) {
-            newData.minSourceAmount = minSourceAmount;
+        if (minSourceAmount && minSourceAmount !== formatCalculatorInput(exchangeDirection?.minSourceAmount)) {
+            newData.minSourceAmount = formatToSubmit(minSourceAmount);
         }
 
-        if (maxSourceAmount !== exchangeDirection.maxSourceAmount) {
-            newData.maxSourceAmount = maxSourceAmount;
+        if (maxSourceAmount && maxSourceAmount !== formatCalculatorInput(exchangeDirection.maxSourceAmount)) {
+            newData.maxSourceAmount = formatToSubmit(maxSourceAmount);
         }
 
-        if (reserves !== exchangeDirection?.reserves) {
-            newData.reserves = reserves;
+        if (reserves && reserves !== formatCalculatorInput(exchangeDirection?.reserves)) {
+            newData.reserves = formatToSubmit(reserves);
         }
 
         editExchangeDirectionItem(exchangeDirection.id, newData);
@@ -92,35 +101,19 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
     };
 
     const handleChangeProfitPercent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setProfitPercent(Number(e.target.value));
+        setProfitPercent(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeMinAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setMinSourceAmount(Number(e.target.value));
+        setMinSourceAmount(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeMaxAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setMaxSourceAmount(Number(e.target.value));
+        setMaxSourceAmount(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeReserves = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setReserves(Number(e.target.value));
+        setReserves(formatCalculatorInput(e.target.value));
     };
 
     return (

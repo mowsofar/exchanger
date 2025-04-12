@@ -8,14 +8,19 @@ import { $currencyList } from '../../stores/currency.store';
 export const useCurrenciesPage = () => {
     const showNotification = useNotification();
 
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const getCurrenciesList = useCallback(
         async () => {
                 try {
+                    setIsLoading(true);
                     const currencies = await getCurrencies();
                     $currencyList.set(currencies);
 
                 } catch (error) {
                     showNotification('Ошибка получения списка валют', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -79,6 +84,6 @@ export const useCurrenciesPage = () => {
     }, [getCurrencyCodeList, getPaymentSystemsList]);
 
 
-    return { createCurrencyItem, deleteCurrencyItem };
+    return { createCurrencyItem, deleteCurrencyItem, isLoading };
 
 };

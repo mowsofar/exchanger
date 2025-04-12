@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { queueTokenRefresh } from "./tokenHandlers";
-import { AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
+import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
 
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
@@ -213,6 +213,11 @@ export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSo
 export function getAdditionalFields(
 ): Promise<AdditionalFields> {
     return requestToApi('api/additional-fields', { method: 'GET' });
+}
+
+export function getTypedAdditionalFields(status: string
+): Promise<AdditionalFieldDirection[]> {
+    return requestToApi(`api/additional-fields/status/${status}`, { method: 'GET' });
 }
 
 export function createAdditionalField(fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]

@@ -1,20 +1,42 @@
 import React, { useCallback } from 'react';
-import { createAdditionalField, deleteAdditionalField, editAdditionalField, getAdditionalFields, getCurrencies } from '../../api/handlers';
+import { createAdditionalField, deleteAdditionalField, editAdditionalField, getAdditionalFields, getCurrencies, getTypedAdditionalFields } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
-import { $additionalFields, $currencyList } from '../../stores/currency.store';
+import { $additionalFields, $additionalFieldsTyped, $currencyList } from '../../stores/currency.store';
 import { AdditionalFieldDirections } from '../../api/types/common';
 
 export const useAdditionalFieldsPage = () => {
     const showNotification = useNotification();
 
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    const initialStatus = new URLSearchParams(window.location.search).get('status');
+
     const getAdditionalFieldsList = useCallback(
         async () => {
                 try {
+                    setIsLoading(true);
                     const additionalFields = await getAdditionalFields();
                     $additionalFields.set(additionalFields);
 
                 } catch (error) {
                     showNotification('Ошибка получения списка дополнительных полей', 'error', error);
+                } finally {
+                    setIsLoading(false);
+                }
+            }, [showNotification]
+    );
+
+    const getAdditionalFieldsListByType = useCallback(
+        async (status: string) => {
+                try {
+                    setIsLoading(true);
+                    const additionalFields = await getTypedAdditionalFields(status);
+                    $additionalFieldsTyped.set(additionalFields);
+
+                } catch (error) {
+                    showNotification('Ошибка получения списка дополнительных полей', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -72,13 +94,17 @@ export const useAdditionalFieldsPage = () => {
 
 
     React.useEffect(() => {
-        getAdditionalFieldsList();
-    }, [getAdditionalFieldsList]);
+        if (initialStatus) {
+            getAdditionalFieldsListByType(initialStatus);
+        } else {
+            getAdditionalFieldsList();
+        }
+    }, [getAdditionalFieldsList, getAdditionalFieldsListByType, initialStatus]);
 
     React.useEffect(() => {
         getCurrenciesList();
     }, [getCurrenciesList]);
 
-    return { createAdditionalFieldItem, editAdditionalFieldItem, deleteAdditionalFieldItem };
+    return { createAdditionalFieldItem, editAdditionalFieldItem, deleteAdditionalFieldItem, getAdditionalFieldsList, getAdditionalFieldsListByType, isLoading };
 
 };

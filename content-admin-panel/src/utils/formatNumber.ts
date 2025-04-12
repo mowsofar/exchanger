@@ -9,7 +9,7 @@ export function formatNumber(n: number | undefined) {
 }
 
 export function formatCalculatorInput(value: string | number | undefined): string {
-    if (!value) return '0';
+    if (!value && value !== 0) return '0';
 
     let number = value;
 
@@ -25,12 +25,24 @@ export function formatCalculatorInput(value: string | number | undefined): strin
         inputValue = '0';
     }
 
-    if (inputValue[0] === '0' && inputValue.length > 1 && parts.length < 2) {
+    // Сохраняем информацию об отрицательном числе
+    const isNegative = inputValue.startsWith('-');
+    
+    if (inputValue[0] === '0' && inputValue.length > 1 && parts.length < 2 && !isNegative) {
         inputValue = inputValue.slice(1);
+    } else if (inputValue.startsWith('-0') && inputValue.length > 2 && parts.length < 2) {
+        // Обработка случаев типа "-0123" -> "-123"
+        inputValue = '-' + inputValue.slice(2);
     }
 
     inputValue = inputValue.replace(/,/g, '.');
-    inputValue = inputValue.replace(/[^\d.]/g, '');
+    // Разрешаем знак минуса в регулярном выражении
+    inputValue = inputValue.replace(/[^\d.-]/g, '');
+
+    // Удаляем лишние минусы (оставляем только первый)
+    if ((inputValue.match(/-/g) || []).length > 1) {
+        inputValue = '-' + inputValue.replace(/-/g, '');
+    }
 
     if (parts.length > 2) {
         inputValue = parts[0] + '.' + parts.slice(1).join('');

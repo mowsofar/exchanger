@@ -1,4 +1,4 @@
-import { Headline3 } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Plug,
@@ -22,7 +22,7 @@ import { accent } from '@salutejs/plasma-tokens';
 import { Button } from '@salutejs/plasma-ui';
 
 export const CurrenciesPage: React.FC = () => {
-    const { createCurrencyItem, deleteCurrencyItem } = useCurrenciesPage();
+    const { createCurrencyItem, deleteCurrencyItem, isLoading } = useCurrenciesPage();
     const navigate = useNavigate();
 
     const [isAddCurrencyModalOpen, setAddCurrencyModalOpen] = React.useState(false);
@@ -59,9 +59,15 @@ export const CurrenciesPage: React.FC = () => {
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
 
-                        {!Boolean(currencyList.length) && <Plug>Нет доступных валют</Plug>}
+                        {Boolean(isLoading) && (
+                            <Plug>
+                                <Spinner size={32} />
+                            </Plug>
+                        )}
 
-                        {Boolean(currencyList.length) && (
+                        {!Boolean(currencyList.length) && !Boolean(isLoading) && <Plug>Нет доступных валют</Plug>}
+
+                        {Boolean(currencyList.length) && !Boolean(isLoading) && (
                             <TableBody>
                                 {currencyList.map((item) => {
                                     return (

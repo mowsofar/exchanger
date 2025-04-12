@@ -3,6 +3,7 @@ import { TableHeader, TableRow } from '../../components/Table/Table';
 import { Badge } from '@salutejs/plasma-web';
 import { Button } from '@salutejs/plasma-ui';
 import { blackSecondary, surfaceSolid02 } from '@salutejs/plasma-tokens';
+import { StyledSelect } from '../../components/StyledSelect/StyledSelect';
 
 export const StyledRoot = styled.div`
     width: 100%;
@@ -40,8 +41,26 @@ export const Currencies = styled.div`
     text-overflow: ellipsis;
 `;
 
+export const Header = styled.div`
+    display: flex;
+    column-gap: 20px;
+`;
+
 export const StyledButton = styled(Button)`
     width: 200px;
+`;
+
+export const Select = styled(StyledSelect)`
+    > div > div > div > div {
+        width: 250px;
+        height: 40px !important;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 12px !important;
+        box-shadow: none !important;
+        background-color: ${surfaceSolid02} !important;
+    }
+    
 `;
 
 export const Plug = styled.div`

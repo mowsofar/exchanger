@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStore } from '@nanostores/react';
 import { $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
-import { Circle, CountDown, CountDownContainer, Seconds, StyledRoot, Svg } from './CurrencyRate.styled';
+import { Circle, CountDown, CountDownContainer, Seconds, Skeleton, StyledRoot, Svg } from './CurrencyRate.styled';
 import { formatNumber } from '../../utils/formatNumber';
 
 interface CurrencyRateProps {
@@ -59,6 +59,7 @@ export const CurrencyRate: React.FC<CurrencyRateProps> = ({ onComplete }) => {
                     {courseTitle}
                 </>
             )}
+            {!course?.course && <Skeleton />}
         </StyledRoot>
     );
 };

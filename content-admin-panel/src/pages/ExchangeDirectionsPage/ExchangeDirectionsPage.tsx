@@ -1,4 +1,4 @@
-import { Headline3 } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     CurrenciesExchangeDirection,
@@ -41,6 +41,7 @@ export const ExchangeDirectionsPage: React.FC = () => {
         createExchangeDirectionItem,
         editExchangeDirectionItem,
         deleteExchangeDirectionItem,
+        isLoading,
     } = useExchangeDirectionsPage();
 
     const [isAddExchangeDirectionModalOpen, setAddExchangeDirectionModalOpen] = React.useState(false);
@@ -96,9 +97,17 @@ export const ExchangeDirectionsPage: React.FC = () => {
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
 
-                        {!Boolean(exchangeDirectionsPaged.length) && <Plug>Нет доступных направлений обмена</Plug>}
+                        {Boolean(isLoading) && (
+                            <Plug>
+                                <Spinner size={32} />
+                            </Plug>
+                        )}
 
-                        {Boolean(exchangeDirectionsPaged.length) && (
+                        {!Boolean(exchangeDirectionsPaged.length) && !Boolean(isLoading) && (
+                            <Plug>Нет доступных направлений обмена</Plug>
+                        )}
+
+                        {Boolean(exchangeDirectionsPaged.length) && !Boolean(isLoading) && (
                             <TableBody>
                                 {exchangeDirectionsPaged.map((item) => {
                                     return (

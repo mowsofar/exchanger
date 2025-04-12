@@ -1,4 +1,4 @@
-import { Headline3 } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Plug,
@@ -20,7 +20,7 @@ import { EditCurrencyCodeModal } from '../../components/CurrencyCodeModals/EditC
 import { Button } from '@salutejs/plasma-ui';
 
 export const CurrencyCodePage: React.FC = () => {
-    const { createCurrencyCodeItem, deleteCurrencyCodeItem, editCurrencyCodeItem } = useCurrencyCodePage();
+    const { createCurrencyCodeItem, deleteCurrencyCodeItem, editCurrencyCodeItem, isLoading } = useCurrencyCodePage();
 
     const [isAddCurrencyCodeModalOpen, setAddCurrencyCodeModalOpen] = React.useState(false);
     const [isEditCurrencyCodeModalOpen, setEditCurrencyCodeModalOpen] = React.useState(false);
@@ -35,7 +35,7 @@ export const CurrencyCodePage: React.FC = () => {
     return (
         <>
             <head>
-                <title>Коды валюты</title>
+                <title>Коды валют</title>
             </head>
 
             <StyledRoot>
@@ -53,9 +53,15 @@ export const CurrencyCodePage: React.FC = () => {
                             <StyledTableHeaderCell>Символ</StyledTableHeaderCell>
                         </StyledTableHeader>
 
-                        {!Boolean(currencyCodeList) && <Plug>Нет доступных кодов валют</Plug>}
+                        {Boolean(isLoading) && (
+                            <Plug>
+                                <Spinner size={32} />
+                            </Plug>
+                        )}
 
-                        {Boolean(currencyCodeList) && (
+                        {!Boolean(currencyCodeList) && !Boolean(isLoading) && <Plug>Нет доступных кодов валют</Plug>}
+
+                        {Boolean(currencyCodeList) && !Boolean(isLoading) && (
                             <TableBody>
                                 {currencyCodeList.map((item) => {
                                     return (

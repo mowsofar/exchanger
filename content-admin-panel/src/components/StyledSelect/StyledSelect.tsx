@@ -12,6 +12,10 @@ export const StyledSelect = styled(Select)`
         background-color: ${surfaceSolid02} !important;
     }
 
+    & li {
+        font-weight: 500 !important;
+    }
+
     & svg {
         fill: black !important;
     }

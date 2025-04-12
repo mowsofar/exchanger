@@ -6,14 +6,19 @@ import { $currencyList, $requisites } from '../../stores/currency.store';
 export const useRequisitesPage = () => {
     const showNotification = useNotification();
 
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const getRequisitesList = useCallback(
         async () => {
                 try {
+                    setIsLoading(true);
                     const requisites = await getRequisites();
                     $requisites.set(requisites);
 
                 } catch (error) {
                     showNotification('Ошибка получения списка реквизитов', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -78,6 +83,6 @@ export const useRequisitesPage = () => {
         getCurrenciesList();
     }, [getCurrenciesList]);
 
-    return { createRequiustesItem, editRequiustesItem, deleteRequisitesItem };
+    return { createRequiustesItem, editRequiustesItem, deleteRequisitesItem, isLoading };
 
 };

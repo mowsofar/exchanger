@@ -103,6 +103,12 @@ export const useMainPage = () => {
 
     const handleChangeCurrencies = React.useCallback(async (sourceCurrency: Currency, tagretCurrency: Currency) => {
         try {
+            const targetCurrencies = await getRightColumnCurrencies(tagretCurrency.id);
+            $targetCurrencies.set(targetCurrencies);
+
+            $sourceCurrency.set(sourceCurrency);
+            $targetCurrency.set(tagretCurrency);
+
             $exchangeError.set(false);
             const exchangeDirections = await getExchangeDirections(tagretCurrency?.id, sourceCurrency?.id);
             $sourceCurrency.set(tagretCurrency);

@@ -5,15 +5,20 @@ import { $paymentSystemsList } from '../../stores/paymentSystems.store';
 
 export const usePaymentSystemsPage = () => {
     const showNotification = useNotification();
+
+    const [isLoading, setIsLoading] = React.useState(true);
     
     const getPaymentSystemsList = useCallback(
         async () => {
                 try {
+                    setIsLoading(true);
                     const paymentSystems = await getPaymentSystems();
                     $paymentSystemsList.set(paymentSystems);
 
                 } catch (error) {
                     showNotification('Не удалось получить список платёжный систем', 'error', error);
+                } finally {
+                    setIsLoading(false);
                 }
             }, [showNotification]
     );
@@ -69,6 +74,6 @@ export const usePaymentSystemsPage = () => {
         getPaymentSystemsList();
     }, [getPaymentSystemsList]);
 
-    return { createPaymentSystemItem, deletePaymentSystemItem, editPaymentSystemItem };
+    return { createPaymentSystemItem, deletePaymentSystemItem, editPaymentSystemItem, isLoading };
 
 };

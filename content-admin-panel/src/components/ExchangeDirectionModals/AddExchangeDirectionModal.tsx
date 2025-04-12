@@ -7,6 +7,7 @@ import { $currencyList } from '../../stores/currency.store';
 import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
 import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
+import { formatCalculatorInput, formatToSubmit } from '../../utils/formatNumber';
 
 interface AddExchangeDirectionModalProps {
     opened: boolean;
@@ -62,10 +63,10 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
 }) => {
     const [selectedSourceCurrencyId, setSelectedSourceCurrencyId] = React.useState<number>();
     const [selectedTargetCurrencyId, setSelectedTargetCurrencyId] = React.useState<number>();
-    const [profitPercent, setProfitPercent] = React.useState<number>();
-    const [minSourceAmount, setMinSourceAmount] = React.useState<number>();
-    const [maxSourceAmount, setMaxSourceAmount] = React.useState<number>();
-    const [reserves, setReserves] = React.useState<number>();
+    const [profitPercent, setProfitPercent] = React.useState<string>();
+    const [minSourceAmount, setMinSourceAmount] = React.useState<string>();
+    const [maxSourceAmount, setMaxSourceAmount] = React.useState<string>();
+    const [reserves, setReserves] = React.useState<string>();
 
     const currencyList = useStore($currencyList);
 
@@ -98,10 +99,10 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
             createExchangeDirection(
                 selectedSourceCurrencyId,
                 selectedTargetCurrencyId,
-                profitPercent,
-                minSourceAmount,
-                maxSourceAmount,
-                reserves,
+                formatToSubmit(profitPercent),
+                formatToSubmit(minSourceAmount),
+                formatToSubmit(maxSourceAmount),
+                formatToSubmit(reserves),
             );
         }
 
@@ -109,35 +110,19 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
     };
 
     const handleChangeProfitPercent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setProfitPercent(Number(e.target.value));
+        setProfitPercent(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeMinAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setMinSourceAmount(Number(e.target.value));
+        setMinSourceAmount(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeMaxAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setMaxSourceAmount(Number(e.target.value));
+        setMaxSourceAmount(formatCalculatorInput(e.target.value));
     };
 
     const handleChangeReserves = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (isNaN(Number(e.target.value))) {
-            return;
-        }
-
-        setReserves(Number(e.target.value));
+        setReserves(formatCalculatorInput(e.target.value));
     };
 
     return (
