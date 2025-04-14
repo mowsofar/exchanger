@@ -1,5 +1,5 @@
 import { Checkbox, TextField } from '@salutejs/plasma-web';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Button } from '../Button/Button';
 import { Button as PlasmaButton} from '@salutejs/plasma-web';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ export const StyledLayout = styled.div`
     }
 `;
 
-export const StyledContent = styled.div`
+export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     row-gap: 7rem;
@@ -65,11 +65,19 @@ export const TwoBlocks = styled.div`
     }
 `;
 
-export const StyledTextField = styled(TextField)`
+export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
     width: 35rem;
     font-family: Onest !important;
     font-weight: 600;
     font-size: 1.8rem;
+
+    ${({ error }) =>
+            error &&
+            css`
+                > div:first-child {
+                    box-shadow: 0 0 0 1.5px #B00000 !important;
+    }
+            `}
 
     & > div:first-child {
         padding: 1.8rem;

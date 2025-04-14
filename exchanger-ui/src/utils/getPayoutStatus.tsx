@@ -29,12 +29,6 @@ export function getPayoutStatus(payout: Payout | null) {
                     Заявка <span>№{payout.id}</span>. Оплата подтверждена. Осуществляется выплата
                 </div>
             );
-        case 'WAITING_FOR_OPERATOR_PROCESSING':
-            return (
-                <div>
-                    Заявка <span>№{payout.id}</span> в обработке. Оплата подтверждена. Осуществляется выплата
-                </div>
-            );
 
         case 'CANCELLED':
             return (
@@ -75,8 +69,6 @@ export function getPayoutStatusDescription(payout: Payout | null) {
             );
 
         case 'PAYMENT_RECEIVED':
-            return <div>В течение 15-30 минут ваша заявка будет обработана.</div>;
-        case 'WAITING_FOR_OPERATOR_PROCESSING':
             return <div>В течение 15-30 минут ваша заявка будет обработана.</div>;
 
         case 'CANCELLED':

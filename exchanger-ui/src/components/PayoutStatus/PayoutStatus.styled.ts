@@ -10,7 +10,6 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
 
     @media (max-width: 1000px) {
        width: 80%;

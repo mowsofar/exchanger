@@ -21,7 +21,7 @@ import {
     UploadRow,
 } from './PayoutPayment.styled';
 import { useStore } from '@nanostores/react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft, IconClip, IconCopyFill } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
@@ -41,6 +41,7 @@ export const PayoutPayment: React.FC = () => {
     );
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleBack = () => {
         navigate(ROUTES.userDetails());
@@ -84,7 +85,11 @@ export const PayoutPayment: React.FC = () => {
 
     React.useEffect(() => {
         const handlePopState = () => {
-            navigate(ROUTES.root);
+            const fromPage = location?.state?.from;
+
+            if (fromPage === ROUTES.userDetails(payout?.srcCurrency?.id, payout?.targetCurrency?.id)) {
+                navigate(ROUTES.root);
+            }
         };
 
         window.addEventListener('popstate', handlePopState);
@@ -92,7 +97,7 @@ export const PayoutPayment: React.FC = () => {
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
-    }, [navigate]);
+    }, [location?.state?.from, navigate, payout?.id, payout?.srcCurrency.id, payout?.targetCurrency.id]);
 
     return (
         <StyledLayout>

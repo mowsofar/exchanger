@@ -1,4 +1,5 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     ButtonBlock,
@@ -7,7 +8,7 @@ import {
     StyledButton,
     StyledButtonBack,
     StyledCheckbox,
-    StyledContent,
+    StyledForm,
     StyledHeader,
     StyledLayout,
     StyledTextField,
@@ -37,50 +38,47 @@ interface UserDetailsProps {
     ) => Promise<Payout>;
 }
 
-interface FormData {
-    [key: string]: string;
+interface FormValues {
+    email: string;
+    requisites: string;
+    sourceFields: Record<string, string>;
+    targetFields: Record<string, string>;
 }
 
 export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
-
     const course = useStore($course);
-
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
-
     const navigate = useNavigate();
 
     const sourceAdditionalFields = sourceCurrency?.additionalFieldsList.filter((item) => item.direction === 'SOURCE');
     const targetAdditionalFields = targetCurrency?.additionalFieldsList.filter((item) => item.direction === 'TARGET');
 
-    const sourceFieldsInitial = sourceAdditionalFields?.reduce<FormData>((acc, field) => {
-        acc[field.id] = '';
-        return acc;
-    }, {});
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid, isDirty },
+        setValue,
+    } = useForm<FormValues>({
+        defaultValues: {
+            email: localStorage.getItem('email') || '',
+            requisites: '',
+            sourceFields: {},
+            targetFields: {},
+        },
+    });
 
-    const targetFieldsInitial = targetAdditionalFields?.reduce<FormData>((acc, field) => {
-        acc[field.id] = '';
-        return acc;
-    }, {});
-
-    const [requisites, setRequisites] = React.useState('');
-    const [email, setEmail] = React.useState(localStorage.getItem('email') || '');
     const [isChecked, setIsChecked] = React.useState(false);
 
-    const [emailError, setEmailError] = React.useState('');
-    const [requisitesError, setRequisitesError] = React.useState('');
-    const [sourceFormData, setSourceFormData] = React.useState<FormData>(sourceFieldsInitial || {});
-    const [targetFormData, setTargetFormData] = React.useState<FormData>(targetFieldsInitial || {});
-
-    const transformFormData = (data: FormData) => {
+    const transformFormData = (data: Record<string, string>) => {
         return Object.keys(data).map((key) => ({ fieldId: Number(key), userValue: data[key] }));
     };
 
-    const handleSubmit = async () => {
-        $requisites.set(requisites);
-        $email.set(email);
+    const onSubmit = async (data: FormValues) => {
+        $requisites.set(data.requisites);
+        $email.set(data.email);
 
         if (sourceCurrency?.id && targetCurrency?.id && course) {
             try {
@@ -89,14 +87,16 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     targetCurrency?.id,
                     formatToSubmit(amountFrom),
                     formatToSubmit(amountTo),
-                    requisites.replace(/\s+/g, ''),
-                    transformFormData(sourceFormData),
-                    transformFormData(targetFormData),
+                    data.requisites.replace(/\s+/g, ''),
+                    transformFormData(data.sourceFields),
+                    transformFormData(data.targetFields),
                     course.course,
-                    email,
+                    data.email,
                 );
 
-                navigate(ROUTES.payment(newPayout.id));
+                navigate(ROUTES.payment(newPayout.id), {
+                    state: { from: ROUTES.userDetails(sourceCurrency.id, targetCurrency.id) },
+                });
             } catch {}
         }
     };
@@ -105,47 +105,34 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         return /\S+@\S+\.\S+/.test(email);
     };
 
-    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-        if (e.target.value && !isValidEmail(e.target.value)) {
-            setEmailError('Неверный формат электронной почты');
-        } else {
-            setEmailError('');
-        }
+    const validateRequisitesLength = (value: string) => {
+        const cleanValue = value.replace(/\D/g, '');
+        return (cleanValue.length >= 16 && cleanValue.length <= 18) || 'Номер карты должен содержать от 16 до 18 цифр';
     };
 
     const handleBack = () => {
         navigate(ROUTES.root);
     };
 
-    const handleChangeSourceFields = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setSourceFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
-    const handleChangeTargetFields = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setTargetFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
     const handleChangeRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/\D/g, '');
         value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-
-        setRequisites(value);
+        setValue('requisites', value);
     };
 
     const handleChangeCoinRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setRequisites(e.target.value);
+        setValue('requisites', e.target.value);
     };
 
-    const getRequisites = () => {
+    const getRequisitesField = () => {
         switch (targetCurrency?.filterType) {
             case 'COIN':
                 return (
                     <StyledTextField
                         placeholder="Криптовалютный кошелёк"
-                        value={requisites}
+                        {...register('requisites', { required: true })}
+                        error={!!errors.requisites}
+                        helperText={errors.requisites?.message}
                         onChange={handleChangeCoinRequisites}
                     />
                 );
@@ -153,24 +140,35 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                 return (
                     <StyledTextField
                         placeholder="Номер карты (от 16 до 18 цифр)"
-                        value={requisites}
+                        {...register('requisites', {
+                            required: true,
+                            validate: (value) => validateRequisitesLength(value),
+                        })}
                         onChange={handleChangeRequisites}
-                        helperText={requisitesError}
+                        error={!!errors.requisites}
+                        helperText={errors.requisites?.message}
                     />
                 );
             }
-
             case 'USDT': {
                 return (
-                    <StyledTextField placeholder="Номер карты" value={requisites} onChange={handleChangeRequisites} />
+                    <StyledTextField
+                        placeholder="Номер карты"
+                        {...register('requisites', { required: 'Реквизиты обязательны' })}
+                        onChange={handleChangeRequisites}
+                        error={!!errors.requisites}
+                        helperText={errors.requisites?.message}
+                    />
                 );
             }
+            default:
+                return null;
         }
     };
 
     return (
         <StyledLayout>
-            <StyledContent>
+            <StyledForm onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <StyledButtonBack view="clear" onClick={handleBack}>
                         <IconChevronLeft size="s" color="white" />
@@ -190,17 +188,22 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         <StyledTextField
                             placeholder="Email"
                             type="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                            helperText={emailError}
+                            {...register('email', {
+                                required: true,
+                                validate: (value) => isValidEmail(value) || 'Неверный формат электронной почты',
+                            })}
+                            error={!!errors.email}
+                            helperText={errors.email?.message}
                         />
 
                         {sourceAdditionalFields?.map((field) => (
                             <StyledTextField
+                                key={field.id}
                                 placeholder={field.fieldName}
-                                value={sourceFormData[field.id]}
-                                name={String(field.id)}
-                                onChange={handleChangeSourceFields}
+                                {...register(`sourceFields.${field.id}`, {
+                                    required: 'Обязательно для заполнения',
+                                })}
+                                error={!!errors.sourceFields?.[field.id]}
                             />
                         ))}
                     </StyledUserForm>
@@ -208,14 +211,16 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     <StyledUserForm>
                         <StyledHeader>Получатель</StyledHeader>
 
-                        {getRequisites()}
+                        {getRequisitesField()}
 
                         {targetAdditionalFields?.map((field) => (
                             <StyledTextField
+                                key={field.id}
                                 placeholder={field.fieldName}
-                                value={targetFormData[field.id]}
-                                name={String(field.id)}
-                                onChange={handleChangeTargetFields}
+                                {...register(`targetFields.${field.id}`, {
+                                    required: 'Обязательно для заполнения',
+                                })}
+                                error={!!errors.targetFields?.[field.id]}
                             />
                         ))}
                     </StyledUserForm>
@@ -238,14 +243,9 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                         checked={isChecked}
                         onClick={() => setIsChecked(!isChecked)}
                     />
-                    <StyledButton
-                        disabled={!requisites || !email || Boolean(emailError) || !isChecked}
-                        onClick={handleSubmit}
-                    >
-                        Начать транзакцию
-                    </StyledButton>
+                    <StyledButton disabled={!isChecked}>Начать транзакцию</StyledButton>
                 </ButtonBlock>
-            </StyledContent>
+            </StyledForm>
         </StyledLayout>
     );
 };
