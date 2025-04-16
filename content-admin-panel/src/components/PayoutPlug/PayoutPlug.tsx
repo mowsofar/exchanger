@@ -1,23 +1,26 @@
-import { secondary } from '@salutejs/plasma-tokens';
-import { Headline2, ParagraphText1 } from '@salutejs/plasma-web';
+import { secondary, surfaceLiquid02 } from '@salutejs/plasma-tokens';
+import { ParagraphText1 } from '@salutejs/plasma-web';
 import styled from 'styled-components';
+import logo from './images/payouticon.png';
 
 const StyledRoot = styled.div`
     display: flex;
     flex-grow: 1;
     justify-content: center;
     align-items: center;
+    background-color: ${surfaceLiquid02};
+    margin: 0 -30px;
 `;
 
 const StyledColumn = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 30px;
     align-items: center;
 `;
 
 const Img = styled.img`
-    height: 200px;
+    height: 100px;
     object-fit: contain;
 `;
 
@@ -32,9 +35,8 @@ export const PayoutPlug = () => {
     return (
         <StyledRoot>
             <StyledColumn>
-                <Img src="images/payout.webp" />
-                <Headline2>Выберите заявку</Headline2>
-                <Description>Чтобы получить детальную информацию о заявке, выберите ее в левом списке</Description>
+                <Img src={logo} />
+                <Description>Нет доступных заявок</Description>
             </StyledColumn>
         </StyledRoot>
     );

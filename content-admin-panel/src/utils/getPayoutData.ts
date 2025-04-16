@@ -1,12 +1,22 @@
+import { success, warning } from "@salutejs/plasma-tokens/colors/values";
 import { PayoutStatus } from "../api/types/common";
 
 type ViewType = "primary" | "accent" | "negative" | "positive" | "default" | "warning" | "dark" | "light" | undefined;
 
 type ButtonViewType = "accent" | "success" | 'critical' | undefined;
 
+export function getPayoutPaymentLabel(status: PayoutStatus) {
+    if (status === 'PAYMENT_RECEIVED') {
+        return { label: 'Оплачено!', color: success}
+    }
 
-export function getPayoutData(payout: PayoutStatus): { label: string, view: ViewType} {
-    switch (payout) {
+    if (status === 'CREATED' || status === 'WAITING_FOR_CLIENT_PAYMENT') {
+        return { label: 'Отметить как оплачено', color: warning, value: 'PAYMENT_RECEIVED'}
+    }
+}
+
+export function getPayoutData(status: PayoutStatus): { label: string, view: ViewType} {
+    switch (status) {
         case 'CREATED': {
             return { label: 'Создана', view: 'accent' };
         }
@@ -14,7 +24,7 @@ export function getPayoutData(payout: PayoutStatus): { label: string, view: View
             return { label: 'Проверка поступления средств', view: 'warning' };
 
         case 'PAYMENT_RECEIVED':
-                return { label: 'Оплачена и ожидает обработки', view: 'warning' };
+                return { label: 'В обработке', view: 'accent' };
 
         case 'WAITING_FOR_OPERATOR_PROCESSING': 
             return { label: 'В обработке', view: 'accent' };
@@ -40,17 +50,15 @@ export function getPayoutControls(payout: PayoutStatus | undefined): { label: st
 
     switch (payout) {
         case 'CREATED': 
-            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}];
+            return [];
         case 'WAITING_FOR_CLIENT_PAYMENT': 
-            return [{ label: 'Отметить как оплачено', value: 'PAYMENT_RECEIVED'}, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}];
+            return [];
         case 'PAYMENT_RECEIVED': 
-            return [{ label: 'Взять в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
-        case 'WAITING_FOR_OPERATOR_PROCESSING': 
             return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
         case 'CANCELLED': 
-            return [{ label: 'Восстановить в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
+            return [{ label: 'Восстановить в обработку', value: 'PAYMENT_RECEIVED'}];
         case 'ERROR': 
-            return [{ label: 'Восстановить в обработку', value: 'WAITING_FOR_OPERATOR_PROCESSING'}];
+            return [{ label: 'Восстановить в обработку', value: 'PAYMENT_RECEIVED'}];
         default:
             return [];
     }

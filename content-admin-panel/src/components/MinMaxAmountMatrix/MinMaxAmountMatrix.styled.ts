@@ -54,6 +54,23 @@ export const StyledTh = styled.th`
     padding: 10px;
 `;
 
+export const DraggableTh = styled(StyledTh)<{ isDragging: boolean; isDropTarget: boolean }>`
+    position: relative;
+    cursor: grab;
+    user-select: none;
+    opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};
+    background-color: ${({ isDropTarget }) => (isDropTarget ? 'rgba(76, 175, 80, 0.1)' : 'transparent')};
+    transition: transform 0.2s;
+  
+    &:active {
+        cursor: grabbing;
+    }
+  
+    &:hover {
+        transform: scale(1.05);
+    }
+`;
+
 export const StyledTd = styled.td`
     padding: 1px;
     vertical-align: middle;

@@ -80,7 +80,6 @@ export const useExchangeDirectionsPage = () => {
     const handleClickPage = (page: number) => {
         getExchangeDirectionsListPaged(page);
         setExchangeDirectionsPage(page);
-
     };
 
     React.useEffect(() => {

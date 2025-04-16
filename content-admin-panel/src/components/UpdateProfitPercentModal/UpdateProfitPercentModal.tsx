@@ -16,7 +16,7 @@ const StyledModal = styled(Modal)`
 
 const Content = styled.div`
     width: 100%;
-    padding-top: 30px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     row-gap: 30px;
@@ -66,7 +66,7 @@ export const UpdateProfitPercentModal: React.FC<UpdateProfitPercentModalProps> =
 
             {Boolean(isLoading) && (
                 <SpinnerWrapper>
-                    <Spinner size={32} />
+                    <Spinner size={32} color="grey" />
                 </SpinnerWrapper>
             )}
 

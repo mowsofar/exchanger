@@ -17,12 +17,12 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledTableRow = styled(TableRow)`
-    grid-template-columns: 70px 1fr 350px 350px 60px 60px;
+    grid-template-columns: 70px 1fr  350px 350px 150px 60px 60px;
     padding: 0 16px;
 `;
 
 export const StyledTableHeader = styled(TableHeader)`
-    grid-template-columns: 70px 1fr 350px 350px 60px 60px;
+    grid-template-columns: 70px 1fr 350px 350px 150px 60px 60px;
     padding: 0 16px;
     padding-right: 23px;
 `;

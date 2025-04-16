@@ -59,7 +59,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isValid, isDirty },
+        formState: { errors },
         setValue,
     } = useForm<FormValues>({
         defaultValues: {

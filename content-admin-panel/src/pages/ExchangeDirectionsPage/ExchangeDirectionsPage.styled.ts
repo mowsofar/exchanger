@@ -9,7 +9,7 @@ export const StyledRoot = styled.div`
 `;
 
 export const StyledContent = styled.div`
-    height: calc(100% - 50px);
+    height: calc(100% - 60px);
     display: flex;
     flex-direction: column;
     row-gap: 20px;

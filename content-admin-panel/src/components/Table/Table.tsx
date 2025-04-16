@@ -137,7 +137,7 @@ export const TableBody: React.FC<TableBodyProps> = ({ children, isLoading, class
             <TableBodyBase>
                 {!!isLoading && (
                     <TableLoader>
-                        <Spinner size={32} />
+                        <Spinner size={32} color="grey" />
                     </TableLoader>
                 )}
                 {children}

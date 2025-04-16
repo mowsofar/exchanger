@@ -63,7 +63,7 @@ export const Plug = styled.div`
 
 export const SpinnerWrapper = styled(Plug)`
     background-color: ${surfaceLiquid02};
-    margin: 0 -30px;
+    margin: -30px;
     width: auto;
 `;
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { Currency, ExchangeDirection, ProfitUpdatePayload } from '../../api/types/common';
 import {
     DiagonalCell,
+    DraggableTh,
+    DragIndicator,
     EditControls,
     EditPanel,
     EmptyCell,
@@ -15,7 +17,7 @@ import {
     StyledTh,
     VerticalImg,
 } from './ExchangeDirectionsMatrix.styled';
-import { updateProfitPercent } from '../../api/handlers';
+import { updateDirectionsStatus, updateProfitPercent } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { Button } from '../Button/Button.styled';
 
@@ -31,6 +33,16 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
 
     const showNotification = useNotification();
 
+    const createSortMap = (currency: Currency[]): Record<string, number> => {
+        const sortMap: Record<string, number> = {};
+
+        currency.forEach((currency, index) => {
+            sortMap[currency.id.toString()] = index;
+        });
+
+        return sortMap;
+    };
+
     const getUniqueCurrencies = (): Currency[] => {
         const currencies = new Map<number, Currency>();
 
@@ -41,7 +53,53 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
         return Array.from(currencies.values());
     };
 
-    const currencies = getUniqueCurrencies();
+    const [currencies, setCurrencies] = React.useState(getUniqueCurrencies());
+    const [draggedCurrencyId, setDraggedCurrencyId] = React.useState<number | null>(null);
+    const [targetCurrencyId, setTargetCurrencyId] = React.useState<number | null>(null);
+
+    const handleDragStart = (currencyId: number) => (e: React.DragEvent) => {
+        e.dataTransfer.setData('text/plain', currencyId.toString());
+        setDraggedCurrencyId(currencyId);
+    };
+
+    const handleDragOver = (currencyId: number) => (e: React.DragEvent) => {
+        e.preventDefault();
+        if (draggedCurrencyId !== currencyId) {
+            setTargetCurrencyId(currencyId);
+        }
+    };
+
+    const handleDrop = (currencyId: number) => async (e: React.DragEvent) => {
+        e.preventDefault();
+        const draggedId = Number(e.dataTransfer.getData('text/plain'));
+
+        if (draggedId && draggedId !== currencyId) {
+            const draggedIndex = currencies.findIndex((c) => c.id === draggedId);
+            const targetIndex = currencies.findIndex((c) => c.id === currencyId);
+
+            if (draggedIndex !== -1 && targetIndex !== -1) {
+                const newCurrencies = [...currencies];
+                const [removed] = newCurrencies.splice(draggedIndex, 1);
+                newCurrencies.splice(targetIndex, 0, removed);
+                setCurrencies(newCurrencies);
+
+                try {
+                    await updateDirectionsStatus([], createSortMap(newCurrencies));
+                    showNotification('Приоритет валют успешно обновлён', 'success');
+                } catch (error) {
+                    showNotification('Ошибка обновления приоритета обмена', 'error', error);
+                }
+            }
+        }
+
+        setDraggedCurrencyId(null);
+        setTargetCurrencyId(null);
+    };
+
+    const handleDragEnd = () => {
+        setDraggedCurrencyId(null);
+        setTargetCurrencyId(null);
+    };
 
     const handleCellClick = (direction: ExchangeDirection, rowIndex: number, colIndex: number) => {
         if (rowIndex === colIndex) return; // Игнорируем диагональ
@@ -85,6 +143,8 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
         });
     });
 
+    console.log(matrixData);
+
     const handleProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditProfit(e.target.value);
     };
@@ -100,6 +160,7 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
                 await updateProfitPercent(
                     selectedDirections.map((d) => d.id),
                     newProfit,
+                    createSortMap(currencies),
                 );
                 showNotification('Процент обмена успешно обновлен', 'success');
             } catch (error) {
@@ -150,9 +211,20 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
                     <tr>
                         <StyledTh></StyledTh>
                         {currencies.map((currency) => (
-                            <StyledTh key={`header-${currency.id}`}>
+                            <DraggableTh
+                                key={`header-${currency.id}`}
+                                draggable
+                                isDragging={draggedCurrencyId === currency.id}
+                                isDropTarget={targetCurrencyId === currency.id}
+                                onDragStart={handleDragStart(currency.id)}
+                                onDragOver={handleDragOver(currency.id)}
+                                onDrop={handleDrop(currency.id)}
+                                onDragEnd={handleDragEnd}
+                                data-currency-id={currency.id}
+                            >
                                 <StyledImg src={currency.paymentSystem.imagePath} />
-                            </StyledTh>
+                                <DragIndicator isActive={targetCurrencyId === currency.id} />
+                            </DraggableTh>
                         ))}
                     </tr>
                 </thead>

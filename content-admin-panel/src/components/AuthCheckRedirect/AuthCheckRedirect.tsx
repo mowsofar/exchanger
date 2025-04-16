@@ -32,7 +32,7 @@ export const AuthCheckRedirect = () => {
 
     return (
         <SpinnerWrapper>
-            <Spinner size={40} />
+            <Spinner size={40} color="grey" />
         </SpinnerWrapper>
     );
 };

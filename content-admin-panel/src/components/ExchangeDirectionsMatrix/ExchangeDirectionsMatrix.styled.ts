@@ -50,7 +50,6 @@ export const StyledTextField = styled(TextField)`
     }
 `;
 
-
 export const StyledTh = styled.th`
     padding: 10px;
 `;
@@ -59,6 +58,33 @@ export const StyledTd = styled.td`
     padding: 1px;
     text-align: center;
     vertical-align: middle;
+`;
+
+export const DraggableTh = styled(StyledTh)<{ isDragging: boolean; isDropTarget: boolean }>`
+    position: relative;
+    cursor: grab;
+    user-select: none;
+    opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};
+    background-color: ${({ isDropTarget }) => (isDropTarget ? 'rgba(76, 175, 80, 0.1)' : 'transparent')};
+    transition: transform 0.2s;
+  
+    &:active {
+        cursor: grabbing;
+    }
+  
+    &:hover {
+        transform: scale(1.05);
+    }
+`;
+
+export const DragIndicator = styled.div<{ isActive: boolean }>`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: ${({ isActive }) => (isActive ? '1px dashed #4CAF50' : 'none')};
+    pointer-events: none;
 `;
 
 export const DiagonalCell = styled.div`

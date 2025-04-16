@@ -55,13 +55,14 @@ export const CurrenciesPage: React.FC = () => {
                             <StyledTableHeaderCell>Платёжная система</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Код валюты</StyledTableHeaderCell>
                             <StyledTableHeaderCell>XML-код</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Приоритет</StyledTableHeaderCell>
                             <StyledTableHeaderCell />
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
 
                         {Boolean(isLoading) && (
                             <Plug>
-                                <Spinner size={32} />
+                                <Spinner size={32} color="grey" />
                             </Plug>
                         )}
 
@@ -71,22 +72,23 @@ export const CurrenciesPage: React.FC = () => {
                             <TableBody>
                                 {currencyList.map((item) => {
                                     return (
-                                        <StyledTableRow key={item.id}>
+                                        <StyledTableRow key={item?.id}>
                                             <StyledTableCellName>
-                                                <StyledImg src={item.paymentSystem.imagePath} />
+                                                <StyledImg src={item?.paymentSystem?.imagePath} />
                                             </StyledTableCellName>
                                             <StyledTableCellName color={accent} style={{ fontWeight: '550' }}>
-                                                {item.paymentSystem.name}
+                                                {item?.paymentSystem?.name}
                                             </StyledTableCellName>
-                                            <StyledTableCellName>{item.currencyCode.code}</StyledTableCellName>
-                                            <StyledTableCellName>{item.xmlCode}</StyledTableCellName>
+                                            <StyledTableCellName>{item?.currencyCode?.code}</StyledTableCellName>
+                                            <StyledTableCellName>{item?.xmlCode}</StyledTableCellName>
+                                            <StyledTableCellName>{item?.sort}</StyledTableCellName>
                                             <StyledTableCellName>
                                                 <Button view="clear" onClick={() => hanleClickEditButton(item)}>
                                                     <IconEdit />
                                                 </Button>
                                             </StyledTableCellName>
                                             <StyledTableCellName>
-                                                <Button view="clear" onClick={() => deleteCurrencyItem(item.id)}>
+                                                <Button view="clear" onClick={() => deleteCurrencyItem(item?.id)}>
                                                     <IconTrash />
                                                 </Button>
                                             </StyledTableCellName>

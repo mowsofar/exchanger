@@ -104,7 +104,7 @@ export const AdditionalFieldsPage: React.FC = () => {
 
                         {Boolean(isLoading) && (
                             <Plug>
-                                <Spinner size={32} />
+                                <Spinner size={32} color="grey" />
                             </Plug>
                         )}
 

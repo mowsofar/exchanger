@@ -17,6 +17,7 @@ import {
 } from '@salutejs/plasma-icons';
 import { $isRolledUpPartnerListStore } from '../../stores/menu.store';
 import { useStore } from '@nanostores/react';
+import { MenuItemWithChildren } from '../MenuItemWithChildren/MenuItemWithChildren';
 
 interface StyledRootProps {
     isRolledUp?: boolean;
@@ -96,7 +97,18 @@ const menuItems = [
     { key: ROUTES.currencyCode, name: 'Коды валют', icon: <IconRubleOutline size="s" /> },
     { key: ROUTES.paymentSystems, name: 'Платёжные системы', icon: <IconBankCardOutline size="s" /> },
     { key: ROUTES.currency, name: 'Валюты', icon: <IconRublePlusDollar size="s" /> },
-    { key: ROUTES.payouts, name: 'Заявки', icon: <IconFileTextOutline size="s" /> },
+    {
+        name: 'Заявки',
+        icon: <IconFileTextOutline size="s" />,
+        children: [
+            { key: ROUTES.payouts.index, name: 'Все заявки' },
+            { key: ROUTES.payouts.preliminary, name: 'Предварительные' },
+            { key: ROUTES.payouts.process, name: 'В обработке' },
+            { key: ROUTES.payouts.completed, name: 'Обработанные' },
+            { key: ROUTES.payouts.rejected, name: 'Отклонённые' },
+            { key: ROUTES.payouts.error, name: 'Ошибочные' },
+        ],
+    },
     { key: ROUTES.exchangeDirections, name: 'Направления обмена', icon: <IconSwapHoriz size="s" /> },
     { key: ROUTES.additionalFields, name: 'Дополнительные поля валют', icon: <IconNumberedView size="s" /> },
     { key: ROUTES.requisites, name: 'Реквизиты', icon: <IconBoardingPassOutline size="s" /> },
@@ -137,12 +149,16 @@ export const MenuList: React.FC = () => {
             </StyledHeader>
             <StyledSearch placeholder="Поиск" onChange={onChange} />
             <StyledMenu>
-                {menu.map((item) => (
-                    <StyledMenuItem to={item.key}>
-                        {item?.icon}
-                        {item.name}
-                    </StyledMenuItem>
-                ))}
+                {menu.map((item) =>
+                    item.children ? (
+                        <MenuItemWithChildren item={item} key={item.key} />
+                    ) : (
+                        <StyledMenuItem to={item.key} key={item.key}>
+                            {item?.icon}
+                            {item.name}
+                        </StyledMenuItem>
+                    ),
+                )}
             </StyledMenu>
         </StyledRoot>
     );

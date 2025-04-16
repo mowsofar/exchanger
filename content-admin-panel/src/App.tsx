@@ -9,12 +9,16 @@ import { CurrenciesPage } from './pages/CurrenciesPage/CurrenciesPage';
 import { CurrenciesGeneralsPage } from './pages/CurrenciesGeneralsPage/CurrenciesGeneralsPage';
 import { useStore } from '@nanostores/react';
 import { $selectedCurrency } from './stores/currency.store';
-import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
-import { PayoutPage } from './pages/PayoutPage/PayoutPage';
 import { ExchangeDirectionsPage } from './pages/ExchangeDirectionsPage/ExchangeDirectionsPage';
 import { AdditionalFieldsPage } from './pages/AdditionalFieldsPage/AdditionalFieldsPage';
 import { RequisitesPage } from './pages/RequisitesPage/RequisitesPage';
 import { AuthCheckRedirect } from './components/AuthCheckRedirect/AuthCheckRedirect';
+import { PreliminaryPayoutsPage } from './pages/PreliminaryPayoutsPage/PreliminaryPayoutsPage';
+import { ProcessPayoutsPage } from './pages/ProcessPayoutsPage/ProcessPayoutsPage';
+import { CompletedPayoutsPage } from './pages/CompletedPayoutsPage/CompletedPayoutsPage';
+import { DeletedPayoutsPage } from './pages/DeletedPayoutsPage/DeletedPayoutsPage';
+import { ErrorPayoutsPage } from './pages/ErrorPayoutsPage/ErrorPayoutsPage';
+import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -31,9 +35,12 @@ const App: React.FC = () => {
                     <Route path={ROUTES.paymentSystems} element={<PaymentSystemsPage />} />
                     <Route path={ROUTES.currencyCode} element={<CurrencyCodePage />} />
                     <Route path={ROUTES.currency} element={<CurrenciesPage />} />
-                    <Route path={ROUTES.payouts} element={<PayoutsPage />}>
-                        <Route path={ROUTES.payout()} element={<PayoutPage />} />
-                    </Route>
+                    <Route path={ROUTES.payouts.index} element={<PayoutsPage />} />
+                    <Route path={ROUTES.payouts.preliminary} element={<PreliminaryPayoutsPage />} />
+                    <Route path={ROUTES.payouts.completed} element={<CompletedPayoutsPage />} />
+                    <Route path={ROUTES.payouts.rejected} element={<DeletedPayoutsPage />} />
+                    <Route path={ROUTES.payouts.process} element={<ProcessPayoutsPage />} />
+                    <Route path={ROUTES.payouts.error} element={<ErrorPayoutsPage />} />
                     <Route path={ROUTES.currencyGenerals(selectedCurrency?.id)} element={<CurrenciesGeneralsPage />} />
                     <Route path={ROUTES.exchangeDirections} element={<ExchangeDirectionsPage />} />
                     <Route path={ROUTES.additionalFields} element={<AdditionalFieldsPage />} />

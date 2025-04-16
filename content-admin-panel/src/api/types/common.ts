@@ -1,3 +1,5 @@
+export const PAYOUTS_PER_PAGE = 20;
+
 export interface LoginData {
     access_token: string;
     refresh_token: string;
@@ -67,6 +69,7 @@ export interface Currency {
     accountComment: string;
     additionalFieldsList: AdditionalFields;
     updatedAt: string;
+    sort: number;
 };
 
 export const CurrencyStatusValues = [
@@ -87,8 +90,7 @@ export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
     { value: '', label: 'Все заявки' },
     { value: 'CREATED', label: 'Созданные' },
     { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
-    { value: 'PAYMENT_RECEIVED', label: 'Оплачена и ожидает обработки' },
-    { value: 'WAITING_FOR_OPERATOR_PROCESSING', label: 'В обработке' },
+    { value: 'PAYMENT_RECEIVED', label: 'В обработке' },
     { value: 'CANCELLED', label: 'Отклонённые' },
     { value: 'ERROR', label: 'Ошибка' },
     { value: 'COMPLETED', label: 'Завершённые' },
@@ -136,6 +138,18 @@ export interface Payout {
     sourceAdditionalFields: PayoutAdditionalField[],
     targetAdditionalFields: PayoutAdditionalField[],
 };
+
+export interface getPayoutsResponse {
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    content: Payout[];
+    number: number;
+    numberOfElements: number;
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+}
 
 export interface ExchangeDirection {
     id: number;

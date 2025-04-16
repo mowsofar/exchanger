@@ -1,7 +1,7 @@
 import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { IconRotateCcw } from '@salutejs/plasma-icons';
 import React from 'react';
-import { usePayoutsPage } from './PayoutsPage.hooks';
+import { useErrorPayoutsPage } from './ErrorPayoutsPage.hooks';
 import {
     PayoutsList,
     SpinnerWrapper,
@@ -9,16 +9,16 @@ import {
     StyledFooter,
     StyledHeader,
     StyledRoot,
-} from './PayoutsPage.styled';
-import { PAYOUTS_PER_PAGE } from '../../api/types/common';
+} from './ErrorPayoutsPage.styled';
 import { useStore } from '@nanostores/react';
 import { $payouts, $payoutsTotal } from '../../stores/payout.store';
 import { PayoutCard } from '../../components/PayoutCard/PayoutCard';
 import { PayoutPlug } from '../../components/PayoutPlug/PayoutPlug';
+import { PAYOUTS_PER_PAGE } from '../../api/types/common';
 import { Paging } from '../../components/Paging/Paging';
 
-export const PayoutsPage: React.FC = () => {
-    const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites } = usePayoutsPage();
+export const ErrorPayoutsPage: React.FC = () => {
+    const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites } = useErrorPayoutsPage();
 
     const payouts = useStore($payouts);
     const payoutsTotal = useStore($payoutsTotal);
@@ -30,12 +30,12 @@ export const PayoutsPage: React.FC = () => {
     return (
         <>
             <head>
-                <title>Заявки</title>
+                <title>Ошибочные заявки</title>
             </head>
 
             <StyledRoot>
                 <StyledHeader>
-                    <Headline3>Заявки</Headline3>
+                    <Headline3>Ошибочные заявки</Headline3>
 
                     <StyledButton
                         view="secondary"
@@ -68,7 +68,7 @@ export const PayoutsPage: React.FC = () => {
                 )}
 
                 <StyledFooter>
-                    {payoutsTotal > PAYOUTS_PER_PAGE && !isLoading && (
+                    {payoutsTotal > PAYOUTS_PER_PAGE && (
                         <Paging
                             currentPage={page}
                             recordsOnPage={PAYOUTS_PER_PAGE}

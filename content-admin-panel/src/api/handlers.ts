@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { queueTokenRefresh } from "./tokenHandlers";
-import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
+import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
 
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
@@ -199,16 +199,20 @@ export function deleteExchangeDirection(id: number
     return requestToApi(`api/exchange-directions/${id}`, { method: 'DELETE' });
 }
 
-export function updateProfitPercent(ids: number[], newProfit: number
+export function updateProfitPercent(ids: number[], newProfit: number, sortMap: {[key: string]: number}
 ): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-profit-percent`, { method: 'PATCH' }, { ids, newProfit });
+    return requestToApi(`api/exchange-directions/batch/update-profit-percent`, { method: 'PATCH' }, { ids, newProfit, sortMap });
 }
 
-export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number
+export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number, sortMap: {[key: string]: number}
 ): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-min-max-amounts`, { method: 'PATCH' }, { ids, minSourceAmount, maxSourceAmount });
+    return requestToApi(`api/exchange-directions/batch/update-min-max-amounts`, { method: 'PATCH' }, { ids, minSourceAmount, maxSourceAmount, sortMap });
 }
 
+export function updateDirectionsStatus(ids: number[], sortMap: {[key: string]: number}
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus: 'ACTIVE', sortMap });
+}
 
 export function getAdditionalFields(
 ): Promise<AdditionalFields> {
@@ -235,14 +239,27 @@ export function deleteAdditionalField(id: number
     return requestToApi(`api/additional-fields/${id}`, { method: 'DELETE' });
 }
 
-export function getPayouts(
-): Promise<Payout[]> {
-    return requestToApi('api/payouts', { method: 'GET' });
-}
-
-export function getPayoutsByFilter(status: string
-): Promise<Payout[]> {
-    return requestToApi(`api/payouts/filter?status=${status}`, { method: 'GET' });
+export function getPayouts(page?: number, size?: number, statuses?: PayoutStatus[], 
+): Promise<getPayoutsResponse> {
+    const queryParams = new URLSearchParams();
+    
+    if (statuses && statuses.length > 0) {
+        statuses.forEach(status => {
+            queryParams.append('statuses', status);
+        });
+    }
+    
+    if (page !== undefined) {
+        queryParams.append('page', page.toString());
+    }
+    
+    if (size !== undefined) {
+        queryParams.append('size', size.toString());
+    }
+    
+    const url = `api/payouts${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+    
+    return requestToApi(url, { method: 'GET' });
 }
 
 export function getPayout(id: number
