@@ -61,7 +61,7 @@ export interface ExchangeDirection {
     course: number;
 };
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
+export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
 
 export interface User {
     firstname: string;

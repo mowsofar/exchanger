@@ -176,6 +176,11 @@ export function setPayoutStatus(id: number
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_CLIENT_PAYMENT' });
 }
 
+export function getRequisites(id: number
+): Promise<Payout> {
+    return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_REQUISITES' });
+}
+
 export function uploadPayoutAttachment(id: number, file: FormData
 ): Promise<Payout> {
     return uploadFile(`api/payouts/${id}/attachments`, file, { method: 'POST' });

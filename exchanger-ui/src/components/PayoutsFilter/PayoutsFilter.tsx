@@ -10,6 +10,7 @@ export const PayoutStatusValues = [
     { value: '', label: 'Все' },
     { value: 'CREATED', label: 'Создана' },
     { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
+    { value: 'WAITING_FOR_REQUISITES', label: 'Ожидает реквизиты' },
     { value: 'PAYMENT_RECEIVED', label: 'Оплата подтверждена' },
     { value: 'CANCELLED', label: 'Отклонена' },
     { value: 'ERROR', label: 'Ошибка' },

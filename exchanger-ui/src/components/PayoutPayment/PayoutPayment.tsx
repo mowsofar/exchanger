@@ -5,9 +5,11 @@ import {
     ButtonCopy,
     ClipPreview,
     Preview,
+    RequisiesButton,
     Requisites,
     Row,
     StyledAmount,
+    StyledBlackDescription,
     StyledButton,
     StyledButtonBack,
     StyledContent,
@@ -25,7 +27,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft, IconClip, IconCopyFill } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
-import { setPayoutStatus, uploadPayoutAttachment } from '../../api/handlers';
+import { getRequisites, setPayoutStatus, uploadPayoutAttachment } from '../../api/handlers';
 import { Spinner } from '@salutejs/plasma-web';
 import { formatNumber } from '../../utils/formatNumber';
 
@@ -77,8 +79,17 @@ export const PayoutPayment: React.FC = () => {
         }
     };
 
+    const getPayoutRequisistes = useCallback(async () => {
+        try {
+            if (payout?.id) {
+                const newPayout = await getRequisites(payout?.id);
+                $payout.set(newPayout);
+            }
+        } catch {}
+    }, [payout?.id]);
+
     React.useEffect(() => {
-        if (payout?.status && payout?.status !== 'CREATED') {
+        if (payout?.status && !(payout?.status === 'CREATED' || payout?.status === 'WAITING_FOR_REQUISITES')) {
             handleForward();
         }
     }, [handleForward, navigate, payout?.status]);
@@ -123,9 +134,13 @@ export const PayoutPayment: React.FC = () => {
                 <Requisites>
                     <div>Реквизиты для оплаты:</div>
 
-                    {payout?.exchangeRequisites ? (
+                    {payout?.status === 'CREATED' && (
+                        <RequisiesButton onClick={getPayoutRequisistes}>Получить реквизиты</RequisiesButton>
+                    )}
+
+                    {payout?.status !== 'CREATED' && payout?.exchangeRequisites && (
                         <Badge>
-                            <div>{payout?.exchangeRequisites.replace(/.{4}\B/g, '$& ')}</div>
+                            <div>{payout.exchangeRequisites}</div>
                             <ButtonCopy
                                 view="clear"
                                 onClick={() => {
@@ -135,13 +150,17 @@ export const PayoutPayment: React.FC = () => {
                                 <IconCopyFill color="white" />
                             </ButtonCopy>
                         </Badge>
-                    ) : (
-                        <>
+                    )}
+
+                    {payout?.status !== 'CREATED' && !payout?.exchangeRequisites && (
+                        <Badge>
                             <StyledSpinner>
-                                <Spinner size="3rem" color="white" />
+                                <Spinner size="2rem" color="white" />
                             </StyledSpinner>
-                            <StyledDescription>Реквизиты появятся здесь в течение 10 минут</StyledDescription>
-                        </>
+                            <StyledBlackDescription>
+                                Реквизиты появятся здесь в течение 5-10 минут
+                            </StyledBlackDescription>
+                        </Badge>
                     )}
                 </Requisites>
 

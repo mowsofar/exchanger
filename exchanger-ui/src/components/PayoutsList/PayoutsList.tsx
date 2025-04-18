@@ -158,7 +158,7 @@ export const PayoutsList = () => {
     }
 
     const handleClickMoreInfo = (payout: Payout) => {
-        if (payout.status === 'CREATED') {
+        if (payout.status === 'CREATED' || payout.status === 'WAITING_FOR_REQUISITES') {
             navigate(ROUTES.payment(payout.id));
         } else {
             navigate(ROUTES.payoutStatus(payout.id));

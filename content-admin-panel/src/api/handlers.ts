@@ -204,12 +204,12 @@ export function updateProfitPercent(ids: number[], newProfit: number, sortMap: {
     return requestToApi(`api/exchange-directions/batch/update-profit-percent`, { method: 'PATCH' }, { ids, newProfit, sortMap });
 }
 
-export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number, sortMap: {[key: string]: number}
+export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number, sortMap: { [key: string]: number }
 ): Promise<unknown> {
     return requestToApi(`api/exchange-directions/batch/update-min-max-amounts`, { method: 'PATCH' }, { ids, minSourceAmount, maxSourceAmount, sortMap });
 }
 
-export function updateDirectionsStatus(ids: number[], sortMap: {[key: string]: number}
+export function updateDirectionsStatus(ids: number[], sortMap: { [key: string]: number }
 ): Promise<unknown> {
     return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus: 'ACTIVE', sortMap });
 }
@@ -275,6 +275,11 @@ export function setPayoutStatus(id: number, status: PayoutStatus
 export function updatePayoutRequisites(id: number, exchangeRequisites: string
 ): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/exchange-requisites`, { method: 'PATCH' }, { exchangeRequisites });
+}
+
+export function verifyPayoutRequisites(requisite: string
+): Promise<Payout> {
+    return requestToApi(`api/payouts/requisites/${requisite}/verify`, { method: 'PUT' });
 }
 
 export function getRequisites(

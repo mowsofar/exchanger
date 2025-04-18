@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { getPayouts, setPayoutStatus, updatePayoutRequisites } from '../../api/handlers';
+import { getPayouts, setPayoutStatus, updatePayoutRequisites, verifyPayoutRequisites } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts, $payoutsTotal, updatePayout } from '../../stores/payout.store';
 import { PAYOUTS_PER_PAGE, PayoutStatus } from '../../api/types/common';
@@ -55,6 +55,19 @@ export const useCompletedPayoutsPage = () => {
             }, [showNotification]
     );
 
+    const verifyRequisites = useCallback(
+        async (requisites: string) => {
+                try {
+                    await verifyPayoutRequisites(requisites);
+                    showNotification('Реквизиты успешно верифицированы', 'success');
+
+                    setTimeout(() => getPayoutsList(page), 1000);
+                } catch (error) {
+                    showNotification('Ошибка верификации реквизитов', 'error', error);
+                }
+            }, [getPayoutsList, page, showNotification]
+    );
+
     const handleClickPage = (page: number) => {
         const params = new URLSearchParams(searchParams);
         params.set('page', String(page));
@@ -69,5 +82,5 @@ export const useCompletedPayoutsPage = () => {
         }    
     , [getPayoutsList, page]);
 
-    return { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites };
+    return { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites };
 };

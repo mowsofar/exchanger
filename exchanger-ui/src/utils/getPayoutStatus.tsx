@@ -16,6 +16,12 @@ export function getPayoutStatus(payout: Payout | null) {
                     Заявка <span>№{payout.id}</span> завершена
                 </div>
             );
+        case 'WAITING_FOR_REQUISITES':
+            return (
+                <div>
+                    Заявка <span>№{payout.id}</span> ожидает получения ревизитов
+                </div>
+            );
         case 'WAITING_FOR_CLIENT_PAYMENT':
             return (
                 <div>
@@ -96,8 +102,12 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
         case 'CREATED': {
             return { label: 'Создана', color: '#18181a' };
         }
+
         case 'WAITING_FOR_CLIENT_PAYMENT':
             return { label: 'Проверка оплаты', color: '#18181a' };
+
+        case 'WAITING_FOR_REQUISITES':
+            return { label: 'Ожидает реквизиты', color: '#18181a' };
 
         case 'PAYMENT_RECEIVED':
             return { label: 'Оплата получена', color: '#18181a' };

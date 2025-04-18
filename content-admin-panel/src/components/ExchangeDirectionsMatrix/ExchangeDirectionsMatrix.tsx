@@ -50,7 +50,8 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
             currencies.set(direction.sourceCurrency.id, direction.sourceCurrency);
             currencies.set(direction.targetCurrency.id, direction.targetCurrency);
         });
-        return Array.from(currencies.values());
+
+        return Array.from(currencies.values()).sort((a, b) => a.sort - b.sort);
     };
 
     const [currencies, setCurrencies] = React.useState(getUniqueCurrencies());
@@ -142,8 +143,6 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
             );
         });
     });
-
-    console.log(matrixData);
 
     const handleProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditProfit(e.target.value);

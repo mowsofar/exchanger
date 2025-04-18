@@ -73,7 +73,7 @@ export const DraggableTh = styled(StyledTh)<{ isDragging: boolean; isDropTarget:
     }
   
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.2);
     }
 `;
 

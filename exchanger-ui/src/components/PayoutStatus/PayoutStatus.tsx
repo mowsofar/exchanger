@@ -72,7 +72,9 @@ export const PayoutStatus: React.FC = () => {
                     <StyledIconStatus src="/images/error.png" />
                 )}
 
-                {(payout?.status === 'CREATED' || payout?.status === 'WAITING_FOR_CLIENT_PAYMENT') && (
+                {(payout?.status === 'CREATED' ||
+                    payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
+                    payout?.status === 'WAITING_FOR_REQUISITES') && (
                     <StyledSpinner>
                         <Spinner size="8rem" color="white" />
                     </StyledSpinner>

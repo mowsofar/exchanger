@@ -103,6 +103,7 @@ const menuItems = [
         children: [
             { key: ROUTES.payouts.index, name: 'Все заявки' },
             { key: ROUTES.payouts.preliminary, name: 'Предварительные' },
+            { key: ROUTES.payouts.waitingRequisites, name: 'Ожидают реквизиты' },
             { key: ROUTES.payouts.process, name: 'В обработке' },
             { key: ROUTES.payouts.completed, name: 'Обработанные' },
             { key: ROUTES.payouts.rejected, name: 'Отклонённые' },

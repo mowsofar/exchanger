@@ -46,9 +46,22 @@ export const StyledButton = styled(Button)`
     }
 `;
 
+export const RequisiesButton = styled(Button)`
+    width: 25rem;
+    border-radius: 1.2rem;
+    font-size: 1.7rem;
+    height: 4rem;
+`;
+
 export const StyledDescription = styled.div`
     color: var(--backgroundTertiary);
     font-size: 1.6rem;
+`;
+
+export const StyledBlackDescription = styled.div`
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
 `;
 
 export const StyledAmount = styled.div`

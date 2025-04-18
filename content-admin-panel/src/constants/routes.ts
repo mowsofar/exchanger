@@ -8,6 +8,7 @@ export const ROUTES = {
     exchangeDirections: '/content-admin/exchange-directions',
     payouts: {
         index: '/content-admin/payouts/all',
+        waitingRequisites: '/content-admin/payouts/waiting-for-requisites',
         preliminary: '/content-admin/payouts/preliminary',
         process: '/content-admin/payouts/process',
         completed: '/content-admin/payouts/completed',

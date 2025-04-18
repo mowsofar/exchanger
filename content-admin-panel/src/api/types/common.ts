@@ -1,5 +1,7 @@
 export const PAYOUTS_PER_PAGE = 20;
 
+export const DIRECTIONS_PER_PAGE = 20;
+
 export interface LoginData {
     access_token: string;
     refresh_token: string;
@@ -84,7 +86,7 @@ export const FilterTypeValues = [
     { value: 'COIN', label: 'Coin' },
 ];
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
+export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
 
 export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
     { value: '', label: 'Все заявки' },
@@ -135,8 +137,10 @@ export interface Payout {
     email: string;
     user: UserForPayout;
     attachments: PayoutAttachment[];
-    sourceAdditionalFields: PayoutAdditionalField[],
-    targetAdditionalFields: PayoutAdditionalField[],
+    sourceAdditionalFields: PayoutAdditionalField[];
+    targetAdditionalFields: PayoutAdditionalField[];
+    previousPayoutIds: number[];
+    requisitesVerified: boolean;
 };
 
 export interface getPayoutsResponse {

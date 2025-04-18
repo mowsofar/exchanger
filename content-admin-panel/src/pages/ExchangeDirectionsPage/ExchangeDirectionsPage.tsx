@@ -7,6 +7,7 @@ import {
     Plug,
     StyledButtons,
     StyledContent,
+    StyledFooter,
     StyledPaging,
     StyledRoot,
     StyledTableHeader,
@@ -26,7 +27,7 @@ import { accent } from '@salutejs/plasma-tokens';
 import { useExchangeDirectionsPage } from './ExchangeDirectionsPage.hooks';
 import { AddExchangeDirectionModal } from '../../components/ExchangeDirectionModals/AddExchangeDirectionModal';
 import { $exchangeDirectionsPaged, $exchangeDirectionsTotal } from '../../stores/exchangeDirections.store';
-import { ExchangeDirection } from '../../api/types/common';
+import { DIRECTIONS_PER_PAGE, ExchangeDirection } from '../../api/types/common';
 import { EditExchangeDirectionModal } from '../../components/ExchangeDirectionModals/EditExchangeDirectionModal';
 import { UpdateProfitPercentModal } from '../../components/UpdateProfitPercentModal/UpdateProfitPercentModal';
 import { MinMaxAmountModal } from '../../components/MinMaxAmountModal/MinMaxAmountModal';
@@ -164,14 +165,16 @@ export const ExchangeDirectionsPage: React.FC = () => {
                         )}
                     </TableWrapper>
 
-                    {exchangeDirectionsTotal > 10 && (
-                        <StyledPaging
-                            currentPage={exchangeDirectionsPage}
-                            recordsOnPage={10}
-                            recordsTotal={exchangeDirectionsTotal}
-                            onClick={handleClickPage}
-                        />
-                    )}
+                    <StyledFooter>
+                        {exchangeDirectionsTotal > DIRECTIONS_PER_PAGE && (
+                            <StyledPaging
+                                currentPage={exchangeDirectionsPage}
+                                recordsOnPage={DIRECTIONS_PER_PAGE}
+                                recordsTotal={exchangeDirectionsTotal}
+                                onClick={handleClickPage}
+                            />
+                        )}
+                    </StyledFooter>
                 </StyledContent>
 
                 <AddExchangeDirectionModal

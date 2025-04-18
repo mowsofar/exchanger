@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
-import { getCurrencies, getPayouts, setPayoutStatus, updatePayoutRequisites } from '../../api/handlers';
+import { getPayouts, setPayoutStatus, updatePayoutRequisites, verifyPayoutRequisites } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts, $payoutsTotal, updatePayout } from '../../stores/payout.store';
-import { $currencyList } from '../../stores/currency.store';
 import { PAYOUTS_PER_PAGE, PayoutStatus } from '../../api/types/common';
 import { useSearchParams } from 'react-router-dom';
 
@@ -26,18 +25,6 @@ export const usePayoutsPage = () => {
                     showNotification('Ошибка получения списка заявок', 'error', error);
                 } finally {
                     setIsLoading(false);
-                }
-            }, [showNotification]
-    );
-
-    const getCurrenciesList = useCallback(
-        async () => {
-                try {
-                    const currencies = await getCurrencies();
-                    $currencyList.set(currencies);
-
-                } catch (error) {
-                    showNotification('Ошибка получения списка валют', 'error', error);
                 }
             }, [showNotification]
     );
@@ -71,6 +58,19 @@ export const usePayoutsPage = () => {
             }, [showNotification]
     );
 
+    const verifyRequisites = useCallback(
+        async (requisites: string) => {
+                try {
+                    await verifyPayoutRequisites(requisites);
+                    showNotification('Реквизиты успешно верифицированы', 'success');
+
+                    setTimeout(() => getPayoutsList(page), 1000);
+                } catch (error) {
+                    showNotification('Ошибка верификации реквизитов', 'error', error);
+                }
+            }, [getPayoutsList, page, showNotification]
+    );
+
     const handleClickPage = (page: number) => {
         const params = new URLSearchParams(searchParams);
         params.set('page', String(page));
@@ -84,9 +84,5 @@ export const usePayoutsPage = () => {
         getPayoutsList(page);
     }, [getPayoutsList, page]);
 
-    React.useEffect(() => {
-        getCurrenciesList();
-    }, [getCurrenciesList]);
-
-    return { page, handleClickPage, getPayoutsList, isLoading, editPayoutStatus, setPayoutRequisites };
+    return { page, handleClickPage, getPayoutsList, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites };
 };

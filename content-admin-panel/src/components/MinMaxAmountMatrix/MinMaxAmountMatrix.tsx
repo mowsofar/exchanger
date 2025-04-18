@@ -41,7 +41,8 @@ export const MinMaxAmountMatrix: React.FC<MinMaxAmountMatrixProps> = ({ directio
             currencies.set(direction.sourceCurrency.id, direction.sourceCurrency);
             currencies.set(direction.targetCurrency.id, direction.targetCurrency);
         });
-        return Array.from(currencies.values());
+
+        return Array.from(currencies.values()).sort((a, b) => a.sort - b.sort);
     };
 
     const [currencies, setCurrencies] = React.useState(getUniqueCurrencies());

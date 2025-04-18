@@ -25,11 +25,11 @@ export const OperationInfo: React.FC = () => {
 
     const courseTitle = course?.isReversed
         ? `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
-              payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code
-          }  = 1 ${payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code}`
+              payout?.srcCurrency.currencyCode?.code || sourceCurrency?.currencyCode?.code
+          }  = 1 ${payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code}`
         : `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
-              payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code
-          } = 1 ${payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code}`;
+              payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code
+          } = 1 ${payout?.srcCurrency?.currencyCode?.code || sourceCurrency?.currencyCode?.code}`;
 
     return (
         <StyledRoot>
@@ -40,8 +40,10 @@ export const OperationInfo: React.FC = () => {
                     <Amount>{formatNumber(payout?.amountFrom) || formatCalculatorInput(amountFrom)}</Amount>
                 </StyledAmountCard>
                 <Currnecy>
-                    <Img src={payout?.srcCurrency.paymentSystem.imagePath || sourceCurrency?.paymentSystem.imagePath} />
-                    <div>{payout?.srcCurrency.currencyCode.code || sourceCurrency?.currencyCode.code}</div>
+                    <Img
+                        src={payout?.srcCurrency?.paymentSystem?.imagePath || sourceCurrency?.paymentSystem?.imagePath}
+                    />
+                    <div>{payout?.srcCurrency?.currencyCode?.code || sourceCurrency?.currencyCode?.code}</div>
                 </Currnecy>
             </StyledCard>
 
@@ -52,9 +54,11 @@ export const OperationInfo: React.FC = () => {
                 </StyledAmountCard>
                 <Currnecy>
                     <Img
-                        src={payout?.targetCurrency.paymentSystem.imagePath || targetCurrency?.paymentSystem.imagePath}
+                        src={
+                            payout?.targetCurrency?.paymentSystem?.imagePath || targetCurrency?.paymentSystem?.imagePath
+                        }
                     />
-                    <div>{payout?.targetCurrency.currencyCode.code || targetCurrency?.currencyCode.code}</div>
+                    <div>{payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code}</div>
                 </Currnecy>
             </StyledCard>
 
@@ -66,28 +70,28 @@ export const OperationInfo: React.FC = () => {
             {payout?.email && (
                 <StyledCourse>
                     <div>E-mail:</div>
-                    <div>{payout.email}</div>
+                    <div>{payout?.email}</div>
                 </StyledCourse>
             )}
 
             {payout?.requisites && (
                 <StyledCourse>
                     <div>Реквизиты:</div>
-                    <div>{payout.requisites.replace(/.{4}\B/g, '$& ')}</div>
+                    <div>{payout?.requisites.replace(/.{4}\B/g, '$& ')}</div>
                 </StyledCourse>
             )}
 
-            {payout?.sourceAdditionalFields.map((field) => (
+            {payout?.sourceAdditionalFields?.map((field) => (
                 <StyledCourse>
-                    <div>{field.fieldName}:</div>
-                    <div>{field.userValue}</div>
+                    <div>{field?.fieldName}:</div>
+                    <div>{field?.userValue}</div>
                 </StyledCourse>
             ))}
 
-            {payout?.targetAdditionalFields.map((field) => (
+            {payout?.targetAdditionalFields?.map((field) => (
                 <StyledCourse>
-                    <div>{field.fieldName}:</div>
-                    <div>{field.userValue}</div>
+                    <div>{field?.fieldName}:</div>
+                    <div>{field?.userValue}</div>
                 </StyledCourse>
             ))}
         </StyledRoot>

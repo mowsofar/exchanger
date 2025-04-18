@@ -18,7 +18,8 @@ import { PAYOUTS_PER_PAGE } from '../../api/types/common';
 import { Paging } from '../../components/Paging/Paging';
 
 export const CompletedPayoutsPage: React.FC = () => {
-    const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites } = useCompletedPayoutsPage();
+    const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites } =
+        useCompletedPayoutsPage();
 
     const payouts = useStore($payouts);
     const payoutsTotal = useStore($payoutsTotal);
@@ -61,6 +62,7 @@ export const CompletedPayoutsPage: React.FC = () => {
                                     payout={item}
                                     setPayoutRequisites={setPayoutRequisites}
                                     editPayoutStatus={editPayoutStatus}
+                                    verifyRequisites={verifyRequisites}
                                 />
                             );
                         })}

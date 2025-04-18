@@ -19,6 +19,7 @@ import { CompletedPayoutsPage } from './pages/CompletedPayoutsPage/CompletedPayo
 import { DeletedPayoutsPage } from './pages/DeletedPayoutsPage/DeletedPayoutsPage';
 import { ErrorPayoutsPage } from './pages/ErrorPayoutsPage/ErrorPayoutsPage';
 import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
+import { RequisitesPayoutsPage } from './pages/RequisitesPayoutsPage/RequisitesPayoutsPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -26,10 +27,7 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route
-                    path="/content-admin"
-                    element={<AuthCheckRedirect />} // Компонент с логикой редиректа
-                />
+                <Route path="/content-admin" element={<AuthCheckRedirect />} />
 
                 <Route path={ROUTES.root} element={<AppLayout />}>
                     <Route path={ROUTES.paymentSystems} element={<PaymentSystemsPage />} />
@@ -37,6 +35,7 @@ const App: React.FC = () => {
                     <Route path={ROUTES.currency} element={<CurrenciesPage />} />
                     <Route path={ROUTES.payouts.index} element={<PayoutsPage />} />
                     <Route path={ROUTES.payouts.preliminary} element={<PreliminaryPayoutsPage />} />
+                    <Route path={ROUTES.payouts.waitingRequisites} element={<RequisitesPayoutsPage />} />
                     <Route path={ROUTES.payouts.completed} element={<CompletedPayoutsPage />} />
                     <Route path={ROUTES.payouts.rejected} element={<DeletedPayoutsPage />} />
                     <Route path={ROUTES.payouts.process} element={<ProcessPayoutsPage />} />

@@ -5,7 +5,7 @@ import { $payouts, $payoutsTotal, updatePayout } from '../../stores/payout.store
 import { PAYOUTS_PER_PAGE, PayoutStatus } from '../../api/types/common';
 import { useSearchParams } from 'react-router-dom';
 
-export const usePreliminaryPayoutsPage = () => {
+export const useRequisitesPayoutsPage = () => {
     const showNotification = useNotification();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -18,9 +18,9 @@ export const usePreliminaryPayoutsPage = () => {
         async (page: number) => {
                 try {
                     setIsLoading(true);
-                    const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, ['CREATED']);
+                    const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, ['WAITING_FOR_REQUISITES']);
                     $payouts.set(payouts.content);
-                    $payoutsTotal.set(payouts.totalElements);
+                    $payoutsTotal.set(payouts.totalElements)
                 } catch (error) {
                     showNotification('Ошибка получения списка заявок', 'error', error);
                 } finally {
@@ -32,10 +32,12 @@ export const usePreliminaryPayoutsPage = () => {
     const editPayoutStatus = useCallback(
         async (id: number, status: PayoutStatus) => {
                 try {
-                    await setPayoutStatus(id, status);
+                    const selectedPayout = await setPayoutStatus(id, status);
                     showNotification('Статус заявки успешно обновлен', 'success');
+                    updatePayout(selectedPayout);
 
                     setTimeout(() => getPayoutsList(page), 1000);
+
                 } catch (error) {
                     showNotification('Ошибка измененя статуса заявки', 'error', error);
                 }
@@ -45,9 +47,11 @@ export const usePreliminaryPayoutsPage = () => {
     const setPayoutRequisites = useCallback(
         async (id: number, requisites: string) => {
                 try {
-                    const payout = await updatePayoutRequisites(id, requisites);
-                    updatePayout(payout);
+                    const selectedPayout = await updatePayoutRequisites(id, requisites);
                     showNotification('Реквизиты успешно сохранены', 'success');
+
+                    updatePayout(selectedPayout);
+
                 } catch (error) {
                     showNotification('Ошибка сохранения реквизитов', 'error', error);
                 }

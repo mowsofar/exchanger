@@ -3,6 +3,7 @@ import { createExchangeDirection, deleteExchangeDirection, editExchangeDirection
 import { useNotification } from '../../hooks/useNotification';
 import { $exchangeDirectionsPaged, $exchangeDirectionsTotal } from '../../stores/exchangeDirections.store';
 import { $currencyList } from '../../stores/currency.store';
+import { DIRECTIONS_PER_PAGE } from '../../api/types/common';
 
 export const useExchangeDirectionsPage = () => {
     const showNotification = useNotification();
@@ -13,7 +14,7 @@ export const useExchangeDirectionsPage = () => {
         async (page: number) => {
                 try {
                     setIsLoading(true);
-                    const exchangeDirections = await getExchangeDirectionsPaged(page, 10);
+                    const exchangeDirections = await getExchangeDirectionsPaged(page, DIRECTIONS_PER_PAGE);
                     $exchangeDirectionsPaged.set(exchangeDirections.content);
                     $exchangeDirectionsTotal.set(exchangeDirections.totalElements);
 

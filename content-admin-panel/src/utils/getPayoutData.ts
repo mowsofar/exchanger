@@ -10,7 +10,7 @@ export function getPayoutPaymentLabel(status: PayoutStatus) {
         return { label: 'Оплачено!', color: success}
     }
 
-    if (status === 'CREATED' || status === 'WAITING_FOR_CLIENT_PAYMENT') {
+    if (status === 'CREATED' || status === 'WAITING_FOR_CLIENT_PAYMENT' || status === 'WAITING_FOR_REQUISITES') {
         return { label: 'Отметить как оплачено', color: warning, value: 'PAYMENT_RECEIVED'}
     }
 }
@@ -19,6 +19,9 @@ export function getPayoutData(status: PayoutStatus): { label: string, view: View
     switch (status) {
         case 'CREATED': {
             return { label: 'Создана', view: 'accent' };
+        }
+        case 'WAITING_FOR_REQUISITES': {
+            return { label: 'Ожидает реквизиты', view: 'warning' };
         }
         case 'WAITING_FOR_CLIENT_PAYMENT': 
             return { label: 'Проверка поступления средств', view: 'warning' };
@@ -50,9 +53,11 @@ export function getPayoutControls(payout: PayoutStatus | undefined): { label: st
 
     switch (payout) {
         case 'CREATED': 
-            return [];
+        return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
+        case 'WAITING_FOR_REQUISITES': 
+        return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
         case 'WAITING_FOR_CLIENT_PAYMENT': 
-            return [];
+        return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
         case 'PAYMENT_RECEIVED': 
             return [{ label: 'Обработать', value: 'COMPLETED', view: 'success' }, { label: 'Отклонить', value: 'CANCELLED', view: 'critical'}, { label: 'В ошибочные', value: 'ERROR', view: 'critical'}];
         case 'CANCELLED': 

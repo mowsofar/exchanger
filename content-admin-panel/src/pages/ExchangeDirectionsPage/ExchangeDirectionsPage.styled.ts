@@ -55,6 +55,14 @@ export const Currency = styled.div`
     align-items: center;
 `;
 
+export const StyledFooter = styled.div`
+    display: flex;
+    min-height: 100px;
+    align-items: center;
+    margin-bottom: -30px;
+    margin-top: -20px;
+`;
+
 export const StyledPaging = styled(Paging)`
     align-self: flex-start;
 `;

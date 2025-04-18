@@ -1,7 +1,7 @@
 import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { IconRotateCcw } from '@salutejs/plasma-icons';
 import React from 'react';
-import { usePayoutsPage } from './PayoutsPage.hooks';
+import { useRequisitesPayoutsPage } from './RequisitesPayoutsPage.hooks';
 import {
     PayoutsList,
     SpinnerWrapper,
@@ -9,17 +9,17 @@ import {
     StyledFooter,
     StyledHeader,
     StyledRoot,
-} from './PayoutsPage.styled';
-import { PAYOUTS_PER_PAGE } from '../../api/types/common';
+} from './RequisitesPayoutsPage.styled';
 import { useStore } from '@nanostores/react';
 import { $payouts, $payoutsTotal } from '../../stores/payout.store';
 import { PayoutCard } from '../../components/PayoutCard/PayoutCard';
 import { PayoutPlug } from '../../components/PayoutPlug/PayoutPlug';
 import { Paging } from '../../components/Paging/Paging';
+import { PAYOUTS_PER_PAGE } from '../../api/types/common';
 
-export const PayoutsPage: React.FC = () => {
+export const RequisitesPayoutsPage: React.FC = () => {
     const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites } =
-        usePayoutsPage();
+        useRequisitesPayoutsPage();
 
     const payouts = useStore($payouts);
     const payoutsTotal = useStore($payoutsTotal);
@@ -31,12 +31,12 @@ export const PayoutsPage: React.FC = () => {
     return (
         <>
             <head>
-                <title>Заявки</title>
+                <title>Ожидают реквизиты</title>
             </head>
 
             <StyledRoot>
                 <StyledHeader>
-                    <Headline3>Заявки</Headline3>
+                    <Headline3>Ожидают реквизиты</Headline3>
 
                     <StyledButton
                         view="secondary"
@@ -70,7 +70,7 @@ export const PayoutsPage: React.FC = () => {
                 )}
 
                 <StyledFooter>
-                    {payoutsTotal > PAYOUTS_PER_PAGE && !isLoading && (
+                    {payoutsTotal > PAYOUTS_PER_PAGE && (
                         <Paging
                             currentPage={page}
                             recordsOnPage={PAYOUTS_PER_PAGE}
