@@ -2,7 +2,7 @@ import { Headline3, Modal } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
-import { ExchangeDirection } from '../../api/types/common';
+import { ExchangeDirection, ExchangeDirectionsStatusValues, StatusType } from '../../api/types/common';
 import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
 import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
@@ -56,17 +56,19 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
     editExchangeDirectionItem,
 }) => {
     const [profitPercent, setProfitPercent] = React.useState<string | undefined>(
-        formatCalculatorInput(exchangeDirection.profitPercent),
+        formatCalculatorInput(exchangeDirection?.profitPercent),
     );
     const [minSourceAmount, setMinSourceAmount] = React.useState<string | undefined>(
-        formatCalculatorInput(exchangeDirection.minSourceAmount),
+        formatCalculatorInput(exchangeDirection?.minSourceAmount),
     );
     const [maxSourceAmount, setMaxSourceAmount] = React.useState<string | undefined>(
-        formatCalculatorInput(exchangeDirection.maxSourceAmount),
+        formatCalculatorInput(exchangeDirection?.maxSourceAmount),
     );
     const [reserves, setReserves] = React.useState<string | undefined>(
-        formatCalculatorInput(exchangeDirection.reserves),
+        formatCalculatorInput(exchangeDirection?.reserves),
     );
+
+    const [status, setStatus] = React.useState<StatusType>(exchangeDirection?.status);
 
     const onCloseModal = () => {
         setProfitPercent(undefined);
@@ -96,6 +98,10 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
             newData.reserves = formatToSubmit(reserves);
         }
 
+        if (status && status !== exchangeDirection?.status) {
+            newData.status = status;
+        }
+
         editExchangeDirectionItem(exchangeDirection.id, newData);
         onCloseModal();
     };
@@ -114,6 +120,10 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
 
     const handleChangeReserves = (e: React.ChangeEvent<HTMLInputElement>) => {
         setReserves(formatCalculatorInput(e.target.value));
+    };
+
+    const handleChangeStatus = (value: StatusType) => {
+        setStatus(value);
     };
 
     return (
@@ -166,6 +176,14 @@ export const EditExchangeDirectionModal: React.FC<EditExchangeDirectionModalProp
                 </TwoColumns>
 
                 <StyledTextField label="Резервы" value={reserves} onChange={handleChangeReserves} />
+
+                <Select
+                    label="Статус"
+                    items={ExchangeDirectionsStatusValues}
+                    value={exchangeDirection?.status}
+                    onChange={(value) => handleChangeStatus(value as StatusType)}
+                    size="l"
+                />
 
                 <Button
                     text="Изменить"

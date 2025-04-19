@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { queueTokenRefresh } from "./tokenHandlers";
-import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, User } from "./types/common";
+import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, StatusType, User } from "./types/common";
 
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
@@ -212,6 +212,11 @@ export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSo
 export function updateDirectionsStatus(ids: number[], sortMap: { [key: string]: number }
 ): Promise<unknown> {
     return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus: 'ACTIVE', sortMap });
+}
+
+export function updateStatus(ids: number[], newStatus: StatusType, sortMap: { [key: string]: number }
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus, sortMap });
 }
 
 export function getAdditionalFields(

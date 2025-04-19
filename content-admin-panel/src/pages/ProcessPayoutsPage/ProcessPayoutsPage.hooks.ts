@@ -33,7 +33,7 @@ export const useProcessPayoutsPage = () => {
         async (id: number, status: PayoutStatus) => {
                 try {
                     const selectedPayout = await setPayoutStatus(id, status);
-                    showNotification('Статус заявки успешно обновлен', 'success');
+                    showNotification('Статус заявки успешно обновлён', 'success');
                     updatePayout(selectedPayout);
 
                 } catch (error) {

@@ -29,10 +29,11 @@ import { AddExchangeDirectionModal } from '../../components/ExchangeDirectionMod
 import { $exchangeDirectionsPaged, $exchangeDirectionsTotal } from '../../stores/exchangeDirections.store';
 import { DIRECTIONS_PER_PAGE, ExchangeDirection } from '../../api/types/common';
 import { EditExchangeDirectionModal } from '../../components/ExchangeDirectionModals/EditExchangeDirectionModal';
-import { UpdateProfitPercentModal } from '../../components/UpdateProfitPercentModal/UpdateProfitPercentModal';
 import { MinMaxAmountModal } from '../../components/MinMaxAmountModal/MinMaxAmountModal';
 import { formatCalculatorInput } from '../../utils/formatNumber';
 import { Button } from '@salutejs/plasma-ui';
+import { UpdateProfitPercentModal } from '../../components/UpdateProfitPercentModal/UpdateProfitPercentModal';
+import { UpdateStatusModal } from '../../components/UpdateStatusModal/UpdateStatusModal';
 
 export const ExchangeDirectionsPage: React.FC = () => {
     const {
@@ -49,6 +50,7 @@ export const ExchangeDirectionsPage: React.FC = () => {
     const [isEditExchangeDirectionModalOpen, setEditExchangeDirectionModalOpen] = React.useState(false);
     const [isUpdateProfitPercentModalOpen, setUpdateProfitPercentModalOpen] = React.useState(false);
     const [isMinMaxAmountModalOpen, setMinMaxAmountModalOpen] = React.useState(false);
+    const [isStatusSettingsModalOpen, setStatusSettingsModalOpen] = React.useState(false);
 
     const [selectedExchangeDirection, setSelectedExchangeDirection] = React.useState<ExchangeDirection>();
 
@@ -86,6 +88,8 @@ export const ExchangeDirectionsPage: React.FC = () => {
                             onClick={() => setMinMaxAmountModalOpen(true)}
                             contentLeft={<IconRublePlusDollar size="xs" />}
                         />
+
+                        <Button text="Настройка статуса" size="s" onClick={() => setStatusSettingsModalOpen(true)} />
                     </StyledButtons>
 
                     <TableWrapper>
@@ -207,6 +211,14 @@ export const ExchangeDirectionsPage: React.FC = () => {
                     opened={isMinMaxAmountModalOpen}
                     onClose={() => {
                         setMinMaxAmountModalOpen(false);
+                        getExchangeDirectionsListPaged(exchangeDirectionsPage);
+                    }}
+                />
+
+                <UpdateStatusModal
+                    opened={isStatusSettingsModalOpen}
+                    onClose={() => {
+                        setStatusSettingsModalOpen(false);
                         getExchangeDirectionsListPaged(exchangeDirectionsPage);
                     }}
                 />

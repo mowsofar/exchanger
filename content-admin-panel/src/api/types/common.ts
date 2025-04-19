@@ -86,17 +86,13 @@ export const FilterTypeValues = [
     { value: 'COIN', label: 'Coin' },
 ];
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
-
-export const PayoutSelectStatusValues: Array<{value: string; label: string}> = [
-    { value: '', label: 'Все заявки' },
-    { value: 'CREATED', label: 'Созданные' },
-    { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
-    { value: 'PAYMENT_RECEIVED', label: 'В обработке' },
-    { value: 'CANCELLED', label: 'Отклонённые' },
-    { value: 'ERROR', label: 'Ошибка' },
-    { value: 'COMPLETED', label: 'Завершённые' },
+export const ExchangeDirectionsStatusValues = [
+    { value: 'ACTIVE', label: 'Активное направление' },
+    { value: 'INACTIVE', label: 'Не активное направление' },
+    { value: 'ARCHIVED', label: 'Архивное направление' },
 ];
+
+export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
 
 export const AdditionalFieldTypeValues: Array<{value: string; label: string}> = [
     { value: '', label: 'Все поля' },
@@ -160,7 +156,7 @@ export interface ExchangeDirection {
     sourceCurrency: Currency;
     targetCurrency: Currency;
     profitPercent:	number;
-    status:	StatusType
+    status:	StatusType;
     minSourceAmount: number;
     maxSourceAmount: number;
     reserves: number;
@@ -195,4 +191,9 @@ export interface MinMaxAmountPayload {
     ids: number[];
     minSourceAmount: number;
     maxSourceAmount: number;
+}
+
+export interface StatusUpdatePayload {
+    ids: number[];
+    newStatus: StatusType;
 }

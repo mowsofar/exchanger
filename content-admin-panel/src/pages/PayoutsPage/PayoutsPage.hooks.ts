@@ -34,7 +34,7 @@ export const usePayoutsPage = () => {
                 try {
                     const selectedPayout = await setPayoutStatus(id, status);
                     updatePayout(selectedPayout);
-                    showNotification('Статус заявки успешно обновлен', 'success');
+                    showNotification('Статус заявки успешно обновлён', 'success');
 
                     setTimeout(() => {
                         getPayoutsList(page);

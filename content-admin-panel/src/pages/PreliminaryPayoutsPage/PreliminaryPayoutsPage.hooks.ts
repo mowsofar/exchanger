@@ -33,7 +33,7 @@ export const usePreliminaryPayoutsPage = () => {
         async (id: number, status: PayoutStatus) => {
                 try {
                     await setPayoutStatus(id, status);
-                    showNotification('Статус заявки успешно обновлен', 'success');
+                    showNotification('Статус заявки успешно обновлён', 'success');
 
                     setTimeout(() => getPayoutsList(page), 1000);
                 } catch (error) {

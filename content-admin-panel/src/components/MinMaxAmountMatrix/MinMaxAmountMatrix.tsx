@@ -170,9 +170,9 @@ export const MinMaxAmountMatrix: React.FC<MinMaxAmountMatrixProps> = ({ directio
                     maxSource,
                     createSortMap(currencies),
                 );
-                showNotification('Процент обмена успешно обновлен', 'success');
+                showNotification('Минимальная и максимальная суммы обмена успешно обновлены', 'success');
             } catch (error) {
-                showNotification('Ошибка обновления процента обмена', 'error', error);
+                showNotification('Ошибка обновления минимальной и максимальной суммы обмена', 'error', error);
             }
             setSelectedDirections([]);
             setMinSourceAmount('');

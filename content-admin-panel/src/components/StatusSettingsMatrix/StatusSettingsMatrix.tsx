@@ -1,5 +1,11 @@
 import React from 'react';
-import { Currency, ExchangeDirection, ProfitUpdatePayload } from '../../api/types/common';
+import {
+    Currency,
+    ExchangeDirection,
+    ExchangeDirectionsStatusValues,
+    StatusType,
+    StatusUpdatePayload,
+} from '../../api/types/common';
 import {
     DiagonalCell,
     DraggableTh,
@@ -8,27 +14,28 @@ import {
     EditPanel,
     EmptyCell,
     MatrixContainer,
-    ProfitCircle,
+    Circle,
     SelectionInfo,
     StyledImg,
+    StyledSelect,
     StyledTable,
     StyledTd,
-    StyledTextField,
     StyledTh,
     VerticalImg,
-} from './ExchangeDirectionsMatrix.styled';
-import { updateDirectionsStatus, updateProfitPercent } from '../../api/handlers';
+} from './StatusSettingsMatrix.styled';
+import { updateDirectionsStatus, updateStatus } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { Button } from '../Button/Button.styled';
+import { IconClose, IconDocumentOutline, IconDone } from '@salutejs/plasma-icons';
 
-interface ExchangeDirectionsMatrixProps {
+interface StatusSettingsMatrixProps {
     directions: ExchangeDirection[];
-    onProfitUpdate: (payload: ProfitUpdatePayload) => void;
+    onStatusUpdate: (payload: StatusUpdatePayload) => void;
 }
 
-export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> = ({ directions, onProfitUpdate }) => {
+export const StatusSettingsMatrix: React.FC<StatusSettingsMatrixProps> = ({ directions, onStatusUpdate }) => {
     const [selectedDirections, setSelectedDirections] = React.useState<ExchangeDirection[]>([]);
-    const [editProfit, setEditProfit] = React.useState('');
+    const [newStatus, setNewStatus] = React.useState<'ACTIVE' | 'INACTIVE' | 'ARCHIVED' | ''>('');
     const [startCell, setStartCell] = React.useState<{ row: number; col: number } | null>(null);
 
     const showNotification = useNotification();
@@ -144,35 +151,30 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
         });
     });
 
-    const handleProfitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditProfit(e.target.value);
-    };
-
     const handleSave = async () => {
-        const newProfit = parseFloat(editProfit);
-        if (!isNaN(newProfit) && selectedDirections.length > 0) {
-            onProfitUpdate({
+        if (newStatus && selectedDirections.length > 0) {
+            onStatusUpdate({
                 ids: selectedDirections.map((d) => d.id),
-                newProfit,
+                newStatus,
             });
             try {
-                await updateProfitPercent(
+                await updateStatus(
                     selectedDirections.map((d) => d.id),
-                    newProfit,
+                    newStatus,
                     createSortMap(currencies),
                 );
-                showNotification('Процент обмена успешно обновлён', 'success');
+                showNotification('Статус успешно обновлён', 'success');
             } catch (error) {
-                showNotification('Ошибка обновления процента обмена', 'error', error);
+                showNotification('Ошибка обновления статуса', 'error', error);
             }
-            setEditProfit('');
+            setNewStatus('');
             setSelectedDirections([]);
         }
     };
 
     const handleCancel = () => {
         setSelectedDirections([]);
-        setEditProfit('');
+        setNewStatus('');
     };
 
     const handleSelectAll = () => {
@@ -186,14 +188,13 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
                     <strong>Выбрано: {selectedDirections.length}</strong>
                 </SelectionInfo>
                 <EditControls>
-                    <StyledTextField
-                        placeholder="Новый процент"
-                        type="number"
-                        value={editProfit}
-                        onChange={handleProfitChange}
-                        step="0.01"
+                    <StyledSelect
+                        label="Новый статус"
+                        placeholder="Выберите статус"
+                        items={ExchangeDirectionsStatusValues}
+                        onChange={(value) => setNewStatus(value as StatusType)}
                     />
-                    <Button size="xs" onClick={handleSave} disabled={!editProfit || selectedDirections.length === 0}>
+                    <Button size="xs" onClick={handleSave} disabled={!newStatus || selectedDirections.length === 0}>
                         Применить ко всем
                     </Button>
                     <Button view="secondary" onClick={handleCancel}>
@@ -255,12 +256,15 @@ export const ExchangeDirectionsMatrix: React.FC<ExchangeDirectionsMatrixProps> =
 
                                 return (
                                     <StyledTd key={cell.id}>
-                                        <ProfitCircle
+                                        <Circle
+                                            status={cell?.status}
                                             isSelected={isSelected || isStartCell}
                                             onClick={() => handleCellClick(cell, rowIndex, colIndex)}
                                         >
-                                            {cell.profitPercent}%
-                                        </ProfitCircle>
+                                            {cell.status === 'ACTIVE' && <IconDone color="white" />}
+                                            {cell.status === 'INACTIVE' && <IconClose color="white" />}
+                                            {cell.status === 'ARCHIVED' && <IconDocumentOutline color="white" />}
+                                        </Circle>
                                     </StyledTd>
                                 );
                             })}
