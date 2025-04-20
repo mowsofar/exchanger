@@ -1,7 +1,12 @@
-export function formatNumber(n: number | undefined) {
-    if (!n) return 0;
+export function formatNumber(n: number | undefined, decimalPlaces?: number): string {
+    if (!n) return '0';
 
-    let [integer, decimal] = n.toString().split('.');
+    let roundedValue = n;
+    if (decimalPlaces !== undefined) {
+        roundedValue = Number(n.toFixed(decimalPlaces));
+    }
+
+    let [integer, decimal] = roundedValue.toString().split('.');
 
     let formattedInteger = new Intl.NumberFormat('ru-Ru').format(Number(integer));
 
@@ -60,4 +65,35 @@ export function formatToSubmit(displayValue: string): number {
     if (isNaN(numberValue)) return 0;
 
     return numberValue;
+}
+
+export function formatInputWithDecimalPlaces(value: string, decimalPlaces?: number): string {
+    if (!value) return '0';
+    
+    // Удаляем все нечисловые символы, кроме точки и запятой
+    let cleanedValue = value.replace(/[^\d.,]/g, '');
+    
+    // Заменяем запятые на точки
+    cleanedValue = cleanedValue.replace(/,/g, '.');
+    
+    // Разделяем на целую и дробную части
+    const parts = cleanedValue.split('.');
+    
+    // Если есть дробная часть и указано decimalPlaces
+    if (parts.length > 1 && decimalPlaces !== undefined) {
+        // Обрезаем дробную часть до допустимого количества знаков
+        parts[1] = parts[1].slice(0, decimalPlaces);
+        cleanedValue = parts.join('.');
+    }
+    
+    return formatCalculatorInput(cleanedValue);
+}
+
+export function formatNumberWithDecimalPlaces(value: number, decimalPlaces?: number): string {
+    if (decimalPlaces !== undefined) {
+        // Округляем до указанного количества знаков после запятой
+        const roundedValue = Number(value.toFixed(decimalPlaces));
+        return formatCalculatorInput(roundedValue.toString());
+    }
+    return formatCalculatorInput(value.toString());
 }

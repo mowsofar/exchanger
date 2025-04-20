@@ -23,7 +23,13 @@ import {
 } from '../../stores/currencies.store';
 import React from 'react';
 import { Currency } from '../../api/types/common';
-import { formatCalculatorInput, formatNumber, formatToSubmit } from '../../utils/formatNumber';
+import {
+    formatCalculatorInput,
+    formatInputWithDecimalPlaces,
+    formatNumber,
+    formatNumberWithDecimalPlaces,
+    formatToSubmit,
+} from '../../utils/formatNumber';
 
 interface Props {
     handleClickSourceCurrency: () => void;
@@ -62,21 +68,30 @@ export const Calculator: React.FC<Props> = ({
         setError('');
         let inputValue = e.target.value;
 
-        $amountFrom.set(formatCalculatorInput(inputValue));
+        // Форматируем ввод с учетом decimalPlaces
+        const formattedValue = formatInputWithDecimalPlaces(inputValue, sourceCurrency?.decimalPlaces);
+        $amountFrom.set(formattedValue);
 
         if (course) {
+            const numericValue = formatToSubmit(formattedValue);
+            let calculatedAmount: number;
+
             if (course.isReversed) {
-                $amountTo.set(formatCalculatorInput(formatToSubmit(inputValue) / course.course));
+                calculatedAmount = numericValue / course.course;
             } else {
-                $amountTo.set(formatCalculatorInput(formatToSubmit(inputValue) * course.course));
+                calculatedAmount = numericValue * course.course;
             }
+
+            // Форматируем результат с учетом decimalPlaces целевой валюты
+            $amountTo.set(formatNumberWithDecimalPlaces(calculatedAmount, targetCurrency?.decimalPlaces));
         }
 
+        // Проверка лимитов
+        const numericValue = formatToSubmit(formattedValue);
         if (
             exchangeDirection?.minSourceAmount &&
             exchangeDirection?.maxSourceAmount &&
-            (formatToSubmit(inputValue) < exchangeDirection?.minSourceAmount ||
-                formatToSubmit(inputValue) > exchangeDirection?.maxSourceAmount)
+            (numericValue < exchangeDirection?.minSourceAmount || numericValue > exchangeDirection?.maxSourceAmount)
         ) {
             $exchangeError.set(true);
         } else {
@@ -88,20 +103,29 @@ export const Calculator: React.FC<Props> = ({
         setError('');
         let inputValue = e.target.value;
 
-        $amountTo.set(formatCalculatorInput(inputValue));
+        // Форматируем ввод с учетом decimalPlaces
+        const formattedValue = formatInputWithDecimalPlaces(inputValue, targetCurrency?.decimalPlaces);
+        $amountTo.set(formattedValue);
 
         let sourceAmount = 0;
 
         if (course) {
+            const numericValue = formatToSubmit(formattedValue);
+            let calculatedAmount: number;
+
             if (course.isReversed) {
-                $amountFrom.set(formatCalculatorInput(formatToSubmit(inputValue) * course.course));
-                sourceAmount = formatToSubmit(inputValue) * course.course;
+                calculatedAmount = numericValue * course.course;
+                sourceAmount = calculatedAmount;
             } else {
-                $amountFrom.set(formatCalculatorInput(formatToSubmit(inputValue) / course.course));
-                sourceAmount = formatToSubmit(inputValue) / course.course;
+                calculatedAmount = numericValue / course.course;
+                sourceAmount = calculatedAmount;
             }
+
+            // Форматируем результат с учетом decimalPlaces исходной валюты
+            $amountFrom.set(formatNumberWithDecimalPlaces(calculatedAmount, sourceCurrency?.decimalPlaces));
         }
 
+        // Проверка лимитов
         if (
             exchangeDirection?.minSourceAmount &&
             exchangeDirection?.maxSourceAmount &&
@@ -123,10 +147,12 @@ export const Calculator: React.FC<Props> = ({
         <>
             <ExchangeInfo>
                 <div>
-                    Мин: {formatNumber(exchangeDirection?.minSourceAmount)} {sourceCurrency?.currencyCode.code}
+                    Мин: {formatNumber(exchangeDirection?.minSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
+                    {sourceCurrency?.currencyCode.code}
                 </div>
                 <div>
-                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount)} {sourceCurrency?.currencyCode.code}
+                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
+                    {sourceCurrency?.currencyCode.code}
                 </div>
             </ExchangeInfo>
             <StyledRoot>

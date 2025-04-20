@@ -4,10 +4,9 @@ import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $s
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
 import { $email, $payout, $requisites } from '../../stores/payout.store';
-import { formatToSubmit } from '../../utils/formatNumber';
+import { formatNumberWithDecimalPlaces, formatToSubmit } from '../../utils/formatNumber';
 
 export const useMainPage = () => {
-    const sourceCurrency = useStore($sourceCurrency);
     const tagretCurrency = useStore($targetCurrency);
     const sourceAmount = useStore($amountFrom);
 
@@ -26,16 +25,31 @@ export const useMainPage = () => {
     
             const exchangeDirections = await getExchangeDirections(sourceCurrencies[0].id, targetCurrencies[0].id);
             $exchangeDirection.set(exchangeDirections);
-            $amountFrom.set(String(exchangeDirections.minSourceAmount));
+            $amountFrom.set(
+                formatNumberWithDecimalPlaces(
+                    exchangeDirections.minSourceAmount,
+                    sourceCurrencies[0].decimalPlaces
+                )
+            );
     
             const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrencies[0].id, targetCurrencies[0].id);
             $course.set(exchangeDirectionsCourse);
-    
+
+            let calculatedAmount: number;
+
             if (exchangeDirectionsCourse.isReversed) {
-                $amountTo.set(String(exchangeDirections.minSourceAmount /exchangeDirectionsCourse.course));
+                calculatedAmount = exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course;
             } else {
-                $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+                calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
             }
+        
+            // Используем decimalPlaces для форматирования
+            $amountTo.set(
+                formatNumberWithDecimalPlaces(
+                calculatedAmount,
+                targetCurrencies[0].decimalPlaces
+                )
+            );
         } catch {}
     }, []);
 
@@ -43,15 +57,25 @@ export const useMainPage = () => {
         try {
             const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceId, targetId);
             $course.set(exchangeDirectionsCourse);
-    
+
             if (!formatToSubmit(sourceAmount)) return;
-    
-            if (exchangeDirectionsCourse.isReversed ) {
-                $amountTo.set(String(formatToSubmit(sourceAmount) / exchangeDirectionsCourse.course));
+
+            let calculatedAmount: number;
+            if (exchangeDirectionsCourse.isReversed) {
+                calculatedAmount = formatToSubmit(sourceAmount) / exchangeDirectionsCourse.course;
             } else {
-                $amountTo.set(String(exchangeDirectionsCourse.course * formatToSubmit(sourceAmount)));
+                calculatedAmount = exchangeDirectionsCourse.course * formatToSubmit(sourceAmount);
             }
-        } catch {}        
+        
+            // Используем decimalPlaces целевой валюты для форматирования
+            const targetCurrency = $targetCurrency.get();
+            $amountTo.set(
+                formatNumberWithDecimalPlaces(
+                    calculatedAmount,
+                    targetCurrency?.decimalPlaces
+                )
+            );
+    } catch {}       
     }, [sourceAmount]);
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
@@ -59,24 +83,40 @@ export const useMainPage = () => {
             $exchangeError.set(false);
             setError('');
             const targetCurrencies = await getRightColumnCurrencies(sourceCurrency.id);
-                $targetCurrencies.set(targetCurrencies);
+            $targetCurrencies.set(targetCurrencies);
     
-                if (tagretCurrency && !targetCurrencies.includes(tagretCurrency)) {
-                    $targetCurrency.set(targetCurrencies[0]);
-                }
+            if (tagretCurrency && !targetCurrencies.includes(tagretCurrency)) {
+                $targetCurrency.set(targetCurrencies[0]);
+            }
+
+            const exchangeDirections = await getExchangeDirections(sourceCurrency.id, targetCurrencies[0]?.id);
+            $exchangeDirection.set(exchangeDirections);
+                
+            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, targetCurrencies[0]?.id);
+            $course.set(exchangeDirectionsCourse);
+            
+            // Используем decimalPlaces исходной валюты
+            $amountFrom.set(
+                formatNumberWithDecimalPlaces(
+                    exchangeDirections.minSourceAmount,
+                    sourceCurrency.decimalPlaces
+                )
+            );
     
-                const exchangeDirections = await getExchangeDirections(sourceCurrency.id, targetCurrencies[0]?.id);
-                $exchangeDirection.set(exchangeDirections);
-                    
-                const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, targetCurrencies[0]?.id);
-                $course.set(exchangeDirectionsCourse);
-                $amountFrom.set(String(exchangeDirections.minSourceAmount));
-    
-                if (exchangeDirectionsCourse.isReversed) {
-                    $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
-                } else {
-                    $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
-                }
+            let calculatedAmount: number;
+            if (exchangeDirectionsCourse.isReversed) {
+                calculatedAmount = exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course;
+            } else {
+                calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
+            }
+            
+            // Используем decimalPlaces целевой валюты
+            $amountTo.set(
+                formatNumberWithDecimalPlaces(
+                    calculatedAmount,
+                    targetCurrencies[0]?.decimalPlaces
+                )
+            );
         } catch {}
     }, [tagretCurrency]);
 
@@ -84,46 +124,80 @@ export const useMainPage = () => {
         try {
             $exchangeError.set(false);
             setError('');
+            const sourceCurrency = $sourceCurrency.get();
+
             if (sourceCurrency) {
-                const exchangeDirections = await getExchangeDirections(sourceCurrency?.id, tagretCurrency?.id);
+                const exchangeDirections = await getExchangeDirections(sourceCurrency.id, tagretCurrency.id);
                 $exchangeDirection.set(exchangeDirections);
     
-                const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, tagretCurrency?.id);
+                const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrency.id, tagretCurrency.id);
                 $course.set(exchangeDirectionsCourse);
-                $amountFrom.set(String(exchangeDirections.minSourceAmount));
+                
+                // Используем decimalPlaces исходной валюты
+                $amountFrom.set(
+                    formatNumberWithDecimalPlaces(
+                        exchangeDirections.minSourceAmount,
+                        sourceCurrency.decimalPlaces
+                    )
+                );
     
+                let calculatedAmount: number;
                 if (exchangeDirectionsCourse.isReversed) {
-                    $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
+                    calculatedAmount = exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course;
                 } else {
-                    $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+                    calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
                 }
+                
+                // Используем decimalPlaces целевой валюты
+                $amountTo.set(
+                    formatNumberWithDecimalPlaces(
+                        calculatedAmount,
+                        tagretCurrency.decimalPlaces
+                    )
+                );
             }
         } catch {}
-    }, [sourceCurrency]);
+    }, []);
 
     const handleChangeCurrencies = React.useCallback(async (sourceCurrency: Currency, tagretCurrency: Currency) => {
         try {
             const targetCurrencies = await getRightColumnCurrencies(tagretCurrency.id);
             $targetCurrencies.set(targetCurrencies);
-
+    
             $sourceCurrency.set(sourceCurrency);
             $targetCurrency.set(tagretCurrency);
-
+    
             $exchangeError.set(false);
-            const exchangeDirections = await getExchangeDirections(tagretCurrency?.id, sourceCurrency?.id);
+            const exchangeDirections = await getExchangeDirections(tagretCurrency.id, sourceCurrency.id);
             $sourceCurrency.set(tagretCurrency);
             $targetCurrency.set(sourceCurrency);
             $exchangeDirection.set(exchangeDirections);
-
-            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(tagretCurrency.id, sourceCurrency?.id);
+    
+            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(tagretCurrency.id, sourceCurrency.id);
             $course.set(exchangeDirectionsCourse);
-            $amountFrom.set(String(exchangeDirections.minSourceAmount));
-
+            
+            // Используем decimalPlaces новой исходной валюты (бывшей целевой)
+            $amountFrom.set(
+                formatNumberWithDecimalPlaces(
+                    exchangeDirections.minSourceAmount,
+                    tagretCurrency.decimalPlaces
+                )
+            );
+    
+            let calculatedAmount: number;
             if (exchangeDirectionsCourse.isReversed) {
-                $amountTo.set(String(exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course));
+                calculatedAmount = exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course;
             } else {
-                $amountTo.set(String(exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount));
+                calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
             }
+            
+            // Используем decimalPlaces новой целевой валюты (бывшей исходной)
+            $amountTo.set(
+                formatNumberWithDecimalPlaces(
+                    calculatedAmount,
+                    sourceCurrency.decimalPlaces
+                )
+            );
         } catch {
             setError('Выбранного направления не существует.')
         }

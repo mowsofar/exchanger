@@ -17,19 +17,46 @@ export const OperationInfo: React.FC = () => {
     const sourceCurrency = useStore($sourceCurrency);
     const targetCurrency = useStore($targetCurrency);
     const course = useStore($course);
-
     const payout = useStore($payout);
-
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
 
-    const courseTitle = course?.isReversed
-        ? `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
-              payout?.srcCurrency.currencyCode?.code || sourceCurrency?.currencyCode?.code
-          }  = 1 ${payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code}`
-        : `${formatNumber(payout?.course) || formatNumber(course?.course)} ${
-              payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code
-          } = 1 ${payout?.srcCurrency?.currencyCode?.code || sourceCurrency?.currencyCode?.code}`;
+    // Функция для форматирования суммы с учетом decimalPlaces
+    const formatAmount = (
+        amount: number | string | undefined,
+        currency: { decimalPlaces?: number } | null | undefined,
+    ) => {
+        if (amount === undefined) return '0';
+
+        const numericValue = typeof amount === 'string' ? parseFloat(amount.replace(/\s/g, '')) : amount;
+        if (isNaN(numericValue)) return '0';
+
+        return formatNumber(numericValue, currency?.decimalPlaces);
+    };
+
+    const courseTitle = (() => {
+        if (!course && !payout?.course) return '';
+
+        const currentCourse = payout?.course || course?.course;
+        const isReversed = course?.isReversed; // Используем только из course
+
+        const sourceCode = payout?.srcCurrency?.currencyCode?.code || sourceCurrency?.currencyCode?.code;
+        const targetCode = payout?.targetCurrency?.currencyCode?.code || targetCurrency?.currencyCode?.code;
+
+        // Определяем decimalPlaces для форматирования
+        const sourceDecimalPlaces = payout?.srcCurrency?.decimalPlaces || sourceCurrency?.decimalPlaces;
+        const targetDecimalPlaces = payout?.targetCurrency?.decimalPlaces || targetCurrency?.decimalPlaces;
+
+        if (isReversed) {
+            // Формат: X source = 1 target
+            const formattedCourse = formatNumber(currentCourse, sourceDecimalPlaces);
+            return `${formattedCourse} ${sourceCode} = 1 ${targetCode}`;
+        } else {
+            // Формат: X target = 1 source
+            const formattedCourse = formatNumber(currentCourse, targetDecimalPlaces);
+            return `${formattedCourse} ${targetCode} = 1 ${sourceCode}`;
+        }
+    })();
 
     return (
         <StyledRoot>
@@ -37,7 +64,11 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Отдаёте</div>
-                    <Amount>{formatNumber(payout?.amountFrom) || formatCalculatorInput(amountFrom)}</Amount>
+                    <Amount>
+                        {payout?.amountFrom
+                            ? formatAmount(payout.amountFrom, payout.srcCurrency || sourceCurrency)
+                            : formatCalculatorInput(amountFrom)}
+                    </Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img
@@ -50,7 +81,11 @@ export const OperationInfo: React.FC = () => {
             <StyledCard>
                 <StyledAmountCard>
                     <div>Получаете</div>
-                    <Amount>{formatNumber(payout?.amountTo) || formatCalculatorInput(amountTo)}</Amount>
+                    <Amount>
+                        {payout?.amountTo
+                            ? formatAmount(payout.amountTo, payout.targetCurrency || targetCurrency)
+                            : formatCalculatorInput(amountTo)}
+                    </Amount>
                 </StyledAmountCard>
                 <Currnecy>
                     <Img
@@ -81,15 +116,15 @@ export const OperationInfo: React.FC = () => {
                 </StyledCourse>
             )}
 
-            {payout?.sourceAdditionalFields?.map((field) => (
-                <StyledCourse>
+            {payout?.sourceAdditionalFields?.map((field, index) => (
+                <StyledCourse key={`source-${index}`}>
                     <div>{field?.fieldName}:</div>
                     <div>{field?.userValue}</div>
                 </StyledCourse>
             ))}
 
-            {payout?.targetAdditionalFields?.map((field) => (
-                <StyledCourse>
+            {payout?.targetAdditionalFields?.map((field, index) => (
+                <StyledCourse key={`target-${index}`}>
                     <div>{field?.fieldName}:</div>
                     <div>{field?.userValue}</div>
                 </StyledCourse>

@@ -22,7 +22,7 @@ export const Column = styled.div`
     padding-right: 10px;
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
+    row-gap: 17px;
 
     &:not(:last-child) {
         border-right: 1px solid ${surfaceSolid03};
@@ -93,7 +93,6 @@ export const Row = styled.div`
 export const StyledTextField = styled(TextFieldGrey)`
     width: 320px;
     font-size: 15px;
-    margin-top: auto;
 
     > div:first-child > div {
         font-size: 13px !important;

@@ -197,7 +197,11 @@ export const PayoutPayment: React.FC = () => {
 
                 <StyledButton
                     onClick={handleSubmit}
-                    disabled={payout?.srcCurrency.filterType === 'COIN' ? false : !hasImage || Boolean(error)}
+                    disabled={
+                        payout?.srcCurrency.filterType === 'COIN'
+                            ? payout?.status !== 'WAITING_FOR_REQUISITES'
+                            : !hasImage || Boolean(error)
+                    }
                 >
                     Я оплатил(-а)
                 </StyledButton>
