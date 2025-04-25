@@ -98,6 +98,7 @@ export const AdditionalFieldsPage: React.FC = () => {
                             <StyledTableHeaderCell>Название поля</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Валюта</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Тип</StyledTableHeaderCell>
+                            <StyledTableHeaderCell>Идентификатор</StyledTableHeaderCell>
                             <StyledTableHeaderCell>Статус</StyledTableHeaderCell>
                             <StyledTableHeaderCell />
                         </StyledTableHeader>
@@ -129,10 +130,10 @@ export const AdditionalFieldsPage: React.FC = () => {
                                             </StyledTableCellName>
 
                                             <StyledTableCellName>
-                                                <div>
-                                                    {item.direction === 'TARGET' ? 'Для получателя' : 'Для отправителя'}
-                                                </div>
+                                                {item.direction === 'TARGET' ? 'Для получателя' : 'Для отправителя'}
                                             </StyledTableCellName>
+
+                                            <StyledTableCellName>{item.nameIdentify}</StyledTableCellName>
 
                                             <StyledTableCellName>
                                                 <StyledBadge

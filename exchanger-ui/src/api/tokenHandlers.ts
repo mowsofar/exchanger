@@ -7,7 +7,11 @@ export function logoutUser() {
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');
     localStorage.removeItem('email');
-    window.location.replace(ROUTES.root);
+
+    if (window.location.pathname !== ROUTES.root) {
+      window.location.replace(ROUTES.root);
+    }
+    
 }
 
 export async function handleTokenRefresh() {

@@ -45,8 +45,8 @@ export const PayoutCard: React.FC<Props> = ({ payout, setPayoutRequisites, editP
     };
 
     const handleVerifyRequisites = () => {
-        if (payout?.requisites) {
-            verifyRequisites(payout.requisites);
+        if (payout?.cardDtoResponse?.number) {
+            verifyRequisites(payout.cardDtoResponse.number);
         }
     };
 
@@ -95,24 +95,24 @@ export const PayoutCard: React.FC<Props> = ({ payout, setPayoutRequisites, editP
                     }
                 />
 
-                {!Boolean(payout?.requisitesVerified) && (
+                {!Boolean(payout?.cardDtoResponse?.isApproved) && payout?.srcCurrency?.filterType === 'RUB' && (
                     <StyledButtons>
                         <StyledSaveButton view="warning" onClick={handleVerifyRequisites}>
                             Верифицировать
                         </StyledSaveButton>
 
                         <ExchangeAmount>
-                            Кол-во обменов: <span>{payout?.previousPayoutIds?.length ?? 1}</span>
+                            Кол-во обменов: <span>{payout?.cardDtoResponse?.payoutIds?.length ?? 1}</span>
                         </ExchangeAmount>
                     </StyledButtons>
                 )}
 
-                {Boolean(payout?.requisitesVerified) && (
+                {Boolean(payout?.cardDtoResponse?.isApproved) && payout?.srcCurrency?.filterType === 'RUB' && (
                     <StyledButtons>
                         <StyledSaveButton view="success">Верифицирован</StyledSaveButton>
 
                         <ExchangeAmount>
-                            Кол-во обменов: <span>{payout?.previousPayoutIds?.length ?? 1}</span>
+                            Кол-во обменов: <span>{payout?.cardDtoResponse?.payoutIds?.length ?? 1}</span>
                         </ExchangeAmount>
                     </StyledButtons>
                 )}

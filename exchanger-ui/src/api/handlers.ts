@@ -68,7 +68,7 @@ function requestToAccountApiWithToken(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export async function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string): Promise<Payout> {
+export async function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string, nameIdentify: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string): Promise<Payout> {
     const accessToken = localStorage.getItem('accessToken');
     
     const headers: HeadersInit = {

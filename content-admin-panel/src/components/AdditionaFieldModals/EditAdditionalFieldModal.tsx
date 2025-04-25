@@ -16,6 +16,7 @@ interface EditAdditionalFieldModalProps {
     editAdditionalField: (
         id: number,
         fieldName: string,
+        nameIdentify: string,
         status: string,
         direction: AdditionalFieldDirections,
         currencyIds: number[],
@@ -65,6 +66,7 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
     const currencyIdsInitial = additionalField.currencies.map((currency) => String(currency.id));
 
     const [fieldName, setFieldName] = React.useState(additionalField.fieldName);
+    const [identifier, setIdentifier] = React.useState(additionalField.nameIdentify || '');
     const [currencyIds, setCurrencyIds] = React.useState(currencyIdsInitial);
     const [additionalFieldStatus, setAdditionalFieldStatus] = React.useState<'ACTIVE' | 'INACTIVE'>(
         additionalField.status,
@@ -87,6 +89,7 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
             editAdditionalField(
                 additionalField.id,
                 fieldName,
+                identifier,
                 additionalFieldStatus,
                 additionalFieldType,
                 numerize(currencyIds),
@@ -104,6 +107,12 @@ export const EditAdditionalFieldModal: React.FC<EditAdditionalFieldModalProps> =
                     label="Название поля"
                     value={fieldName}
                     onChange={(e) => setFieldName(e.target.value)}
+                />
+
+                <StyledTextField
+                    label="Идентификатор"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
                 />
 
                 <Select

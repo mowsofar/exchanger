@@ -31,6 +31,7 @@ export interface AdditionalFieldDirection {
     direction: AdditionalFieldDirections;
     fieldName: string;
     status: AdditionalFieldStatus;
+    nameIdentify: string;
     currencies: {
         id: number;
         technicalName: string;
@@ -46,6 +47,7 @@ export interface PayoutAdditionalField {
     fieldId: number,
     fieldName: string,
     userValue: string,
+    nameIdentify: string,
 };
 
 export interface Currency {
@@ -137,6 +139,12 @@ export interface Payout {
     targetAdditionalFields: PayoutAdditionalField[];
     previousPayoutIds: number[];
     requisitesVerified: boolean;
+    cardDtoResponse: {
+        number: string;
+        fio: string;
+        isApproved: boolean;
+        payoutIds: number[];
+    }
 };
 
 export interface getPayoutsResponse {

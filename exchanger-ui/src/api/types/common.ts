@@ -5,9 +5,10 @@ export interface LoginData {
 };
 
 export type AdditionalFieldDirection = 'SOURCE' | 'TARGET';
-export interface AdditionalFields {
+export interface AdditionalField {
     id: number;
     fieldName: string;
+    nameIdentify: string;
     direction: AdditionalFieldDirection;
     status: string;
 };
@@ -33,7 +34,7 @@ export interface Currency {
     sent: number;
     accountName: string;
     accountComment: string;
-    additionalFieldsList: AdditionalFields[];
+    additionalFieldsList: AdditionalField[];
     updatedAt: string;
 };
 
@@ -78,32 +79,31 @@ export interface PayoutAttachment {
     uploadedAt: string;
 }
 
+export interface PayoutAdditionalField {
+    fieldId: number;
+    fieldName: string;
+    userValue: string;
+    nameIdentify: string;
+}
+
 export interface Payout {
-        id: number;
-        srcCurrency: Currency;
-        targetCurrency:	Currency;
-        amountFrom: number;
-        amountTo: number;
-        requisites: string;
-        exchangeRequisites: string;
-        course: number;
-        status: PayoutStatus;
-        createdAt: string;
-        updatedAt: string;
-        ipAddress: string;
-        email: string;
-        user: User;
-        attachments: PayoutAttachment[];
-        sourceAdditionalFields: {
-            fieldId: number;
-            fieldName: string;
-            userValue: string;
-        }[];
-        targetAdditionalFields: {
-            fieldId: number;
-            fieldName: string;
-            userValue: string;
-        }[];
+    id: number;
+    srcCurrency: Currency;
+    targetCurrency:	Currency;
+    amountFrom: number;
+    amountTo: number;
+    requisites: string;
+    exchangeRequisites: string;
+    course: number;
+    status: PayoutStatus;
+    createdAt: string;
+    updatedAt: string;
+    ipAddress: string;
+    email: string;
+    user: User;
+    attachments: PayoutAttachment[];
+    sourceAdditionalFields: PayoutAdditionalField[];
+    targetAdditionalFields: PayoutAdditionalField[];
 }
 
 export interface User {

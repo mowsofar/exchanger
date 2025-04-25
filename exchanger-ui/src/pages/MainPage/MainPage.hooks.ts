@@ -1,16 +1,23 @@
 import React from 'react';
-import { getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies } from '../../api/handlers';
+import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies } from '../../api/handlers';
 import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
 import { $email, $payout, $requisites } from '../../stores/payout.store';
 import { formatNumberWithDecimalPlaces, formatToSubmit } from '../../utils/formatNumber';
+import { logoutUser } from '../../api/tokenHandlers';
 
 export const useMainPage = () => {
     const tagretCurrency = useStore($targetCurrency);
     const sourceAmount = useStore($amountFrom);
 
     const [error, setError] = React.useState('');
+
+    const getAccountInfo = React.useCallback(async () => {
+        try {
+            await getAccount();
+        } catch {}
+    }, []);
 
     const getCurrencies = React.useCallback(async () => {
         try {
@@ -206,6 +213,15 @@ export const useMainPage = () => {
     React.useEffect(() => {
         getCurrencies()
     }, [getCurrencies]);
+
+    React.useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        
+        if (!accessToken) {
+            logoutUser();
+            return;
+        }
+    }, [getAccountInfo]);
 
     React.useEffect(() => {
         return () => {

@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $email, $requisites } from '../../stores/payout.store';
-import { Payout } from '../../api/types/common';
+import { AdditionalField, Payout } from '../../api/types/common';
 import { formatToSubmit } from '../../utils/formatNumber';
 
 interface UserDetailsProps {
@@ -31,8 +31,8 @@ interface UserDetailsProps {
         amountFrom: number,
         amountTo: number,
         requisites: string,
-        sourceFields: { fieldId: number; userValue: string }[],
-        targetFields: { fieldId: number; userValue: string }[],
+        sourceFields: { fieldId: number; userValue: string; nameIdentify: string }[],
+        targetFields: { fieldId: number; userValue: string; nameIdentify: string }[],
         course: number,
         email: string,
     ) => Promise<Payout>;
@@ -72,8 +72,16 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
 
     const [isChecked, setIsChecked] = React.useState(false);
 
-    const transformFormData = (data: Record<string, string>) => {
-        return Object.keys(data).map((key) => ({ fieldId: Number(key), userValue: data[key] }));
+    const transformFormData = (data: Record<string, string>, additionalFields: AdditionalField[] = []) => {
+        return Object.keys(data).map((key) => {
+            const fieldId = Number(key);
+            const fieldInfo = additionalFields.find((field) => field.id === fieldId);
+            return {
+                fieldId,
+                userValue: data[key],
+                nameIdentify: fieldInfo?.nameIdentify || '',
+            };
+        });
     };
 
     const onSubmit = async (data: FormValues) => {
@@ -83,13 +91,13 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         if (sourceCurrency?.id && targetCurrency?.id && course) {
             try {
                 const newPayout = await createPayout(
-                    sourceCurrency?.id,
-                    targetCurrency?.id,
+                    sourceCurrency.id,
+                    targetCurrency.id,
                     formatToSubmit(amountFrom),
                     formatToSubmit(amountTo),
                     data.requisites.replace(/\s+/g, ''),
-                    transformFormData(data.sourceFields),
-                    transformFormData(data.targetFields),
+                    transformFormData(data.sourceFields, sourceAdditionalFields),
+                    transformFormData(data.targetFields, targetAdditionalFields),
                     course.course,
                     data.email,
                 );
@@ -97,7 +105,9 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                 navigate(ROUTES.payment(newPayout.id), {
                     state: { from: ROUTES.userDetails(sourceCurrency.id, targetCurrency.id) },
                 });
-            } catch {}
+            } catch (error) {
+                // Обработка ошибки
+            }
         }
     };
 

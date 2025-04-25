@@ -229,14 +229,14 @@ export function getTypedAdditionalFields(status: string
     return requestToApi(`api/additional-fields/status/${status}`, { method: 'GET' });
 }
 
-export function createAdditionalField(fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
+export function createAdditionalField(fieldName: string, nameIdentify: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, status, direction, currencyIds });
+    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, nameIdentify, status, direction, currencyIds });
 }
 
-export function editAdditionalField(id: number, fieldName: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
+export function editAdditionalField(id: number, fieldName: string, nameIdentify: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
 ): Promise<unknown> {
-    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, status, direction, currencyIds });
+    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, nameIdentify, status, direction, currencyIds });
 }
 
 export function deleteAdditionalField(id: number
@@ -284,7 +284,7 @@ export function updatePayoutRequisites(id: number, exchangeRequisites: string
 
 export function verifyPayoutRequisites(requisite: string
 ): Promise<Payout> {
-    return requestToApi(`api/payouts/requisites/${requisite}/verify`, { method: 'PUT' });
+    return requestToApi(`api/payouts/cards/${requisite}/approve`, { method: 'PATCH' });
 }
 
 export function getRequisites(

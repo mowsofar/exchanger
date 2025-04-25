@@ -14,6 +14,7 @@ interface AddAdditionalFieldModalProps {
     onClose: () => void;
     createAdditionalField: (
         fieldName: string,
+        nameIdentify: string,
         status: string,
         direction: AdditionalFieldDirections,
         currencyIds: number[],
@@ -55,6 +56,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
     createAdditionalField,
 }) => {
     const [fieldName, setFieldName] = React.useState('');
+    const [identifier, setIdentifier] = React.useState('');
     const [currencyIds, setCurrencyIds] = React.useState<string[]>();
     const [additionalFieldType, setAdditionalFieldType] = React.useState<'SOURCE' | 'TARGET'>();
 
@@ -69,6 +71,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
 
     const onCloseModal = () => {
         setFieldName('');
+        setIdentifier('');
         setCurrencyIds([]);
         setAdditionalFieldType(undefined);
         onClose();
@@ -76,7 +79,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
 
     const handleSubmit = () => {
         if (fieldName && currencyIds?.length && additionalFieldType) {
-            createAdditionalField(fieldName, 'ACTIVE', additionalFieldType, numerize(currencyIds));
+            createAdditionalField(fieldName, identifier, 'ACTIVE', additionalFieldType, numerize(currencyIds));
         }
 
         onCloseModal();
@@ -90,6 +93,12 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     label="Название поля"
                     value={fieldName}
                     onChange={(e) => setFieldName(e.target.value)}
+                />
+
+                <StyledTextField
+                    label="Идентификатор"
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
                 />
 
                 <Select
@@ -114,7 +123,7 @@ export const AddAdditionalFieldModal: React.FC<AddAdditionalFieldModalProps> = (
                     stretch
                     onClick={handleSubmit}
                     onKeyDown={handleSubmit}
-                    disabled={!fieldName || !currencyIds?.length || !additionalFieldType}
+                    disabled={!fieldName || !identifier || !currencyIds?.length || !additionalFieldType}
                 />
             </Content>
         </StyledModal>
