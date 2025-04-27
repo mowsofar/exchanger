@@ -43,6 +43,12 @@ export const TextFieldGrey = styled(TextFieldPlasma)`
 
     & input {
         padding-top: 20px;
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus {
+            transition: background-color 5000s ease-in-out 0s !important;
+        }
     }
 
     > div:last-child > div > div > div {
