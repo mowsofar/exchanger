@@ -13,7 +13,7 @@ export const StyledLayout = styled.div`
     z-index: 1;
 
     @media (max-width: 1300px) {
-        flex-direction: column;
+        flex-direction: column-reverse;
         row-gap: 5rem;
         overflow: scroll;
         align-items: center;

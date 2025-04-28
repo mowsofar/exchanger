@@ -4,8 +4,16 @@ import { useMainPage } from './MainPage.hooks';
 import { StyledDescription, StyledLayout } from './MainPage.styled';
 
 export const MainPage: React.FC = () => {
-    const { getExchangeCourse, setSourceCurrency, setTargetCurrency, handleChangeCurrencies, error, setError } =
-        useMainPage();
+    const {
+        getExchangeCourse,
+        setSourceCurrency,
+        setTargetCurrency,
+        handleChangeCurrencies,
+        error,
+        setError,
+        isLoading,
+        isLoadingTargetCurrency,
+    } = useMainPage();
 
     return (
         <>
@@ -16,6 +24,8 @@ export const MainPage: React.FC = () => {
             <StyledLayout>
                 <StyledDescription>Обменивайте быстро, безопасно и выгодно</StyledDescription>
                 <ExchangeModal
+                    isLoading={isLoading}
+                    isLoadingTargetCurrency={isLoadingTargetCurrency}
                     getExchangeCourse={getExchangeCourse}
                     setSourceCurrency={setSourceCurrency}
                     setTargetCurrency={setTargetCurrency}

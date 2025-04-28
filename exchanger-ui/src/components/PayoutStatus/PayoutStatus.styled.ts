@@ -14,6 +14,12 @@ export const StyledLayout = styled.div`
     @media (max-width: 1000px) {
        width: 80%;
     }
+
+    @media (max-width: 450px) {
+       padding: 1rem;
+       height: fit-content;
+       border-radius: 2.3rem;
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -22,6 +28,11 @@ export const StyledContent = styled.div`
     row-gap: 6rem;
     padding: 2rem;
     flex-grow: 1;
+
+    @media (max-width: 450px) {
+       row-gap: 2rem;
+       padding: 1.5rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
@@ -32,6 +43,10 @@ export const StyledHeader = styled.div`
 
     & span {
         color: var(--accent);
+    }
+
+    @media (max-width: 450px) {
+       font-size: 2rem;
     }
 `;
 
@@ -44,6 +59,10 @@ export const StyledIconStatus = styled.img`
 export const StyledSpinner = styled.div`
     margin-top: 10rem;
     align-self: center;
+
+    @media (max-width: 450px) {
+       margin-top: 5rem;
+    }
 `;
 
 export const StyledButton = styled(Button)`
@@ -79,4 +98,8 @@ export const StyledDescription = styled.div`
     padding: 3rem;
     margin-top: auto;
     text-align: center;
+
+    @media (max-width: 450px) {
+       font-size: 1.5rem;
+    }
 `;

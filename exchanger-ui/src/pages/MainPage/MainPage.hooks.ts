@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies } from '../../api/handlers';
+import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies, getXmlExchangeDirections } from '../../api/handlers';
 import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
@@ -11,7 +11,20 @@ export const useMainPage = () => {
     const tagretCurrency = useStore($targetCurrency);
     const sourceAmount = useStore($amountFrom);
 
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoadingTargetCurrency, setIsLoadingTargetCurrency] = React.useState(false);
     const [error, setError] = React.useState('');
+
+    const parseUrlParams = () => {
+        if (typeof window === 'undefined') return null;
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const from = urlParams.get('cur_from');
+        const to = urlParams.get('cur_to');
+        const ref = urlParams.get('ref');
+        
+        return { from, to, ref };
+      };
 
     const getAccountInfo = React.useCallback(async () => {
         try {
@@ -19,45 +32,86 @@ export const useMainPage = () => {
         } catch {}
     }, []);
 
-    const getCurrencies = React.useCallback(async () => {
-        try {
-            $payout.set(null);
-            const sourceCurrencies = await getLeftColumnCurrencies();
-            $sourceCurrencies.set(sourceCurrencies);
-            $sourceCurrency.set(sourceCurrencies[0]);
-    
-            const targetCurrencies = await getRightColumnCurrencies(sourceCurrencies[0].id);
-            $targetCurrencies.set(targetCurrencies);
-            $targetCurrency.set(targetCurrencies[0]);
-    
-            const exchangeDirections = await getExchangeDirections(sourceCurrencies[0].id, targetCurrencies[0].id);
-            $exchangeDirection.set(exchangeDirections);
-            $amountFrom.set(
-                formatNumberWithDecimalPlaces(
-                    exchangeDirections.minSourceAmount,
-                    sourceCurrencies[0].decimalPlaces
-                )
-            );
-    
-            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(sourceCurrencies[0].id, targetCurrencies[0].id);
-            $course.set(exchangeDirectionsCourse);
-
-            let calculatedAmount: number;
-
-            if (exchangeDirectionsCourse.isReversed) {
-                calculatedAmount = exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course;
-            } else {
-                calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
-            }
+    const getCurrencies = React.useCallback(() => {
+        $payout.set(null);
         
-            // Используем decimalPlaces для форматирования
-            $amountTo.set(
-                formatNumberWithDecimalPlaces(
-                calculatedAmount,
-                targetCurrencies[0].decimalPlaces
-                )
-            );
-        } catch {}
+        getLeftColumnCurrencies()
+            .then(sourceCurrencies => {
+                $sourceCurrencies.set(sourceCurrencies);
+                if (!sourceCurrencies.length) return;
+    
+                const urlParams = parseUrlParams();
+    
+                let initialSource = sourceCurrencies[0];
+                let initialTarget: Currency;
+    
+                const getTargetCurrencies = (sourceId: number) => {
+                    return getRightColumnCurrencies(sourceId).then(targets => {
+                        $targetCurrencies.set(targets);
+                        return targets;
+                    });
+                };
+    
+                if (urlParams?.from && urlParams?.to && urlParams?.ref) {
+                    initialSource = sourceCurrencies.find(c => c.xmlCode === urlParams.from) || initialSource;
+                    
+                    return getTargetCurrencies(initialSource.id).then(targetCurrencies => {
+                        initialTarget = targetCurrencies.find(c => c.xmlCode === urlParams.to!) || targetCurrencies[0];
+                        
+                        const from = urlParams.from!;
+                        const to = urlParams.to!;
+                        const ref = urlParams.ref!;
+                        
+                        return Promise.all([
+                            getXmlExchangeDirections(from, to, ref)
+                                .then(([firstDirection]) => firstDirection),
+                            getExchangeDirectionsCourse(initialSource.id, initialTarget.id)
+                        ]);
+                    }).then(([exchangeDirections, exchangeDirectionsCourse]) => {
+                        return { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget };
+                    });
+                } else {
+                    return getTargetCurrencies(initialSource.id).then(targetCurrencies => {
+                        initialTarget = targetCurrencies[0];
+                        
+                        return Promise.all([
+                            getExchangeDirections(initialSource.id, initialTarget.id),
+                            getExchangeDirectionsCourse(initialSource.id, initialTarget.id)
+                        ]).then(([exchangeDirections, exchangeDirectionsCourse]) => {
+                            return { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget };
+                        });
+                    });
+                }
+            })
+            .then(result => {
+                if (!result) return;
+                
+                const { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget } = result;
+                
+                $sourceCurrency.set(initialSource);
+                $targetCurrency.set(initialTarget);
+                $exchangeDirection.set(exchangeDirections);
+                $course.set(exchangeDirectionsCourse);
+    
+                const formatAmount = (value: number, decimals: number) => 
+                    formatNumberWithDecimalPlaces(value, decimals);
+    
+                const minAmount = formatAmount(
+                    exchangeDirections.minSourceAmount,
+                    initialSource.decimalPlaces
+                );
+                $amountFrom.set(minAmount);
+    
+                const calculatedAmount = exchangeDirectionsCourse.isReversed
+                    ? exchangeDirections.minSourceAmount / exchangeDirectionsCourse.course
+                    : exchangeDirections.minSourceAmount * exchangeDirectionsCourse.course;
+    
+                $amountTo.set(formatAmount(calculatedAmount, initialTarget.decimalPlaces));
+            })
+            .catch(error => {
+                console.error('Error in getCurrencies:', error);
+            })
+            .finally(() => setIsLoading(false));
     }, []);
 
     const getExchangeCourse = React.useCallback(async (sourceId: number, targetId: number) => {
@@ -87,6 +141,8 @@ export const useMainPage = () => {
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
         try {
+            setIsLoading(true);
+            setIsLoadingTargetCurrency(true);
             $exchangeError.set(false);
             setError('');
             const targetCurrencies = await getRightColumnCurrencies(sourceCurrency.id);
@@ -124,11 +180,16 @@ export const useMainPage = () => {
                     targetCurrencies[0]?.decimalPlaces
                 )
             );
-        } catch {}
+        } catch {} finally {
+            setIsLoading(false);
+            setIsLoadingTargetCurrency(false);
+        }
     }, [tagretCurrency]);
 
     const setTargetCurrency = React.useCallback(async (tagretCurrency: Currency) => {
         try {
+            setIsLoading(true);
+
             $exchangeError.set(false);
             setError('');
             const sourceCurrency = $sourceCurrency.get();
@@ -163,27 +224,27 @@ export const useMainPage = () => {
                     )
                 );
             }
-        } catch {}
+        } catch {} finally {
+            setIsLoading(false);
+        }
     }, []);
 
-    const handleChangeCurrencies = React.useCallback(async (sourceCurrency: Currency, tagretCurrency: Currency) => {
-        try {
-            const targetCurrencies = await getRightColumnCurrencies(tagretCurrency.id);
+    const handleChangeCurrencies = React.useCallback((sourceCurrency: Currency, tagretCurrency: Currency) => {
+        setIsLoading(true);
+
+        Promise.all([
+            getRightColumnCurrencies(tagretCurrency.id),
+            getExchangeDirections(tagretCurrency.id, sourceCurrency.id),
+            getExchangeDirectionsCourse(tagretCurrency.id, sourceCurrency.id)
+        ])
+        .then(([targetCurrencies, exchangeDirections, exchangeDirectionsCourse]) => {
             $targetCurrencies.set(targetCurrencies);
-    
-            $sourceCurrency.set(sourceCurrency);
-            $targetCurrency.set(tagretCurrency);
-    
-            $exchangeError.set(false);
-            const exchangeDirections = await getExchangeDirections(tagretCurrency.id, sourceCurrency.id);
-            $sourceCurrency.set(tagretCurrency);
+            $sourceCurrency.set(tagretCurrency);  // Меняем местами валюты
             $targetCurrency.set(sourceCurrency);
+            $exchangeError.set(false);
             $exchangeDirection.set(exchangeDirections);
-    
-            const exchangeDirectionsCourse = await getExchangeDirectionsCourse(tagretCurrency.id, sourceCurrency.id);
             $course.set(exchangeDirectionsCourse);
-            
-            // Используем decimalPlaces новой исходной валюты (бывшей целевой)
+    
             $amountFrom.set(
                 formatNumberWithDecimalPlaces(
                     exchangeDirections.minSourceAmount,
@@ -197,17 +258,17 @@ export const useMainPage = () => {
             } else {
                 calculatedAmount = exchangeDirectionsCourse.course * exchangeDirections.minSourceAmount;
             }
-            
-            // Используем decimalPlaces новой целевой валюты (бывшей исходной)
+    
             $amountTo.set(
                 formatNumberWithDecimalPlaces(
                     calculatedAmount,
                     sourceCurrency.decimalPlaces
                 )
             );
-        } catch {
-            setError('Выбранного направления не существует.')
-        }
+        })
+        .catch(() => {
+            setError('Выбранного направления не существует.');
+        }).finally(() => setIsLoading(false));
     }, []);
 
     React.useEffect(() => {
@@ -234,6 +295,6 @@ export const useMainPage = () => {
 
 
     return {
-        getExchangeCourse, setSourceCurrency, setTargetCurrency, handleChangeCurrencies, error, setError
+        isLoading, isLoadingTargetCurrency, getExchangeCourse, setSourceCurrency, setTargetCurrency, handleChangeCurrencies, error, setError
     };
 };

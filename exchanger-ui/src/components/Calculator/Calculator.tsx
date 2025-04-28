@@ -1,6 +1,7 @@
 import {
     ExchangeInfo,
     InputContainer,
+    SpinnerWrapper,
     StyledCard,
     StyledCardName,
     StyledError,
@@ -30,8 +31,11 @@ import {
     formatNumberWithDecimalPlaces,
     formatToSubmit,
 } from '../../utils/formatNumber';
+import { Spinner } from '@salutejs/plasma-web';
 
 interface Props {
+    isLoading: boolean;
+    isLoadingTargetCurrency: boolean;
     handleClickSourceCurrency: () => void;
     handleClickTargetCurrency: () => void;
     handleChangeCurrencies: (sourceCurrency: Currency, targetCurrency: Currency) => void;
@@ -40,6 +44,8 @@ interface Props {
 }
 
 export const Calculator: React.FC<Props> = ({
+    isLoading,
+    isLoadingTargetCurrency,
     handleClickSourceCurrency,
     handleClickTargetCurrency,
     handleChangeCurrencies,
@@ -157,13 +163,19 @@ export const Calculator: React.FC<Props> = ({
             </ExchangeInfo>
             <StyledRoot>
                 <SwapButton onClick={() => onChangeCurrencies()}>
-                    <StyledIcon />
+                    {Boolean(isLoading) && (
+                        <SpinnerWrapper>
+                            <Spinner size={32} color="black" />
+                        </SpinnerWrapper>
+                    )}
+
+                    {!Boolean(isLoading) && <StyledIcon />}
                 </SwapButton>
                 <StyledCard>
                     <StyledCardName>Отдаёте</StyledCardName>
                     <InputContainer>
                         <StyledInput value={amountFrom} onChange={handleChangeSourceAmount} />
-                        {sourceCurrency && (
+                        {sourceCurrency && targetCurrency && (
                             <StyledSelect
                                 contentLeft={sourceCurrency?.paymentSystem.imagePath}
                                 onClick={onClickSourceCurrency}
@@ -178,8 +190,9 @@ export const Calculator: React.FC<Props> = ({
                     <StyledCardName>Получаете</StyledCardName>
                     <InputContainer>
                         <StyledInput value={amountTo} onChange={handleChangeTargetAmount} />
-                        {targetCurrency && (
+                        {targetCurrency && sourceCurrency && (
                             <StyledSelect
+                                isLoading={isLoadingTargetCurrency}
                                 contentLeft={targetCurrency?.paymentSystem.imagePath}
                                 onClick={onClickTargetCurrency}
                             >

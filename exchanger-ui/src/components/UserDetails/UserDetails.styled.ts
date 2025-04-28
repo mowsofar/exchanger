@@ -19,6 +19,8 @@ export const StyledLayout = styled.div`
 
     @media (max-width: 450px) {
        padding: 1rem;
+       min-height: fit-content;
+       border-radius: 2.3rem;
     }
 `;
 
@@ -31,6 +33,7 @@ export const StyledForm = styled.form`
 
     @media (max-width: 450px) {
        row-gap: 4rem;
+       padding: 1.5rem;
     }
 `;
 

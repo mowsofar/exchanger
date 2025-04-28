@@ -37,6 +37,26 @@ function requestToApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
+function requestToApiWithCookies(
+    endpoint: string,
+    options: Partial<RequestInit>,
+    body?: unknown,
+) {
+    const requestOptions: RequestInit = {
+        ...options,
+        method: options?.method,
+        credentials: 'include',
+        headers: {
+            ...options?.headers,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
+}
+
+
 function requestToAccountApi(
     endpoint: string,
 ) {
@@ -82,6 +102,7 @@ export async function createPayout(srcCurrencyId: number, targetCurrencyId: numb
     try {
       const response = await fetch('https://server.kykyshka.com/api/payouts', {
         method: 'POST',
+        credentials: 'include',
         headers: headers,
         body: JSON.stringify({ srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email }),
       });
@@ -161,6 +182,10 @@ export function getCurrency(currencyId: number): Promise<Currency> {
 
 export function getExchangeDirections(sourceId: number, targetId: number): Promise<ExchangeDirection> {
     return requestToApi(`api/exchange-directions/admin/${sourceId}/${targetId}`, { method: 'GET' });
+}
+
+export function getXmlExchangeDirections(sourceXml: string, targetXml: string, ref: string): Promise<ExchangeDirection[]> {
+    return requestToApiWithCookies(`api/exchange-directions/${sourceXml}/${targetXml}?ref=${ref}`, { method: 'GET' });
 }
 
 export function getExchangeDirectionsCourse(sourceId: number, targetId: number): Promise<Course> {

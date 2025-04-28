@@ -14,6 +14,12 @@ export const StyledLayout = styled.div`
     @media (max-width: 1000px) {
        width: 80%;
     }
+
+    @media (max-width: 450px) {
+       padding: 1rem;
+       min-height: fit-content;
+       border-radius: 2.3rem;
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -22,18 +28,30 @@ export const StyledContent = styled.div`
     row-gap: 2.5rem;
     padding: 2rem;
     flex-grow: 1;
+
+    @media (max-width: 450px) {
+       padding: 1.5rem;
+    }
 `;
 
 export const StyledHeader = styled.div`
     font-size: 2.5rem;
     font-weight: 600;
     color: var(--accent);
+
+    @media (max-width: 450px) {
+       font-size: 1.8rem;
+    }
 `;
 
 export const StyledText = styled.div`
     color: white;
     font-size: 2.3rem;
     font-weight: 600;
+
+    @media (max-width: 450px) {
+       font-size: 1.8rem;
+    }
 `;
 
 export const StyledButton = styled(Button)`
@@ -51,17 +69,30 @@ export const RequisiesButton = styled(Button)`
     border-radius: 1.2rem;
     font-size: 1.7rem;
     height: 4rem;
+
+    @media (max-width: 450px) {
+       font-size: 1.6rem;
+       width: 20rem;
+    }
 `;
 
 export const StyledDescription = styled.div`
     color: var(--backgroundTertiary);
     font-size: 1.6rem;
+
+    @media (max-width: 450px) {
+       font-size: 1.3rem;
+    }
 `;
 
 export const StyledBlackDescription = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
     color: white;
+
+    @media (max-width: 450px) {
+       font-size: 1.4rem;
+    }
 `;
 
 export const StyledAmount = styled.div`
@@ -79,6 +110,16 @@ export const StyledAmount = styled.div`
         color: white;
         font-size: 2.7rem;
         font-weight: 600;
+    }
+
+    @media (max-width: 450px) {
+        & div:first-child {
+            font-size: 1.5rem;
+        }
+        
+        & div:last-child {
+            font-size: 2rem;
+        }
     }
 `;
 
@@ -111,6 +152,12 @@ export const Requisites = styled.div`
         font-weight: 600;
         color: white;
     }
+
+    @media (max-width: 450px) {
+        & div:nth-child(1) {
+            font-size: 1.5rem;
+        }
+    }
 `;
 
 export const Badge = styled.div`
@@ -122,6 +169,10 @@ export const Badge = styled.div`
     column-gap: 15px;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 450px) {
+       border-radius: 2rem;
+    }
 `;
 
 export const ButtonCopy = styled(PlasmaButton)`
@@ -143,6 +194,12 @@ export const UploadBlock = styled.div`
         font-size: 1.7rem;
         font-weight: 600;
         color: white;
+    }
+
+    @media (max-width: 450px) {
+        & div:nth-child(1) {
+            font-size: 1.5rem;
+        }
     }
 `;
 
@@ -170,6 +227,10 @@ export const Preview = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media (max-width: 450px) {
+       font-size: 1.4rem;
+    }
 `;
 
 export const StyledUpload = styled(Upload)`

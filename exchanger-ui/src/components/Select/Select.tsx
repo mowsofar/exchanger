@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
 import { IconChevronDown } from '@salutejs/plasma-icons';
+import { Spinner } from '@salutejs/plasma-web';
 
 const StyledSelect = styled.div`
     font-size: 1rem;
@@ -68,22 +69,44 @@ const StyledImage = styled.img`
     }
 `;
 
+const SpinnerWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & svg {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+`;
+
 interface Props {
-    text?: string;
     children: React.ReactNode;
-    contentLeft?: any;
     onClick: () => void;
+    contentLeft?: any;
+    isLoading?: boolean;
+    text?: string;
     className?: string;
 }
 
-export const Select: React.FC<Props> = ({ className, contentLeft, text, onClick, children }) => {
+export const Select: React.FC<Props> = ({ className, contentLeft, text, onClick, children, isLoading }) => {
     return (
         <StyledSelect onClick={onClick} className={className}>
-            <StyledButton>
-                <StyledImage src={contentLeft} />
-                <StyledText>{children}</StyledText>
-                <StyledIcon color="white" />
-            </StyledButton>
+            {Boolean(!isLoading) && (
+                <StyledButton>
+                    <StyledImage src={contentLeft} />
+                    <StyledText>{children}</StyledText>
+                    <StyledIcon color="white" />
+                </StyledButton>
+            )}
+
+            {Boolean(isLoading) && (
+                <StyledButton>
+                    <SpinnerWrapper>
+                        <Spinner size={30} color="white" />
+                    </SpinnerWrapper>
+                </StyledButton>
+            )}
         </StyledSelect>
     );
 };

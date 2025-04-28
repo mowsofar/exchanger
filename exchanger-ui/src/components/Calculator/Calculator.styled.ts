@@ -107,6 +107,17 @@ export const SwapButton = styled.div`
     }
 `;
 
+export const SpinnerWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+        height: 2rem !important;
+        width: 2rem !important;
+    }
+`;
+
 export const StyledError = styled.div`
     color: white;
     font-weight: 600;

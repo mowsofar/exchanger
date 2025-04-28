@@ -16,6 +16,8 @@ import {
 } from '../../stores/currencies.store';
 
 interface ExchangeModalProps {
+    isLoading: boolean;
+    isLoadingTargetCurrency: boolean;
     getExchangeCourse: (sourceId: number, targetId: number) => void;
     setSourceCurrency: (sourceCurrency: Currency) => void;
     setTargetCurrency: (targetCurrency: Currency) => void;
@@ -25,6 +27,8 @@ interface ExchangeModalProps {
 }
 
 export const ExchangeModal: React.FC<ExchangeModalProps> = ({
+    isLoading,
+    isLoadingTargetCurrency,
     getExchangeCourse,
     setSourceCurrency,
     setTargetCurrency,
@@ -52,6 +56,8 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
             <StyledHeader>Калькулятор</StyledHeader>
             <CurrencyRate onComplete={getExchangeCourse} />
             <Calculator
+                isLoading={isLoading}
+                isLoadingTargetCurrency={isLoadingTargetCurrency}
                 handleClickSourceCurrency={() => setCurrencyModalOpen(true)}
                 handleClickTargetCurrency={() => setCurrencyModalOpen(true)}
                 handleChangeCurrencies={handleChangeCurrencies}

@@ -44,7 +44,8 @@ export const StyledButton = styled(Button)`
 `;
 
 export const CurrenciesList = styled.div`
-    overflow: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     height: 35rem;
     font-size: 1.8rem;
     padding: 0;

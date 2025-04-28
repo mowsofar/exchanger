@@ -11,9 +11,18 @@ const StyledButton = styled.button`
     font-weight: 600;
     font-family: Onest;
     cursor: pointer;
+    color: black;
 
     &:hover {
         background-color: var(--lightAccent);
+    }
+
+    &:disabled {
+        color: var(--backgroundTertiary);
+
+        &:hover {
+            background-color: var(--accent);
+        }
     }
 `;
 
