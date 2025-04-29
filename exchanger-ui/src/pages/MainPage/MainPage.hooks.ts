@@ -141,7 +141,6 @@ export const useMainPage = () => {
 
     const setSourceCurrency = React.useCallback(async (sourceCurrency: Currency) => {
         try {
-            setIsLoading(true);
             setIsLoadingTargetCurrency(true);
             $exchangeError.set(false);
             setError('');
@@ -181,7 +180,6 @@ export const useMainPage = () => {
                 )
             );
         } catch {} finally {
-            setIsLoading(false);
             setIsLoadingTargetCurrency(false);
         }
     }, [tagretCurrency]);

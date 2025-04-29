@@ -18,6 +18,7 @@ export const StyledCard = styled.div`
     border-radius: 2rem;
     padding: 1.5rem 2rem 2rem 2rem;
     overflow: hidden;
+    position: relative;
 
     @media only screen and (max-width: 820px) {
         row-gap: 1rem;
@@ -41,16 +42,15 @@ export const InputContainer = styled.div`
     display: flex;
     justify-content: space-between;
     column-gap: 2rem;
-    position: relative;
 `;
 
 export const StyledSelect = styled(Select)`
     position: absolute;
     right: 1rem;
-    bottom: 1.2rem;
+    bottom: 3rem;
 
-    @media only screen and (max-width: 450px) {
-        bottom: .5rem;
+    @media only screen and (max-width: 820px) {
+        bottom: 2.7rem;
     }
 `;
 
@@ -62,6 +62,7 @@ export const StyledInput = styled.input`
     font-size: 3.6rem;
     font-weight: 500;
     width: 60%;
+    height: 4.4rem;
     overflow-x: scroll;
 
     &:hover, &:active, &:focus {
@@ -79,11 +80,13 @@ export const StyledInput = styled.input`
 
     @media only screen and (max-width: 820px) {
        font-size: 2.8rem;
+       height: 3.6rem;
        width: 75%;
     }
 
     @media only screen and (max-width: 450px) {
        font-size: 2.5rem;
+       height: 3.2rem;
        width: 70%;
     }
 `;
@@ -101,6 +104,7 @@ export const SwapButton = styled.div`
     top: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
+    z-index: 1;
 
     &:hover {
         background-color: var(--lightAccent);
@@ -129,6 +133,7 @@ export const ExchangeInfo = styled.div`
     color: white;
     font-weight: 600;
     font-size: 1.6rem;
+    min-height: 2rem;
     text-align: center;
     display: flex;
     justify-content: space-between;
@@ -138,10 +143,29 @@ export const ExchangeInfo = styled.div`
 
     @media only screen and (max-width: 450px) {
        font-size: 1.4rem;
+       min-height: 1.7rem;
     }
 `;
 
 export const StyledIcon = styled(IconSwapVert)`
     width: 5rem;
     height: 5rem;
+`;
+
+export const Skeleton = styled.div`
+    background-color: #171717;
+    border-radius: 1.5rem;
+    height: 4.4rem;
+    width: 20rem;
+
+    @media only screen and (max-width: 820px) {
+        height: 3.6rem;
+        width: 15rem;
+        border-radius: 1.2rem;
+    }
+
+    @media only screen and (max-width: 450px) {
+        height: 3.2rem;
+        width: 15rem;
+    }
 `;

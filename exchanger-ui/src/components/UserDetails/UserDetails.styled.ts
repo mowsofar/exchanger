@@ -5,8 +5,8 @@ import { Button as PlasmaButton} from '@salutejs/plasma-web';
 import { Link } from 'react-router-dom';
 
 export const StyledLayout = styled.div`
-    min-height: 70rem;
-    width: 90rem;
+    min-height: 65rem;
+    width: 85rem;
     border-radius: 3rem;
     background-color: var(--backgroundSecondary);
     padding: 2rem;

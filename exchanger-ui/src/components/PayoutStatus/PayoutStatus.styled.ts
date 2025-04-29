@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { Button as PlasmaButton } from '@salutejs/plasma-web';
 
 export const StyledLayout = styled.div`
-    height: 70rem;
+    min-height: 65rem;
     width: 90rem;
     border-radius: 3rem;
     background-color: var(--backgroundSecondary);
@@ -23,7 +23,7 @@ export const StyledLayout = styled.div`
 `;
 
 export const StyledContent = styled.div`
-   display: flex;
+    display: flex;
     flex-direction: column;
     row-gap: 6rem;
     padding: 2rem;

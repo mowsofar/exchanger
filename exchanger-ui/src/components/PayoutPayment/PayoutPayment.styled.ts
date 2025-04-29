@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { Button as PlasmaButton, Upload } from '@salutejs/plasma-web';
 
 export const StyledLayout = styled.div`
-    min-height: 70rem;
+    min-height: 65rem;
     width: 90rem;
     border-radius: 2.8rem;
     background-color: var(--backgroundSecondary);

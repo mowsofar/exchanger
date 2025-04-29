@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const StyledRoot = styled.div`
-    height: 70rem;
-    width: 40rem;
+    height: 65rem;
+    width: 38rem;
     border-radius: 23px;
     background-color: var(--backgroundSecondary);
     padding: 15px;

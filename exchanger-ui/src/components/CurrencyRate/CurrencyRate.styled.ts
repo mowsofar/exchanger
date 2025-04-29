@@ -58,8 +58,18 @@ export const Circle = styled.circle`
 `;
 
 export const Skeleton = styled.div`
-    background-color: var(--backgroundSecondary);
-    border-radius: 2rem;
-    height: 4.6rem;
-    width: 8rem;
+    background-color: #171717;
+    border-radius: 1rem;
+    height: 2.8rem;
+    width: 26rem;
+
+    @media only screen and (max-width: 820px) {
+        height: 2.5rem;
+        width: 22rem;
+    }
+
+    @media only screen and (max-width: 450px) {
+        height: 2rem;
+        width: 20rem;
+    }
 `;

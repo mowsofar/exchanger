@@ -1,6 +1,7 @@
 import {
     ExchangeInfo,
     InputContainer,
+    Skeleton,
     SpinnerWrapper,
     StyledCard,
     StyledCardName,
@@ -152,53 +153,59 @@ export const Calculator: React.FC<Props> = ({
     return (
         <>
             <ExchangeInfo>
-                <div>
-                    Мин: {formatNumber(exchangeDirection?.minSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
-                    {sourceCurrency?.currencyCode.code}
-                </div>
-                <div>
-                    Макс: {formatNumber(exchangeDirection?.maxSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
-                    {sourceCurrency?.currencyCode.code}
-                </div>
+                {exchangeDirection?.minSourceAmount && (
+                    <div>
+                        Мин: {formatNumber(exchangeDirection?.minSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
+                        {sourceCurrency?.currencyCode.code}
+                    </div>
+                )}
+
+                {exchangeDirection?.maxSourceAmount && (
+                    <div>
+                        Макс: {formatNumber(exchangeDirection?.maxSourceAmount, sourceCurrency?.decimalPlaces)}{' '}
+                        {sourceCurrency?.currencyCode.code}
+                    </div>
+                )}
             </ExchangeInfo>
             <StyledRoot>
                 <SwapButton onClick={() => onChangeCurrencies()}>
-                    {Boolean(isLoading) && (
+                    {(Boolean(isLoading) || Boolean(isLoadingTargetCurrency)) && (
                         <SpinnerWrapper>
                             <Spinner size={32} color="black" />
                         </SpinnerWrapper>
                     )}
 
-                    {!Boolean(isLoading) && <StyledIcon />}
+                    {!Boolean(isLoading) && !Boolean(isLoadingTargetCurrency) && <StyledIcon />}
                 </SwapButton>
                 <StyledCard>
                     <StyledCardName>Отдаёте</StyledCardName>
                     <InputContainer>
-                        <StyledInput value={amountFrom} onChange={handleChangeSourceAmount} />
-                        {sourceCurrency && targetCurrency && (
-                            <StyledSelect
-                                contentLeft={sourceCurrency?.paymentSystem.imagePath}
-                                onClick={onClickSourceCurrency}
-                            >
-                                {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
-                            </StyledSelect>
-                        )}
+                        {Boolean(isLoading) && <Skeleton />}
+                        {Boolean(!isLoading) && <StyledInput value={amountFrom} onChange={handleChangeSourceAmount} />}
+
+                        <StyledSelect
+                            isLoading={isLoading}
+                            contentLeft={sourceCurrency?.paymentSystem.imagePath}
+                            onClick={onClickSourceCurrency}
+                        >
+                            {`${sourceCurrency?.paymentSystem.name} ${sourceCurrency?.currencyCode.code}`}
+                        </StyledSelect>
                     </InputContainer>
                 </StyledCard>
 
                 <StyledCard>
                     <StyledCardName>Получаете</StyledCardName>
                     <InputContainer>
-                        <StyledInput value={amountTo} onChange={handleChangeTargetAmount} />
-                        {targetCurrency && sourceCurrency && (
-                            <StyledSelect
-                                isLoading={isLoadingTargetCurrency}
-                                contentLeft={targetCurrency?.paymentSystem.imagePath}
-                                onClick={onClickTargetCurrency}
-                            >
-                                {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
-                            </StyledSelect>
-                        )}
+                        {Boolean(isLoading) && <Skeleton />}
+                        {Boolean(!isLoading) && <StyledInput value={amountTo} onChange={handleChangeTargetAmount} />}
+
+                        <StyledSelect
+                            isLoading={isLoadingTargetCurrency || isLoading}
+                            contentLeft={targetCurrency?.paymentSystem.imagePath}
+                            onClick={onClickTargetCurrency}
+                        >
+                            {`${targetCurrency?.paymentSystem.name} ${targetCurrency?.currencyCode.code}`}
+                        </StyledSelect>
                     </InputContainer>
                 </StyledCard>
             </StyledRoot>

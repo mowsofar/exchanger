@@ -34,7 +34,7 @@ const StyledButton = styled(Button)`
 
 const StyledText = styled.div`
     position: absolute;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     left: 15px;
     bottom: 10px;
     display: block;

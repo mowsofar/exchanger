@@ -22,7 +22,7 @@ const StyledNumber = styled.div<{ isActive: boolean }>`
     justify-content: center;
     font-family: Onest;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 
     @media (max-width: 1000px) {
         ${({ isActive }) =>
@@ -58,7 +58,7 @@ const StyledListItem = styled.div`
 const StyledItem = styled.div<{ isActive?: boolean }>`
     color: white;
     font-weight: 700;
-    font-size: 2.1rem;
+    font-size: 1.9rem;
     font-family: Onest;
     display: block;
     overflow: hidden;
