@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { $userPayouts } from '../../stores/user.store';
 import { getPayoutData } from '../../utils/getPayoutStatus';
 import { IconChevronRight } from '@salutejs/plasma-icons';
-import { Button } from '@salutejs/plasma-web';
+import { Button, Spinner } from '@salutejs/plasma-web';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import { formatCalculatorInput } from '../../utils/formatNumber';
@@ -149,13 +149,19 @@ const Plug = styled.div`
     color: var(--backgroundTertiary);
 `;
 
-export const PayoutsList = () => {
+const SpinnerWrapper = styled.div`
+    > div > div {
+        width: auto;
+        height: auto;
+    }
+`;
+interface PayoutsListProps {
+    isLoading: boolean;
+}
+
+export const PayoutsList: React.FC<PayoutsListProps> = ({ isLoading }) => {
     const payouts = useStore($userPayouts);
     const navigate = useNavigate();
-
-    if (payouts.length === 0) {
-        return <Plug>Нет активных заявок</Plug>;
-    }
 
     const handleClickMoreInfo = (payout: Payout) => {
         if (payout.status === 'CREATED' || payout.status === 'WAITING_FOR_REQUISITES') {
@@ -164,6 +170,20 @@ export const PayoutsList = () => {
             navigate(ROUTES.payoutStatus(payout.id));
         }
     };
+
+    if (isLoading) {
+        return (
+            <Plug>
+                <SpinnerWrapper>
+                    <Spinner size={50} color="#26c499" />
+                </SpinnerWrapper>
+            </Plug>
+        );
+    }
+
+    if (!payouts.length) {
+        return <Plug>Нет активных заявок</Plug>;
+    }
 
     return (
         <Payouts>
@@ -174,9 +194,9 @@ export const PayoutsList = () => {
                     <Root>
                         <Columns>
                             <Column>
-                                <PayoutId>№{payout.id}</PayoutId>
-                                <Status color={getPayoutData(payout.status).color}>
-                                    {getPayoutData(payout.status).label}
+                                <PayoutId>№{payout?.id}</PayoutId>
+                                <Status color={getPayoutData(payout?.status).color}>
+                                    {getPayoutData(payout?.status).label}
                                 </Status>
                                 <PayoutDate>{createdAt}</PayoutDate>
                             </Column>
@@ -184,20 +204,20 @@ export const PayoutsList = () => {
                             <Column>
                                 <Direction>
                                     <Icon src={payout.srcCurrency?.paymentSystem.imagePath} />
-                                    <div>{formatCalculatorInput(payout.amountFrom)}</div>
+                                    <div>{formatCalculatorInput(payout?.amountFrom)}</div>
                                     <div>{payout.srcCurrency?.currencyCode.code}</div>
 
                                     <IconChevronRight color="white" size="m" />
 
                                     <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
-                                    <div>{formatCalculatorInput(payout.amountTo)}</div>
+                                    <div>{formatCalculatorInput(payout?.amountTo)}</div>
                                     <div>{payout.targetCurrency?.currencyCode.code}</div>
                                 </Direction>
                             </Column>
 
                             <Column>
-                                <PayoutDescription>{payout.email}</PayoutDescription>
-                                <PayoutDescription>{payout.requisites?.replace(/.{4}\B/g, '$& ')}</PayoutDescription>
+                                <PayoutDescription>{payout?.email}</PayoutDescription>
+                                <PayoutDescription>{payout?.requisites}</PayoutDescription>
                             </Column>
 
                             <StyledButton view="clear" onClick={() => handleClickMoreInfo(payout)}>

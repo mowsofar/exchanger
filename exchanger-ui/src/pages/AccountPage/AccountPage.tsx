@@ -5,7 +5,7 @@ import { useUserAccountPage } from './AccountPage.hooks';
 import { Column, RightColumn, Root, StyledHeader, StyledLayout } from './AccountPage.styled';
 
 export const AccountPage: React.FC = () => {
-    useUserAccountPage();
+    const { isLoading } = useUserAccountPage();
 
     return (
         <>
@@ -21,7 +21,7 @@ export const AccountPage: React.FC = () => {
 
                     <RightColumn>
                         <StyledHeader>Мои заявки</StyledHeader>
-                        <PayoutsList />
+                        <PayoutsList isLoading={isLoading} />
                     </RightColumn>
                 </StyledLayout>
             </Root>

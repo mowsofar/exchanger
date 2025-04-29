@@ -112,7 +112,7 @@ export const OperationInfo: React.FC = () => {
             {payout?.requisites && (
                 <StyledCourse>
                     <div>Реквизиты:</div>
-                    <div>{payout?.requisites.replace(/.{4}\B/g, '$& ')}</div>
+                    <div>{payout?.requisites}</div>
                 </StyledCourse>
             )}
 

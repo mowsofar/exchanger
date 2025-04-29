@@ -9,10 +9,13 @@ import { PayoutStatus } from '../../api/types/common';
 export const useUserAccountPage = () => {
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const initialType = new URLSearchParams(window.location.search).get('type');
 
     const getUserInfo = React.useCallback(async () => {
         try {
+            setIsLoading(true);
             const user = await getAccount();
             localStorage.setItem('firstName', user?.firstname);
             localStorage.setItem('lastName', user?.lastname);
@@ -29,6 +32,8 @@ export const useUserAccountPage = () => {
             }
         } catch (error) {
             navigate(ROUTES.root);
+        } finally {
+            setIsLoading(false);
         }
         
     }, [initialType, navigate]);
@@ -36,4 +41,6 @@ export const useUserAccountPage = () => {
     React.useEffect(() => {
         getUserInfo();
     }, [getUserInfo]);
+
+    return { isLoading }
 };
