@@ -18,7 +18,7 @@ const StyledTextField = styled(TextField)`
 
     & > div {
         height: 4.5rem !important;
-        background: #222224 !important;
+        background: var(--backgroundFourth) !important;
         padding: 2rem !important;
         border-radius: 1.3rem !important;
     }
@@ -29,7 +29,7 @@ const StyledTextField = styled(TextField)`
 
     & input,
     div > div > div {
-        color: white !important;
+        color: var(--accentText) !important;
     }
 `;
 

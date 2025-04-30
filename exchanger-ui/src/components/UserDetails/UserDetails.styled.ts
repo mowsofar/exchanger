@@ -12,6 +12,9 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    -webkit-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
        width: 80%;
@@ -78,7 +81,7 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
             error &&
             css`
                 > div:first-child {
-                    box-shadow: 0 0 0 1.5px #B00000 !important;
+                    box-shadow: 0 0 0 1.5px #ff1c33 !important;
     }
             `}
 
@@ -86,7 +89,7 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
         padding: 1.8rem;
         height: 6.5rem !important;
         border-radius: 1.5rem;
-        background: var(--backgroundTertiary) !important;
+        background: var(--backgroundFourth) !important;
     }
 
     & > div:last-child {
@@ -103,7 +106,7 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
     }
 
     & input {
-        color: white !important;
+        color: var(--accentText) !important;
         font-weight: 600 !important;
     }
 
@@ -175,7 +178,7 @@ export const StyledCheckbox = styled(Checkbox)`
     }
 
     & span {
-        color: white;
+        color: var(--accentText);
     }
 
     & svg > path {

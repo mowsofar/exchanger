@@ -20,7 +20,7 @@ export const StyledAccordionItem = styled(AccordionItem)`
     border-radius: 1.5rem !important;
 
     > div > div > div {
-        color: white !important;
+        color: var(--accentText) !important;
         font-weight: 600;
         font-size: 1.8rem;
         font-family: Onest;
@@ -28,7 +28,7 @@ export const StyledAccordionItem = styled(AccordionItem)`
 
     > div > div:last-child {
         background-color: var(--backgroundTertiary);
-        color: whitesmoke;
+        color: var(--accentText);
         font-size: 1.6rem;
         border-radius: 1.2rem;
         line-height: 2.5rem;
@@ -37,7 +37,7 @@ export const StyledAccordionItem = styled(AccordionItem)`
     > button > div:last-child > div > div {
         width: 1.5rem;
         height: 1.5rem;
-        color: white;
+        color: var(--accentText);
         flex: none;
     }
 `;

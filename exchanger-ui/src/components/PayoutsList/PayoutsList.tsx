@@ -24,7 +24,7 @@ const Root = styled.div`
     width: 100%;
     background-color: var(--backgroundSecondary);
     border-radius: 2.5rem;
-    color: white;
+    color: var(--accentText);
     align-items: center;
 `;
 
@@ -64,6 +64,7 @@ const Status = styled.div<{ color: React.CSSProperties['background'] }>`
     font-size: 1.7rem;
     font-weight: 600;
     width: fit-content;
+    color: white;
 
     @media only screen and (max-width: 820px) {
         font-size: 1.5rem;
@@ -81,7 +82,7 @@ const PayoutDate = styled.div`
 `;
 
 const PayoutId = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 2rem;
     font-weight: 600;
 
@@ -91,7 +92,7 @@ const PayoutId = styled.div`
 `;
 
 const PayoutDescription = styled.div`
-    color: white;
+    color: var(--accentText);
     font-weight: 600;
     opacity: 0.8;
     font-size: 1.7rem;
@@ -117,6 +118,10 @@ const Direction = styled.div`
     @media only screen and (max-width: 820px) {
         font-size: 1.4rem;
     }
+`;
+
+const StyledIcon = styled(IconChevronRight)`
+    color: var(--accentText);
 `;
 
 const Icon = styled.img`
@@ -207,7 +212,7 @@ export const PayoutsList: React.FC<PayoutsListProps> = ({ isLoading }) => {
                                     <div>{formatCalculatorInput(payout?.amountFrom)}</div>
                                     <div>{payout.srcCurrency?.currencyCode.code}</div>
 
-                                    <IconChevronRight color="white" size="m" />
+                                    <StyledIcon size="m" />
 
                                     <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
                                     <div>{formatCalculatorInput(payout?.amountTo)}</div>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Select } from "../Select/Select";
 import { IconSwapVert } from "@salutejs/plasma-icons";
+import { Spinner } from "@salutejs/plasma-web";
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -30,7 +31,6 @@ export const StyledCard = styled.div`
 export const StyledCardName = styled.div`
     font-weight: 600;
     font-size: 1.8rem;
-    color: white;
     color: var(--accent);
 
     @media only screen and (max-width: 820px) {
@@ -58,7 +58,7 @@ export const StyledInput = styled.input`
     background-color: transparent;
     border: none;
     border-radius: inherit;
-    color: white;
+    color: var(--accentText);
     font-size: 3.6rem;
     font-weight: 500;
     width: 60%;
@@ -70,7 +70,7 @@ export const StyledInput = styled.input`
         background-color: transparent;
         border: none;
         border-radius: inherit;
-        color: white
+        color: var(--accentText);
     }
 
     &::-webkit-inner-spin-button {
@@ -122,15 +122,19 @@ export const SpinnerWrapper = styled.div`
     }
 `;
 
+export const StyledSpinner = styled(Spinner)`
+    color: ${props => props.theme.colors.text};
+`;
+
 export const StyledError = styled.div`
-    color: white;
+    color: var(--accentText);
     font-weight: 600;
     font-size: 1.6rem;
     text-align: center;
 `;
 
 export const ExchangeInfo = styled.div`
-    color: white;
+    color: var(--accentText);
     font-weight: 600;
     font-size: 1.6rem;
     min-height: 2rem;
@@ -150,10 +154,14 @@ export const ExchangeInfo = styled.div`
 export const StyledIcon = styled(IconSwapVert)`
     width: 5rem;
     height: 5rem;
+
+    & svg {
+        color: var(--text);
+    }
 `;
 
 export const Skeleton = styled.div`
-    background-color: #171717;
+    background-color: var(--skeleton);
     border-radius: 1.5rem;
     height: 4.4rem;
     width: 20rem;

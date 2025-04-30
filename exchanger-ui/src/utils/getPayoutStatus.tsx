@@ -116,13 +116,13 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
             return { label: 'В обработке', color: '#18181a' };
 
         case 'ERROR':
-            return { label: 'Ошибка', color: '#a4232f' };
+            return { label: 'Ошибка', color: '#ff1c33' };
 
         case 'CANCELLED':
-            return { label: 'Отклонена', color: '#a4232f' };
+            return { label: 'Отклонена', color: '#ff1c33' };
 
         case 'COMPLETED':
-            return { label: 'Завершена', color: '#458c34' };
+            return { label: 'Завершена', color: '#49b52e' };
 
         default:
             return { label: '', color: '#18181a' };

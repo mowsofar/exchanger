@@ -4,7 +4,7 @@ import { TextFieldPassword } from "../TextFieldPassword/TextFieldPassword";
 import { Button } from "../Button/Button";
 
 export const StyledModal = styled(Modal)`
-    background-color: #18181a;
+    background-color: var(--backgroundSecondary);
     width: 45rem;
     border-radius: 4rem;
     padding: 2rem 1rem;
@@ -14,7 +14,7 @@ export const StyledModal = styled(Modal)`
     & button > span > div {
         width: 5rem;
         height: 5rem;
-        color: white;
+        color: var(--accentText);
     }
 
     @media (max-width: 576px) {
@@ -36,7 +36,7 @@ export const Credentials = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 2.5rem;
     font-weight: 600;
     font-family: Onest;
@@ -51,7 +51,7 @@ export const StyledTextField = styled(TextField)`
         padding: 1.8rem;
         height: 6rem !important;
         border-radius: 1.3rem;
-        background: var(--backgroundTertiary) !important;
+        background: var(--backgroundFourth) !important;
     }
 
     & > div:last-child {
@@ -64,7 +64,7 @@ export const StyledTextField = styled(TextField)`
     }
 
     & input {
-        color: white !important;
+        color: var(--accentText) !important;
         font-weight: 600;
     }
 `;
@@ -78,7 +78,7 @@ export const StyledTextFieldPassword = styled(TextFieldPassword)`
         padding: 1.8rem;
         height: 6rem !important;
         border-radius: 1.3rem;
-        background: var(--backgroundTertiary) !important;
+        background: var(--backgroundFourth) !important;
     }
 
     & > div:last-child {
@@ -91,7 +91,7 @@ export const StyledTextFieldPassword = styled(TextFieldPassword)`
     }
 
     & input {
-        color: white !important;
+        color: var(--accentText) !important;
         font-weight: 600;
     }
 `;
@@ -115,7 +115,7 @@ export const Error = styled.div`
 `;
 
 export const Description = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 1.6rem;
     align-self: center;
 

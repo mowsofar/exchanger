@@ -7,6 +7,9 @@ export const StyledRoot = styled.div`
     background-color: var(--backgroundSecondary);
     padding: 15px;
     overflow-y: scroll;
+    -webkit-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     ::-webkit-scrollbar {
         -webkit-appearance: none;
@@ -25,12 +28,11 @@ export const StyledRoot = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 2.2rem;
     font-weight: 700;
     text-align: center;
     padding: 2rem;
-    color: white;
 
     @media (max-width: 1300px) {
         font-size: 1.8rem;
@@ -42,11 +44,11 @@ export const StyledCard = styled.div`
     justify-content: space-between;
     padding: 1.5rem;
     margin-bottom: 10px;
-    color: white;
+    color: var(--accentText);
     align-items: center;
     font-family: Onest;
     font-size: 2rem;
-    background-color: #393939;
+    background-color: var(--backgroundFourth);
     border-radius: 1.7rem;
 
     @media (max-width: 1300px) {
@@ -60,7 +62,6 @@ export const StyledCourse = styled(StyledCard)`
     display: flex;
     justify-content: space-between;
     padding: 2rem;
-    color: white;
     align-items: center;
     font-family: Onest;
     font-size: 1.7rem;
@@ -89,6 +90,9 @@ export const StyledAmountCard = styled.div`
 export const Amount = styled.div`
     font-weight: 600;
     font-size: 1.8rem;
+`;
+
+export const Title = styled.div`
     color: var(--accent);
 `;
 

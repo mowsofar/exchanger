@@ -11,6 +11,9 @@ export const StyledModal = styled.div`
     border-radius: 3rem;
     padding: 3rem 2rem;
     margin-bottom: 10rem;
+    -webkit-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1300px) {
         width: 85vw;
@@ -26,7 +29,7 @@ export const StyledModal = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 3rem;
     font-weight: 600;
     text-align: center;

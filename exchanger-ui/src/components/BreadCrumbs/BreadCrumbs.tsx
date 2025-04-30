@@ -17,6 +17,7 @@ const StyledNumber = styled.div<{ isActive: boolean }>`
     height: 3.5rem;
     border-radius: 3rem;
     background-color: var(--accent);
+    color: var(--text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,7 +57,7 @@ const StyledListItem = styled.div`
 `;
 
 const StyledItem = styled.div<{ isActive?: boolean }>`
-    color: white;
+    color: var(--accentText);
     font-weight: 700;
     font-size: 1.9rem;
     font-family: Onest;

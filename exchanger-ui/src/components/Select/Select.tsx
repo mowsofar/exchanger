@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
     height: 4.5rem;
     background-color: var(--backgroundSecondary);
     border: 2px solid var(--accent);
-    color: white;
+    color: var(--accentText);
 
     &:hover {
         background-color: var(--backgroundTertiary);
@@ -96,14 +96,14 @@ export const Select: React.FC<Props> = ({ className, contentLeft, text, onClick,
                 <StyledButton>
                     <StyledImage src={contentLeft} />
                     <StyledText>{children}</StyledText>
-                    <StyledIcon color="white" />
+                    <StyledIcon color="var(--accentText)" />
                 </StyledButton>
             )}
 
             {Boolean(isLoading) && (
                 <StyledButton>
                     <SpinnerWrapper>
-                        <Spinner size={30} color="white" />
+                        <Spinner size={30} color="var(--accentText)" />
                     </SpinnerWrapper>
                 </StyledButton>
             )}

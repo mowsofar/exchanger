@@ -7,6 +7,7 @@ import {
     StyledCourse,
     StyledHeader,
     StyledRoot,
+    Title,
 } from './OperationInfo.styled';
 import { useStore } from '@nanostores/react';
 import { $amountFrom, $amountTo, $course, $sourceCurrency, $targetCurrency } from '../../stores/currencies.store';
@@ -63,7 +64,7 @@ export const OperationInfo: React.FC = () => {
             <StyledHeader>Информация об операции</StyledHeader>
             <StyledCard>
                 <StyledAmountCard>
-                    <div>Отдаёте</div>
+                    <Title>Отдаёте</Title>
                     <Amount>
                         {payout?.amountFrom
                             ? formatAmount(payout.amountFrom, payout.srcCurrency || sourceCurrency)
@@ -80,7 +81,7 @@ export const OperationInfo: React.FC = () => {
 
             <StyledCard>
                 <StyledAmountCard>
-                    <div>Получаете</div>
+                    <Title>Получаете</Title>
                     <Amount>
                         {payout?.amountTo
                             ? formatAmount(payout.amountTo, payout.targetCurrency || targetCurrency)

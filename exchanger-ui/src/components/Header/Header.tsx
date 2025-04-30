@@ -12,6 +12,7 @@ import { Button as PlasmaButton, Popover } from '@salutejs/plasma-web';
 import { logout } from '../../api/handlers';
 import { logoutUser } from '../../api/tokenHandlers';
 import { AccountCard } from '../AccountCard/AccountCard';
+import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
 
 const StyledRoot = styled.div`
     background: transparent;
@@ -40,7 +41,7 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
     font-size: 1.9rem;
     z-index: 100;
 
-    @media (max-width: 820px) {
+    @media (max-width: 900px) {
         display: block;
         position: fixed;
         z-index: 1000;
@@ -55,8 +56,26 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
     }
 `;
 
+const ThemeSwitchButtons = styled(ThemeSwitch)<{ isActive: boolean }>`
+    @media (max-width: 900px) {
+        position: fixed;
+        z-index: 1000;
+        right: 4rem;
+        align-items: end;
+        bottom: 7rem;
+        right: 7.5rem;
+        top: 28rem;
+
+        ${({ isActive }) =>
+            !isActive &&
+            css`
+                display: none;
+            `}
+    }
+`;
+
 const LoginButton = styled(StyledButton)`
-    @media (max-width: 820px) {
+    @media (max-width: 900px) {
         right: 7rem;
     }
 `;
@@ -65,7 +84,7 @@ const LogoutButton = styled(StyledButton)`
     padding: 0 1.2rem;
     padding-top: 0.4rem;
 
-    @media (max-width: 820px) {
+    @media (max-width: 900px) {
         top: 25rem;
         right: 12rem;
     }
@@ -78,11 +97,11 @@ const Menu = styled.div<{ isActive: boolean }>`
     font-size: 2rem;
 
     @media (max-width: 1000px) {
-        column-gap: 3rem;
+        column-gap: 1rem;
         margin-left: -10rem;
     }
 
-    @media (max-width: 820px) {
+    @media (max-width: 900px) {
         position: fixed;
         top: 0;
         right: 0;
@@ -105,7 +124,7 @@ const Menu = styled.div<{ isActive: boolean }>`
 `;
 
 const MenuItem = styled.div<{ isActive: boolean }>`
-    color: white;
+    color: var(--accentText);
     cursor: pointer;
     z-index: 100;
 
@@ -124,7 +143,7 @@ const HidingButton = styled(PlasmaButton)`
     display: none;
     margin-right: 2rem;
 
-    @media (max-width: 820px) {
+    @media (max-width: 900px) {
         display: block;
         position: fixed;
         z-index: 100;
@@ -162,7 +181,7 @@ export const Header = () => {
     return (
         <>
             <StyledRoot>
-                <Logo src="/images/kykyshka.png" onClick={() => navigate(ROUTES.root)} />
+                <Logo src="/images/kykyshkalogo.png" onClick={() => navigate(ROUTES.root)} />
 
                 <Menu onClick={() => setMenuOpen(false)} isActive={isMenuOpen}>
                     <MenuItem isActive={location.pathname === ROUTES.rules} onClick={() => navigate(ROUTES.rules)}>
@@ -177,6 +196,8 @@ export const Header = () => {
                 </Menu>
 
                 <RightButtons>
+                    <ThemeSwitchButtons isActive={isMenuOpen} />
+
                     {localStorage.getItem('accessToken') ? (
                         <Popover
                             opened={isPopoverOpen}
@@ -203,7 +224,7 @@ export const Header = () => {
 
                     {localStorage.getItem('accessToken') && (
                         <LogoutButton isActive={isMenuOpen} onClick={handleClickLogoutButton}>
-                            <IconLogout size="m" />
+                            <IconLogout size="m" color="var(--text)" />
                         </LogoutButton>
                     )}
                 </RightButtons>

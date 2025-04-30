@@ -10,7 +10,7 @@ const Card = styled.div`
     flex-direction: column;
     width: 30rem;
     border-radius: 15px;
-    color: white;
+    color: var(--accentText);
     font-size: 1.7rem;
     overflow: hidden;
     font-weight: 600;
@@ -25,7 +25,7 @@ const CardItem = styled.div<{ isActive?: boolean }>`
     cursor: pointer;
     border-bottom: 0.1rem solid #5557566e;
 
-    color: ${({ isActive }) => (isActive ? '#2fe8b3' : 'white')};
+    color: ${({ isActive }) => (isActive ? '#2fe8b3' : 'var(--accentText)')};
 
     &:hover {
         background-color: var(--backgroundTertiary);
@@ -67,15 +67,15 @@ export const AccountCard: React.FC<AccountCardProps> = ({ closeMenu }) => {
     return (
         <Card>
             <Login>
-                <IconProfileBadgeFill size="m" color="white" />
+                <IconProfileBadgeFill size="m" color="var(--accentText)" />
                 {login}
             </Login>
             <CardItem isActive={isActiveProfilePage} onClick={handleClickProfiledButton}>
-                <IconFileTextOutline size="m" color={isActiveProfilePage ? '#2fe8b3' : 'white'} />
+                <IconFileTextOutline size="m" color={isActiveProfilePage ? '#2fe8b3' : 'var(--accentText)'} />
                 <div>Мои заявки</div>
             </CardItem>
             <CardItem isActive={isActiveChangePasswordPage} onClick={handleClickChangePasswordButton}>
-                <IconKeyOutline size="m" color={isActiveChangePasswordPage ? '#2fe8b3' : 'white'} />
+                <IconKeyOutline size="m" color={isActiveChangePasswordPage ? '#2fe8b3' : 'var(--accentText)'} />
                 <div>Сменить пароль</div>
             </CardItem>
         </Card>

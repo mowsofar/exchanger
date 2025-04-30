@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ROUTES } from './constants/routes';
 
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { MainPage } from './pages/MainPage/MainPage';
 import { AppLayout } from './components/AppLayout/AppLayout';
 import { UserDetailsPage } from './pages/UserDetailsPage/UserDetailsPage';
@@ -14,20 +14,28 @@ import { FaqPage } from './pages/FaqPage/FaqPage';
 import { AmlKycPage } from './pages/AmlKycPage/AmlKycPage';
 import { AccountPage } from './pages/AccountPage/AccountPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage/ChangePasswordPage';
+import { darkTheme, lightTheme } from './themes';
+import { ThemeProvider, useTheme } from './components/ThemeSwitch/ThemeContext';
 
-const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<{ theme: typeof lightTheme | typeof darkTheme }>`
   html {
-    --accent: #26c499;
-    --lightAccent: #2fe8b3;
-    --backgroundPrimary: #0f100f;
-    --backgroundSecondary: #212422;
-    --backgroundTertiary: #555756;
+    --accent: ${(props) => props.theme?.colors?.accent};
+    --lightAccent: ${(props) => props.theme?.colors?.lightAccent};
+    --backgroundPrimary: ${(props) => props.theme?.colors?.backgroundPrimary};
+    --backgroundSecondary: ${(props) => props.theme?.colors?.backgroundSecondary};
+    --backgroundTertiary: ${(props) => props.theme?.colors?.backgroundTertiary};
+    --backgroundFourth: ${(props) => props.theme?.colors?.backgroundFourth};
+    --text: ${(props) => props.theme?.colors?.text};
+    --accentText: ${(props) => props.theme?.colors?.accentText};
+    --skeleton: ${(props) => props.theme?.colors?.skeleton};
   }
 `;
 
-const App: React.FC = () => {
+const ThemedApp = () => {
+    const { theme } = useTheme();
+
     return (
-        <>
+        <StyledThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <GlobalStyles />
             <BrowserRouter>
                 <ModalsProvider>
@@ -46,7 +54,15 @@ const App: React.FC = () => {
                     </Routes>
                 </ModalsProvider>
             </BrowserRouter>
-        </>
+        </StyledThemeProvider>
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <ThemeProvider>
+            <ThemedApp />
+        </ThemeProvider>
     );
 };
 

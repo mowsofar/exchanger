@@ -10,6 +10,9 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    -webkit-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
        width: 80%;
@@ -45,7 +48,7 @@ export const StyledHeader = styled.div`
 `;
 
 export const StyledText = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 2.3rem;
     font-weight: 600;
 
@@ -88,7 +91,7 @@ export const StyledDescription = styled.div`
 export const StyledBlackDescription = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
-    color: white;
+    color: var(--accentText);
 
     @media (max-width: 450px) {
        font-size: 1.4rem;
@@ -107,7 +110,7 @@ export const StyledAmount = styled.div`
     }
 
     & div:last-child {
-        color: white;
+        color: var(--accentText);
         font-size: 2.7rem;
         font-weight: 600;
     }
@@ -150,7 +153,7 @@ export const Requisites = styled.div`
     & div:nth-child(1) {
         font-size: 2rem;
         font-weight: 600;
-        color: white;
+        color: var(--accentText);
     }
 
     @media (max-width: 450px) {
@@ -193,7 +196,7 @@ export const UploadBlock = styled.div`
     & div:nth-child(1) {
         font-size: 1.7rem;
         font-weight: 600;
-        color: white;
+        color: var(--accentText);
     }
 
     @media (max-width: 450px) {
@@ -239,7 +242,7 @@ export const StyledUpload = styled(Upload)`
 
     & button {
         font-family: Onest !important;
-        color: white !important;
+        color: var(--accentText) !important;
         background-color: var(--backgroundTertiary) !important;
         font-size: 1.8rem !important;
     }

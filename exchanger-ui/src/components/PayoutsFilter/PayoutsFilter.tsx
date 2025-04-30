@@ -23,7 +23,7 @@ const Root = styled.div`
     flex-direction: column;
     row-gap: 2.5rem;
     font-size: 1.6rem;
-    color: white;
+    color: var(--accentText);
 `;
 
 const Header = styled.div`
@@ -45,7 +45,7 @@ const StyledCheckbox = styled(Checkbox)`
     }
 
     & span {
-        color: white;
+        color: var(--accentText);
     }
 
     & svg > path {

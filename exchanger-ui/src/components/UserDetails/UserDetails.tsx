@@ -181,7 +181,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <StyledButtonBack view="clear" onClick={handleBack}>
-                        <IconChevronLeft size="s" color="white" />
+                        <IconChevronLeft size="s" color="var(--accentText)" />
                     </StyledButtonBack>
 
                     <Breadcrumbs

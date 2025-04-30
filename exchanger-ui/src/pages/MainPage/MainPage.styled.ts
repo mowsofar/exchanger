@@ -20,7 +20,7 @@ export const StyledDescription = styled.div`
     width: 45rem;
     font-size: 5rem;
     font-weight: 600;
-    color: white;
+    color: var(--accentText);
 
     @media (max-width: 1500px) {
         width: 100%;

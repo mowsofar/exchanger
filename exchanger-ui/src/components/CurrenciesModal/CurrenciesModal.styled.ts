@@ -3,19 +3,19 @@ import { Button } from '../Button/Button';
 import { Modal } from '@salutejs/plasma-web';
 
 export const StyledModal = styled(Modal)`
-    background-color: #18181a;
+    background-color: var(--backgroundSecondary);
     width: 45rem;
     display: flex;
     flex-direction: column;
     border-radius: 4rem;
     padding: 2rem 1rem;
     row-gap: 4rem;
-    border: 3px solid var(--accent);
+    border: 2px solid var(--accent);
 
     & button > span > div {
         width: 5rem;
         height: 5rem;
-        color: white;
+        color: var(--accentText);
     }
 
     @media (max-width: 1024px) {
@@ -29,7 +29,7 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const StyledHeader = styled.div`
-    color: white;
+    color: var(--accentText);
     font-size: 2.5rem;
     font-weight: 600;
     font-family: Onest;
@@ -50,7 +50,7 @@ export const CurrenciesList = styled.div`
     font-size: 1.8rem;
     padding: 0;
     margin-top: 2rem;
-    background-color: #222224;
+    background-color: var(--backgroundFourth);
     border-radius: 1.8rem;
 
     ::-webkit-scrollbar {
@@ -79,7 +79,7 @@ export const StyledRow = styled.div<{ isSelected: boolean }>`
     cursor: pointer;
     align-items: center;
     padding: 1rem;
-    color: white;
+    color: var(--accentText);
     border-radius: 1.2rem;
     font-weight: 600;
     font-family: Onest !important;
@@ -88,11 +88,11 @@ export const StyledRow = styled.div<{ isSelected: boolean }>`
     ${({ isSelected }) =>
         isSelected &&
         css`
-            background-color: rgba(85, 87, 86, 0.4);
+            background-color: var(--backgroundTertiary);
         `};
 
     &:hover {
-        background-color: rgba(85, 87, 86, 0.4);
+        background-color: var(--backgroundTertiary);
     }
 `;
 

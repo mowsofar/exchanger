@@ -115,7 +115,7 @@ export const PayoutPayment: React.FC = () => {
             <StyledContent>
                 <Row>
                     <StyledButtonBack view="clear" onClick={handleBack}>
-                        <IconChevronLeft size="s" color="white" />
+                        <IconChevronLeft size="s" color="var(--accentText)" />
                     </StyledButtonBack>
 
                     <Breadcrumbs

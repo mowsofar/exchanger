@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumbs } from '../BreadCrumbs/BreadCrumbs';
 import {
     Row,
+    SpinnerWrapper,
     StyledButton,
     StyledButtonBack,
     StyledContent,
@@ -18,7 +19,6 @@ import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
 
 import { getPayoutStatus, getPayoutStatusDescription } from '../../utils/getPayoutStatus';
-import { Spinner } from '@salutejs/plasma-web';
 
 export const PayoutStatus: React.FC = () => {
     const payout = useStore($payout);
@@ -54,7 +54,7 @@ export const PayoutStatus: React.FC = () => {
             <StyledContent>
                 <Row>
                     <StyledButtonBack view="clear" onClick={handleBack}>
-                        <IconChevronLeft size="s" color="white" />
+                        <IconChevronLeft size="s" color="var(--accentText)" />
                     </StyledButtonBack>
 
                     <Breadcrumbs
@@ -75,15 +75,15 @@ export const PayoutStatus: React.FC = () => {
                 {(payout?.status === 'CREATED' ||
                     payout?.status === 'WAITING_FOR_CLIENT_PAYMENT' ||
                     payout?.status === 'WAITING_FOR_REQUISITES') && (
-                    <StyledSpinner>
-                        <Spinner size="8rem" color="white" />
-                    </StyledSpinner>
+                    <SpinnerWrapper>
+                        <StyledSpinner size="8rem" />
+                    </SpinnerWrapper>
                 )}
 
                 {(payout?.status === 'PAYMENT_RECEIVED' || payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
-                    <StyledSpinner>
-                        <Spinner size="8rem" color="#26c499" />
-                    </StyledSpinner>
+                    <SpinnerWrapper>
+                        <StyledSpinner size="8rem" color="#26c499" />
+                    </SpinnerWrapper>
                 )}
 
                 {payout?.status === 'COMPLETED' && <StyledIconStatus src="/images/success.png" />}

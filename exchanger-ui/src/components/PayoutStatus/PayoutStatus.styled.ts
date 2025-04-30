@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
-import { Button as PlasmaButton } from '@salutejs/plasma-web';
+import { Button as PlasmaButton, Spinner } from '@salutejs/plasma-web';
 
 export const StyledLayout = styled.div`
     min-height: 65rem;
@@ -10,6 +10,9 @@ export const StyledLayout = styled.div`
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    -webkit-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    -moz-box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
+    box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
        width: 80%;
@@ -38,7 +41,7 @@ export const StyledContent = styled.div`
 export const StyledHeader = styled.div`
     font-size: 2.8rem;
     font-weight: 600;
-    color: white;
+    color: var(--accentText);
     text-align: center;
 
     & span {
@@ -56,13 +59,17 @@ export const StyledIconStatus = styled.img`
     width: 15rem;
 `;
 
-export const StyledSpinner = styled.div`
+export const SpinnerWrapper = styled.div`
     margin-top: 10rem;
     align-self: center;
 
     @media (max-width: 450px) {
        margin-top: 5rem;
     }
+`;
+
+export const StyledSpinner = styled(Spinner)`
+    color: var(--accentText);
 `;
 
 export const StyledButton = styled(Button)`
@@ -93,7 +100,7 @@ export const StyledButtonBack = styled(PlasmaButton)`
 export const StyledDescription = styled.div`
     font-size: 1.8rem;
     font-weight: 600;
-    color: white;
+    color: var(--accentText);
     opacity: 0.6;
     padding: 3rem;
     margin-top: auto;

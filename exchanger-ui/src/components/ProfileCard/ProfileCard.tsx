@@ -12,6 +12,7 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
+    font-weight: 600;
 `;
 
 const CardItem = styled.div`
@@ -21,8 +22,7 @@ const CardItem = styled.div`
 `;
 
 const UserData = styled.div`
-    color: white;
-    font-weight: 600;
+    color: var(--accentText);
 `;
 
 export const ProfileCard = () => {

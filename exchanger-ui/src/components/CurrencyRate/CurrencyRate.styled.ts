@@ -6,7 +6,7 @@ export const StyledRoot = styled.div`
     column-gap: 2rem;
     text-align: center;
     align-items: center;
-    color: white;
+    color: var(--accentText);
     font-size: 1.9rem;
     font-weight: 600;
 
@@ -58,7 +58,7 @@ export const Circle = styled.circle`
 `;
 
 export const Skeleton = styled.div`
-    background-color: #171717;
+    background-color: var(--skeleton);
     border-radius: 1rem;
     height: 2.8rem;
     width: 26rem;

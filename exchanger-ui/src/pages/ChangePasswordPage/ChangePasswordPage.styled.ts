@@ -18,7 +18,7 @@ export const Form = styled.div`
     width: 45rem;
     background-color: var(--backgroundSecondary);
     border-radius: 3.5rem;
-    color: white;
+    color: var(--accentText);
     padding: 3.8rem 2.5rem;
 
     @media (max-width: 600px) {
@@ -53,7 +53,7 @@ export const TextField = styled(TextFieldPassword)`
         padding: 1.8rem;
         height: 6.5rem !important;
         border-radius: 1.5rem;
-        background: var(--backgroundTertiary) !important;
+        background: var(--backgroundFourth) !important;
     }
 
     & > div:last-child {
@@ -66,7 +66,7 @@ export const TextField = styled(TextFieldPassword)`
     }
 
     & input {
-        color: white !important;
+        color: var(--accentText) !important;
         font-weight: 600;
     }
 `;

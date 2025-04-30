@@ -10,7 +10,6 @@ export function logoutUser() {
 
     if (window.location.pathname !== ROUTES.root) {
       window.location.replace(ROUTES.root);
-      window.location.reload();
     }
     
 }

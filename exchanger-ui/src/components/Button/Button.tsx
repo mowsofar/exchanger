@@ -11,7 +11,7 @@ const StyledButton = styled.button`
     font-weight: 600;
     font-family: Onest;
     cursor: pointer;
-    color: black;
+    color: var(--text);
 
     &:hover {
         background-color: var(--lightAccent);

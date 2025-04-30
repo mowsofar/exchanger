@@ -10,6 +10,7 @@ import {
     StyledInput,
     StyledRoot,
     StyledSelect,
+    StyledSpinner,
     SwapButton,
 } from './Calculator.styled';
 import { useStore } from '@nanostores/react';
@@ -32,7 +33,6 @@ import {
     formatNumberWithDecimalPlaces,
     formatToSubmit,
 } from '../../utils/formatNumber';
-import { Spinner } from '@salutejs/plasma-web';
 
 interface Props {
     isLoading: boolean;
@@ -171,7 +171,7 @@ export const Calculator: React.FC<Props> = ({
                 <SwapButton onClick={() => onChangeCurrencies()}>
                     {(Boolean(isLoading) || Boolean(isLoadingTargetCurrency)) && (
                         <SpinnerWrapper>
-                            <Spinner size={32} color="black" />
+                            <StyledSpinner size={32} />
                         </SpinnerWrapper>
                     )}
 
