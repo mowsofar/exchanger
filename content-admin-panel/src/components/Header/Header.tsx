@@ -1,4 +1,4 @@
-import { IconLogout, IconProfileCircleFill } from '@salutejs/plasma-icons';
+import { IconLogout, IconProfileCircleFill, IconSettings } from '@salutejs/plasma-icons';
 import { surfaceSolid02, surfaceSolid03 } from '@salutejs/plasma-tokens';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
@@ -83,6 +83,9 @@ export const Header: React.FC = () => {
         <StyledRoot>
             <Logo src={logo} />
             <StyledRightHeaderButtons>
+                <StyledButton view="clear" onClick={() => navigate(ROUTES.settings)}>
+                    <IconSettings size="m" />
+                </StyledButton>
                 <Popover
                     opened={isPopoverOpen}
                     onToggle={(is) => setIsPopoverOpen(is)}

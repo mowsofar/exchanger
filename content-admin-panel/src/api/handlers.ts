@@ -55,6 +55,24 @@ function requestToApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
 }
 
+function requestToApiWithotToken(
+    endpoint: string,
+    options?: Partial<RequestInit>,
+    body?: unknown,
+) {
+    const requestOptions: RequestInit = {
+        ...options,
+        method: options?.method,
+        headers: {
+            ...options?.headers,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    };
+
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+}
+
 
 function refresh(
     endpoint: string,
@@ -91,6 +109,14 @@ export function refreshToken(): Promise<LoginData> {
 
 export function getAccount(): Promise<User> {
     return requestToApi('api/user/getaccount');
+}
+
+export function setTechMode(maintenance: boolean) {
+    return requestToApi('api/tech/status', { method: 'PUT' }, { maintenance });
+}
+
+export function getTechMode(): Promise<{ maintenance: boolean }> {
+    return requestToApiWithotToken('api/tech/status', { method: 'GET' });
 }
 
 export function getCurrencyCodes(

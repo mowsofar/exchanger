@@ -1,11 +1,13 @@
 import React from 'react';
-import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies, getXmlExchangeDirections } from '../../api/handlers';
+import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies, getTechStatus, getXmlExchangeDirections } from '../../api/handlers';
 import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
 import { Currency } from '../../api/types/common';
 import { $email, $payout, $requisites } from '../../stores/payout.store';
 import { formatNumberWithDecimalPlaces, formatToSubmit } from '../../utils/formatNumber';
 import { logoutUser } from '../../api/tokenHandlers';
+import { $technicalMode } from '../../stores/user.store';
+import { useInterval } from '../../hooks/useInterval';
 
 export const useMainPage = () => {
     const tagretCurrency = useStore($targetCurrency);
@@ -25,6 +27,13 @@ export const useMainPage = () => {
         
         return { from, to, ref };
       };
+
+    const getTechnicalStatus = React.useCallback(async () => {
+        try {
+            const technicalStatus = await getTechStatus();
+            $technicalMode.set(technicalStatus.maintenance);
+        } catch {}
+      }, [])
 
     const getAccountInfo = React.useCallback(async () => {
         try {
@@ -270,8 +279,21 @@ export const useMainPage = () => {
     }, []);
 
     React.useEffect(() => {
-        getCurrencies()
+        getCurrencies();
     }, [getCurrencies]);
+
+    React.useEffect(() => {
+        getTechnicalStatus();
+    }, [getTechnicalStatus]);
+
+    useInterval(
+        () => {
+            getTechnicalStatus();
+        },
+        30000,
+        [getTechnicalStatus],
+    );
+
 
     React.useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
@@ -290,7 +312,6 @@ export const useMainPage = () => {
             setError('');
         };
     }, []);
-
 
     return {
         isLoading, isLoadingTargetCurrency, getExchangeCourse, setSourceCurrency, setTargetCurrency, handleChangeCurrencies, error, setError

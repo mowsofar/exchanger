@@ -3,6 +3,7 @@ import { TableHeader, TableRow } from '../../components/Table/Table';
 import { Badge } from '@salutejs/plasma-web';
 import { Button } from '@salutejs/plasma-ui';
 import { blackSecondary, surfaceSolid02 } from '@salutejs/plasma-tokens';
+
 export const StyledRoot = styled.div`
     width: 100%;
     height: 100%;

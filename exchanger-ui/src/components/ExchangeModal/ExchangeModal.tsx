@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calculator } from '../Calculator/Calculator';
 import { CurrencyRate } from '../CurrencyRate/CurrencyRate';
-import { StyledButton, StyledHeader, StyledModal } from './ExchangeModal.styled';
+import { Content, StyledButton, StyledHeader, StyledModal } from './ExchangeModal.styled';
 import { ROUTES } from '../../constants/routes';
 import { CurrenciesModal } from '../CurrenciesModal/CurrenciesModal';
 import { Currency } from '../../api/types/common';
@@ -14,6 +14,8 @@ import {
     $sourceCurrency,
     $targetCurrency,
 } from '../../stores/currencies.store';
+import BlurOverlay from '../BlurOverlay/BlurOverlay';
+import { $technicalMode } from '../../stores/user.store';
 
 interface ExchangeModalProps {
     isLoading: boolean;
@@ -38,6 +40,8 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
 }) => {
     const [isCurrenciesModalOpen, setCurrencyModalOpen] = React.useState(false);
 
+    const blurIsActive = useStore($technicalMode);
+
     const amountFrom = useStore($amountFrom);
     const amountTo = useStore($amountTo);
 
@@ -53,27 +57,37 @@ export const ExchangeModal: React.FC<ExchangeModalProps> = ({
 
     return (
         <StyledModal>
-            <StyledHeader>Калькулятор</StyledHeader>
-            <CurrencyRate onComplete={getExchangeCourse} />
-            <Calculator
-                isLoading={isLoading}
-                isLoadingTargetCurrency={isLoadingTargetCurrency}
-                handleClickSourceCurrency={() => setCurrencyModalOpen(true)}
-                handleClickTargetCurrency={() => setCurrencyModalOpen(true)}
-                handleChangeCurrencies={handleChangeCurrencies}
-                error={error}
-                setError={setError}
-            />
-            <StyledButton onClick={handleClickButton} disabled={Boolean(exchangeError) || !amountFrom || !amountTo}>
-                Перейти к вводу реквизитов
-            </StyledButton>
+            <BlurOverlay
+                show={blurIsActive}
+                message="Идут технические работы. Приносим извинения за неудобства. Пожалуйста, попробуйте позже."
+            >
+                <Content>
+                    <StyledHeader>Калькулятор</StyledHeader>
+                    <CurrencyRate onComplete={getExchangeCourse} />
+                    <Calculator
+                        isLoading={isLoading}
+                        isLoadingTargetCurrency={isLoadingTargetCurrency}
+                        handleClickSourceCurrency={() => setCurrencyModalOpen(true)}
+                        handleClickTargetCurrency={() => setCurrencyModalOpen(true)}
+                        handleChangeCurrencies={handleChangeCurrencies}
+                        error={error}
+                        setError={setError}
+                    />
+                    <StyledButton
+                        onClick={handleClickButton}
+                        disabled={Boolean(exchangeError) || !amountFrom || !amountTo}
+                    >
+                        Перейти к вводу реквизитов
+                    </StyledButton>
 
-            <CurrenciesModal
-                opened={isCurrenciesModalOpen}
-                onClose={() => setCurrencyModalOpen(false)}
-                setSourceCurrency={setSourceCurrency}
-                setTargetCurrency={setTargetCurrency}
-            />
+                    <CurrenciesModal
+                        opened={isCurrenciesModalOpen}
+                        onClose={() => setCurrencyModalOpen(false)}
+                        setSourceCurrency={setSourceCurrency}
+                        setTargetCurrency={setTargetCurrency}
+                    />
+                </Content>
+            </BlurOverlay>
         </StyledModal>
     );
 };

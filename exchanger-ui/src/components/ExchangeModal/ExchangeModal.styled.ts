@@ -5,9 +5,6 @@ export const StyledModal = styled.div`
     background-color: var(--backgroundSecondary);
     height: 530px;
     width: 750px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 1.5rem;
     border-radius: 3rem;
     padding: 3rem 2rem;
     margin-bottom: 10rem;
@@ -26,6 +23,14 @@ export const StyledModal = styled.div`
         padding: 2rem 1rem;
         width: 90vw;
     }
+`;
+
+export const Content = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
 `;
 
 export const StyledHeader = styled.div`

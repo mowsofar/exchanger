@@ -1,5 +1,5 @@
 import { handleTokenRefresh } from "./tokenHandlers";
-import { Course, Currency, ExchangeDirection, LoginData, Payout, PayoutStatus, User } from "./types/common";
+import { Course, Currency, ExchangeDirection, LoginData, Payout, PayoutStatus, TechStatusResponse, User } from "./types/common";
 
 
 function handleResponse(response: Response) {
@@ -21,7 +21,7 @@ function handleResponse(response: Response) {
 
 function requestToApi(
     endpoint: string,
-    options: Partial<RequestInit>,
+    options?: Partial<RequestInit>,
     body?: unknown,
 ) {
     const requestOptions: RequestInit = {
@@ -158,6 +158,10 @@ export function refreshToken(): Promise<LoginData> {
 
 export function getAccount(): Promise<User> {
     return requestToAccountApi('api/user/getaccount');
+}
+
+export function getTechStatus(): Promise<TechStatusResponse> {
+    return requestToApi('api/tech/status');
 }
 
 export function getFilteredPayouts(status: PayoutStatus): Promise<Payout[]> {

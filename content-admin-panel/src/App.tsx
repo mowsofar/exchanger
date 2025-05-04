@@ -20,6 +20,7 @@ import { DeletedPayoutsPage } from './pages/DeletedPayoutsPage/DeletedPayoutsPag
 import { ErrorPayoutsPage } from './pages/ErrorPayoutsPage/ErrorPayoutsPage';
 import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
 import { RequisitesPayoutsPage } from './pages/RequisitesPayoutsPage/RequisitesPayoutsPage';
+import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -44,6 +45,7 @@ const App: React.FC = () => {
                     <Route path={ROUTES.exchangeDirections} element={<ExchangeDirectionsPage />} />
                     <Route path={ROUTES.additionalFields} element={<AdditionalFieldsPage />} />
                     <Route path={ROUTES.requisites} element={<RequisitesPage />} />
+                    <Route path={ROUTES.settings} element={<SettingsPage />} />
                     <Route path="*" element="" />
                 </Route>
                 <Route path={ROUTES.login} element={<LoginPage />} />

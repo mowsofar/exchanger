@@ -4,6 +4,10 @@ export interface LoginData {
     role: string;
 };
 
+export interface TechStatusResponse {
+    maintenance: boolean;
+}
+
 export type AdditionalFieldDirection = 'SOURCE' | 'TARGET';
 export interface AdditionalField {
     id: number;

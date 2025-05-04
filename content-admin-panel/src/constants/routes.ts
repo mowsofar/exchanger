@@ -18,4 +18,5 @@ export const ROUTES = {
     payout: (payouId?: number | undefined) => `/content-admin/payouts/${payouId || ':id'}`,
     additionalFields: '/content-admin/additional-fields',
     requisites: '/content-admin/requisites',
+    settings: '/content-admin/settings',
 };
