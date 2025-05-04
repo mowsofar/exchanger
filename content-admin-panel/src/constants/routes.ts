@@ -19,4 +19,5 @@ export const ROUTES = {
     additionalFields: '/content-admin/additional-fields',
     requisites: '/content-admin/requisites',
     settings: '/content-admin/settings',
+    autobroker: '/content-admin/autobroker',
 };

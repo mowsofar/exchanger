@@ -190,6 +190,19 @@ export interface Requisites {
     currencies: Currency[];
 }
 
+export interface Autobroker {
+    id: number;
+    status: string;
+    minCourse: number;
+    position: number;
+    exchangeDirectionId: number;
+    updatedAt: string;
+    courseResponse: {
+        course: number;
+        isReversed: boolean;
+    }
+}
+
 export interface ProfitUpdatePayload {
     ids: number[];
     newProfit: number;

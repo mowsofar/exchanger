@@ -50,9 +50,8 @@ export const StyledDescription = styled.div`
 export const StyledFooter = styled.footer`
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
-    padding: 0rem 10rem;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--lightAccent) 100%);
-    color: black;
+    padding: .5rem 10rem;
+    background: var(--accent);
     text-align: center;
     font-size: 1.3rem;
     display: flex;
@@ -86,7 +85,7 @@ export const PartnersContainer = styled.div`
 `;
 
 export const Description = styled.div`
-    color: #212422;
+    color: var(--backgroundSecondary);
     font-weight: 600;
 `;
 
@@ -107,22 +106,22 @@ export const Column = styled.div`
 
 export const Link = styled.a`
     font-weight: 600;
-    color: black;
+    color: var(--text);
     font-size: 1.6rem;
     text-decoration: none;
 
     &:visited {
-        color: black;
+        color: var(--text);
     }
 `;
 
 export const Img = styled.img`
-    height: 5rem;
+    height: 4rem;
     width: fit-content;
 `;
 
 export const Partner = styled.img`
-    height: 2.5rem;
+    height: 1.6rem;
     margin-right: 1rem;
     width: fit-content;
 `;

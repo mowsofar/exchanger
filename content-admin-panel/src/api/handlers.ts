@@ -1,6 +1,6 @@
 import { ROUTES } from "../constants/routes";
 import { queueTokenRefresh } from "./tokenHandlers";
-import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, StatusType, User } from "./types/common";
+import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Autobroker, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, StatusType, User } from "./types/common";
 
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
@@ -224,6 +224,10 @@ export function deleteExchangeDirection(id: number
 ): Promise<unknown> {
     return requestToApi(`api/exchange-directions/${id}`, { method: 'DELETE' });
 }
+export function checkExchangeDirection(source: number, target: number
+): Promise<unknown> {
+    return requestToApi(`api/exchange-directions/check-rate?source=${source}&target=${target}`, { method: 'GET' });
+}
 
 export function updateProfitPercent(ids: number[], newProfit: number, sortMap: {[key: string]: number}
 ): Promise<unknown> {
@@ -331,4 +335,24 @@ export function editRequisites(id: number, name: string, details: string, curren
 export function deleteRequisites(id: number
 ): Promise<unknown> {
     return requestToApi(`api/requisites/${id}`, { method: 'DELETE' });
+}
+
+export function getAutobrokers(
+): Promise<Autobroker[]> {
+    return requestToApi(`api/autobrokers`, { method: 'GET' });
+}
+
+export function createAutobroker(status: string, minCourse: number, exchangeDirectionId: number, position: number
+): Promise<Autobroker[]> {
+    return requestToApi(`api/autobrokers`, { method: 'POST' }, { status, minCourse, exchangeDirectionId, position });
+}
+
+export function editAutobroker(id: number, body: any
+): Promise<unknown> {
+    return requestToApi(`api/autobrokers/${id}`, { method: 'PUT' }, body);
+}
+
+export function deleteAutobroker(id: number
+): Promise<unknown> {
+    return requestToApi(`api/autobrokers/${id}`, { method: 'DELETE' });
 }

@@ -8,6 +8,7 @@ import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
 import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
 import { formatCalculatorInput, formatToSubmit } from '../../utils/formatNumber';
+import { checkExchangeDirection } from '../../api/handlers';
 
 interface AddExchangeDirectionModalProps {
     opened: boolean;
@@ -63,6 +64,7 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
 }) => {
     const [selectedSourceCurrencyId, setSelectedSourceCurrencyId] = React.useState<number>();
     const [selectedTargetCurrencyId, setSelectedTargetCurrencyId] = React.useState<number>();
+    const [checked, isChecked] = React.useState(false);
     const [profitPercent, setProfitPercent] = React.useState<string>();
     const [minSourceAmount, setMinSourceAmount] = React.useState<string>();
     const [maxSourceAmount, setMaxSourceAmount] = React.useState<string>();
@@ -76,6 +78,14 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
             label: `${item.paymentSystem.name} ${item.currencyCode.code}`,
         };
     });
+
+    const checkDirection = async () => {
+        try {
+            if (selectedSourceCurrencyId && selectedTargetCurrencyId) {
+                await checkExchangeDirection(selectedSourceCurrencyId, selectedTargetCurrencyId);
+            }
+        } catch {}
+    };
 
     const onCloseModal = () => {
         setSelectedSourceCurrencyId(undefined);

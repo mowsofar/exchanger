@@ -25,8 +25,8 @@ export const SettingsPage: React.FC = () => {
             setTechnicalMode(event.target.checked);
             await setTechMode(event.target.checked);
             showNotification('Статус успешно изменён', 'success');
-        } catch {
-            showNotification('Ошибка изменения статуса', 'warning');
+        } catch (error) {
+            showNotification('Ошибка изменения статуса', 'error', error);
         }
     };
     return (

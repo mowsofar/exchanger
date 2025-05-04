@@ -113,6 +113,7 @@ const menuItems = [
     { key: ROUTES.exchangeDirections, name: 'Направления обмена', icon: <IconSwapHoriz size="s" /> },
     { key: ROUTES.additionalFields, name: 'Дополнительные поля валют', icon: <IconNumberedView size="s" /> },
     { key: ROUTES.requisites, name: 'Реквизиты', icon: <IconBoardingPassOutline size="s" /> },
+    { key: ROUTES.autobroker, name: 'Autobroker' },
 ];
 
 export const MenuList: React.FC = () => {

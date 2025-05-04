@@ -53,12 +53,14 @@ export const MainPage: React.FC = () => {
 
             <StyledFooter>
                 <FooterContainer>
-                    <Column>
-                        <Img src="images/logoblack.png" />
-                        <Description>
-                            © {new Date().getFullYear()} Кукушка - обменник криптовалют. Все права защищены.
-                        </Description>
-                    </Column>
+                    <Row>
+                        <Link href="https://exnode.ru" target="_blank">
+                            <Partner src="images/monitorings/exnode1.png" />
+                        </Link>
+                        <Link href="https://bestchange.ru" target="_blank">
+                            <Partner src="images/monitorings/bestchange1.png" style={{ height: '2rem' }} />
+                        </Link>
+                    </Row>
 
                     <Row>
                         <Link href="mailto:helpkykyshka@gmail.com" target="_blank">
@@ -71,12 +73,10 @@ export const MainPage: React.FC = () => {
                 </FooterContainer>
                 <PartnersContainer style={{ justifyContent: 'flexStart' }}>
                     <Row>
-                        <Link href="https://exnode.ru" target="_blank">
-                            <Partner src="images/monitorings/exnode.png" />
-                        </Link>
-                        <Link href="https://bestchange.ru" target="_blank">
-                            <Partner src="images/monitorings/bestchange.png" />
-                        </Link>
+                        <Img src="images/logo.png" />
+                        <Description>
+                            © {new Date().getFullYear()} Кукушка - обменник криптовалют. Все права защищены.
+                        </Description>
                     </Row>
                 </PartnersContainer>
             </StyledFooter>
