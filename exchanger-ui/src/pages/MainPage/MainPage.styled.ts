@@ -24,26 +24,63 @@ export const StyledLayout = styled.div`
         flex-direction: column;
         row-gap: 5rem;
     }
+
+    @media (max-width: 450px) {
+        flex-direction: column;
+        row-gap: 3rem;
+    }
 `;
 
 export const StyledDescription = styled.div`
     width: 45rem;
-    font-size: 5rem;
+    font-size: 4.2rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-weight: 600;
     color: var(--accentText);
 
     @media (max-width: 1500px) {
-        width: 100%;
+        font-size: 3.5rem;
+        width: 90%;
         text-align: center;
     }
 
     @media only screen and (max-width: 1330px) {
-        font-size: 4rem;
-        width: 100%;
+        font-size: 3rem;
+        width: 80%;
     }
 
     @media only screen and (max-width: 800px) {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        width: 90%;
+    }
+`;
+
+export const DescriptionColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 3.5rem;
+
+    @media (max-width: 1500px) {
+        align-items: center;
+        row-gap: 2rem;
+    }
+`;
+
+export const Badge = styled.div`
+    background-color: var(--backgroundSecondary);
+    display: flex;
+    column-gap: 1rem;
+    color: var(--accentText);
+    border-radius: 2rem;
+    width: fit-content;
+    padding: 1rem 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 450px) {
+        font-size: 1.3rem;
     }
 `;
 
@@ -117,11 +154,11 @@ export const Link = styled.a`
 
 export const Img = styled.img`
     height: 4rem;
-    width: fit-content;
+    object-fit: contain;
 `;
 
 export const Partner = styled.img`
     height: 1.6rem;
     margin-right: 1rem;
-    width: fit-content;
+    object-fit: contain;
 `;

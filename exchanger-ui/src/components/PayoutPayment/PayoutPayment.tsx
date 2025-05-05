@@ -37,6 +37,7 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
 
     const [preview, setPreview] = React.useState('');
     const [error, setError] = React.useState('');
+    const [isCopied, setIsCopied] = React.useState(false);
 
     const hasImage = React.useMemo(
         () => Boolean(payout?.attachments?.[0]?.fileName) || Boolean(preview),
@@ -167,14 +168,17 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
 
                     {payout?.status !== 'CREATED' && payout?.exchangeRequisites && (
                         <Badge>
-                            <div>{payout.exchangeRequisites}</div>
+                            <div style={{ color: isCopied ? 'var(--accent)' : 'var(--accentText)' }}>
+                                {payout.exchangeRequisites}
+                            </div>
                             <ButtonCopy
                                 view="clear"
                                 onClick={() => {
                                     navigator.clipboard.writeText(payout?.exchangeRequisites);
+                                    setIsCopied(true);
                                 }}
                             >
-                                <IconCopyFill color="white" />
+                                <IconCopyFill color={isCopied ? 'var(--accent)' : 'var(--accentText)'} />
                             </ButtonCopy>
                         </Badge>
                     )}

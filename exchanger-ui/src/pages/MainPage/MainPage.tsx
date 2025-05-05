@@ -2,9 +2,10 @@ import React from 'react';
 import { ExchangeModal } from '../../components/ExchangeModal/ExchangeModal';
 import { useMainPage } from './MainPage.hooks';
 import {
-    Column,
+    Badge,
     ContentWrapper,
     Description,
+    DescriptionColumn,
     FooterContainer,
     Img,
     Link,
@@ -16,6 +17,7 @@ import {
     StyledFooter,
     StyledLayout,
 } from './MainPage.styled';
+import { IconTimerOutline } from '@salutejs/plasma-icons';
 
 export const MainPage: React.FC = () => {
     const {
@@ -32,12 +34,22 @@ export const MainPage: React.FC = () => {
     return (
         <PageWrapper>
             <head>
-                <title>Кукушка - надёжный обменник криптовалют</title>
+                <title>Кукушка — надёжный обменник криптовалют</title>
             </head>
 
             <ContentWrapper>
                 <StyledLayout>
-                    <StyledDescription>Обменивайте быстро, безопасно и выгодно</StyledDescription>
+                    <DescriptionColumn>
+                        <StyledDescription>
+                            Надёжный сервис: обменяйте средства с комфортом, безопасностью и выгодой.
+                        </StyledDescription>
+
+                        <Badge>
+                            <IconTimerOutline size="m" color="var(--accent)" />
+                            <div>Работаем с 10:00 до 22:00</div>
+                        </Badge>
+                    </DescriptionColumn>
+
                     <ExchangeModal
                         isLoading={isLoading}
                         isLoadingTargetCurrency={isLoadingTargetCurrency}
@@ -55,25 +67,29 @@ export const MainPage: React.FC = () => {
                 <FooterContainer>
                     <Row>
                         <Link href="https://exnode.ru" target="_blank">
-                            <Partner src="images/monitorings/exnode1.png" />
+                            <Partner src="images/monitorings/exnode.png" />
                         </Link>
+
                         <Link href="https://bestchange.ru" target="_blank">
-                            <Partner src="images/monitorings/bestchange1.png" style={{ height: '2rem' }} />
+                            <Partner src="images/monitorings/bestchange.png" style={{ height: '2rem' }} />
                         </Link>
                     </Row>
 
                     <Row>
-                        <Link href="mailto:helpkykyshka@gmail.com" target="_blank">
-                            helpkykyshka@gmail.com
+                        <Link href="mailto:helpkykyshka@yandex.com" target="_blank">
+                            helpkykyshka@yandex.com
                         </Link>
+
                         <Link href="https://t.me/HelpKykyshka" target="_blank">
                             <Img src="images/tg.png" />
                         </Link>
                     </Row>
                 </FooterContainer>
+
                 <PartnersContainer style={{ justifyContent: 'flexStart' }}>
                     <Row>
                         <Img src="images/logo.png" />
+
                         <Description>
                             © {new Date().getFullYear()} Кукушка - обменник криптовалют. Все права защищены.
                         </Description>

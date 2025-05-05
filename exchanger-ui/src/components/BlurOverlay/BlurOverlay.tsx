@@ -30,8 +30,9 @@ const Message = styled.div`
     font-weight: bold;
     color: var(--accentText);
 
-    @media only screen and (max-width: 450px) {
-        font-size: 1.5rem;
+    @media only screen and (max-width: 800px) {
+        font-size: 2rem;
+        width: 100%;
     }
 `;
 

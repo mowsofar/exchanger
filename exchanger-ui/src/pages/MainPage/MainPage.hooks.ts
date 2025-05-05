@@ -2,7 +2,7 @@ import React from 'react';
 import { getAccount, getExchangeDirections, getExchangeDirectionsCourse, getLeftColumnCurrencies, getRightColumnCurrencies, getTechStatus, getXmlExchangeDirections } from '../../api/handlers';
 import { $amountFrom, $amountTo, $course, $exchangeDirection, $exchangeError, $sourceCurrencies, $sourceCurrency, $targetCurrencies, $targetCurrency } from '../../stores/currencies.store';
 import { useStore } from '@nanostores/react';
-import { Currency } from '../../api/types/common';
+import { Course, Currency, ExchangeDirection } from '../../api/types/common';
 import { $email, $payout, $requisites } from '../../stores/payout.store';
 import { formatNumberWithDecimalPlaces, formatToSubmit } from '../../utils/formatNumber';
 import { logoutUser } from '../../api/tokenHandlers';
@@ -43,6 +43,7 @@ export const useMainPage = () => {
 
     const getCurrencies = React.useCallback(() => {
         $payout.set(null);
+        setIsLoading(true);
         
         getLeftColumnCurrencies()
             .then(sourceCurrencies => {
@@ -50,9 +51,10 @@ export const useMainPage = () => {
                 if (!sourceCurrencies.length) return;
     
                 const urlParams = parseUrlParams();
-    
+                const { ref, from, to } = urlParams || {};
+                
                 let initialSource = sourceCurrencies[0];
-                let initialTarget: Currency;
+                let initialTarget: Currency | null = null;
     
                 const getTargetCurrencies = (sourceId: number) => {
                     return getRightColumnCurrencies(sourceId).then(targets => {
@@ -61,47 +63,61 @@ export const useMainPage = () => {
                     });
                 };
     
-                if (urlParams?.from && urlParams?.to && urlParams?.ref) {
-                    initialSource = sourceCurrencies.find(c => c.xmlCode === urlParams.from) || initialSource;
-                    
-                    return getTargetCurrencies(initialSource.id).then(targetCurrencies => {
-                        initialTarget = targetCurrencies.find(c => c.xmlCode === urlParams.to!) || targetCurrencies[0];
-                        
-                        const from = urlParams.from!;
-                        const to = urlParams.to!;
-                        const ref = urlParams.ref!;
-                        
-                        return Promise.all([
-                            getXmlExchangeDirections(from, to, ref)
-                                .then(([firstDirection]) => firstDirection),
-                            getExchangeDirectionsCourse(initialSource.id, initialTarget.id)
-                        ]);
-                    }).then(([exchangeDirections, exchangeDirectionsCourse]) => {
-                        return { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget };
-                    });
-                } else {
-                    return getTargetCurrencies(initialSource.id).then(targetCurrencies => {
-                        initialTarget = targetCurrencies[0];
-                        
-                        return Promise.all([
-                            getExchangeDirections(initialSource.id, initialTarget.id),
-                            getExchangeDirectionsCourse(initialSource.id, initialTarget.id)
-                        ]).then(([exchangeDirections, exchangeDirectionsCourse]) => {
-                            return { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget };
-                        });
-                    });
+                // Определяем source валюту (из параметра или первую из списка)
+                if (from) {
+                    initialSource = sourceCurrencies.find(c => c.xmlCode === from) || initialSource;
                 }
+    
+                return getTargetCurrencies(initialSource.id).then(async targetCurrencies => {
+                    // Определяем target валюту (из параметра или первую из списка)
+                    if (to) {
+                        initialTarget = targetCurrencies.find(c => c.xmlCode === to) || targetCurrencies[0];
+                    } else {
+                        initialTarget = targetCurrencies[0];
+                    }
+    
+                    let exchangeDirections: ExchangeDirection;
+                    let exchangeDirectionsCourse: Course;
+    
+                    // Если есть ref, используем реферальный поток (даже если нет from/to)
+                    if (ref) {
+                        const effectiveFrom = from || initialSource.xmlCode;
+                        const effectiveTo = to || initialTarget.xmlCode;
+                        
+                        const [direction] = await getXmlExchangeDirections(effectiveFrom, effectiveTo, ref);
+                        exchangeDirections = direction;
+                    } 
+                    // Обычный поток (без ref)
+                    else {
+                        exchangeDirections = await getExchangeDirections(initialSource.id, initialTarget.id);
+                    }
+    
+                    // Получаем курс в любом случае
+                    exchangeDirectionsCourse = await getExchangeDirectionsCourse(
+                        initialSource.id,
+                        initialTarget.id
+                    );
+    
+                    return {
+                        exchangeDirections,
+                        exchangeDirectionsCourse,
+                        initialSource,
+                        initialTarget
+                    };
+                });
             })
             .then(result => {
-                if (!result) return;
+                if (!result || !result.initialTarget) return;
                 
                 const { exchangeDirections, exchangeDirectionsCourse, initialSource, initialTarget } = result;
                 
+                // Устанавливаем все состояния
                 $sourceCurrency.set(initialSource);
                 $targetCurrency.set(initialTarget);
                 $exchangeDirection.set(exchangeDirections);
                 $course.set(exchangeDirectionsCourse);
     
+                // Форматируем суммы
                 const formatAmount = (value: number, decimals: number) => 
                     formatNumberWithDecimalPlaces(value, decimals);
     
