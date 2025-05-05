@@ -6,6 +6,8 @@ import { useStore } from '@nanostores/react';
 import { useParams } from 'react-router-dom';
 
 export const usePayoutStatusPage = () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+
     const payout = useStore($payout);
 
     const { id = '' } = useParams();
@@ -16,8 +18,9 @@ export const usePayoutStatusPage = () => {
             $payout.set(newPayout)
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
-        ;
     }, [id, payout]);
 
     React.useEffect(() => {
@@ -31,4 +34,6 @@ export const usePayoutStatusPage = () => {
         10000,
         [getPayoutInfo],
     );
+
+    return { isLoading };
 };

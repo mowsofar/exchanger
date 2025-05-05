@@ -4,7 +4,7 @@ import { Root, StyledLayout } from './PayoutStatusPage.styled';
 import { usePayoutStatusPage } from './PayoutStatusPage.hooks';
 
 export const PayoutStatusPage: React.FC = () => {
-    usePayoutStatusPage();
+    const { isLoading } = usePayoutStatusPage();
 
     return (
         <>
@@ -15,7 +15,7 @@ export const PayoutStatusPage: React.FC = () => {
             <Root>
                 <StyledLayout>
                     <OperationInfo />
-                    <PayoutStatus />
+                    <PayoutStatus isLoading={isLoading} />
                 </StyledLayout>
             </Root>
         </>

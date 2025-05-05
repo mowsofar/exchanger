@@ -8,6 +8,7 @@ import {
     RequisiesButton,
     Requisites,
     Row,
+    SpinnerWrapper,
     StyledAmount,
     StyledBlackDescription,
     StyledButton,
@@ -31,7 +32,7 @@ import { getRequisites, setPayoutStatus, uploadPayoutAttachment } from '../../ap
 import { Spinner } from '@salutejs/plasma-web';
 import { formatNumber } from '../../utils/formatNumber';
 
-export const PayoutPayment: React.FC = () => {
+export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
     const payout = useStore($payout);
 
     const [preview, setPreview] = React.useState('');
@@ -109,6 +110,32 @@ export const PayoutPayment: React.FC = () => {
             window.removeEventListener('popstate', handlePopState);
         };
     }, [location?.state?.from, navigate, payout?.id, payout?.srcCurrency.id, payout?.targetCurrency.id]);
+
+    if (Boolean(isLoading)) {
+        return (
+            <StyledLayout>
+                <StyledContent>
+                    <Row>
+                        <StyledButtonBack view="clear" onClick={handleBack}>
+                            <IconChevronLeft size="s" color="var(--accentText)" />
+                        </StyledButtonBack>
+
+                        <Breadcrumbs
+                            path={[
+                                { number: 1, name: 'Ввод реквизитов', isActive: false },
+                                { number: 2, name: 'Оплата заявки', isActive: true },
+                                { number: 3, name: 'Завершение', isActive: false },
+                            ]}
+                        />
+                    </Row>
+
+                    <SpinnerWrapper>
+                        <Spinner size="5rem" color="var(--accent)" />
+                    </SpinnerWrapper>
+                </StyledContent>
+            </StyledLayout>
+        );
+    }
 
     return (
         <StyledLayout>
@@ -198,9 +225,11 @@ export const PayoutPayment: React.FC = () => {
                 <StyledButton
                     onClick={handleSubmit}
                     disabled={
-                        payout?.srcCurrency.filterType === 'COIN'
+                        payout?.status === 'CREATED' ||
+                        (payout?.srcCurrency.filterType === 'COIN'
                             ? payout?.status !== 'WAITING_FOR_REQUISITES'
-                            : !hasImage || Boolean(error)
+                            : !hasImage || Boolean(error)) ||
+                        !payout?.exchangeRequisites
                     }
                 >
                     Я оплатил(-а)

@@ -30,7 +30,7 @@ export const StyledLayout = styled.div`
 export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
-    row-gap: 7rem;
+    row-gap: 5rem;
     padding: 2rem;
     flex-grow: 1;
 

@@ -16,6 +16,10 @@ const StyledTextField = styled(TextField)`
     font-family: Onest !important;
     font-size: 1.7rem;
 
+    & svg {
+        color: var(--accentText);
+    }
+
     & > div {
         height: 4.5rem !important;
         background: var(--backgroundFourth) !important;

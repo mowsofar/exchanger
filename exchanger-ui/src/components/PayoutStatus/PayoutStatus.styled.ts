@@ -28,7 +28,7 @@ export const StyledLayout = styled.div`
 export const StyledContent = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 6rem;
+    row-gap: 4rem;
     padding: 2rem;
     flex-grow: 1;
 
@@ -60,8 +60,10 @@ export const StyledIconStatus = styled.img`
 `;
 
 export const SpinnerWrapper = styled.div`
-    margin-top: 10rem;
-    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
 
     @media (max-width: 450px) {
        margin-top: 5rem;

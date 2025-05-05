@@ -19,8 +19,9 @@ import { IconChevronLeft } from '@salutejs/plasma-icons';
 import { $payout } from '../../stores/payout.store';
 
 import { getPayoutStatus, getPayoutStatusDescription } from '../../utils/getPayoutStatus';
+import { Spinner } from '@salutejs/plasma-web';
 
-export const PayoutStatus: React.FC = () => {
+export const PayoutStatus: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
     const payout = useStore($payout);
     const navigate = useNavigate();
     const location = useLocation();
@@ -48,6 +49,32 @@ export const PayoutStatus: React.FC = () => {
             window.removeEventListener('popstate', handlePopState);
         };
     }, [location?.state?.from, navigate, payout?.id]);
+
+    if (Boolean(isLoading)) {
+        return (
+            <StyledLayout>
+                <StyledContent>
+                    <Row>
+                        <StyledButtonBack view="clear" onClick={handleBack}>
+                            <IconChevronLeft size="s" color="var(--accentText)" />
+                        </StyledButtonBack>
+
+                        <Breadcrumbs
+                            path={[
+                                { number: 1, name: 'Ввод реквизитов', isActive: false },
+                                { number: 2, name: 'Оплата заявки', isActive: false },
+                                { number: 3, name: 'Завершение', isActive: true },
+                            ]}
+                        />
+                    </Row>
+
+                    <SpinnerWrapper>
+                        <Spinner size="5rem" color="var(--accent)" />
+                    </SpinnerWrapper>
+                </StyledContent>
+            </StyledLayout>
+        );
+    }
 
     return (
         <StyledLayout>

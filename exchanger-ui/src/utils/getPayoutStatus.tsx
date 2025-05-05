@@ -100,20 +100,20 @@ export function getPayoutStatusDescription(payout: Payout | null) {
 export function getPayoutData(payout: PayoutStatus): { label: string; color: string } {
     switch (payout) {
         case 'CREATED': {
-            return { label: 'Создана', color: '#18181a' };
+            return { label: 'Создана', color: 'var(--accent)' };
         }
 
         case 'WAITING_FOR_CLIENT_PAYMENT':
-            return { label: 'Проверка оплаты', color: '#18181a' };
+            return { label: 'Проверка оплаты', color: 'var(--accent)' };
 
         case 'WAITING_FOR_REQUISITES':
-            return { label: 'Ожидает реквизиты', color: '#18181a' };
+            return { label: 'Ожидает реквизиты', color: 'var(--accent)' };
 
         case 'PAYMENT_RECEIVED':
-            return { label: 'Оплата получена', color: '#18181a' };
+            return { label: 'Оплата получена', color: 'var(--accent)' };
 
         case 'WAITING_FOR_OPERATOR_PROCESSING':
-            return { label: 'В обработке', color: '#18181a' };
+            return { label: 'В обработке', color: 'var(--accent)' };
 
         case 'ERROR':
             return { label: 'Ошибка', color: '#ff1c33' };
@@ -125,6 +125,6 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
             return { label: 'Завершена', color: '#49b52e' };
 
         default:
-            return { label: '', color: '#18181a' };
+            return { label: '', color: 'var(--accent)' };
     }
 }

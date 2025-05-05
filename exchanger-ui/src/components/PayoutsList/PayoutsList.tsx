@@ -212,7 +212,7 @@ export const PayoutsList: React.FC<PayoutsListProps> = ({ isLoading }) => {
                                     <div>{formatCalculatorInput(payout?.amountFrom)}</div>
                                     <div>{payout.srcCurrency?.currencyCode.code}</div>
 
-                                    <StyledIcon size="m" />
+                                    <StyledIcon size="m" color="var(--accentText)" />
 
                                     <Icon src={payout.targetCurrency?.paymentSystem.imagePath} />
                                     <div>{formatCalculatorInput(payout?.amountTo)}</div>

@@ -6,6 +6,8 @@ import { useStore } from '@nanostores/react';
 import { useInterval } from '../../hooks/useInterval';
 
 export const usePaymentPage = () => {
+    const [isLoading, setIsLoading] = React.useState(true);
+    
     const payout = useStore($payout);
 
     const { id = '' } = useParams();
@@ -16,13 +18,14 @@ export const usePaymentPage = () => {
             $payout.set(newPayout);
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoading(false);
         }
     }, [id, payout]);
 
     React.useEffect(() => {
         getPayoutInfo();
     }, []);
-
 
     useInterval(
         () => {
@@ -31,4 +34,6 @@ export const usePaymentPage = () => {
         10000,
         [getPayoutInfo],
     );
+
+    return { isLoading };
 };

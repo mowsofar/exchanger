@@ -37,6 +37,15 @@ export const StyledContent = styled.div`
     }
 `;
 
+export const SpinnerWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+`;
+
 export const StyledHeader = styled.div`
     font-size: 2.5rem;
     font-weight: 600;

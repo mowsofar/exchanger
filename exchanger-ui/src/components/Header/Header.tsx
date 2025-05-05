@@ -175,6 +175,7 @@ export const Header = () => {
         try {
             await logout();
             logoutUser();
+            window.location.reload();
         } catch {}
     };
 
