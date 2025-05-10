@@ -94,7 +94,7 @@ const PayoutId = styled.div`
 const PayoutDescription = styled.div`
     color: var(--accentText);
     font-weight: 600;
-    opacity: 0.8;
+    opacity: 0.6;
     font-size: 1.7rem;
     text-align: center;
 
@@ -110,7 +110,7 @@ const PayoutDescription = styled.div`
 const Direction = styled.div`
     display: flex;
     column-gap: 0.8rem;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     align-items: center;
     font-weight: 600;
     flex-wrap: wrap;

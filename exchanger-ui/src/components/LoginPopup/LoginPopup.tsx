@@ -73,7 +73,9 @@ export const LoginPopup: React.FC<LoginPopupProps> = ({ opened, onClose }) => {
                     {error && <Error>Не найдено активной учетной записи с указанными данными</Error>}
                 </Credentials>
                 <ButtonBlock>
-                    <StyledButton onClick={handleSubmit}>Войти</StyledButton>
+                    <StyledButton onClick={handleSubmit} disabled={!login || !password}>
+                        Войти
+                    </StyledButton>
                     <Description>
                         Нет личного кабинета? <span onClick={onClickRegisterButton}>Зарегистрироваться</span>
                     </Description>
