@@ -12,6 +12,7 @@ import {
     PageWrapper,
     Partner,
     PartnersContainer,
+    PartnersRow,
     Row,
     StyledDescription,
     StyledFooter,
@@ -65,19 +66,27 @@ export const MainPage: React.FC = () => {
 
             <StyledFooter>
                 <FooterContainer>
-                    <Row>
+                    <PartnersRow>
                         <Link href="https://exnode.ru" target="_blank">
-                            <Partner src="images/monitorings/exnode.png" />
+                            <Partner src="images/monitorings/exnode.png" style={{ height: '1.3rem' }} />
                         </Link>
 
-                        <Link href="https://bestchange.ru" target="_blank">
-                            <Partner src="images/monitorings/bestchange.png" style={{ height: '2rem' }} />
+                        <Link href="https://kurs.expert" target="_blank">
+                            <Partner src="images/monitorings/kurs-expert.png" style={{ height: '2.2rem' }} />
                         </Link>
-                    </Row>
+
+                        <Link href="https://wellcrypto.io/ru/exchangers" target="_blank">
+                            <Partner src="images/monitorings/wellcrypto.png" style={{ height: '2rem' }} />
+                        </Link>
+
+                        <Link href="https://glazok.org" target="_blank">
+                            <Partner src="https://glazok.org/88x31.gif" style={{ height: '2rem' }} />
+                        </Link>
+                    </PartnersRow>
 
                     <Row>
-                        <Link href="mailto:helpkykyshka@yandex.com" target="_blank">
-                            helpkykyshka@yandex.com
+                        <Link href="mailto:helpkykyshka@yandex.ru" target="_blank">
+                            helpkykyshka@yandex.ru
                         </Link>
 
                         <Link href="https://t.me/HelpKykyshka" target="_blank">

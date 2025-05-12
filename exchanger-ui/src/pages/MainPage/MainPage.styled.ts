@@ -106,8 +106,12 @@ export const FooterContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 780px) {
         flex-direction: column;
+    }
+
+    @media only screen and (max-width: 850px) {
+        padding: 0rem 4rem;
     }
 `;
 
@@ -116,20 +120,33 @@ export const PartnersContainer = styled.div`
     justify-content: flex-start;
     padding-top: 2rem;
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 780px) {
         flex-direction: column;
     }
 `;
 
 export const Description = styled.div`
-    color: var(--backgroundSecondary);
-    font-weight: 600;
+    color: var(--backgroundFourth);
 `;
 
 export const Row = styled.div`
     display: flex;
-    column-gap: 1rem;
+    column-gap: .5rem;
     align-items: center;
+`;
+
+export const PartnersRow = styled(Row)`
+    align-items: center;
+
+    @media only screen and (max-width: 780px) {
+        flex-direction: column;
+        margin-top: 2rem;
+    }
+
+    @media only screen and (max-width: 500px) {
+        flex-direction: column;
+        row-gap: .8rem;
+    }
 `;
 
 export const Column = styled.div`
@@ -142,9 +159,9 @@ export const Column = styled.div`
 `;
 
 export const Link = styled.a`
+    color: black;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: var(--text);
-    font-size: 1.6rem;
     text-decoration: none;
 
     &:visited {

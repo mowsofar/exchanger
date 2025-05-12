@@ -93,12 +93,11 @@ const LogoutButton = styled(StyledButton)`
 const Menu = styled.div<{ isActive: boolean }>`
     display: flex;
     column-gap: 5rem;
-    margin-left: -15rem;
     font-size: 2rem;
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1070px) {
         column-gap: 1rem;
-        margin-left: -10rem;
+        margin-left: -5rem;
     }
 
     @media (max-width: 900px) {
