@@ -4,6 +4,7 @@ import {
     Badge,
     ButtonCopy,
     ClipPreview,
+    ExchangeRequisites,
     Preview,
     RequisiesButton,
     Requisites,
@@ -168,9 +169,9 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
 
                     {payout?.status !== 'CREATED' && payout?.exchangeRequisites && (
                         <Badge>
-                            <div style={{ color: isCopied ? 'var(--accent)' : 'var(--accentText)' }}>
+                            <ExchangeRequisites style={{ color: isCopied ? 'var(--accent)' : 'var(--accentText)' }}>
                                 {payout.exchangeRequisites}
-                            </div>
+                            </ExchangeRequisites>
                             <ButtonCopy
                                 view="clear"
                                 onClick={() => {
@@ -189,7 +190,7 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
                                 <Spinner size="2rem" color="white" />
                             </StyledSpinner>
                             <StyledBlackDescription>
-                                Реквизиты появятся здесь в течение 5-10 минут
+                                Для получения реквизитов обратитесь в онлайн-чат
                             </StyledBlackDescription>
                         </Badge>
                     )}

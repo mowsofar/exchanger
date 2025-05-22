@@ -15,8 +15,8 @@ import {
     StyledButtons,
     StyledRoot,
     StyledSaveButton,
-    StyledTextField,
     SubmitButton,
+    TextArea,
     Title,
 } from './PayoutCard.styled';
 
@@ -81,7 +81,7 @@ export const PayoutCard: React.FC<Props> = ({ payout, setPayoutRequisites, editP
                     <div>от {createdAt}</div>
                 </InfoText>
 
-                <StyledTextField
+                <TextArea
                     label="Реквизиты для оплаты заявки"
                     value={exchangeRequisites}
                     onChange={(e) => setExchangeRequisites(e.target.value)}

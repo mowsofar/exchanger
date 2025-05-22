@@ -174,7 +174,7 @@ export const Requisites = styled.div`
 
 export const Badge = styled.div`
     background-color: var(--backgroundTertiary);
-    border-radius: 3rem;
+    border-radius: 2rem;
     width: fit-content;
     padding: 10px 20px;
     display: flex;
@@ -185,6 +185,11 @@ export const Badge = styled.div`
     @media (max-width: 450px) {
        border-radius: 2rem;
     }
+`;
+
+export const ExchangeRequisites = styled.div`
+    white-space: pre-line;
+    font-size: 1.8rem !important;
 `;
 
 export const ButtonCopy = styled(PlasmaButton)`

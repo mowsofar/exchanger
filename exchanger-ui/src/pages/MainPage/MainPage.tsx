@@ -85,8 +85,8 @@ export const MainPage: React.FC = () => {
                     </PartnersRow>
 
                     <Row>
-                        <Link href="mailto:helpkykyshka@yandex.ru" target="_blank">
-                            helpkykyshka@yandex.ru
+                        <Link href="mailto:helpkykyshka@yandex.com" target="_blank">
+                            helpkykyshka@yandex.com
                         </Link>
 
                         <Link href="https://t.me/HelpKykyshka" target="_blank">
