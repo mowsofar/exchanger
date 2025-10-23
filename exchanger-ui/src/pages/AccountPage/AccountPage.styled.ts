@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Root = styled.div`
     width: 100%;
@@ -43,7 +43,7 @@ export const RightColumn = styled.div`
 `;
 
 export const StyledHeader = styled.div`
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 2.8rem;
+    font-weight: 600;
     color: var(--accent);
 `;

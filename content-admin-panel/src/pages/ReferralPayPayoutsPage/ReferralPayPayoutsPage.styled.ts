@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Badge, Select } from '@salutejs/plasma-web';
 import { blackSecondary, success, surfaceLiquid02, surfaceSolid02, surfaceSolid03 } from '@salutejs/plasma-tokens';
 import { Button } from '../../components/Button/Button.styled';
-import { Search } from '../../components/Search';
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -19,13 +18,8 @@ export const StyledHeader = styled.div`
     align-items: center;
 `;
 
-export const HeaderBlock = styled.div`
-    display: flex;
-    column-gap: 20px;
-`;
-
 export const StyledButton = styled(Button)`
-    height: 40px;
+    height: 35px;
     font-weight: 600;
     border-radius: 12px;
 `;
@@ -37,12 +31,12 @@ export const StyledBadge = styled(Badge)`
     padding: 10px 15px;
 `;
 
-export const StyledCurrency = styled.div<{ isTarget?: boolean }>`
+export const StyledCurrency = styled.div<{isTarget?: boolean}>`
     display: flex;
     flex-direction: column;
     row-gap: 7px;
     align-items: center;
-
+    
     > div:first-child {
         font-weight: 600;
     }
@@ -51,7 +45,7 @@ export const StyledCurrency = styled.div<{ isTarget?: boolean }>`
 `;
 
 export const StyledSelect = styled(Select)`
-    width: 250px;
+    width: 250px; 
 `;
 
 export const Plug = styled.div`
@@ -91,12 +85,4 @@ export const StyledFooter = styled.div`
     align-items: center;
     margin-bottom: -30px;
     margin-top: -20px;
-`;
-
-export const StyledSearch = styled(Search)`
-    width: 250px;
-
-    > div {
-        height: 40px !important;
-    }
 `;

@@ -1,6 +1,7 @@
 import { PayoutsFilter } from '../../components/PayoutsFilter/PayoutsFilter';
 import { PayoutsList } from '../../components/PayoutsList/PayoutsList';
 import { ProfileCard } from '../../components/ProfileCard/ProfileCard';
+import { RequisitesCard } from '../../components/RequisitesCard/RequisitesCard';
 import { useUserAccountPage } from './AccountPage.hooks';
 import { Column, RightColumn, Root, StyledHeader, StyledLayout } from './AccountPage.styled';
 
@@ -16,6 +17,7 @@ export const AccountPage: React.FC = () => {
                     <Column>
                         <StyledHeader>Аккаунт</StyledHeader>
                         <ProfileCard />
+                        <RequisitesCard />
                         <PayoutsFilter />
                     </Column>
 

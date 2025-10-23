@@ -30,12 +30,13 @@ interface ButtonProps {
     children?: React.ReactNode;
     className?: string;
     onClick?: () => void;
+    onDoubleClick?: () => void;
     disabled?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, className, onClick, disabled }) => {
+export const Button: React.FC<ButtonProps> = ({ children, className, onClick, onDoubleClick, disabled }) => {
     return (
-        <StyledButton className={className} onClick={onClick} disabled={disabled}>
+        <StyledButton className={className} onClick={onClick} disabled={disabled} onDoubleClick={onDoubleClick}>
             {children}
         </StyledButton>
     );

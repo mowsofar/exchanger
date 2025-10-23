@@ -33,7 +33,7 @@ export const StyledImg = styled.img`
 `;
 
 export const StyledButton = styled(Button)`
-    width: 300px;
+    width: fit-content;
 `;
 
 export const Plug = styled.div`

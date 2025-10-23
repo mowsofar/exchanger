@@ -30,19 +30,11 @@ const Content = styled.div`
     padding-top: 30px;
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
-
-    > div > div {
-        font-weight: 550;
-    }
+    row-gap: 20px;
 `;
 
 const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
-
-    & label {
-        font-weight: 550 !important;
-    }
 `;
 
 const AdditionalFieldTypes = [

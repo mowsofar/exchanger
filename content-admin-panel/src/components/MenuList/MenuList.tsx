@@ -46,6 +46,10 @@ const StyledTitle = styled.div`
 
 const StyledSearch = styled(Search)`
     margin-top: 10px;
+
+    > div {
+        height: 45px !important;
+    }
 `;
 
 const ScrollList = styled.div`
@@ -70,7 +74,7 @@ const StyledMenuItem = styled(NavLink)`
     display: flex;
     align-items: center;
     column-gap: 8px;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     text-decoration: none;
     color: ${blackPrimary} !important;
@@ -105,6 +109,7 @@ const menuItems = [
             { key: ROUTES.payouts.preliminary, name: 'Предварительные' },
             { key: ROUTES.payouts.waitingRequisites, name: 'Ожидают реквизиты' },
             { key: ROUTES.payouts.process, name: 'В обработке' },
+            { key: ROUTES.payouts.referralPay, name: 'Реферальные выплаты' },
             { key: ROUTES.payouts.completed, name: 'Обработанные' },
             { key: ROUTES.payouts.rejected, name: 'Отклонённые' },
             { key: ROUTES.payouts.error, name: 'Ошибочные' },

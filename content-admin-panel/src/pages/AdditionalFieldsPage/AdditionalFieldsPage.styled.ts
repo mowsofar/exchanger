@@ -47,7 +47,7 @@ export const Header = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-    width: 200px;
+    width: fit-content;
 `;
 
 export const Select = styled(StyledSelect)`
@@ -60,7 +60,6 @@ export const Select = styled(StyledSelect)`
         box-shadow: none !important;
         background-color: ${surfaceSolid02} !important;
     }
-    
 `;
 
 export const Plug = styled.div`

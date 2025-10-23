@@ -1,5 +1,5 @@
-import { Accordion, AccordionItem } from "@salutejs/plasma-web";
-import styled from "styled-components";
+import { Accordion, AccordionItem } from '@salutejs/plasma-web';
+import styled from 'styled-components';
 
 export const Root = styled.div`
     width: 100%;
@@ -19,8 +19,8 @@ export const StyledAccordionItem = styled(AccordionItem)`
     padding: 1.5rem;
     border-radius: 1.5rem !important;
 
-    & div > div > div {
-        color: var(--accentText);
+    > div > div > div {
+        color: var(--accentText) !important;
         font-weight: 600;
         font-size: 1.8rem;
         font-family: Onest;
@@ -34,12 +34,15 @@ export const StyledAccordionItem = styled(AccordionItem)`
         line-height: 2.5rem;
     }
 
-    > button > div > div:first-child > div {
+    > button > div:last-child > div > div {
+        width: 1.5rem;
+        height: 1.5rem;
         color: var(--accentText);
-        width: 2rem;
-        height: 2rem;
         flex: none;
-        padding: 0 .6rem;
+    }
+
+    & svg {
+        color: var(--accentText) !important;
     }
 `;
 

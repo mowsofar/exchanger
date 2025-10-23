@@ -15,10 +15,6 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 30px;
-
-    > div > div {
-        font-weight: 550;
-    }
 `;
 
 const SpinnerWrapper = styled.div`

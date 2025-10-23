@@ -1,35 +1,25 @@
-import { Divider, Headline3, Spinner } from '@salutejs/plasma-web';
+import { Headline3, Spinner } from '@salutejs/plasma-web';
 import { IconRotateCcw } from '@salutejs/plasma-icons';
 import React from 'react';
-import { usePayoutsPage } from './PayoutsPage.hooks';
+import { useReferralPayPayoutsPage } from './ReferralPayPayoutsPage.hooks';
 import {
-    HeaderBlock,
     PayoutsList,
     SpinnerWrapper,
     StyledButton,
     StyledFooter,
     StyledHeader,
     StyledRoot,
-    StyledSearch,
-} from './PayoutsPage.styled';
-import { PAYOUTS_PER_PAGE } from '../../api/types/common';
+} from './ReferralPayPayoutsPage.styled';
 import { useStore } from '@nanostores/react';
 import { $payouts, $payoutsTotal } from '../../stores/payout.store';
 import { PayoutCard } from '../../components/PayoutCard/PayoutCard';
 import { PayoutPlug } from '../../components/PayoutPlug/PayoutPlug';
 import { Paging } from '../../components/Paging/Paging';
+import { PAYOUTS_PER_PAGE } from '../../api/types/common';
 
-export const PayoutsPage: React.FC = () => {
-    const {
-        page,
-        search,
-        handleClickPage,
-        isLoading,
-        editPayoutStatus,
-        setPayoutRequisites,
-        verifyRequisites,
-        handleSearchChange,
-    } = usePayoutsPage();
+export const ReferralPayPayoutsPage: React.FC = () => {
+    const { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites } =
+        useReferralPayPayoutsPage();
 
     const payouts = useStore($payouts);
     const payoutsTotal = useStore($payoutsTotal);
@@ -41,23 +31,19 @@ export const PayoutsPage: React.FC = () => {
     return (
         <>
             <head>
-                <title>Заявки</title>
+                <title>Реферальные выплаты</title>
             </head>
 
             <StyledRoot>
                 <StyledHeader>
-                    <Headline3>Заявки</Headline3>
+                    <Headline3>Реферальные выплаты</Headline3>
 
-                    <HeaderBlock>
-                        <StyledSearch placeholder="Поиск" onChange={handleSearchChange} value={search} />
-                        <Divider orientation="vertical" />
-                        <StyledButton
-                            view="secondary"
-                            text="Обновить список"
-                            contentLeft={<IconRotateCcw />}
-                            onClick={handleReloadPage}
-                        />
-                    </HeaderBlock>
+                    <StyledButton
+                        view="secondary"
+                        text="Обновить список"
+                        contentLeft={<IconRotateCcw />}
+                        onClick={handleReloadPage}
+                    />
                 </StyledHeader>
 
                 {Boolean(isLoading) && (
@@ -84,7 +70,7 @@ export const PayoutsPage: React.FC = () => {
                 )}
 
                 <StyledFooter>
-                    {payoutsTotal > PAYOUTS_PER_PAGE && !isLoading && (
+                    {payoutsTotal > PAYOUTS_PER_PAGE && (
                         <Paging
                             currentPage={page}
                             recordsOnPage={PAYOUTS_PER_PAGE}

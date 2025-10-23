@@ -58,7 +58,7 @@ const StyledListItem = styled.div`
 
 const StyledItem = styled.div<{ isActive?: boolean }>`
     color: var(--accentText);
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1.9rem;
     font-family: Onest;
     display: block;

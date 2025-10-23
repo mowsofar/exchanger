@@ -1,46 +1,58 @@
-import { IconFileTextOutline, IconKeyOutline, IconProfileBadgeFill } from '@salutejs/plasma-icons';
+import { IconFileTextOutline, IconKeyOutline } from '@salutejs/plasma-icons';
 import styled from 'styled-components';
 import { ROUTES } from '../../constants/routes';
 import { useNavigate } from 'react-router-dom';
+import { Avatar, BodyL, BodyS } from '@salutejs/plasma-web';
 
-const Card = styled.div`
-    display: flex;
+export const Card = styled.div`
+    position: relative;
+    width: 100%;
+    min-width: 25rem;
+    border-radius: 1rem;
+    padding: 1.5rem 0.2rem 1rem;
+    border: 0.5px solid var(--backgroundFourth);
     background: var(--backgroundSecondary);
-    border: 0.2rem solid var(--accent);
-    flex-direction: column;
-    width: 30rem;
-    border-radius: 15px;
+`;
+
+export const AvatarContainer = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+`;
+
+export const Name = styled(BodyL)`
     color: var(--accentText);
-    font-size: 1.7rem;
-    overflow: hidden;
-    font-weight: 600;
+    font-weight: 600 !important;
+    text-align: center;
+    font-size: 2rem;
+`;
+
+export const Email = styled(BodyS)`
+    color: var(--backgroundTertiary);
+    padding-top: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
 `;
 
 const CardItem = styled.div<{ isActive?: boolean }>`
-    padding: 1.5rem 2.5rem;
+    padding: 1rem 2.5rem;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     column-gap: 1rem;
+    font-size: 1.5rem;
     cursor: pointer;
-    border-bottom: 0.1rem solid #5557566e;
 
     color: ${({ isActive }) => (isActive ? '#2fe8b3' : 'var(--accentText)')};
 
     &:hover {
-        background-color: var(--backgroundTertiary);
+        border-radius: 0.7rem;
+        background-color: var(--backgroundFourth);
     }
-`;
-
-const Login = styled.div`
-    display: flex;
-    column-gap: 1rem;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    padding: 2.2rem 1rem;
-    border-bottom: 0.1rem solid #5557566e;
 `;
 
 interface AccountCardProps {
@@ -49,6 +61,8 @@ interface AccountCardProps {
 
 export const AccountCard: React.FC<AccountCardProps> = ({ closeMenu }) => {
     const login = localStorage.getItem('email');
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
     const navigate = useNavigate();
 
     const isActiveProfilePage = window.location.pathname === ROUTES.profile;
@@ -66,17 +80,22 @@ export const AccountCard: React.FC<AccountCardProps> = ({ closeMenu }) => {
 
     return (
         <Card>
-            <Login>
-                <IconProfileBadgeFill size="m" color="var(--accentText)" />
-                {login}
-            </Login>
+            <AvatarContainer>
+                <Avatar size="xxl" name={firstName + ' ' + lastName} />
+            </AvatarContainer>
+
+            <Name bold>
+                {firstName} {lastName}
+            </Name>
+            <Email>{login}</Email>
+
             <CardItem isActive={isActiveProfilePage} onClick={handleClickProfiledButton}>
-                <IconFileTextOutline size="m" color={isActiveProfilePage ? '#2fe8b3' : 'var(--accentText)'} />
                 <div>Мои заявки</div>
+                <IconFileTextOutline size="m" color={isActiveProfilePage ? '#2fe8b3' : 'var(--accentText)'} />
             </CardItem>
             <CardItem isActive={isActiveChangePasswordPage} onClick={handleClickChangePasswordButton}>
-                <IconKeyOutline size="m" color={isActiveChangePasswordPage ? '#2fe8b3' : 'var(--accentText)'} />
                 <div>Сменить пароль</div>
+                <IconKeyOutline size="m" color={isActiveChangePasswordPage ? '#2fe8b3' : 'var(--accentText)'} />
             </CardItem>
         </Card>
     );

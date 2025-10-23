@@ -15,13 +15,13 @@ export const StyledLayout = styled.div`
     box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
-       width: 80%;
+        width: 80%;
     }
 
     @media (max-width: 450px) {
-       padding: 1rem;
-       min-height: fit-content;
-       border-radius: 2.3rem;
+        padding: 1rem;
+        min-height: fit-content;
+        border-radius: 2.3rem;
     }
 `;
 
@@ -33,7 +33,7 @@ export const StyledContent = styled.div`
     flex-grow: 1;
 
     @media (max-width: 450px) {
-       padding: 1.5rem;
+        padding: 1.5rem;
     }
 `;
 
@@ -52,7 +52,7 @@ export const StyledHeader = styled.div`
     color: var(--accent);
 
     @media (max-width: 450px) {
-       font-size: 1.8rem;
+        font-size: 1.8rem;
     }
 `;
 
@@ -62,7 +62,7 @@ export const StyledText = styled.div`
     font-weight: 600;
 
     @media (max-width: 450px) {
-       font-size: 1.8rem;
+        font-size: 1.8rem;
     }
 `;
 
@@ -72,7 +72,7 @@ export const StyledButton = styled(Button)`
     font-size: 2rem;
 
     @media (max-width: 450px) {
-       font-size: 1.6rem;
+        font-size: 1.6rem;
     }
 `;
 
@@ -83,8 +83,8 @@ export const RequisiesButton = styled(Button)`
     height: 4rem;
 
     @media (max-width: 450px) {
-       font-size: 1.6rem;
-       width: 20rem;
+        font-size: 1.6rem;
+        width: 20rem;
     }
 `;
 
@@ -93,7 +93,7 @@ export const StyledDescription = styled.div`
     font-size: 1.6rem;
 
     @media (max-width: 450px) {
-       font-size: 1.3rem;
+        font-size: 1.3rem;
     }
 `;
 
@@ -103,7 +103,7 @@ export const StyledBlackDescription = styled.div`
     color: var(--accentText);
 
     @media (max-width: 450px) {
-       font-size: 1.4rem;
+        font-size: 1.4rem;
     }
 `;
 
@@ -115,7 +115,7 @@ export const StyledAmount = styled.div`
     & div:first-child {
         color: var(--backgroundTertiary);
         font-weight: 600;
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     & div:last-child {
@@ -128,7 +128,7 @@ export const StyledAmount = styled.div`
         & div:first-child {
             font-size: 1.5rem;
         }
-        
+
         & div:last-child {
             font-size: 2rem;
         }
@@ -141,7 +141,7 @@ export const Row = styled.div`
     align-items: center;
 
     @media (max-width: 1000px) {
-       column-gap: 0rem;
+        column-gap: 0rem;
     }
 `;
 
@@ -157,10 +157,10 @@ export const StyledButtonBack = styled(PlasmaButton)`
 export const Requisites = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 1rem;
 
     & div:nth-child(1) {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: var(--accentText);
     }
@@ -183,7 +183,7 @@ export const Badge = styled.div`
     align-items: center;
 
     @media (max-width: 450px) {
-       border-radius: 2rem;
+        border-radius: 2rem;
     }
 `;
 
@@ -209,7 +209,7 @@ export const UploadBlock = styled.div`
 
     & div:nth-child(1) {
         font-size: 1.7rem;
-        font-weight: 600;
+        font-weight: 500;
         color: var(--accentText);
     }
 
@@ -232,8 +232,8 @@ export const ClipPreview = styled.div`
 
 export const UploadRow = styled(ClipPreview)`
     @media (max-width: 450px) {
-       flex-direction: column;
-       row-gap: 1rem;
+        flex-direction: column;
+        row-gap: 1rem;
     }
 `;
 
@@ -246,7 +246,7 @@ export const Preview = styled.div`
     text-overflow: ellipsis;
 
     @media (max-width: 450px) {
-       font-size: 1.4rem;
+        font-size: 1.4rem;
     }
 `;
 
@@ -262,6 +262,6 @@ export const StyledUpload = styled(Upload)`
     }
 
     @media (max-width: 450px) {
-       width: 100%;
+        width: 100%;
     }
 `;

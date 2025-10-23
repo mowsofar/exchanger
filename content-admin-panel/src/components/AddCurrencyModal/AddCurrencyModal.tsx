@@ -30,19 +30,7 @@ const Content = styled.div`
     padding-top: 30px;
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
-
-    > div > div {
-        font-weight: 550;
-    }
-`;
-
-const StyledTextField = styled(TextFieldGrey)`
-    width: 100%;
-
-    & label {
-        font-weight: 550 !important;
-    }
+    row-gap: 15px;
 `;
 
 export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onClose, createCurrency }) => {
@@ -114,9 +102,9 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
                     size="l"
                 />
 
-                <StyledTextField label="XML-код" value={XMLCode} onChange={(e) => setXMLCode(e.target.value)} />
+                <TextFieldGrey label="XML-код" value={XMLCode} onChange={(e) => setXMLCode(e.target.value)} />
 
-                <StyledTextField
+                <TextFieldGrey
                     label="Знаки после запятой"
                     value={decimalPlaces}
                     onChange={handleChangeDecimalPlacesValue}

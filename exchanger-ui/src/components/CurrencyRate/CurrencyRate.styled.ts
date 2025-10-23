@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -7,7 +7,7 @@ export const StyledRoot = styled.div`
     text-align: center;
     align-items: center;
     color: var(--accentText);
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     font-weight: 600;
 
     @media only screen and (max-width: 820px) {
@@ -15,8 +15,8 @@ export const StyledRoot = styled.div`
     }
 
     @media only screen and (max-width: 450px) {
-       font-size: 1.4rem;
-       column-gap: 1rem;
+        font-size: 1.4rem;
+        column-gap: 1rem;
     }
 `;
 
@@ -34,7 +34,7 @@ export const Seconds = styled.label`
 
     @media only screen and (max-width: 450px) {
         left: 1.5rem;
-       font-size: 1.3rem;
+        font-size: 1.3rem;
     }
 `;
 

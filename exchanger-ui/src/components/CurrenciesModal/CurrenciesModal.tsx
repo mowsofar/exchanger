@@ -66,6 +66,7 @@ export const CurrenciesModal: React.FC<ExchangeModalProps> = ({
     }, [currenciesList, inputValue]);
 
     const closeModal = () => {
+        setInputValue('');
         $currencyType.set('');
         onClose();
     };

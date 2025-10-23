@@ -1,4 +1,4 @@
-import { Headline3, Spinner } from '@salutejs/plasma-web';
+import { Divider, Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     CurrenciesExchangeDirection,
@@ -74,6 +74,7 @@ export const ExchangeDirectionsPage: React.FC = () => {
                             contentLeft={<IconPlus />}
                             onClick={() => setAddExchangeDirectionModalOpen(true)}
                         />
+                        <Divider orientation="vertical" />
 
                         <Button
                             text="Проценты обмена"

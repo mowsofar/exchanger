@@ -1,7 +1,7 @@
-import { Modal, TextField } from "@salutejs/plasma-web";
-import styled from "styled-components";
-import { TextFieldPassword } from "../TextFieldPassword/TextFieldPassword";
-import { Button } from "../Button/Button";
+import { Modal, TextField } from '@salutejs/plasma-web';
+import styled from 'styled-components';
+import { TextFieldPassword } from '../TextFieldPassword/TextFieldPassword';
+import { Button } from '../Button/Button';
 
 export const StyledModal = styled(Modal)`
     background-color: var(--backgroundSecondary);
@@ -38,14 +38,13 @@ export const Credentials = styled.div`
 export const StyledHeader = styled.div`
     color: var(--accentText);
     font-size: 2.5rem;
-    font-weight: 600;
+    font-weight: 500;
     font-family: Onest;
 `;
 
 export const StyledTextField = styled(TextField)`
     width: 100%;
     font-family: Onest !important;
-    font-weight: 600;
 
     & > div:first-child {
         padding: 1.8rem;
@@ -72,7 +71,6 @@ export const StyledTextField = styled(TextField)`
 export const StyledTextFieldPassword = styled(TextFieldPassword)`
     width: 100%;
     font-family: Onest !important;
-    font-weight: 600;
 
     & > div:first-child {
         padding: 1.8rem;
@@ -104,7 +102,7 @@ export const ButtonBlock = styled.div`
 
 export const StyledButton = styled(Button)`
     width: 100%;
-    font-size: 2rem;
+    font-size: 1.8rem;
     border-radius: 1.2rem;
     height: 4.5rem;
 `;

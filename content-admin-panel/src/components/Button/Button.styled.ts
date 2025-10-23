@@ -1,9 +1,9 @@
-import { Button as ButtonBase } from "@salutejs/plasma-web";
-import styled from "styled-components";
+import { Button as ButtonBase } from '@salutejs/plasma-web';
+import styled from 'styled-components';
 
 export const Button = styled(ButtonBase)`
-    border-radius: 15px;
+    border-radius: 10px;
     font-weight: 550;
-    height: 35px;
+    height: 40px;
     font-size: 15px;
 `;

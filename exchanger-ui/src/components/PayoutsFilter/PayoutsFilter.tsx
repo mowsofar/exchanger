@@ -8,6 +8,7 @@ import React from 'react';
 
 export const PayoutStatusValues = [
     { value: '', label: 'Все' },
+    { value: 'REFERRAL_PAY', label: 'Реферальные выплаты' },
     { value: 'CREATED', label: 'Создана' },
     { value: 'WAITING_FOR_CLIENT_PAYMENT', label: 'Проверка оплаты' },
     { value: 'WAITING_FOR_REQUISITES', label: 'Ожидает реквизиты' },

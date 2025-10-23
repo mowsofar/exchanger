@@ -39,18 +39,10 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 30px;
-
-    > div > div {
-        font-weight: 550;
-    }
 `;
 
 const StyledTextField = styled(TextFieldGrey)`
     width: 100%;
-
-    & label {
-        font-weight: 550 !important;
-    }
 `;
 
 const StyledArrow = styled(IconChevronCircleRightOutline)`
@@ -64,7 +56,6 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
 }) => {
     const [selectedSourceCurrencyId, setSelectedSourceCurrencyId] = React.useState<number>();
     const [selectedTargetCurrencyId, setSelectedTargetCurrencyId] = React.useState<number>();
-    const [checked, isChecked] = React.useState(false);
     const [profitPercent, setProfitPercent] = React.useState<string>();
     const [minSourceAmount, setMinSourceAmount] = React.useState<string>();
     const [maxSourceAmount, setMaxSourceAmount] = React.useState<string>();
@@ -78,14 +69,6 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
             label: `${item.paymentSystem.name} ${item.currencyCode.code}`,
         };
     });
-
-    const checkDirection = async () => {
-        try {
-            if (selectedSourceCurrencyId && selectedTargetCurrencyId) {
-                await checkExchangeDirection(selectedSourceCurrencyId, selectedTargetCurrencyId);
-            }
-        } catch {}
-    };
 
     const onCloseModal = () => {
         setSelectedSourceCurrencyId(undefined);

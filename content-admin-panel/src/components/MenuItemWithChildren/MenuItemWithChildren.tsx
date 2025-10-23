@@ -28,7 +28,7 @@ const ParentMenuItem = styled.div<{ isActive?: boolean }>`
     align-items: center;
     justify-content: space-between;
     column-gap: 8px;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     color: ${blackPrimary} !important;
     background: ${({ isActive }) => (isActive ? '#ececeb' : 'transparent')};
@@ -55,7 +55,7 @@ const StyledChildMenuItem = styled(NavLink)`
     display: flex;
     align-items: center;
     column-gap: 8px;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     text-decoration: none;
     color: ${blackPrimary} !important;

@@ -14,6 +14,7 @@ export const ROUTES = {
         completed: '/content-admin/payouts/completed',
         rejected: '/content-admin/payouts/rejected',
         error: '/content-admin/payouts/error',
+        referralPay: 'content-admin/payouts/referral-pay',
     },
     payout: (payouId?: number | undefined) => `/content-admin/payouts/${payouId || ':id'}`,
     additionalFields: '/content-admin/additional-fields',

@@ -13,8 +13,8 @@ const Card = styled.div`
     color: var(--accent);
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
-    font-weight: 600;
+    row-gap: 1.5rem;
+    font-weight: 500;
 
     @media (max-width: 450px) {
         min-width: 0;
@@ -69,7 +69,7 @@ export const ProfileCard = () => {
 
             <CardItem>
                 <div>Баланс:</div>
-                <UserData>{user?.balance}</UserData>
+                <UserData>{user?.balance} USDT</UserData>
             </CardItem>
         </Card>
     );

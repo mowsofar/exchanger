@@ -107,7 +107,9 @@ export const PayoutStatus: React.FC<{ isLoading: boolean }> = ({ isLoading }) =>
                     </SpinnerWrapper>
                 )}
 
-                {(payout?.status === 'PAYMENT_RECEIVED' || payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
+                {(payout?.status === 'PAYMENT_RECEIVED' ||
+                    payout?.status === 'REFERRAL_PAY' ||
+                    payout?.status === 'WAITING_FOR_OPERATOR_PROCESSING') && (
                     <SpinnerWrapper>
                         <StyledSpinner size="8rem" color="#26c499" />
                     </SpinnerWrapper>

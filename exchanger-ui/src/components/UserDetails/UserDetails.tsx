@@ -130,6 +130,10 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
         setValue('requisites', value);
     };
 
+    const handleChangeUSDTRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue('requisites', e.target.value);
+    };
+
     const handleChangeCoinRequisites = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue('requisites', e.target.value);
     };
@@ -165,7 +169,7 @@ export const UserDetails: React.FC<UserDetailsProps> = ({ createPayout }) => {
                     <StyledTextField
                         placeholder="Номер карты"
                         {...register('requisites', { required: 'Реквизиты обязательны' })}
-                        onChange={handleChangeRequisites}
+                        onChange={handleChangeUSDTRequisites}
                         error={!!errors.requisites}
                         helperText={errors.requisites?.message}
                     />

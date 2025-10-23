@@ -28,7 +28,7 @@ export const StyledTableHeader = styled(TableHeader)`
 `;
 
 export const StyledButton = styled(Button)`
-    width: 250px;
+    width: fit-content;
 `;
 
 export const Plug = styled.div`

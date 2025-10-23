@@ -30,6 +30,5 @@ export const StyledRightColumn = styled.div`
     flex-grow: 2;
     display: flex;
     flex-direction: column;
-    min-width: 1400px;
     background-color: ${whitePrimary};
 `;

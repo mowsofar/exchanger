@@ -1,6 +1,14 @@
-import { handleTokenRefresh } from "./tokenHandlers";
-import { Course, Currency, ExchangeDirection, LoginData, Payout, PayoutStatus, TechStatusResponse, User } from "./types/common";
-
+import { handleTokenRefresh } from './tokenHandlers';
+import {
+    Course,
+    Currency,
+    ExchangeDirection,
+    LoginData,
+    Payout,
+    PayoutStatus,
+    TechStatusResponse,
+    User,
+} from './types/common';
 
 function handleResponse(response: Response) {
     return response.text().then((text) => {
@@ -19,11 +27,7 @@ function handleResponse(response: Response) {
     });
 }
 
-function requestToApi(
-    endpoint: string,
-    options?: Partial<RequestInit>,
-    body?: unknown,
-) {
+function requestToApi(endpoint: string, options?: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -37,11 +41,7 @@ function requestToApi(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-function requestToApiWithCookies(
-    endpoint: string,
-    options: Partial<RequestInit>,
-    body?: unknown,
-) {
+function requestToApiWithCookies(endpoint: string, options: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -56,25 +56,21 @@ function requestToApiWithCookies(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-
-function requestToAccountApi(
-    endpoint: string,
-) {
+function requestToAccountApi(endpoint: string, options?: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Content-Type': 'application/json',
         },
+
+        method: options?.method,
+        body: JSON.stringify(body),
     };
 
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-function requestToAccountApiWithToken(
-    endpoint: string,
-    options: Partial<RequestInit>,
-    body?: unknown,
-) {
+function requestToAccountApiWithToken(endpoint: string, options: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -88,46 +84,72 @@ function requestToAccountApiWithToken(
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export async function createPayout(srcCurrencyId: number, targetCurrencyId: number, amountFrom: number, amountTo: number, requisites: string, sourceFields: {fieldId: number, userValue: string, nameIdentify: string}[], targetFields: {fieldId: number, userValue: string}[], course: number, email: string): Promise<Payout> {
+export async function createPayout(
+    srcCurrencyId: number,
+    targetCurrencyId: number,
+    amountFrom: number,
+    amountTo: number,
+    requisites: string,
+    sourceFields: { fieldId: number; userValue: string; nameIdentify: string }[],
+    targetFields: { fieldId: number; userValue: string }[],
+    course: number,
+    email: string,
+): Promise<Payout> {
     const accessToken = localStorage.getItem('accessToken');
-    
+
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
     };
-  
+
     if (accessToken) {
-      headers['Authorization'] = `Bearer ${accessToken}`;
+        headers['Authorization'] = `Bearer ${accessToken}`;
     }
-  
+
     try {
-      const response = await fetch('https://server.kykyshka.com/api/payouts', {
-        method: 'POST',
-        credentials: 'include',
-        headers: headers,
-        body: JSON.stringify({ srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email }),
-      });
-  
-      if (!response.ok) {
-        if (response.status === 403) {
-            await handleTokenRefresh();
-            return createPayout(srcCurrencyId, targetCurrencyId, amountFrom, amountTo, requisites, sourceFields, targetFields, course, email);
+        const response = await fetch('https://server.kykyshka.com/api/payouts', {
+            method: 'POST',
+            credentials: 'include',
+            headers: headers,
+            body: JSON.stringify({
+                srcCurrencyId,
+                targetCurrencyId,
+                amountFrom,
+                amountTo,
+                requisites,
+                sourceFields,
+                targetFields,
+                course,
+                email,
+            }),
+        });
+
+        if (!response.ok) {
+            if (response.status === 403) {
+                await handleTokenRefresh();
+                return createPayout(
+                    srcCurrencyId,
+                    targetCurrencyId,
+                    amountFrom,
+                    amountTo,
+                    requisites,
+                    sourceFields,
+                    targetFields,
+                    course,
+                    email,
+                );
+            }
+
+            throw new Error('Request failed');
         }
-        
-        throw new Error('Request failed');
-      }
-  
-      return await response.json();
+
+        return await response.json();
     } catch (error) {
         console.error('Error:', error);
         throw error;
     }
-  }
+}
 
-  function uploadFile(
-    endpoint: string,
-    formData: FormData,
-    options?: Partial<RequestInit>,
-) {
+function uploadFile(endpoint: string, formData: FormData, options?: Partial<RequestInit>) {
     const requestOptions: RequestInit = {
         method: options?.method,
         body: formData,
@@ -136,7 +158,10 @@ export async function createPayout(srcCurrencyId: number, targetCurrencyId: numb
     return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(handleResponse);
 }
 
-export function authenticate(email: string, password: string): Promise<{ access_token: string, refresh_token: string }> {
+export function authenticate(
+    email: string,
+    password: string,
+): Promise<{ access_token: string; refresh_token: string }> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password });
 }
 
@@ -144,8 +169,16 @@ export function logout(): Promise<LoginData> {
     return requestToAccountApiWithToken('api/v1/auth/logout', { method: 'POST' });
 }
 
-export function changePassword(currentPassword: string, newPassword: string, confirmationPassword: string): Promise<LoginData> {
-    return requestToAccountApiWithToken('api/user/changepassword', { method: 'PATCH' }, { currentPassword, newPassword, confirmationPassword });
+export function changePassword(
+    currentPassword: string,
+    newPassword: string,
+    confirmationPassword: string,
+): Promise<LoginData> {
+    return requestToAccountApiWithToken(
+        'api/user/changepassword',
+        { method: 'PATCH' },
+        { currentPassword, newPassword, confirmationPassword },
+    );
 }
 
 export function register(firstname: string, lastname: string, email: string, password: string): Promise<unknown> {
@@ -188,7 +221,11 @@ export function getExchangeDirections(sourceId: number, targetId: number): Promi
     return requestToApi(`api/exchange-directions/admin/${sourceId}/${targetId}`, { method: 'GET' });
 }
 
-export function getXmlExchangeDirections(sourceXml: string, targetXml: string, ref: string): Promise<ExchangeDirection[]> {
+export function getXmlExchangeDirections(
+    sourceXml: string,
+    targetXml: string,
+    ref: string,
+): Promise<ExchangeDirection[]> {
     return requestToApiWithCookies(`api/exchange-directions/${sourceXml}/${targetXml}?ref=${ref}`, { method: 'GET' });
 }
 
@@ -200,17 +237,22 @@ export function getPayout(id: number): Promise<Payout> {
     return requestToApi(`api/payouts/${id}`, { method: 'GET' });
 }
 
-export function setPayoutStatus(id: number
-): Promise<Payout> {
+export function setPayoutStatus(id: number): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_CLIENT_PAYMENT' });
 }
 
-export function getRequisites(id: number
-): Promise<Payout> {
+export function getRequisites(id: number): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status: 'WAITING_FOR_REQUISITES' });
 }
 
-export function uploadPayoutAttachment(id: number, file: FormData
-): Promise<Payout> {
+export function uploadPayoutAttachment(id: number, file: FormData): Promise<Payout> {
     return uploadFile(`api/payouts/${id}/attachments`, file, { method: 'POST' });
+}
+
+export function addRequisites(requisites: string): unknown {
+    return requestToAccountApi(`api/user/requisites`, { method: 'PATCH' }, { requisites });
+}
+
+export function getRefferalPay(userId: number): Promise<Payout> {
+    return requestToAccountApi(`api/payouts/referral-pay`, { method: 'POST' }, { userId });
 }

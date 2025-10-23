@@ -73,8 +73,7 @@ const Status = styled.div<{ color: React.CSSProperties['background'] }>`
 
 const PayoutDate = styled.div`
     opacity: 0.3;
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-size: 1.5rem;
 
     @media only screen and (max-width: 820px) {
         font-size: 1.3rem;
@@ -94,7 +93,6 @@ const PayoutId = styled.div`
 const PayoutDescription = styled.div`
     color: var(--accentText);
     font-weight: 600;
-    opacity: 0.6;
     font-size: 1.7rem;
     text-align: center;
 
@@ -135,7 +133,6 @@ const Icon = styled.img`
 const StyledButton = styled(Button)`
     font-family: Onest;
     color: var(--backgroundTertiary);
-    font-weight: 600;
     font-size: 1.7rem;
 
     @media only screen and (max-width: 820px) {
@@ -199,7 +196,9 @@ export const PayoutsList: React.FC<PayoutsListProps> = ({ isLoading }) => {
                     <Root>
                         <Columns>
                             <Column>
-                                <PayoutId>№{payout?.id}</PayoutId>
+                                <PayoutId>
+                                    {payout.status === 'REFERRAL_PAY' && <span>Реферальная выплата</span>} №{payout?.id}
+                                </PayoutId>
                                 <Status color={getPayoutData(payout?.status).color}>
                                     {getPayoutData(payout?.status).label}
                                 </Status>

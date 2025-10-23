@@ -17,7 +17,7 @@ export const StyledRoot = styled.div`
 export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
+    row-gap: 18px;
     align-items: center;
     height: fit-content;
     width: 380px;
@@ -33,17 +33,16 @@ export const StyledDescription = styled(Footnote1)`
 `;
 
 export const StyledTextFieldLogin = styled(TextFieldGrey)`
-    margin-top: 24px;
     width: 100%;
 `;
 
 export const StyledTextFieldPassword = styled(TextFieldPassword)`
-    margin-top: 24px;
     width: 100%;
 `;
 
 export const StyledButton = styled(Button)`
-    margin-top: 20px;
+    height: 40px;
+    margin-top: 15px;
     border-radius: 13px;
 `;
 
@@ -55,7 +54,6 @@ export const StyledControls = styled.div`
 `;
 
 export const StyledError = styled.div`
-    padding-top: 10px;
     color: red;
 `;
 

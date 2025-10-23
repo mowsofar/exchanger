@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { TextFieldPassword } from "../../components/TextFieldPassword/TextFieldPassword";
-import { Button } from "../../components/Button/Button";
+import styled from 'styled-components';
+import { TextFieldPassword } from '../../components/TextFieldPassword/TextFieldPassword';
+import { Button } from '../../components/Button/Button';
 
 export const StyledLayout = styled.div`
     display: flex;
@@ -35,7 +35,7 @@ export const Form = styled.div`
 `;
 
 export const Header = styled.div`
-    font-size: 2.8rem;
+    font-size: 2.7rem;
     font-weight: 600;
     padding-bottom: 2rem;
 
@@ -47,7 +47,7 @@ export const Header = styled.div`
 export const TextField = styled(TextFieldPassword)`
     width: 100%;
     font-family: Onest !important;
-    font-weight: 600;
+    font-weight: 500;
 
     & > div:first-child {
         padding: 1.8rem;
@@ -76,9 +76,8 @@ export const StyledButton = styled(Button)`
     font-size: 2rem;
     margin-top: 4rem;
 
-
     @media (max-width: 450px) {
-       font-size: 1.6rem;
+        font-size: 1.6rem;
     }
 `;
 

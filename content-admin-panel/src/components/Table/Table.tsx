@@ -29,7 +29,6 @@ interface TableRowProps {
 
 export const TableRow = styled.div<TableRowProps>`
     display: grid;
-    border-bottom: 1px solid ${surfaceSolid03};
 
     &:hover {
         background-color: ${surfaceSolid03};
@@ -64,7 +63,7 @@ export const TableCell = styled.div<TableCellProps>`
     height: 60px;
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 15px;
     padding: 13px;
     box-sizing: border-box;
     overflow: hidden;

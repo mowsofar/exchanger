@@ -1,6 +1,22 @@
-import { ROUTES } from "../constants/routes";
-import { queueTokenRefresh } from "./tokenHandlers";
-import { AdditionalFieldDirection, AdditionalFieldDirections, AdditionalFields, Autobroker, Currency, CurrencyCode, ExchangeDirection, getPayoutsResponse, LoginData, PaymentSystem, Payout, PayoutStatus, Requisites, StatusType, User } from "./types/common";
+import { ROUTES } from '../constants/routes';
+import { queueTokenRefresh } from './tokenHandlers';
+import {
+    AdditionalFieldDirection,
+    AdditionalFieldDirections,
+    AdditionalFields,
+    Autobroker,
+    Currency,
+    CurrencyCode,
+    ExchangeDirection,
+    getPayoutsResponse,
+    LoginData,
+    PaymentSystem,
+    Payout,
+    PayoutStatus,
+    Requisites,
+    StatusType,
+    User,
+} from './types/common';
 
 async function handleResponse(response: Response, originalRequest?: RequestInit): Promise<any> {
     if (response.status === 403) {
@@ -23,7 +39,7 @@ async function handleResponse(response: Response, originalRequest?: RequestInit)
     if (response.status === 200 && window.location.pathname === ROUTES.login) {
         window.location.replace(ROUTES.currencyCode);
     }
-    
+
     return response.text().then((text) => {
         const data = text && JSON.parse(text);
 
@@ -36,11 +52,7 @@ async function handleResponse(response: Response, originalRequest?: RequestInit)
     });
 }
 
-function requestToApi(
-    endpoint: string,
-    options?: Partial<RequestInit>,
-    body?: unknown,
-) {
+function requestToApi(endpoint: string, options?: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -52,14 +64,12 @@ function requestToApi(
         body: JSON.stringify(body),
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then((response) =>
+        handleResponse(response, requestOptions),
+    );
 }
 
-function requestToApiWithotToken(
-    endpoint: string,
-    options?: Partial<RequestInit>,
-    body?: unknown,
-) {
+function requestToApiWithotToken(endpoint: string, options?: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -70,15 +80,12 @@ function requestToApiWithotToken(
         body: JSON.stringify(body),
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then((response) =>
+        handleResponse(response, requestOptions),
+    );
 }
 
-
-function refresh(
-    endpoint: string,
-    options?: Partial<RequestInit>,
-    body?: unknown,
-) {
+function refresh(endpoint: string, options?: Partial<RequestInit>, body?: unknown) {
     const requestOptions: RequestInit = {
         ...options,
         method: options?.method,
@@ -90,16 +97,16 @@ function refresh(
         body: JSON.stringify(body),
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then((response) =>
+        handleResponse(response, requestOptions),
+    );
 }
 
-export function getLoginData(email: string, password: string, twoFactorCode: string
-): Promise<LoginData> {
+export function getLoginData(email: string, password: string, twoFactorCode: string): Promise<LoginData> {
     return requestToApi('api/v1/auth/authenticate', { method: 'POST' }, { email, password, twoFactorCode });
 }
 
-export function logout(
-): Promise<LoginData> {
+export function logout(): Promise<LoginData> {
     return requestToApi('api/v1/auth/logout', { method: 'POST' });
 }
 
@@ -119,36 +126,27 @@ export function getTechMode(): Promise<{ maintenance: boolean }> {
     return requestToApiWithotToken('api/tech/status', { method: 'GET' });
 }
 
-export function getCurrencyCodes(
-): Promise<CurrencyCode[]> {
+export function getCurrencyCodes(): Promise<CurrencyCode[]> {
     return requestToApi('api/code', { method: 'GET' });
 }
 
-export function createCurrencyCode(code: string, symbol: string
-): Promise<unknown> {
+export function createCurrencyCode(code: string, symbol: string): Promise<unknown> {
     return requestToApi('api/code', { method: 'POST' }, { code, symbol });
 }
 
-export function deleteCurrencyCode(id: number
-): Promise<unknown> {
+export function deleteCurrencyCode(id: number): Promise<unknown> {
     return requestToApi(`api/code/${id}`, { method: 'DELETE' });
 }
 
-export function editCurrencyCode(id: number, code: string, symbol: string
-): Promise<unknown> {
+export function editCurrencyCode(id: number, code: string, symbol: string): Promise<unknown> {
     return requestToApi(`api/code/${id}`, { method: 'PUT' }, { code, symbol });
 }
 
-export function getPaymentSystems(
-): Promise<PaymentSystem[]> {
-    return requestToApi('api/payments', { method: 'GET'});
+export function getPaymentSystems(): Promise<PaymentSystem[]> {
+    return requestToApi('api/payments', { method: 'GET' });
 }
 
-function uploadImage(
-    endpoint: string,
-    formData?: FormData,
-    options?: Partial<RequestInit>,
-) {
+function uploadImage(endpoint: string, formData?: FormData, options?: Partial<RequestInit>) {
     const requestOptions: RequestInit = {
         method: options?.method,
         headers: {
@@ -157,202 +155,263 @@ function uploadImage(
         body: formData,
     };
 
-    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then(response => handleResponse(response, requestOptions));;
+    return fetch(`https://server.kykyshka.com/${endpoint}`, requestOptions).then((response) =>
+        handleResponse(response, requestOptions),
+    );
 }
 
-export function createPaymentSystem(name: string, file: FormData
-): Promise<unknown> {
+export function createPaymentSystem(name: string, file: FormData): Promise<unknown> {
     return uploadImage(`api/payments?name=${name}`, file, { method: 'POST' });
 }
 
-export function editPaymentSystem(id: number, name: string, file: FormData
-): Promise<unknown> {
+export function editPaymentSystem(id: number, name: string, file: FormData): Promise<unknown> {
     return uploadImage(`api/payments/${id}?name=${name}`, file, { method: 'PUT' });
 }
 
-export function deletePaymentSystem(id: number
-): Promise<unknown> {
-    return requestToApi(`api/payments/${id}`, { method: 'DELETE'});
+export function deletePaymentSystem(id: number): Promise<unknown> {
+    return requestToApi(`api/payments/${id}`, { method: 'DELETE' });
 }
 
-export function getCurrencies(
-): Promise<Currency[]> {
+export function getCurrencies(): Promise<Currency[]> {
     return requestToApi('api/currencies', { method: 'GET' });
 }
 
-export function createCurrency(paymentSystemId: number, currencyCodeId: number, xmlCode: string, decimalPlaces: number, filterType: string
+export function createCurrency(
+    paymentSystemId: number,
+    currencyCodeId: number,
+    xmlCode: string,
+    decimalPlaces: number,
+    filterType: string,
 ): Promise<unknown> {
-    return requestToApi('api/currencies', { method: 'POST' }, { paymentSystemId, currencyCodeId, xmlCode, decimalPlaces, filterType });
+    return requestToApi(
+        'api/currencies',
+        { method: 'POST' },
+        { paymentSystemId, currencyCodeId, xmlCode, decimalPlaces, filterType },
+    );
 }
 
-export function getCurrency(id: number
-): Promise<Currency> {
+export function getCurrency(id: number): Promise<Currency> {
     return requestToApi(`api/currencies/${id}`, { method: 'GET' });
 }
 
-export function editCurrency(id: number, body: any
-): Promise<unknown> {
+export function editCurrency(id: number, body: any): Promise<unknown> {
     return requestToApi(`api/currencies/${id}`, { method: 'PATCH' }, body);
 }
 
-export function deleteCurrency(id: number
-): Promise<unknown> {
+export function deleteCurrency(id: number): Promise<unknown> {
     return requestToApi(`api/currencies/${id}`, { method: 'DELETE' });
 }
 
-export function getExchangeDirections(
-): Promise<ExchangeDirection[]> {
+export function getExchangeDirections(): Promise<ExchangeDirection[]> {
     return requestToApi('api/exchange-directions', { method: 'GET' });
 }
 
-export function getExchangeDirectionsPaged(page: number, size: number
-): Promise<{ totalPages: number, totalElements: number, size: number, content: ExchangeDirection[]}> {
-    return requestToApi(`api/exchange-directions/paged?page=${page-1}&size=${size}`, { method: 'GET' });
+export function getExchangeDirectionsPaged(
+    page: number,
+    size: number,
+): Promise<{ totalPages: number; totalElements: number; size: number; content: ExchangeDirection[] }> {
+    return requestToApi(`api/exchange-directions/paged?page=${page - 1}&size=${size}`, { method: 'GET' });
 }
 
-export function createExchangeDirection(sourceCurrencyId: number, targetCurrencyId: number, profitPercent: number, minSourceAmount: number, maxSourceAmount: number, reserves: number
+export function createExchangeDirection(
+    sourceCurrencyId: number,
+    targetCurrencyId: number,
+    profitPercent: number,
+    minSourceAmount: number,
+    maxSourceAmount: number,
+    reserves: number,
 ): Promise<ExchangeDirection[]> {
-    return requestToApi('api/exchange-directions', { method: 'POST' }, { sourceCurrencyId, targetCurrencyId, profitPercent, minSourceAmount, maxSourceAmount, reserves });
+    return requestToApi(
+        'api/exchange-directions',
+        { method: 'POST' },
+        { sourceCurrencyId, targetCurrencyId, profitPercent, minSourceAmount, maxSourceAmount, reserves },
+    );
 }
 
-export function editExchangeDirection(id: number, body: any
-): Promise<unknown> {
+export function editExchangeDirection(id: number, body: any): Promise<unknown> {
     return requestToApi(`api/exchange-directions/${id}`, { method: 'PATCH' }, body);
 }
 
-export function deleteExchangeDirection(id: number
-): Promise<unknown> {
+export function deleteExchangeDirection(id: number): Promise<unknown> {
     return requestToApi(`api/exchange-directions/${id}`, { method: 'DELETE' });
 }
-export function checkExchangeDirection(source: number, target: number
-): Promise<unknown> {
+export function checkExchangeDirection(source: number, target: number): Promise<unknown> {
     return requestToApi(`api/exchange-directions/check-rate?source=${source}&target=${target}`, { method: 'GET' });
 }
 
-export function updateProfitPercent(ids: number[], newProfit: number, sortMap: {[key: string]: number}
+export function updateProfitPercent(
+    ids: number[],
+    newProfit: number,
+    sortMap: { [key: string]: number },
 ): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-profit-percent`, { method: 'PATCH' }, { ids, newProfit, sortMap });
+    return requestToApi(
+        `api/exchange-directions/batch/update-profit-percent`,
+        { method: 'PATCH' },
+        { ids, newProfit, sortMap },
+    );
 }
 
-export function updateMinMaxAmount(ids: number[], minSourceAmount: number, maxSourceAmount: number, sortMap: { [key: string]: number }
+export function updateMinMaxAmount(
+    ids: number[],
+    minSourceAmount: number,
+    maxSourceAmount: number,
+    sortMap: { [key: string]: number },
 ): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-min-max-amounts`, { method: 'PATCH' }, { ids, minSourceAmount, maxSourceAmount, sortMap });
+    return requestToApi(
+        `api/exchange-directions/batch/update-min-max-amounts`,
+        { method: 'PATCH' },
+        { ids, minSourceAmount, maxSourceAmount, sortMap },
+    );
 }
 
-export function updateDirectionsStatus(ids: number[], sortMap: { [key: string]: number }
-): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus: 'ACTIVE', sortMap });
+export function updateDirectionsStatus(ids: number[], sortMap: { [key: string]: number }): Promise<unknown> {
+    return requestToApi(
+        `api/exchange-directions/batch/update-status`,
+        { method: 'PATCH' },
+        { ids, newStatus: 'ACTIVE', sortMap },
+    );
 }
 
-export function updateStatus(ids: number[], newStatus: StatusType, sortMap: { [key: string]: number }
+export function updateStatus(
+    ids: number[],
+    newStatus: StatusType,
+    sortMap: { [key: string]: number },
 ): Promise<unknown> {
-    return requestToApi(`api/exchange-directions/batch/update-status`, { method: 'PATCH' }, {ids, newStatus, sortMap });
+    return requestToApi(
+        `api/exchange-directions/batch/update-status`,
+        { method: 'PATCH' },
+        { ids, newStatus, sortMap },
+    );
 }
 
-export function getAdditionalFields(
-): Promise<AdditionalFields> {
+export function getAdditionalFields(): Promise<AdditionalFields> {
     return requestToApi('api/additional-fields', { method: 'GET' });
 }
 
-export function getTypedAdditionalFields(status: string
-): Promise<AdditionalFieldDirection[]> {
+export function getTypedAdditionalFields(status: string): Promise<AdditionalFieldDirection[]> {
     return requestToApi(`api/additional-fields/status/${status}`, { method: 'GET' });
 }
 
-export function createAdditionalField(fieldName: string, nameIdentify: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
+export function createAdditionalField(
+    fieldName: string,
+    nameIdentify: string,
+    status: string,
+    direction: AdditionalFieldDirections,
+    currencyIds: number[],
 ): Promise<unknown> {
-    return requestToApi('api/additional-fields', { method: 'POST' }, { fieldName, nameIdentify, status, direction, currencyIds });
+    return requestToApi(
+        'api/additional-fields',
+        { method: 'POST' },
+        { fieldName, nameIdentify, status, direction, currencyIds },
+    );
 }
 
-export function editAdditionalField(id: number, fieldName: string, nameIdentify: string, status: string, direction: AdditionalFieldDirections, currencyIds: number[]
+export function editAdditionalField(
+    id: number,
+    fieldName: string,
+    nameIdentify: string,
+    status: string,
+    direction: AdditionalFieldDirections,
+    currencyIds: number[],
 ): Promise<unknown> {
-    return requestToApi(`api/additional-fields/${id}`, { method: 'PATCH' }, { fieldName, nameIdentify, status, direction, currencyIds });
+    return requestToApi(
+        `api/additional-fields/${id}`,
+        { method: 'PATCH' },
+        { fieldName, nameIdentify, status, direction, currencyIds },
+    );
 }
 
-export function deleteAdditionalField(id: number
-): Promise<unknown> {
+export function deleteAdditionalField(id: number): Promise<unknown> {
     return requestToApi(`api/additional-fields/${id}`, { method: 'DELETE' });
 }
 
-export function getPayouts(page?: number, size?: number, statuses?: PayoutStatus[], 
-): Promise<getPayoutsResponse> {
+export function getPayouts(page?: number, size?: number, statuses?: PayoutStatus[]): Promise<getPayoutsResponse> {
     const queryParams = new URLSearchParams();
-    
+
     if (statuses && statuses.length > 0) {
-        statuses.forEach(status => {
+        statuses.forEach((status) => {
             queryParams.append('statuses', status);
         });
     }
-    
+
     if (page !== undefined) {
         queryParams.append('page', page.toString());
     }
-    
+
     if (size !== undefined) {
         queryParams.append('size', size.toString());
     }
-    
+
     const url = `api/payouts${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-    
+
     return requestToApi(url, { method: 'GET' });
 }
 
-export function getPayout(id: number
-): Promise<Payout> {
+export function getPayout(id: number): Promise<Payout> {
     return requestToApi(`api/payouts/${id}`, { method: 'GET' });
 }
 
-export function setPayoutStatus(id: number, status: PayoutStatus
-): Promise<Payout> {
+export function setPayoutStatus(id: number, status: PayoutStatus): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/status`, { method: 'PATCH' }, { status });
 }
 
-export function updatePayoutRequisites(id: number, exchangeRequisites: string
-): Promise<Payout> {
+export function updatePayoutRequisites(id: number, exchangeRequisites: string): Promise<Payout> {
     return requestToApi(`api/payouts/${id}/exchange-requisites`, { method: 'PATCH' }, { exchangeRequisites });
 }
 
-export function verifyPayoutRequisites(requisite: string
-): Promise<Payout> {
+export function verifyPayoutRequisites(requisite: string): Promise<Payout> {
     return requestToApi(`api/payouts/cards/${requisite}/approve`, { method: 'PATCH' });
 }
 
-export function getRequisites(
-): Promise<Requisites[]> {
+export function getRequisites(): Promise<Requisites[]> {
     return requestToApi(`api/requisites`, { method: 'GET' });
 }
 
-export function createRequisites(name: string, details: string, currencyIds: number[]
-): Promise<Requisites[]> {
+export function createRequisites(name: string, details: string, currencyIds: number[]): Promise<Requisites[]> {
     return requestToApi(`api/requisites`, { method: 'POST' }, { name, details, currencyIds });
 }
 
-export function editRequisites(id: number, name: string, details: string, currencyIds: number[]
-): Promise<unknown> {
+export function editRequisites(id: number, name: string, details: string, currencyIds: number[]): Promise<unknown> {
     return requestToApi(`api/requisites/${id}`, { method: 'PUT' }, { name, details, currencyIds });
 }
 
-export function deleteRequisites(id: number
-): Promise<unknown> {
+export function deleteRequisites(id: number): Promise<unknown> {
     return requestToApi(`api/requisites/${id}`, { method: 'DELETE' });
 }
 
-export function getAutobrokers(
-): Promise<Autobroker[]> {
+export function getAutobrokers(): Promise<Autobroker[]> {
     return requestToApi(`api/autobrokers`, { method: 'GET' });
 }
 
-export function createAutobroker(status: string, minCourse: number, exchangeDirectionId: number, position: number
+export function createAutobroker(
+    status: string,
+    minCourse: number,
+    exchangeDirectionId: number,
+    position: number,
 ): Promise<Autobroker[]> {
     return requestToApi(`api/autobrokers`, { method: 'POST' }, { status, minCourse, exchangeDirectionId, position });
 }
 
-export function editAutobroker(id: number, body: any
-): Promise<unknown> {
+export function editAutobroker(id: number, body: any): Promise<unknown> {
     return requestToApi(`api/autobrokers/${id}`, { method: 'PUT' }, body);
 }
 
-export function deleteAutobroker(id: number
-): Promise<unknown> {
+export function deleteAutobroker(id: number): Promise<unknown> {
     return requestToApi(`api/autobrokers/${id}`, { method: 'DELETE' });
+}
+
+export function searchPayouts(query: string, page?: number, size?: number): Promise<getPayoutsResponse> {
+    const queryParams = new URLSearchParams();
+
+    if (page !== undefined) {
+        queryParams.append('page', page.toString());
+    }
+
+    if (size !== undefined) {
+        queryParams.append('size', size.toString());
+    }
+
+    const url = `api/payouts/search${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+
+    return requestToApi(url, { method: 'POST' }, { query });
 }

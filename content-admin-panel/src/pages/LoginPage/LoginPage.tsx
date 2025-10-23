@@ -68,6 +68,7 @@ export const LoginPage: React.FC = () => {
                     <StyledTextFieldLogin
                         ref={loginField}
                         label="E-mail"
+                        placeholder="Введите E-mail"
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
                         onKeyDown={(e) => handleKeyDown(e, passwordField)}
                     />
@@ -75,6 +76,7 @@ export const LoginPage: React.FC = () => {
                     <StyledTextFieldPassword
                         ref={passwordField}
                         label="Пароль"
+                        placeholder="Введите пароль"
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
                         onKeyDown={(e) => handleKeyDown(e, otpField)}
                     />
@@ -82,6 +84,7 @@ export const LoginPage: React.FC = () => {
                     <StyledTextFieldLogin
                         ref={otpField}
                         label="Одноразовый otp-код"
+                        placeholder="Введите otp-код"
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOtp(event.target.value)}
                         onKeyDown={(e) => {
                             if (email && password && otp && e.key === 'Enter') {
@@ -91,12 +94,7 @@ export const LoginPage: React.FC = () => {
                     />
 
                     {error && <StyledError>Неверный логин или пароль</StyledError>}
-                    <StyledButton
-                        stretch
-                        text="Войти в систему"
-                        onClick={onSubmit}
-                        disabled={!email || !password || !otp}
-                    />
+                    <StyledButton stretch text="Войти в систему" onClick={onSubmit} />
                 </StyledForm>
             </StyledRoot>
         </>

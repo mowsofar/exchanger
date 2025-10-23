@@ -6,7 +6,7 @@ import { createGlobalStyle, ThemeProvider as StyledThemeProvider } from 'styled-
 import { MainPage } from './pages/MainPage/MainPage';
 import { AppLayout } from './components/AppLayout/AppLayout';
 import { UserDetailsPage } from './pages/UserDetailsPage/UserDetailsPage';
-import { ModalsProvider } from '@salutejs/plasma-web';
+import { ModalsProvider, NotificationsProvider } from '@salutejs/plasma-web';
 import { PaymentPage } from './pages/PaymentPage/PaymentPage';
 import { PayoutStatusPage } from './pages/PayoutStatusPage/PayoutStatusPage';
 import { RulesPage } from './pages/RulesPage/RulesPage';
@@ -38,21 +38,23 @@ const ThemedApp = () => {
         <StyledThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <GlobalStyles />
             <BrowserRouter>
-                <ModalsProvider>
-                    <Routes>
-                        <Route path={ROUTES.root} element={<AppLayout />}>
-                            <Route path={ROUTES.root} element={<MainPage />} />
-                            <Route path={ROUTES.userDetails()} element={<UserDetailsPage />} />
-                            <Route path={ROUTES.payment()} element={<PaymentPage />} />
-                            <Route path={ROUTES.payoutStatus()} element={<PayoutStatusPage />} />
-                            <Route path={ROUTES.rules} element={<RulesPage />} />
-                            <Route path={ROUTES.faq} element={<FaqPage />} />
-                            <Route path={ROUTES.amlKyc} element={<AmlKycPage />} />
-                            <Route path={ROUTES.profile} element={<AccountPage />} />
-                            <Route path={ROUTES.settings} element={<ChangePasswordPage />} />
-                        </Route>
-                    </Routes>
-                </ModalsProvider>
+                <NotificationsProvider placement="bottom-left">
+                    <ModalsProvider>
+                        <Routes>
+                            <Route path={ROUTES.root} element={<AppLayout />}>
+                                <Route path={ROUTES.root} element={<MainPage />} />
+                                <Route path={ROUTES.userDetails()} element={<UserDetailsPage />} />
+                                <Route path={ROUTES.payment()} element={<PaymentPage />} />
+                                <Route path={ROUTES.payoutStatus()} element={<PayoutStatusPage />} />
+                                <Route path={ROUTES.rules} element={<RulesPage />} />
+                                <Route path={ROUTES.faq} element={<FaqPage />} />
+                                <Route path={ROUTES.amlKyc} element={<AmlKycPage />} />
+                                <Route path={ROUTES.profile} element={<AccountPage />} />
+                                <Route path={ROUTES.settings} element={<ChangePasswordPage />} />
+                            </Route>
+                        </Routes>
+                    </ModalsProvider>
+                </NotificationsProvider>
             </BrowserRouter>
         </StyledThemeProvider>
     );

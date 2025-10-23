@@ -38,7 +38,7 @@ const StyledButton = styled(Button)<{ isActive: boolean }>`
     height: 4rem;
     width: fit-content;
     padding: 0rem 1.5rem;
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     z-index: 100;
 
     @media (max-width: 900px) {
@@ -202,11 +202,15 @@ export const Header = () => {
                         <Popover
                             opened={isPopoverOpen}
                             onToggle={(is) => setPopoverOpen(is)}
-                            offset={[-60, 8]}
+                            offset={[-45, 8]}
                             placement="bottom"
                             closeOnOverlayClick
                             closeOnEsc
-                            target={<StyledButton isActive={isMenuOpen}>Личный кабинет</StyledButton>}
+                            target={
+                                <StyledButton isActive={isMenuOpen} onDoubleClick={() => navigate(ROUTES.profile)}>
+                                    Личный кабинет
+                                </StyledButton>
+                            }
                         >
                             <AccountCard closeMenu={() => setPopoverOpen(false)} />
                         </Popover>

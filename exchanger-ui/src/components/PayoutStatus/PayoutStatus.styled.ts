@@ -15,13 +15,13 @@ export const StyledLayout = styled.div`
     box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
-       width: 80%;
+        width: 80%;
     }
 
     @media (max-width: 450px) {
-       padding: 1rem;
-       height: fit-content;
-       border-radius: 2.3rem;
+        padding: 1rem;
+        height: fit-content;
+        border-radius: 2.3rem;
     }
 `;
 
@@ -33,13 +33,13 @@ export const StyledContent = styled.div`
     flex-grow: 1;
 
     @media (max-width: 450px) {
-       row-gap: 2rem;
-       padding: 1.5rem;
+        row-gap: 2rem;
+        padding: 1.5rem;
     }
 `;
 
 export const StyledHeader = styled.div`
-    font-size: 2.8rem;
+    font-size: 2.7rem;
     font-weight: 600;
     color: var(--accentText);
     text-align: center;
@@ -49,7 +49,7 @@ export const StyledHeader = styled.div`
     }
 
     @media (max-width: 450px) {
-       font-size: 2rem;
+        font-size: 2rem;
     }
 `;
 
@@ -66,7 +66,7 @@ export const SpinnerWrapper = styled.div`
     flex-grow: 1;
 
     @media (max-width: 450px) {
-       margin-top: 5rem;
+        margin-top: 5rem;
     }
 `;
 
@@ -86,7 +86,7 @@ export const Row = styled.div`
     align-items: center;
 
     @media (max-width: 1000px) {
-       column-gap: 0rem;
+        column-gap: 0rem;
     }
 `;
 
@@ -101,7 +101,7 @@ export const StyledButtonBack = styled(PlasmaButton)`
 
 export const StyledDescription = styled.div`
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--accentText);
     opacity: 0.6;
     padding: 3rem;
@@ -109,6 +109,6 @@ export const StyledDescription = styled.div`
     text-align: center;
 
     @media (max-width: 450px) {
-       font-size: 1.5rem;
+        font-size: 1.5rem;
     }
 `;

@@ -22,6 +22,7 @@ import { PayoutsPage } from './pages/PayoutsPage/PayoutsPage';
 import { RequisitesPayoutsPage } from './pages/RequisitesPayoutsPage/RequisitesPayoutsPage';
 import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 import { AutobrokerPage } from './pages/AutobrokerPage/AutobrokerPage';
+import { ReferralPayPayoutsPage } from './pages/ReferralPayPayoutsPage/ReferralPayPayoutsPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -42,6 +43,7 @@ const App: React.FC = () => {
                     <Route path={ROUTES.payouts.rejected} element={<DeletedPayoutsPage />} />
                     <Route path={ROUTES.payouts.process} element={<ProcessPayoutsPage />} />
                     <Route path={ROUTES.payouts.error} element={<ErrorPayoutsPage />} />
+                    <Route path={ROUTES.payouts.referralPay} element={<ReferralPayPayoutsPage />} />
                     <Route path={ROUTES.currencyGenerals(selectedCurrency?.id)} element={<CurrenciesGeneralsPage />} />
                     <Route path={ROUTES.exchangeDirections} element={<ExchangeDirectionsPage />} />
                     <Route path={ROUTES.additionalFields} element={<AdditionalFieldsPage />} />

@@ -1,6 +1,6 @@
-import { buttonSecondary, surfaceLiquid02, surfaceLiquid03 } from "@salutejs/plasma-tokens";
-import { TextField } from "@salutejs/plasma-web";
-import styled from "styled-components";
+import { buttonSecondary, surfaceLiquid02, surfaceLiquid03 } from '@salutejs/plasma-tokens';
+import { TextField } from '@salutejs/plasma-web';
+import styled from 'styled-components';
 
 export const StyledImg = styled.img`
     width: 28px;
@@ -44,9 +44,8 @@ export const StyledTextField = styled(TextField)`
     width: 300px;
 
     > div {
-        background-color: ${buttonSecondary} !important;
-        box-shadow: none !important;
         height: 40px !important;
+        border-radius: 11px !important;
     }
 `;
 
@@ -61,11 +60,11 @@ export const DraggableTh = styled(StyledTh)<{ isDragging: boolean; isDropTarget:
     opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};
     background-color: ${({ isDropTarget }) => (isDropTarget ? 'rgba(76, 175, 80, 0.1)' : 'transparent')};
     transition: transform 0.2s;
-  
+
     &:active {
         cursor: grabbing;
     }
-  
+
     &:hover {
         transform: scale(1.2);
     }

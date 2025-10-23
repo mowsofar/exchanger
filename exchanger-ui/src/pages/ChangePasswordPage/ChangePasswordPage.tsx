@@ -22,12 +22,12 @@ export const ChangePasswordPage: React.FC = () => {
     return (
         <>
             <head>
-                <title>Изменение пароля</title>
+                <title>Смена пароля</title>
             </head>
 
             <StyledLayout>
                 <Form>
-                    <Header>Изменение пароля</Header>
+                    <Header>Смена пароля</Header>
 
                     <TextField
                         placeholder="Текущий пароль"

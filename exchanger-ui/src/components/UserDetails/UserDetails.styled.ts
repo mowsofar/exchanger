@@ -1,7 +1,7 @@
 import { Checkbox, TextField } from '@salutejs/plasma-web';
 import styled, { css } from 'styled-components';
 import { Button } from '../Button/Button';
-import { Button as PlasmaButton} from '@salutejs/plasma-web';
+import { Button as PlasmaButton } from '@salutejs/plasma-web';
 import { Link } from 'react-router-dom';
 
 export const StyledLayout = styled.div`
@@ -17,13 +17,13 @@ export const StyledLayout = styled.div`
     box-shadow: 4px 4px 16px 7px rgba(34, 60, 80, 0.1);
 
     @media (max-width: 1000px) {
-       width: 80%;
+        width: 80%;
     }
 
     @media (max-width: 450px) {
-       padding: 1rem;
-       min-height: fit-content;
-       border-radius: 2.3rem;
+        padding: 1rem;
+        min-height: fit-content;
+        border-radius: 2.3rem;
     }
 `;
 
@@ -35,29 +35,30 @@ export const StyledForm = styled.form`
     flex-grow: 1;
 
     @media (max-width: 450px) {
-       row-gap: 4rem;
-       padding: 1.5rem;
+        row-gap: 4rem;
+        padding: 1.5rem;
     }
 `;
 
-export const StyledUserForm= styled.div`
+export const StyledUserForm = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 1.7rem;
 
     @media (max-width: 450px) {
-       row-gap: 1rem;
+        row-gap: 1rem;
     }
 `;
 
 export const StyledHeader = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
+    letter-spacing: 0.07rem;
     color: var(--backgroundTertiary);
     text-transform: uppercase;
 
     @media (max-width: 450px) {
-       font-size: 1.3rem;
+        font-size: 1.3rem;
     }
 `;
 
@@ -78,12 +79,12 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
     font-size: 1.8rem;
 
     ${({ error }) =>
-            error &&
-            css`
-                > div:first-child {
-                    box-shadow: 0 0 0 1.5px #ff1c33 !important;
-    }
-            `}
+        error &&
+        css`
+            > div:first-child {
+                box-shadow: 0 0 0 1.5px #ff1c33 !important;
+            }
+        `}
 
     & > div:first-child {
         padding: 1.8rem;
@@ -107,7 +108,7 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
 
     & input {
         color: var(--accentText) !important;
-        font-weight: 600 !important;
+        font-weight: 500 !important;
     }
 
     @media (max-width: 1000px) {
@@ -115,24 +116,23 @@ export const StyledTextField = styled(TextField)<{ error?: Boolean }>`
     }
 
     @media (max-width: 450px) {
-       width: 100%;
+        width: 100%;
 
-       & > div:first-child {
-        padding: 1.8rem;
-        height: 5rem !important;
-        border-radius: 1.3rem;
-        background: var(--backgroundTertiary) !important;
-    }
+        & > div:first-child {
+            padding: 1.8rem;
+            height: 5rem !important;
+            border-radius: 1.3rem;
+            background: var(--backgroundTertiary) !important;
+        }
 
         > div > div > div {
-        font-size: 1.5rem !important;
-        padding-top: .2rem;
+            font-size: 1.5rem !important;
+            padding-top: 0.2rem;
+        }
 
-    }
-
-    & > div:last-child {
-        font-size: 1.3rem !important;
-    }
+        & > div:last-child {
+            font-size: 1.3rem !important;
+        }
     }
 `;
 
@@ -148,7 +148,7 @@ export const StyledButton = styled(Button)`
     font-size: 2rem;
 
     @media (max-width: 450px) {
-       font-size: 1.6rem;
+        font-size: 1.6rem;
     }
 `;
 
@@ -158,7 +158,7 @@ export const Row = styled.div`
     align-items: center;
 
     @media (max-width: 1000px) {
-       column-gap: 1.8rem;
+        column-gap: 1.8rem;
     }
 `;
 

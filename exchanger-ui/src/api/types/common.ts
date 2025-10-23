@@ -2,7 +2,7 @@ export interface LoginData {
     access_token: string;
     refresh_token: string;
     role: string;
-};
+}
 
 export interface TechStatusResponse {
     maintenance: boolean;
@@ -15,20 +15,20 @@ export interface AdditionalField {
     nameIdentify: string;
     direction: AdditionalFieldDirection;
     status: string;
-};
+}
 
 export interface Currency {
     id: number;
     paymentSystem: {
-        id:	number;
+        id: number;
         name: string;
         imagePath: string;
-    }
+    };
     currencyCode: {
         id: number;
         code: string;
         symbol: string;
-    }
+    };
     status: string;
     technicalName: string;
     xmlCode: string;
@@ -40,14 +40,14 @@ export interface Currency {
     accountComment: string;
     additionalFieldsList: AdditionalField[];
     updatedAt: string;
-};
+}
 
 export type CurrentCyrrencyType = 'target' | 'source' | '';
 
 export interface Course {
     course: number;
     isReversed: boolean;
-};
+}
 
 export type StatusType = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
 
@@ -56,7 +56,7 @@ export interface ExchangeDirection {
     sourceCurrency: Currency;
     targetCurrency: Currency;
     profitPercent: number;
-    status:	StatusType
+    status: StatusType;
     technicalName: string;
     minSourceAmount: number;
     maxSourceAmount: number;
@@ -64,9 +64,18 @@ export interface ExchangeDirection {
     updatedAt: string;
     currentRate: number;
     course: number;
-};
+}
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
+export type PayoutStatus =
+    | 'CREATED'
+    | 'WAITING_FOR_REQUISITES'
+    | 'WAITING_FOR_CLIENT_PAYMENT'
+    | 'PAYMENT_RECEIVED'
+    | 'WAITING_FOR_OPERATOR_PROCESSING'
+    | 'CANCELLED'
+    | 'ERROR'
+    | 'REFERRAL_PAY'
+    | 'COMPLETED';
 
 export interface User {
     firstname: string;
@@ -93,7 +102,7 @@ export interface PayoutAdditionalField {
 export interface Payout {
     id: number;
     srcCurrency: Currency;
-    targetCurrency:	Currency;
+    targetCurrency: Currency;
     amountFrom: number;
     amountTo: number;
     requisites: string;
@@ -116,7 +125,7 @@ export interface User {
     lastname: string;
     email: string;
     referralCode: string;
+    requisites: string;
     balance: number;
     payouts: Payout[];
 }
-  

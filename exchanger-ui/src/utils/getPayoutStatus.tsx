@@ -36,6 +36,13 @@ export function getPayoutStatus(payout: Payout | null) {
                 </div>
             );
 
+        case 'REFERRAL_PAY':
+            return (
+                <div>
+                    Заявка <span>№{payout.id}</span> в обработке. Осуществляется выплата
+                </div>
+            );
+
         case 'CANCELLED':
             return (
                 <div>
@@ -74,6 +81,7 @@ export function getPayoutStatusDescription(payout: Payout | null) {
                 </div>
             );
 
+        case 'REFERRAL_PAY':
         case 'PAYMENT_RECEIVED':
             return <div>В течение 15-30 минут ваша заявка будет обработана.</div>;
 
@@ -123,6 +131,9 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
 
         case 'COMPLETED':
             return { label: 'Завершена', color: '#49b52e' };
+
+        case 'REFERRAL_PAY':
+            return { label: 'В обработке', color: 'var(--accent)' };
 
         default:
             return { label: '', color: 'var(--accent)' };

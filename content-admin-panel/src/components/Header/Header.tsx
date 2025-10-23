@@ -1,17 +1,15 @@
-import { IconLogout, IconProfileCircleFill, IconSettings } from '@salutejs/plasma-icons';
-import { surfaceSolid02, surfaceSolid03 } from '@salutejs/plasma-tokens';
+import { IconSettings } from '@salutejs/plasma-icons';
+import { surfaceSolid03 } from '@salutejs/plasma-tokens';
 import styled from 'styled-components';
-import { Button } from '../Button/Button.styled';
 import React from 'react';
-import { Popover } from '@salutejs/plasma-web';
-import { useNotification } from '../../hooks/useNotification';
-import { logout } from '../../api/handlers';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 import logo from './images/logo-kykyshka2.png';
+import { UserPopover } from '../UserPopover/UserPopover';
+import { IconButton } from '@salutejs/plasma-web';
 
 const StyledRoot = styled.div`
-    height: 84px;
+    height: 70px;
     min-height: 84px;
     padding: 0 31px 0 34px;
 
@@ -31,95 +29,29 @@ const StyledRightHeaderButtons = styled.div`
     align-items: center;
 `;
 
-const StyledButton = styled(Button)`
-    height: 45px;
-    width: 50px !important;
-`;
-
-const UserInfo = styled.div`
-    display: flex;
-    background: ${surfaceSolid02};
-    flex-direction: column;
-    width: 260px;
-    border-radius: 15px;
-`;
-
-const UserInfoItem = styled.div`
-    display: flex;
-
-    justify-content: space-between;
-    column-gap: 30px;
-    padding: 12px 20px;
-
-    & div:last-child {
-        font-weight: 600;
-    }
-`;
-
 export const Header: React.FC = () => {
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
     const firstName = localStorage.getItem('firstName');
     const lastName = localStorage.getItem('lastName');
     const email = localStorage.getItem('email');
 
-    const showNotification = useNotification();
     const navigate = useNavigate();
-
-    const handleClickLogoutButton = async () => {
-        try {
-            await logout();
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('firstName');
-            localStorage.removeItem('lastName');
-            localStorage.removeItem('email');
-            navigate(ROUTES.login);
-        } catch (error) {
-            showNotification('Произошла ошибка', 'error', error);
-        }
-    };
 
     return (
         <StyledRoot>
             <Logo src={logo} />
             <StyledRightHeaderButtons>
-                <StyledButton view="clear" onClick={() => navigate(ROUTES.settings)}>
-                    <IconSettings size="m" />
-                </StyledButton>
-                <Popover
-                    opened={isPopoverOpen}
-                    onToggle={(is) => setIsPopoverOpen(is)}
-                    offset={[0, 6]}
-                    placement="bottom"
-                    closeOnOverlayClick
-                    closeOnEsc
-                    target={
-                        <StyledButton view="clear">
-                            <IconProfileCircleFill size="m" />
-                        </StyledButton>
-                    }
-                >
-                    <UserInfo>
-                        <UserInfoItem>
-                            <div>Имя:</div>
-                            <div>{firstName}</div>
-                        </UserInfoItem>
+                <IconButton view="secondary" size="s" onClick={() => navigate(ROUTES.settings)}>
+                    <IconSettings size="s" />
+                </IconButton>
 
-                        <UserInfoItem>
-                            <div>Фамилия:</div>
-                            <div>{lastName}</div>
-                        </UserInfoItem>
-
-                        <UserInfoItem>
-                            <div>E-mail:</div>
-                            <div>{email}</div>
-                        </UserInfoItem>
-                    </UserInfo>
-                </Popover>
-
-                <StyledButton view="secondary" onClick={handleClickLogoutButton}>
-                    <IconLogout size="s" />
-                </StyledButton>
+                <UserPopover
+                    firstName={firstName || ''}
+                    lastName={lastName || ''}
+                    email={email || ''}
+                    isOpen={isPopoverOpen}
+                    onToggle={setIsPopoverOpen}
+                />
             </StyledRightHeaderButtons>
         </StyledRoot>
     );

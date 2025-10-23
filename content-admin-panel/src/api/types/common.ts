@@ -6,21 +6,21 @@ export interface LoginData {
     access_token: string;
     refresh_token: string;
     role: string;
-};
+}
 
 export interface CurrencyCode {
     id: number;
     code: string;
     symbol: string;
     updatedAt: string;
-};
+}
 
 export interface PaymentSystem {
     id: number;
     name: string;
     imagePath: string;
     updatedAt: string;
-};
+}
 
 type AdditionalFieldStatus = 'ACTIVE' | 'INACTIVE';
 
@@ -36,32 +36,32 @@ export interface AdditionalFieldDirection {
         id: number;
         technicalName: string;
     }[];
-};
+}
 
 export interface AdditionalFields {
     source: AdditionalFieldDirection[];
     target: AdditionalFieldDirection[];
-};
+}
 
 export interface PayoutAdditionalField {
-    fieldId: number,
-    fieldName: string,
-    userValue: string,
-    nameIdentify: string,
-};
+    fieldId: number;
+    fieldName: string;
+    userValue: string;
+    nameIdentify: string;
+}
 
 export interface Currency {
     id: number;
     paymentSystem: {
-        id:	number;
+        id: number;
         name: string;
         imagePath: string;
-    }
+    };
     currencyCode: {
         id: number;
         code: string;
         symbol: string;
-    }
+    };
     status: string;
     technicalName: string;
     xmlCode: string;
@@ -74,7 +74,7 @@ export interface Currency {
     additionalFieldsList: AdditionalFields;
     updatedAt: string;
     sort: number;
-};
+}
 
 export const CurrencyStatusValues = [
     { value: 'ACTIVE', label: 'Активная валюта' },
@@ -94,9 +94,18 @@ export const ExchangeDirectionsStatusValues = [
     { value: 'ARCHIVED', label: 'Архивное направление' },
 ];
 
-export type PayoutStatus = 'CREATED' | 'WAITING_FOR_REQUISITES' | 'WAITING_FOR_CLIENT_PAYMENT' | 'PAYMENT_RECEIVED' | 'WAITING_FOR_OPERATOR_PROCESSING' | 'CANCELLED' | 'ERROR' | 'COMPLETED';
+export type PayoutStatus =
+    | 'CREATED'
+    | 'WAITING_FOR_REQUISITES'
+    | 'WAITING_FOR_CLIENT_PAYMENT'
+    | 'PAYMENT_RECEIVED'
+    | 'WAITING_FOR_OPERATOR_PROCESSING'
+    | 'CANCELLED'
+    | 'ERROR'
+    | 'COMPLETED'
+    | 'REFERRAL_PAY';
 
-export const AdditionalFieldTypeValues: Array<{value: string; label: string}> = [
+export const AdditionalFieldTypeValues: Array<{ value: string; label: string }> = [
     { value: '', label: 'Все поля' },
     { value: 'ACTIVE', label: 'Активные' },
     { value: 'INACTIVE', label: 'Не активные' },
@@ -109,7 +118,7 @@ export interface UserForPayout {
     lastname: string;
     email: string;
     balance: number;
-};
+}
 
 export interface PayoutAttachment {
     id: number;
@@ -117,7 +126,7 @@ export interface PayoutAttachment {
     fileName: string;
     contentType: string;
     uploadedAt: string;
-};
+}
 
 export interface Payout {
     id: number;
@@ -144,8 +153,8 @@ export interface Payout {
         fio: string;
         isApproved: boolean;
         payoutIds: number[];
-    }
-};
+    };
+}
 
 export interface getPayoutsResponse {
     totalPages: number;
@@ -163,15 +172,15 @@ export interface ExchangeDirection {
     id: number;
     sourceCurrency: Currency;
     targetCurrency: Currency;
-    profitPercent:	number;
-    status:	StatusType;
+    profitPercent: number;
+    status: StatusType;
     minSourceAmount: number;
     maxSourceAmount: number;
     reserves: number;
     updatedAt: string;
     currentRate: number;
     course: number;
-};
+}
 
 export interface User {
     id: number;
@@ -200,7 +209,7 @@ export interface Autobroker {
     courseResponse: {
         course: number;
         isReversed: boolean;
-    }
+    };
 }
 
 export interface ProfitUpdatePayload {

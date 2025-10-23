@@ -1,8 +1,8 @@
-import { buttonSecondary, critical, success, surfaceLiquid02, surfaceLiquid03 } from "@salutejs/plasma-tokens";
-import { TextField } from "@salutejs/plasma-web";
-import styled from "styled-components";
-import { Select } from "../Select/Select";
-import { StatusType } from "../../api/types/common";
+import { buttonSecondary, critical, success, surfaceLiquid02, surfaceLiquid03 } from '@salutejs/plasma-tokens';
+import { TextField } from '@salutejs/plasma-web';
+import styled from 'styled-components';
+import { Select } from '../Select/Select';
+import { StatusType } from '../../api/types/common';
 
 export const StyledImg = styled.img`
     height: 28px;
@@ -44,12 +44,9 @@ export const EditControls = styled.div`
 
 export const StyledSelect = styled(Select)`
     > div > div:first-child > div > div:last-child {
-        background-color: ${buttonSecondary} !important;
-        box-shadow: none !important;
         height: 40px !important;
-        width: 290px;
+        width: 260px;
     }
-
 `;
 
 export const StyledTextField = styled(TextField)`
@@ -79,11 +76,11 @@ export const DraggableTh = styled(StyledTh)<{ isDragging: boolean; isDropTarget:
     opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};
     background-color: ${({ isDropTarget }) => (isDropTarget ? 'rgba(76, 175, 80, 0.1)' : 'transparent')};
     transition: transform 0.2s;
-  
+
     &:active {
         cursor: grabbing;
     }
-  
+
     &:hover {
         transform: scale(1.2);
     }
@@ -113,7 +110,7 @@ export const EmptyCell = styled.div`
     border-radius: 35px;
 `;
 
-export const Circle = styled.div<{ isSelected?: boolean, status?: StatusType }>`
+export const Circle = styled.div<{ isSelected?: boolean; status?: StatusType }>`
     display: inline-flex;
     align-items: center;
     justify-content: center;

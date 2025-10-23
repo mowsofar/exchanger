@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledRoot = styled.div`
     height: 65rem;
@@ -13,7 +13,7 @@ export const StyledRoot = styled.div`
 
     ::-webkit-scrollbar {
         -webkit-appearance: none;
-        width: .5rem;
+        width: 0.5rem;
     }
 
     ::-webkit-scrollbar-thumb {
@@ -65,9 +65,9 @@ export const StyledCourse = styled(StyledCard)`
     align-items: center;
     font-family: Onest;
     font-size: 1.7rem;
-    font-weight: 600;
+    font-weight: 500;
     column-gap: 1.2rem;
-    
+
     & div:first-child {
         color: var(--accent);
         font-weight: 600;
@@ -81,14 +81,14 @@ export const StyledAmountCard = styled.div`
     word-break: break-all;
 
     &:first-child {
-        font-weight: 700;
+        font-weight: 600;
         font-size: 1.7rem;
         max-width: 20rem;
     }
 `;
 
 export const Amount = styled.div`
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.8rem;
 `;
 
@@ -100,10 +100,10 @@ export const Currnecy = styled.div`
     display: flex;
     column-gap: 1rem;
     align-items: center;
-    font-weight: 600;
+    font-weight: 500;
 `;
 
 export const Img = styled.img`
     height: 2.8rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
 `;

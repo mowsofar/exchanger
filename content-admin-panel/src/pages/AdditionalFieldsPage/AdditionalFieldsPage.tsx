@@ -1,4 +1,4 @@
-import { Headline3, Spinner } from '@salutejs/plasma-web';
+import { Divider, Headline3, Spinner } from '@salutejs/plasma-web';
 import { StyledTableCellName, StyledTableHeaderCell, TableBody, TableWrapper } from '../../components/Table/Table';
 import {
     Currencies,
@@ -83,6 +83,8 @@ export const AdditionalFieldsPage: React.FC = () => {
                             contentLeft={<IconPlus />}
                             onClick={() => setAddAdditionaFieldModalOpen(true)}
                         />
+
+                        <Divider orientation="vertical" />
 
                         <Select
                             placeholder="Тип поля"

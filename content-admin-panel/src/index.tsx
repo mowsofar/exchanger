@@ -9,6 +9,19 @@ import { NotificationsProvider, PopupBaseProvider } from '@salutejs/plasma-web';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+const DocumentStyle = createGlobalStyle`
+    body {
+        margin: 0;
+        font-family: 'SB Sans Text', SBSansText, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+    }
+`;
+
 const ThemeStyle = createGlobalStyle(light);
 const TypoStyle = createGlobalStyle(web);
 
@@ -17,6 +30,7 @@ export const GlobalStyle = () => {
         <>
             <ThemeStyle />
             <TypoStyle />
+            <DocumentStyle />
         </>
     );
 };
