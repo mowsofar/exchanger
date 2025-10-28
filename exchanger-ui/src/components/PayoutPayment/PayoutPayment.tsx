@@ -92,7 +92,14 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
     }, [payout?.id]);
 
     React.useEffect(() => {
-        if (payout?.status && !(payout?.status === 'CREATED' || payout?.status === 'WAITING_FOR_REQUISITES')) {
+        if (
+            payout?.status &&
+            !(
+                payout?.status === 'CREATED' ||
+                payout?.status === 'WAITING_FOR_REQUISITES' ||
+                payout?.status === 'GIVEN_REQUISITES_FROM_RAPIRA'
+            )
+        ) {
             handleForward();
         }
     }, [handleForward, navigate, payout?.status]);
@@ -112,6 +119,11 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
             window.removeEventListener('popstate', handlePopState);
         };
     }, [location?.state?.from, navigate, payout?.id, payout?.srcCurrency.id, payout?.targetCurrency.id]);
+
+    const coinCondition =
+        payout?.srcCurrency.filterType === 'COIN'
+            ? Boolean(payout?.status !== 'WAITING_FOR_REQUISITES' && payout?.status !== 'GIVEN_REQUISITES_FROM_RAPIRA')
+            : !hasImage || Boolean(error);
 
     if (Boolean(isLoading)) {
         return (
@@ -229,13 +241,7 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
 
                 <StyledButton
                     onClick={handleSubmit}
-                    disabled={
-                        payout?.status === 'CREATED' ||
-                        (payout?.srcCurrency.filterType === 'COIN'
-                            ? payout?.status !== 'WAITING_FOR_REQUISITES'
-                            : !hasImage || Boolean(error)) ||
-                        !payout?.exchangeRequisites
-                    }
+                    disabled={payout?.status === 'CREATED' || coinCondition || !payout?.exchangeRequisites}
                 >
                     Я оплатил(-а)
                 </StyledButton>

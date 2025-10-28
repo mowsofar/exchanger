@@ -75,7 +75,8 @@ export type PayoutStatus =
     | 'CANCELLED'
     | 'ERROR'
     | 'REFERRAL_PAY'
-    | 'COMPLETED';
+    | 'COMPLETED'
+    | 'GIVEN_REQUISITES_FROM_RAPIRA';
 
 export interface User {
     firstname: string;

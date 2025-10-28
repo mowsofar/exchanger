@@ -5,6 +5,7 @@ export function getPayoutStatus(payout: Payout | null) {
 
     switch (payout.status) {
         case 'CREATED':
+        case 'GIVEN_REQUISITES_FROM_RAPIRA':
             return (
                 <div>
                     Заявка <span>№{payout.id}</span> успешно создана
@@ -109,6 +110,10 @@ export function getPayoutData(payout: PayoutStatus): { label: string; color: str
     switch (payout) {
         case 'CREATED': {
             return { label: 'Создана', color: 'var(--accent)' };
+        }
+
+        case 'GIVEN_REQUISITES_FROM_RAPIRA': {
+            return { label: 'Реквизиты выданы', color: 'var(--accent)' };
         }
 
         case 'WAITING_FOR_CLIENT_PAYMENT':

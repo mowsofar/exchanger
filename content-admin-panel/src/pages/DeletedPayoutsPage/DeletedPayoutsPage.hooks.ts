@@ -13,58 +13,62 @@ export const useDeletedPayoutsPage = () => {
 
     const [page, setPage] = React.useState(Number(initialPage) || 1);
     const [isLoading, setIsLoading] = React.useState(true);
-    
+
     const getPayoutsList = useCallback(
         async (page: number) => {
-                try {
-                    setIsLoading(true);
-                    const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, ['CANCELLED']);
-                    $payouts.set(payouts.content);
-                    $payoutsTotal.set(payouts.totalElements);
-                } catch (error) {
-                    showNotification('Ошибка получения списка заявок', 'error', error);
-                } finally {
-                    setIsLoading(false);
-                }
-            }, [showNotification]
-    );  
+            try {
+                setIsLoading(true);
+                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, 'CANCELLED');
+                $payouts.set(payouts.content);
+                $payoutsTotal.set(payouts.totalElements);
+            } catch (error) {
+                showNotification('Ошибка получения списка заявок', 'error', error);
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        [showNotification],
+    );
 
     const editPayoutStatus = useCallback(
         async (id: number, status: PayoutStatus) => {
-                try {
-                    await setPayoutStatus(id, status);
-                    showNotification('Статус заявки успешно обновлён', 'success');
+            try {
+                await setPayoutStatus(id, status);
+                showNotification('Статус заявки успешно обновлён', 'success');
 
-                    setTimeout(() => getPayoutsList(page), 1000);
-                } catch (error) {
-                    showNotification('Ошибка измененя статуса заявки', 'error', error);
-                }
-            }, [getPayoutsList, page, showNotification]
+                setTimeout(() => getPayoutsList(page), 1000);
+            } catch (error) {
+                showNotification('Ошибка измененя статуса заявки', 'error', error);
+            }
+        },
+        [getPayoutsList, page, showNotification],
     );
 
     const setPayoutRequisites = useCallback(
         async (id: number, requisites: string) => {
-                try {
-                    const payout = await updatePayoutRequisites(id, requisites);
-                    updatePayout(payout);
-                    showNotification('Реквизиты успешно сохранены', 'success');
-                } catch (error) {
-                    showNotification('Ошибка сохранения реквизитов', 'error', error);
-                }
-            }, [showNotification]
+            try {
+                const payout = await updatePayoutRequisites(id, requisites);
+                updatePayout(payout);
+                showNotification('Реквизиты успешно сохранены', 'success');
+            } catch (error) {
+                showNotification('Ошибка сохранения реквизитов', 'error', error);
+            }
+        },
+        [showNotification],
     );
 
     const verifyRequisites = useCallback(
         async (requisites: string) => {
-                try {
-                    await verifyPayoutRequisites(requisites);
-                    showNotification('Реквизиты успешно верифицированы', 'success');
+            try {
+                await verifyPayoutRequisites(requisites);
+                showNotification('Реквизиты успешно верифицированы', 'success');
 
-                    setTimeout(() => getPayoutsList(page), 1000);
-                } catch (error) {
-                    showNotification('Ошибка верификации реквизитов', 'error', error);
-                }
-            }, [getPayoutsList, page, showNotification]
+                setTimeout(() => getPayoutsList(page), 1000);
+            } catch (error) {
+                showNotification('Ошибка верификации реквизитов', 'error', error);
+            }
+        },
+        [getPayoutsList, page, showNotification],
     );
 
     const handleClickPage = (page: number) => {
@@ -77,9 +81,8 @@ export const useDeletedPayoutsPage = () => {
     };
 
     React.useEffect(() => {
-            getPayoutsList(page);
-        }    
-    , [getPayoutsList, page]);
+        getPayoutsList(page);
+    }, [getPayoutsList, page]);
 
     return { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites };
 };

@@ -103,7 +103,8 @@ export type PayoutStatus =
     | 'CANCELLED'
     | 'ERROR'
     | 'COMPLETED'
-    | 'REFERRAL_PAY';
+    | 'REFERRAL_PAY'
+    | 'GIVEN_REQUISITES_FROM_RAPIRA';
 
 export const AdditionalFieldTypeValues: Array<{ value: string; label: string }> = [
     { value: '', label: 'Все поля' },

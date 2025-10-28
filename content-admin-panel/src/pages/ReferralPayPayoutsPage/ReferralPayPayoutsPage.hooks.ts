@@ -18,7 +18,7 @@ export const useReferralPayPayoutsPage = () => {
         async (page: number) => {
             try {
                 setIsLoading(true);
-                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, ['REFERRAL_PAY']);
+                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, 'REFERRAL_PAY');
                 $payouts.set(payouts.content);
                 $payoutsTotal.set(payouts.totalElements);
             } catch (error) {

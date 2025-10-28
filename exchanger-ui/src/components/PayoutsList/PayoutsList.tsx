@@ -64,7 +64,7 @@ const Status = styled.div<{ color: React.CSSProperties['background'] }>`
     font-size: 1.7rem;
     font-weight: 600;
     width: fit-content;
-    color: white;
+    color: var(--text);
 
     @media only screen and (max-width: 820px) {
         font-size: 1.5rem;

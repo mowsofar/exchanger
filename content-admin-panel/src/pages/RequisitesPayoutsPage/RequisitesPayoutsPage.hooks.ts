@@ -13,62 +13,64 @@ export const useRequisitesPayoutsPage = () => {
 
     const [page, setPage] = React.useState(Number(initialPage) || 1);
     const [isLoading, setIsLoading] = React.useState(true);
-    
+
     const getPayoutsList = useCallback(
         async (page: number) => {
-                try {
-                    setIsLoading(true);
-                    const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, ['WAITING_FOR_REQUISITES']);
-                    $payouts.set(payouts.content);
-                    $payoutsTotal.set(payouts.totalElements)
-                } catch (error) {
-                    showNotification('Ошибка получения списка заявок', 'error', error);
-                } finally {
-                    setIsLoading(false);
-                }
-            }, [showNotification]
-    );  
+            try {
+                setIsLoading(true);
+                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, 'WAITING_FOR_REQUISITES');
+                $payouts.set(payouts.content);
+                $payoutsTotal.set(payouts.totalElements);
+            } catch (error) {
+                showNotification('Ошибка получения списка заявок', 'error', error);
+            } finally {
+                setIsLoading(false);
+            }
+        },
+        [showNotification],
+    );
 
     const editPayoutStatus = useCallback(
         async (id: number, status: PayoutStatus) => {
-                try {
-                    const selectedPayout = await setPayoutStatus(id, status);
-                    showNotification('Статус заявки успешно обновлён', 'success');
-                    updatePayout(selectedPayout);
+            try {
+                const selectedPayout = await setPayoutStatus(id, status);
+                showNotification('Статус заявки успешно обновлён', 'success');
+                updatePayout(selectedPayout);
 
-                    setTimeout(() => getPayoutsList(page), 1000);
-
-                } catch (error) {
-                    showNotification('Ошибка измененя статуса заявки', 'error', error);
-                }
-            }, [getPayoutsList, page, showNotification]
+                setTimeout(() => getPayoutsList(page), 1000);
+            } catch (error) {
+                showNotification('Ошибка измененя статуса заявки', 'error', error);
+            }
+        },
+        [getPayoutsList, page, showNotification],
     );
 
     const setPayoutRequisites = useCallback(
         async (id: number, requisites: string) => {
-                try {
-                    const selectedPayout = await updatePayoutRequisites(id, requisites);
-                    showNotification('Реквизиты успешно сохранены', 'success');
+            try {
+                const selectedPayout = await updatePayoutRequisites(id, requisites);
+                showNotification('Реквизиты успешно сохранены', 'success');
 
-                    updatePayout(selectedPayout);
-
-                } catch (error) {
-                    showNotification('Ошибка сохранения реквизитов', 'error', error);
-                }
-            }, [showNotification]
+                updatePayout(selectedPayout);
+            } catch (error) {
+                showNotification('Ошибка сохранения реквизитов', 'error', error);
+            }
+        },
+        [showNotification],
     );
 
     const verifyRequisites = useCallback(
         async (requisites: string) => {
-                try {
-                    await verifyPayoutRequisites(requisites);
-                    showNotification('Реквизиты успешно верифицированы', 'success');
+            try {
+                await verifyPayoutRequisites(requisites);
+                showNotification('Реквизиты успешно верифицированы', 'success');
 
-                    setTimeout(() => getPayoutsList(page), 1000);
-                } catch (error) {
-                    showNotification('Ошибка верификации реквизитов', 'error', error);
-                }
-            }, [getPayoutsList, page, showNotification]
+                setTimeout(() => getPayoutsList(page), 1000);
+            } catch (error) {
+                showNotification('Ошибка верификации реквизитов', 'error', error);
+            }
+        },
+        [getPayoutsList, page, showNotification],
     );
 
     const handleClickPage = (page: number) => {
@@ -81,9 +83,8 @@ export const useRequisitesPayoutsPage = () => {
     };
 
     React.useEffect(() => {
-            getPayoutsList(page);
-        }    
-    , [getPayoutsList, page]);
+        getPayoutsList(page);
+    }, [getPayoutsList, page]);
 
     return { page, handleClickPage, isLoading, editPayoutStatus, setPayoutRequisites, verifyRequisites };
 };

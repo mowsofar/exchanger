@@ -325,26 +325,22 @@ export function deleteAdditionalField(id: number): Promise<unknown> {
     return requestToApi(`api/additional-fields/${id}`, { method: 'DELETE' });
 }
 
-export function getPayouts(page?: number, size?: number, statuses?: PayoutStatus[]): Promise<getPayoutsResponse> {
-    const queryParams = new URLSearchParams();
-
-    if (statuses && statuses.length > 0) {
-        statuses.forEach((status) => {
-            queryParams.append('statuses', status);
-        });
-    }
-
-    if (page !== undefined) {
-        queryParams.append('page', page.toString());
-    }
-
-    if (size !== undefined) {
-        queryParams.append('size', size.toString());
-    }
-
-    const url = `api/payouts${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-
-    return requestToApi(url, { method: 'GET' });
+export function getPayouts(
+    page?: number,
+    size?: number,
+    status?: PayoutStatus,
+    query?: string,
+): Promise<getPayoutsResponse> {
+    return requestToApi(
+        'api/payouts/search',
+        { method: 'POST' },
+        {
+            page,
+            size,
+            status,
+            query,
+        },
+    );
 }
 
 export function getPayout(id: number): Promise<Payout> {
@@ -398,20 +394,4 @@ export function editAutobroker(id: number, body: any): Promise<unknown> {
 
 export function deleteAutobroker(id: number): Promise<unknown> {
     return requestToApi(`api/autobrokers/${id}`, { method: 'DELETE' });
-}
-
-export function searchPayouts(query: string, page?: number, size?: number): Promise<getPayoutsResponse> {
-    const queryParams = new URLSearchParams();
-
-    if (page !== undefined) {
-        queryParams.append('page', page.toString());
-    }
-
-    if (size !== undefined) {
-        queryParams.append('size', size.toString());
-    }
-
-    const url = `api/payouts/search${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-
-    return requestToApi(url, { method: 'POST' }, { query });
 }

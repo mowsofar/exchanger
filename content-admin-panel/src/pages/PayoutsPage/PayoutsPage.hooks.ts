@@ -1,11 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-    getPayouts,
-    searchPayouts,
-    setPayoutStatus,
-    updatePayoutRequisites,
-    verifyPayoutRequisites,
-} from '../../api/handlers';
+import { getPayouts, setPayoutStatus, updatePayoutRequisites, verifyPayoutRequisites } from '../../api/handlers';
 import { useNotification } from '../../hooks/useNotification';
 import { $payouts, $payoutsTotal, updatePayout } from '../../stores/payout.store';
 import { PAYOUTS_PER_PAGE, PayoutStatus } from '../../api/types/common';
@@ -22,15 +16,12 @@ export const usePayoutsPage = () => {
     const [search, setSearch] = React.useState(initialSearch);
     const [isLoading, setIsLoading] = React.useState(true);
 
-    // === Общая функция для загрузки списка ===
     const loadPayouts = useCallback(
-        async (page: number, search?: string, statuses?: PayoutStatus[]) => {
+        async (page: number, search?: string, status?: PayoutStatus) => {
             try {
                 setIsLoading(true);
 
-                const response = search
-                    ? await searchPayouts(search, page - 1, PAYOUTS_PER_PAGE)
-                    : await getPayouts(page - 1, PAYOUTS_PER_PAGE, statuses);
+                const response = await getPayouts(page - 1, PAYOUTS_PER_PAGE, status, search);
 
                 $payouts.set(response.content);
                 $payoutsTotal.set(response.totalElements);
