@@ -108,6 +108,7 @@ const menuItems = [
             { key: ROUTES.payouts.index, name: 'Все заявки' },
             { key: ROUTES.payouts.preliminary, name: 'Предварительные' },
             { key: ROUTES.payouts.waitingRequisites, name: 'Ожидают реквизиты' },
+            { key: ROUTES.payouts.givenRequisistes, name: 'Реквизиты выданы' },
             { key: ROUTES.payouts.process, name: 'В обработке' },
             { key: ROUTES.payouts.referralPay, name: 'Реферальные выплаты' },
             { key: ROUTES.payouts.completed, name: 'Обработанные' },

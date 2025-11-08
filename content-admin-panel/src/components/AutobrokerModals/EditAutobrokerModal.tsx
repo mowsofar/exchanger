@@ -1,9 +1,8 @@
-import { Headline3, Modal } from '@salutejs/plasma-web';
+import { Headline3, Modal, TextField } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
-import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
 import { $exchangeDirections } from '../../stores/exchangeDirections.store';
 import { formatCalculatorInput, formatToSubmit } from '../../utils/formatNumber';
@@ -33,7 +32,7 @@ const Content = styled.div`
     row-gap: 30px;
 `;
 
-const StyledTextField = styled(TextFieldGrey)`
+const StyledTextField = styled(TextField)`
     width: 100%;
 `;
 

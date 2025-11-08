@@ -52,6 +52,8 @@ export function getPayoutData(status: PayoutStatus): { label: string; view: View
         case 'REFERRAL_PAY':
             return { label: 'Реферальная выплата', view: 'accent' };
 
+        case 'FIXED_FLOAT_PROCCESSING':
+            return { label: 'FixedFloat', view: 'accent' };
         default:
             return { label: '', view: 'primary' };
     }

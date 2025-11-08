@@ -1,7 +1,7 @@
 import React from 'react';
 import { tertiary } from '@salutejs/plasma-tokens';
 import { IconSearch } from '@salutejs/plasma-icons';
-import { TextField } from '../TextField';
+import { TextField } from '@salutejs/plasma-web';
 
 interface SearchProps {
     value?: string;

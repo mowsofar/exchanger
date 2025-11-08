@@ -1,8 +1,6 @@
 import React from 'react';
 import { IconEyeClosedFill, IconEyeFill } from '@salutejs/plasma-icons';
-import { TextFieldProps } from '@salutejs/plasma-web';
-
-import { TextFieldGrey } from '../TextField/TextField';
+import { TextField, TextFieldProps } from '@salutejs/plasma-web';
 
 import styled from 'styled-components';
 
@@ -24,7 +22,7 @@ export const TextFieldPassword = React.forwardRef<HTMLInputElement, TextFieldPro
         </EyeIconWrapper>
     );
 
-    return <TextFieldGrey {...props} ref={ref} type={inputType} contentRight={contentRight} />;
+    return <TextField {...props} ref={ref} type={inputType} contentRight={contentRight} />;
 });
 
 TextFieldPassword.displayName = 'TextFieldPassword';

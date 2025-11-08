@@ -1,10 +1,10 @@
-import { accent, success, surfaceSolid03, whitePrimary } from "@salutejs/plasma-tokens";
-import { Badge, Button } from "@salutejs/plasma-web";
-import styled, { css, CSSProperties } from "styled-components";
-import { TextAreaGrey } from "../TextField/TextField";
+import { accent, success, surfaceSolid03, whitePrimary } from '@salutejs/plasma-tokens';
+import { Badge, Button, TextArea as TextAreaPlasma } from '@salutejs/plasma-web';
+import styled, { css, CSSProperties } from 'styled-components';
 import { Button as ButtonBase } from '../Button/Button.styled';
 
 export const StyledRoot = styled.div`
+    min-width: fit-content;
     position: relative;
     background-color: ${whitePrimary};
     border-radius: 20px;
@@ -90,8 +90,16 @@ export const Row = styled.div`
     }
 `;
 
-export const TextArea = styled(TextAreaGrey)`
-   position: relative;
+export const TextArea = styled(TextAreaPlasma)`
+    position: relative;
+
+    & textarea {
+        padding-top: 10px;
+
+        @media (max-width: 1525px) {
+            padding-top: 20px;
+        }
+    }
 `;
 
 export const SubmitButton = styled(Button)`

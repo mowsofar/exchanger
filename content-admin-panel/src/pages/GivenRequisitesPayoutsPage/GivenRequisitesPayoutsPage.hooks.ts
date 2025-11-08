@@ -5,7 +5,7 @@ import { $payouts, $payoutsTotal, updatePayout } from '../../stores/payout.store
 import { PAYOUTS_PER_PAGE, PayoutStatus } from '../../api/types/common';
 import { useSearchParams } from 'react-router-dom';
 
-export const useRequisitesPayoutsPage = () => {
+export const useGivenRequisitesPayoutsPage = () => {
     const showNotification = useNotification();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -18,7 +18,7 @@ export const useRequisitesPayoutsPage = () => {
         async (page: number) => {
             try {
                 setIsLoading(true);
-                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, 'WAITING_FOR_REQUISITES');
+                const payouts = await getPayouts(page - 1, PAYOUTS_PER_PAGE, 'GIVEN_REQUISITES_FROM_RAPIRA');
                 $payouts.set(payouts.content);
                 $payoutsTotal.set(payouts.totalElements);
             } catch (error) {
@@ -62,11 +62,13 @@ export const useRequisitesPayoutsPage = () => {
             try {
                 await verifyPayoutRequisites(requisites);
                 showNotification('Реквизиты успешно верифицированы', 'success');
+
+                setTimeout(() => getPayoutsList(page), 1000);
             } catch (error) {
                 showNotification('Ошибка верификации реквизитов', 'error', error);
             }
         },
-        [showNotification],
+        [getPayoutsList, page, showNotification],
     );
 
     const handleClickPage = (page: number) => {

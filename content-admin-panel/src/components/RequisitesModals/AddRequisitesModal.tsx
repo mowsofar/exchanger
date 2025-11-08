@@ -1,11 +1,10 @@
-import { Headline3, Modal } from '@salutejs/plasma-web';
+import { Headline3, Modal, TextField } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
 import { numerize } from '../../utils/numerize';
-import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
 
 interface AddRequisitesModalProps {
@@ -26,7 +25,7 @@ const Content = styled.div`
     row-gap: 30px;
 `;
 
-const StyledTextField = styled(TextFieldGrey)`
+const StyledTextField = styled(TextField)`
     width: 100%;
 `;
 export const AddRequisitesModal: React.FC<AddRequisitesModalProps> = ({ opened, onClose, createRequisites }) => {

@@ -104,7 +104,8 @@ export type PayoutStatus =
     | 'ERROR'
     | 'COMPLETED'
     | 'REFERRAL_PAY'
-    | 'GIVEN_REQUISITES_FROM_RAPIRA';
+    | 'GIVEN_REQUISITES_FROM_RAPIRA'
+    | 'FIXED_FLOAT_PROCCESSING';
 
 export const AdditionalFieldTypeValues: Array<{ value: string; label: string }> = [
     { value: '', label: 'Все поля' },
@@ -155,6 +156,8 @@ export interface Payout {
         isApproved: boolean;
         payoutIds: number[];
     };
+    amountFromRapira: number;
+    differenceAmountRapira: number;
 }
 
 export interface getPayoutsResponse {

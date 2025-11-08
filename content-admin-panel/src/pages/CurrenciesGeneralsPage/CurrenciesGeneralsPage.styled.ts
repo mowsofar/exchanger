@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Button } from "../../components/Button/Button.styled";
-import { Select } from "../../components/Select/Select";
-import { TextFieldGrey } from "../../components/TextField/TextField";
+import styled from 'styled-components';
+import { Button } from '../../components/Button/Button.styled';
+import { Select } from '../../components/Select/Select';
+import { TextField } from '@salutejs/plasma-web';
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -19,7 +19,7 @@ export const StyledSelect = styled(Select)`
     }
 `;
 
-export const StyledTextField = styled(TextFieldGrey)`
+export const StyledTextField = styled(TextField)`
     width: 350px;
 
     & label {
@@ -42,7 +42,7 @@ export const StyledLine = styled.hr`
     display: block;
 `;
 
-export const StyledBlock= styled.div`
+export const StyledBlock = styled.div`
     display: flex;
     column-gap: 20px;
 `;

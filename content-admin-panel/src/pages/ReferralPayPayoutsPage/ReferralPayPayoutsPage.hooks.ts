@@ -62,13 +62,11 @@ export const useReferralPayPayoutsPage = () => {
             try {
                 await verifyPayoutRequisites(requisites);
                 showNotification('Реквизиты успешно верифицированы', 'success');
-
-                setTimeout(() => getPayoutsList(page), 1000);
             } catch (error) {
                 showNotification('Ошибка верификации реквизитов', 'error', error);
             }
         },
-        [getPayoutsList, page, showNotification],
+        [showNotification],
     );
 
     const handleClickPage = (page: number) => {

@@ -1,11 +1,10 @@
-import { Headline3, Modal } from '@salutejs/plasma-web';
+import { Autocomplete, Combobox, Headline3, Modal, TextField } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
 import { useStore } from '@nanostores/react';
 import { $currencyList } from '../../stores/currency.store';
 import { IconChevronCircleRightOutline } from '@salutejs/plasma-icons';
-import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
 import { formatCalculatorInput, formatToSubmit } from '../../utils/formatNumber';
 import { checkExchangeDirection } from '../../api/handlers';
@@ -41,7 +40,7 @@ const Content = styled.div`
     row-gap: 30px;
 `;
 
-const StyledTextField = styled(TextFieldGrey)`
+const StyledTextField = styled(TextField)`
     width: 100%;
 `;
 
@@ -54,8 +53,8 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
     onClose,
     createExchangeDirection,
 }) => {
-    const [selectedSourceCurrencyId, setSelectedSourceCurrencyId] = React.useState<number>();
-    const [selectedTargetCurrencyId, setSelectedTargetCurrencyId] = React.useState<number>();
+    const [selectedSourceCurrencyId, setSelectedSourceCurrencyId] = React.useState<string>();
+    const [selectedTargetCurrencyId, setSelectedTargetCurrencyId] = React.useState<string>();
     const [profitPercent, setProfitPercent] = React.useState<string>();
     const [minSourceAmount, setMinSourceAmount] = React.useState<string>();
     const [maxSourceAmount, setMaxSourceAmount] = React.useState<string>();
@@ -82,16 +81,16 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
 
     const handleSubmit = () => {
         if (
-            selectedSourceCurrencyId &&
-            selectedTargetCurrencyId &&
+            Number(selectedSourceCurrencyId) &&
+            Number(selectedTargetCurrencyId) &&
             profitPercent &&
             minSourceAmount &&
             maxSourceAmount &&
             reserves
         ) {
             createExchangeDirection(
-                selectedSourceCurrencyId,
-                selectedTargetCurrencyId,
+                Number(selectedSourceCurrencyId),
+                Number(selectedTargetCurrencyId),
                 formatToSubmit(profitPercent),
                 formatToSubmit(minSourceAmount),
                 formatToSubmit(maxSourceAmount),
@@ -123,22 +122,28 @@ export const AddExchangeDirectionModal: React.FC<AddExchangeDirectionModalProps>
             <Headline3>Добавить направление</Headline3>
             <Content>
                 <TwoColumns>
-                    <Select
+                    <Combobox
                         label="Выберите валюту для отдаю"
+                        placeholder="Выберите из списка"
                         items={currencyOptions}
-                        value={selectedSourceCurrencyId}
-                        onChange={(value) => setSelectedSourceCurrencyId(value as number)}
-                        size="l"
+                        value={String(selectedSourceCurrencyId)}
+                        onChange={(value: string) => setSelectedSourceCurrencyId(value as string)}
+                        size="m"
+                        listHeight="400px"
+                        listOverflow="scroll"
                     />
 
                     <StyledArrow />
 
-                    <Select
+                    <Combobox
                         label="Выберите валюту для получаю"
+                        placeholder="Выберите из списка"
                         items={currencyOptions}
-                        value={selectedTargetCurrencyId}
-                        onChange={(value) => setSelectedTargetCurrencyId(value as number)}
-                        size="l"
+                        value={String(selectedTargetCurrencyId)}
+                        onChange={(value: string) => setSelectedTargetCurrencyId(value)}
+                        size="m"
+                        listHeight="400px"
+                        listOverflow="scroll"
                     />
                 </TwoColumns>
 

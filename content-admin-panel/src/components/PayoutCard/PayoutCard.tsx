@@ -84,6 +84,8 @@ export const PayoutCard: React.FC<Props> = ({ payout, setPayoutRequisites, editP
                 <TextArea
                     label="Реквизиты для оплаты заявки"
                     value={exchangeRequisites}
+                    size="s"
+                    height="80px"
                     onChange={(e) => setExchangeRequisites(e.target.value)}
                     contentRight={
                         <SubmitButton
@@ -130,6 +132,14 @@ export const PayoutCard: React.FC<Props> = ({ payout, setPayoutRequisites, editP
                     {payout?.sourceAdditionalFields?.map((field) => (
                         <InfoBlock label={field?.fieldName} value={field?.userValue} hasCopyButton />
                     ))}
+
+                    {payout?.amountFromRapira && (
+                        <InfoBlock label="Сумма от Rapira" value={payout.amountFromRapira} hasCopyButton />
+                    )}
+
+                    {payout?.differenceAmountRapira && (
+                        <InfoBlock label="Разница Rapira" value={payout.differenceAmountRapira} hasCopyButton />
+                    )}
                 </InfoBlockColumn>
             </Column>
 

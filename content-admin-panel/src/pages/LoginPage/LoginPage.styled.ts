@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { Footnote1 } from '@salutejs/plasma-web';
+import { Footnote1, TextField } from '@salutejs/plasma-web';
 import { secondary } from '@salutejs/plasma-tokens-web';
 import { TextFieldPassword } from '../../components/TextFieldPassword';
 import { Button } from '../../components/Button/Button.styled';
-import { TextFieldGrey } from '../../components/TextField/TextField';
 
 export const StyledRoot = styled.div`
     display: flex;
@@ -32,7 +31,7 @@ export const StyledDescription = styled(Footnote1)`
     margin-top: 24px;
 `;
 
-export const StyledTextFieldLogin = styled(TextFieldGrey)`
+export const StyledTextFieldLogin = styled(TextField)`
     width: 100%;
 `;
 

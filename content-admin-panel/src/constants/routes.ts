@@ -9,6 +9,7 @@ export const ROUTES = {
     payouts: {
         index: '/content-admin/payouts/all',
         waitingRequisites: '/content-admin/payouts/waiting-for-requisites',
+        givenRequisistes: '/content-admin/payouts/given-requisites',
         preliminary: '/content-admin/payouts/preliminary',
         process: '/content-admin/payouts/process',
         completed: '/content-admin/payouts/completed',

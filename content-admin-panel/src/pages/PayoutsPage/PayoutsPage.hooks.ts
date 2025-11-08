@@ -81,12 +81,11 @@ export const usePayoutsPage = () => {
                 const selectedPayout = await setPayoutStatus(id, status);
                 updatePayout(selectedPayout);
                 showNotification('Статус заявки успешно обновлён', 'success');
-                setTimeout(() => loadPayouts(page, search), 1000);
             } catch (error) {
                 showNotification('Ошибка изменения статуса заявки', 'error', error);
             }
         },
-        [loadPayouts, page, search, showNotification],
+        [showNotification],
     );
 
     const setPayoutRequisites = useCallback(
@@ -107,12 +106,11 @@ export const usePayoutsPage = () => {
             try {
                 await verifyPayoutRequisites(requisites);
                 showNotification('Реквизиты успешно верифицированы', 'success');
-                setTimeout(() => loadPayouts(page, search), 1000);
             } catch (error) {
                 showNotification('Ошибка верификации реквизитов', 'error', error);
             }
         },
-        [loadPayouts, page, search, showNotification],
+        [showNotification],
     );
 
     return {

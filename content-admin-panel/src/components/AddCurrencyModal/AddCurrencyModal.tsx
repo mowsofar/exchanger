@@ -1,4 +1,4 @@
-import { Headline3, Modal } from '@salutejs/plasma-web';
+import { Combobox, Headline3, Modal, TextField } from '@salutejs/plasma-web';
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button.styled';
@@ -6,7 +6,6 @@ import { useStore } from '@nanostores/react';
 import { $currencyCodeList } from '../../stores/currencyCode.store';
 import { $paymentSystemsList } from '../../stores/paymentSystems.store';
 import { FilterTypeValues } from '../../api/types/common';
-import { TextFieldGrey } from '../TextField/TextField';
 import { Select } from '../Select/Select';
 
 interface AddCurrencyModalProps {
@@ -34,8 +33,8 @@ const Content = styled.div`
 `;
 
 export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onClose, createCurrency }) => {
-    const [selectedPaymentSystem, setSelectedPaymentSystem] = React.useState<number>();
-    const [selectedCurrencyCode, setSelectedCurrencyCode] = React.useState<number>();
+    const [selectedPaymentSystem, setSelectedPaymentSystem] = React.useState<string>();
+    const [selectedCurrencyCode, setSelectedCurrencyCode] = React.useState<string>();
     const [decimalPlaces, setDecimalPlaces] = React.useState<number>();
     const [filterType, setFilterType] = React.useState<'RUB' | 'USDT' | 'COIN' | ''>('');
     const [XMLCode, setXMLCode] = React.useState('');
@@ -67,8 +66,14 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
     };
 
     const handleSubmit = () => {
-        if (selectedCurrencyCode && selectedPaymentSystem && XMLCode && decimalPlaces && filterType) {
-            createCurrency(selectedPaymentSystem, selectedCurrencyCode, XMLCode, decimalPlaces, filterType);
+        if (Number(selectedCurrencyCode) && Number(selectedPaymentSystem) && XMLCode && decimalPlaces && filterType) {
+            createCurrency(
+                Number(selectedPaymentSystem),
+                Number(selectedCurrencyCode),
+                XMLCode,
+                decimalPlaces,
+                filterType,
+            );
         }
 
         onCloseModal();
@@ -86,25 +91,31 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
         <StyledModal opened={opened} onClose={onClose}>
             <Headline3>Добавить валюту</Headline3>
             <Content>
-                <Select
+                <Combobox
                     label="Платёжная система"
+                    placeholder="Выберите из списка"
                     items={paymentSystemsOptions}
-                    value={selectedPaymentSystem}
-                    onChange={(value) => setSelectedPaymentSystem(value as number)}
+                    value={String(selectedPaymentSystem)}
+                    onChange={(value: string) => setSelectedPaymentSystem(value)}
                     size="l"
+                    listHeight="300px"
+                    listOverflow="scroll"
                 />
 
-                <Select
+                <Combobox
                     label="Код валюты"
+                    placeholder="Выберите из списка"
                     items={currencyCodeOptions}
-                    value={selectedCurrencyCode}
-                    onChange={(value) => setSelectedCurrencyCode(value as number)}
+                    value={String(selectedCurrencyCode)}
+                    onChange={(value: string) => setSelectedCurrencyCode(value)}
                     size="l"
+                    listHeight="300px"
+                    listOverflow="scroll"
                 />
 
-                <TextFieldGrey label="XML-код" value={XMLCode} onChange={(e) => setXMLCode(e.target.value)} />
+                <TextField label="XML-код" value={XMLCode} onChange={(e) => setXMLCode(e.target.value)} />
 
-                <TextFieldGrey
+                <TextField
                     label="Знаки после запятой"
                     value={decimalPlaces}
                     onChange={handleChangeDecimalPlacesValue}
@@ -112,6 +123,7 @@ export const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({ opened, onCl
 
                 <Select
                     label="Фильтр"
+                    placeholder="Выберите из списка"
                     value={filterType}
                     items={FilterTypeValues}
                     onChange={(value) => setFilterType(value as 'RUB' | 'USDT' | 'COIN' | '')}

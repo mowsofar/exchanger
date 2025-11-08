@@ -121,7 +121,7 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
     }, [location?.state?.from, navigate, payout?.id, payout?.srcCurrency.id, payout?.targetCurrency.id]);
 
     const coinCondition =
-        payout?.srcCurrency.filterType === 'COIN'
+        payout?.srcCurrency.filterType !== 'RUB'
             ? Boolean(payout?.status !== 'WAITING_FOR_REQUISITES' && payout?.status !== 'GIVEN_REQUISITES_FROM_RAPIRA')
             : !hasImage || Boolean(error);
 
@@ -214,7 +214,7 @@ export const PayoutPayment: React.FC<{ isLoading: boolean }> = ({ isLoading }) =
                         {formatNumber(payout?.amountFrom)} {payout?.srcCurrency.currencyCode.code || ''}
                     </div>
                 </StyledAmount>
-                {payout?.srcCurrency.filterType !== 'COIN' && (
+                {payout?.srcCurrency.filterType === 'RUB' && (
                     <UploadBlock>
                         <div>Загрузите чек об оплате в формате pdf:</div>
                         <UploadRow>

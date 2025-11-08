@@ -35,13 +35,11 @@ export const useCompletedPayoutsPage = () => {
             try {
                 await setPayoutStatus(id, status);
                 showNotification('Статус заявки успешно обновлён', 'success');
-
-                setTimeout(() => getPayoutsList(page), 1000);
             } catch (error) {
                 showNotification('Ошибка измененя статуса заявки', 'error', error);
             }
         },
-        [getPayoutsList, page, showNotification],
+        [showNotification],
     );
 
     const setPayoutRequisites = useCallback(
@@ -62,13 +60,11 @@ export const useCompletedPayoutsPage = () => {
             try {
                 await verifyPayoutRequisites(requisites);
                 showNotification('Реквизиты успешно верифицированы', 'success');
-
-                setTimeout(() => getPayoutsList(page), 1000);
             } catch (error) {
                 showNotification('Ошибка верификации реквизитов', 'error', error);
             }
         },
-        [getPayoutsList, page, showNotification],
+        [showNotification],
     );
 
     const handleClickPage = (page: number) => {

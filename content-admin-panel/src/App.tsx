@@ -23,6 +23,7 @@ import { RequisitesPayoutsPage } from './pages/RequisitesPayoutsPage/RequisitesP
 import { SettingsPage } from './pages/SettingsPage/SettingsPage';
 import { AutobrokerPage } from './pages/AutobrokerPage/AutobrokerPage';
 import { ReferralPayPayoutsPage } from './pages/ReferralPayPayoutsPage/ReferralPayPayoutsPage';
+import { GivenRequisitesPayoutPage } from './pages/GivenRequisitesPayoutsPage/GivenRequisitesPayoutsPage';
 
 const App: React.FC = () => {
     const selectedCurrency = useStore($selectedCurrency);
@@ -39,6 +40,7 @@ const App: React.FC = () => {
                     <Route path={ROUTES.payouts.index} element={<PayoutsPage />} />
                     <Route path={ROUTES.payouts.preliminary} element={<PreliminaryPayoutsPage />} />
                     <Route path={ROUTES.payouts.waitingRequisites} element={<RequisitesPayoutsPage />} />
+                    <Route path={ROUTES.payouts.givenRequisistes} element={<GivenRequisitesPayoutPage />} />
                     <Route path={ROUTES.payouts.completed} element={<CompletedPayoutsPage />} />
                     <Route path={ROUTES.payouts.rejected} element={<DeletedPayoutsPage />} />
                     <Route path={ROUTES.payouts.process} element={<ProcessPayoutsPage />} />
